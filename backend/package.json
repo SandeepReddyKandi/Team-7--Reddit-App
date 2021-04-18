@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./src/server/server.js"
+    "start": "nodemon ./src/server/server.js"
   },
   "keywords": [],
   "author": "",
@@ -13,14 +13,18 @@
   "dependencies": {
     "aws-s3": "^2.0.5",
     "aws-sdk": "^2.887.0",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "fastest-validator": "^1.10.1",
     "kafkajs": "^1.15.0",
     "mocha": "^8.3.2",
     "mongodb": "^3.6.6",
     "mongoose": "^5.12.3",
     "multer": "^1.4.2",
+    "nodemon": "^2.0.7",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0"
   },

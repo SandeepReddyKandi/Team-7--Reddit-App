@@ -1,12 +1,17 @@
 "use strict";
+const usersRouter = require('./routes/users');
+const cookieParser = require('cookie-parser');
+
 var cors = require("cors");
-
 const express = require("express");
-
 const app = express();
 
 const port = 3001;
 const { connectToDatabase } = require("./db");
+
+//activate body parser
+app.use(express.json());
+app.use(cookieParser());
 
 app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
@@ -26,10 +31,12 @@ app.use(function (req, res, next) {
 });
 
 // app.use("/api", api); //routes from api folder will come here
+// app.get("/", (req, res) => {
+//   res.send("Hello World!");
+// });
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+// forward all end-point requests to routes
+app.use('/users', usersRouter);
 
 /* Db Connection */
 const db = connectToDatabase().then(() => {
