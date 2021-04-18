@@ -11,7 +11,7 @@ import axios from 'axios';
 import Dropdown from 'react-bootstrap/Dropdown';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
-import constants from '../constants/constants';
+import constants from '../../constants/constants';
 
 // import TextField from '@material-ui/core/TextField';
 

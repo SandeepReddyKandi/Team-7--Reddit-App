@@ -4,8 +4,8 @@
 /* eslint-disable react/prefer-stateless-function */
 import React from 'react';
 import HomeDashboard from './HomeDashboard';
-import Header from './Header';
-import Footer from './Footer';
+import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
 
 class Home extends React.Component {
   render() {

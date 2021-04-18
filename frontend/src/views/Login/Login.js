@@ -11,7 +11,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
-import constants from '../constants/constants';
+import constants from '../../constants/constants';
 // import TextField from '@material-ui/core/TextField';
 
 // eslint-disable-next-line react/prefer-stateless-function

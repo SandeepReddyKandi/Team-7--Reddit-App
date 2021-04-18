@@ -15,9 +15,9 @@ import Col from 'react-bootstrap/Col';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Button from '@material-ui/core/Button';
-import logo from '../logo.png';
-import Login from './Login';
-import Signup from './Signup';
+import logo from '../../logo.png';
+import Login from '../Login/Login';
+import Signup from '../Signup/Signup';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class Header extends React.Component {
