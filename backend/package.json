@@ -19,6 +19,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "fastest-validator": "^1.10.1",
+    "kafka-node": "^5.0.0",
     "kafkajs": "^1.15.0",
     "mocha": "^8.3.2",
     "mongodb": "^3.6.6",
