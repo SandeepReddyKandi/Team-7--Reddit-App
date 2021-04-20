@@ -1,41 +1,41 @@
 {
-  "name": "backend",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon ./src/server/server.js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "aws-s3": "^2.0.5",
-    "aws-sdk": "^2.887.0",
-    "bcryptjs": "^2.4.3",
-    "body-parser": "^1.19.0",
-    "cookie-parser": "^1.4.5",
-    "cors": "^2.8.5",
-    "express": "^4.17.1",
-    "fastest-validator": "^1.10.1",
-    "kafka-node": "^5.0.0",
-    "kafkajs": "^1.15.0",
-    "mocha": "^8.3.2",
-    "mongodb": "^3.6.6",
-    "mongoose": "^5.12.3",
-    "multer": "^1.4.2",
-    "nodemon": "^2.0.7",
-    "passport": "^0.4.1",
-    "passport-jwt": "^4.0.0"
-  },
-  "devDependencies": {
-    "eslint": "^7.24.0",
-    "eslint-config-airbnb": "^18.2.1",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-react": "^7.23.2",
-    "eslint-plugin-react-hooks": "^1.7.0",
-    "prettier": "^2.2.1"
+    "name": "backend",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "start": "nodemon ./src/server/server.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "aws-s3": "^2.0.5",
+      "aws-sdk": "^2.887.0",
+      "bcryptjs": "^2.4.3",
+      "body-parser": "^1.19.0",
+      "cookie-parser": "^1.4.5",
+      "cors": "^2.8.5",
+      "express": "^4.17.1",
+      "fastest-validator": "^1.10.1",
+      "kafka-node": "^5.0.0",
+      "kafkajs": "^1.15.0",
+      "mocha": "^8.3.2",
+      "mongodb": "^3.6.6",
+      "mongoose": "^5.12.3",
+      "multer": "^1.4.2",
+      "nodemon": "^2.0.7",
+      "passport": "^0.4.1",
+      "passport-jwt": "^4.0.0"
+    },
+    "devDependencies": {
+      "eslint": "^7.24.0",
+      "eslint-config-airbnb": "^18.2.1",
+      "eslint-plugin-import": "^2.22.1",
+      "eslint-plugin-jsx-a11y": "^6.4.1",
+      "eslint-plugin-react": "^7.23.2",
+      "eslint-plugin-react-hooks": "^1.7.0",
+      "prettier": "^2.2.1"
+    }
   }
-}
