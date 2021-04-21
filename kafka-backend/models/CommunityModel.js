@@ -5,6 +5,7 @@ const communitySchema = new mongoose.Schema(
     community_name: {
       type: String,
       required: true,
+      unique: true,
     },
     description: {
       type: String,
@@ -13,9 +14,9 @@ const communitySchema = new mongoose.Schema(
     images: {
       type: Array,
     },
-    rules: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    rules: [{ type: mongoose.Schema.Types.ObjectId, ref: "Rules" }],
     posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
-    members: [{ type: mongoose.Schema.Types.ObjectId, ref: "Rules" }],
+    members: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     upvote: {
       type: Array,
     },
