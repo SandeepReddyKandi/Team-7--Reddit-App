@@ -55,18 +55,18 @@ class Login extends React.Component {
           this.setState({ errormessage: error.msg });
         } else {
           const { result } = response;
-          if (response.data.success) {
+          if (response.data.msg === 'Logged in successfully') {
             this.setState({
               redirect: true,
             });
-            localStorage.setItem('token', response.token);
+            // localStorage.setItem('token', response.token);
           }
           console.log(result);
         }
       })
       .catch((error) => {
         console.log(error);
-        this.setState({ errormessage: error.response.data.msg });
+        // this.setState({ errormessage: error.response.data.msg });
       });
   };
 
@@ -77,7 +77,7 @@ class Login extends React.Component {
   render() {
     const { showLogin } = this.state;
     if (this.state.redirect) {
-      return <Redirect to="./dashboard" />;
+      return <Redirect to="/communityhomepage" />;
     }
     return (
       <Modal
