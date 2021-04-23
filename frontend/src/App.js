@@ -8,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from './views/Home/Home';
 import Dashboard from './views/Dashboard/Dashboard';
 import CommunityHomePage from './views/CommunityHomePage/CommunitiyHomePage';
+import CreatePost from './views/Post/CreatePost';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route exact path="/home" component={Home} />
         <Route exact path="/dashboard" component={Dashboard} />
         <Route exact path="/communityhomepage" component={CommunityHomePage} />
+        <Route exact path="/createpost" component={CreatePost} />
       </Switch>
     </Container>
   );

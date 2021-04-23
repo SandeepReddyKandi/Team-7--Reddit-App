@@ -63,7 +63,7 @@ class Header extends React.Component {
         <Row>
           <Col>
             <Row>
-              <AppBar position="static" color="default">
+              <AppBar position="static" color="default" width="100%">
                 <Toolbar variant="dense">
                   <Col md={4}>
                     <div>
@@ -114,7 +114,7 @@ class Header extends React.Component {
                       </div>
                     </form>
                   </Col>
-                  <Col md={2}>
+                  <Col md={1}>
                     <div>
                       <Dropdown>
                         <Dropdown.Toggle className="header-user">
