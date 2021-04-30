@@ -10,10 +10,9 @@ import CopyrightIcon from '@material-ui/icons/Copyright';
 import SecurityIcon from '@material-ui/icons/Security';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import Chip from '@material-ui/core/Chip';
 import Dropdown from 'react-bootstrap/Dropdown';
-
-import Button from '../Button/Button';
-
+import Modal from "react-modal";
 
 export default function Actions() {
 
@@ -34,45 +33,95 @@ export default function Actions() {
 
     };
 
+    const handleLoginModal = () => {
+        console.log("****Open Login Modal window******")
+    };
+
+    const handleSignupModal = () => {
+        console.log("****Open SignUp Modal window******")
+    };
+
     return (
         <div className="actions">
-            <Col/>
-            <Col>
-                <Button text="LOG IN" name="secondary-button" />
+            <Col md={2} />
+            <Col md={3}>
+                <Chip
+                    label="LOG IN"
+                    clickable
+                    style={{ backgroundColor: "transparent", fontWeight: 600, border: "1px solid var(--border-color)" }}
+                    onClick={handleLoginModal}
+                />
+                <Modal
+                    contentLabel="Log In">
+                    <h2>Enter Credentials</h2>
+                    <hr />
+                    <form >
+
+                        <span >
+                            <input
+                                type="text"
+                                required
+                            />
+                            <div >
+                                <input
+                                    type="number"
+                                    required
+                                />
+                            </div>
+                        </span>
+                        <br />
+                        <div className="buttons">
+                            <button type="button" className="cancelbutton">
+                                Cancel
+                            </button>
+                            <input type="submit" value="Save" className="savebutton" />
+                        </div>
+                    </form>
+                </Modal>
             </Col>
-            <Col><Button text="SIGN UP" name="primary-button" /></Col>
-            <div className="profile">
-                <Dropdown>
-                    <Dropdown.Toggle className="header-user">
-                        {' '}
-                        <IconButton onClick={handleMenu} size="small">
-                            <PersonIcon />
-                            <ArrowDropDownIcon />
-                        </IconButton>
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                        <Dropdown.Item onClick={handleProfilelick}>
+            <Col md={3}>
+                <Chip
+                    label="SIGN UP"
+                    clickable
+                    color="primary"
+                    onClick={handleSignupModal}
+                />
+            </Col>
+            <Col md={3}>
+                <div className="profile">
+                    <Dropdown>
+                        <Dropdown.Toggle className="header-user"
+                            style={{ backgroundColor: "transparent", border: "0px" }}>
                             {' '}
-                            <CopyrightIcon />
+                            <IconButton onClick={handleMenu} size="small">
+                                <PersonIcon />
+                                <ArrowDropDownIcon />
+                            </IconButton>
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                            <Dropdown.Item onClick={handleProfilelick}>
+                                {' '}
+                                <CopyrightIcon />
                             Reddit Coins
                           </Dropdown.Item>
-                        <Dropdown.Item onClick={handleGroupClick}>
-                            {' '}
-                            <SecurityIcon />
+                            <Dropdown.Item onClick={handleGroupClick}>
+                                {' '}
+                                <SecurityIcon />
                             Reddit Premium
                           </Dropdown.Item>
-                        <Dropdown.Item onClick={handleLogout}>
-                            <HelpOutlineIcon />
+                            <Dropdown.Item onClick={handleLogout}>
+                                <HelpOutlineIcon />
                             Help Center
                           </Dropdown.Item>
-                        <Dropdown.Divider />
-                        <Dropdown.Item onClick={handleLogIn}>
-                            <ExitToAppIcon />
+                            <Dropdown.Divider />
+                            <Dropdown.Item onClick={handleLogIn}>
+                                <ExitToAppIcon />
                             Login/Signup
                           </Dropdown.Item>
-                    </Dropdown.Menu>
-                </Dropdown>
-            </div>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </div>
+            </Col>
         </div>
     );
 }
