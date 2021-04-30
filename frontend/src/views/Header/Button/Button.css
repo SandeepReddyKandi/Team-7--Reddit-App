@@ -1,0 +1,30 @@
+.button {
+    font-weight:700;
+    font-size: 14px;
+    border: 1px solid var(--border-color);
+    padding: 5px 20px;
+    border-radius: 20px;
+    margin-right: 10px;
+}
+
+.button:hover {
+    cursor: pointer;
+}
+
+.primary-button {
+    background-color: var(--border-color);
+    color: white;
+}
+
+.primary-button:hover {
+    background-color: rgb(89, 125, 218);
+    border: 1px solid rgb(89, 125, 218);
+}
+
+.secondary-button {
+    color: var(--border-color);
+}
+
+.secondary-button:hover {
+    background-color:lavenderblush;
+}
