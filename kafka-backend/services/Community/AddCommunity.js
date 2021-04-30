@@ -13,10 +13,10 @@ const handle_request = async (req, callback) => {
         } else {
           var communityModel = new CommunityModel(req.body);
           communityModel.save().then(() => {
-            const json = {
+            callback(null, {
               msg: "Community Added successfully!",
               success: true,
-            };
+            });
           });
         }
       }
