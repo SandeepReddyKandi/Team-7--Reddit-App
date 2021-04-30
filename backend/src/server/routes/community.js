@@ -5,7 +5,7 @@ const { addCommunity, getCommunity, getCommunityById } = require('../controllers
 
 // keep adding end-points here
 router.post('/add', addCommunity);
-router.post('/', getCommunity);
-router.get('/', getCommunityById);
+router.get('/communities', getCommunity);
+router.get('/communities', getCommunityById);
 
 module.exports = router;

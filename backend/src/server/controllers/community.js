@@ -10,6 +10,7 @@ exports.addCommunity = async (req, res) => {
       console.log(results);
       res.status(200).json({
         msg: results.msg,
+        data: results.data,
         //role: results.role,
       });
     }
@@ -17,14 +18,19 @@ exports.addCommunity = async (req, res) => {
 };
 
 exports.getCommunity = async (req, res) => {
-  const payload = '';
-  kafka.make_request(GET_COMMUNITY, payload, (error, results) => {
+  let msg = '';
+  if (req.query.id !== '') {
+    msg = req.query.id;
+  }
+
+  kafka.make_request(GET_COMMUNITY, msg, (error, results) => {
     if (!results.success) {
       res.status(400).send(results);
     } else {
       console.log(results);
       res.status(200).json({
         msg: results.msg,
+        data: results.data,
         //role: results.role,
       });
     }
