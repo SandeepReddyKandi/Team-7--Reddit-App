@@ -25,13 +25,13 @@ export default function Header() {
                   <Searchbar />
                 </div>
               </Col>
-              <Col md={3} >
+              <Col md={3}>
                 <Actions />
               </Col>
             </Toolbar>
           </AppBar>
         </Col>
       </Row>
-    </header >
-  )
+    </header>
+  );
 }
