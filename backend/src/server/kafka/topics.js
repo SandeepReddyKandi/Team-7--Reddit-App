@@ -10,9 +10,14 @@ const RATE_COMMUNITY = 'rateCommunity';
 
 //Post
 const ADD_POST = 'addPost';
+const GET_POST = 'getPost';
 
 //Comment
 const ADD_COMMENT = 'addComment';
+const GET_COMMENT = 'getComment';
+
+//Invitation
+const SEND_INVITE = 'sendInvite';
 
 module.exports = {
   USER_LOGIN,
@@ -22,5 +27,8 @@ module.exports = {
   GET_COMMUNITY_BY_ID,
   RATE_COMMUNITY,
   ADD_POST,
+  GET_POST,
   ADD_COMMENT,
+  GET_COMMENT,
+  SEND_INVITE,
 };
