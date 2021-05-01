@@ -1,0 +1,15 @@
+.bar-top {
+  align-items: center;
+  background-color: var(--newCommunityTheme-body);
+  border: 1px solid var(--newCommunityTheme-postLine);
+  border-radius: 4px;
+  box-sizing: border-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-flow: row nowrap;
+  flex-flow: row nowrap;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  margin-bottom: 16px;
+  padding: 10px 12px;
+}
