@@ -16,6 +16,7 @@ import Button from '@material-ui/core/Button';
 import ShareIcon from "@material-ui/icons/Share";
 import BookmarkIcon from "@material-ui/icons/Bookmark";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import CardGiftcardIcon from "@material-ui/icons/CardGiftcard";
 import RedditICon from '../../community.png';
 import Comment from '../Comment/Comment';
 import './TextDisplayCard.css';
@@ -39,15 +40,17 @@ class TextDisplayCard extends React.Component {
       <div className="posts-wrapper">
         <Card >
           <div className="post">
-            <Row >
-              <Col md={1} >
+            <Row style={{ width: '100%', height: '100%' }}>
+              <Col md={1} style={{
+                display: 'flex',
+              }} >
                 <div className="post-sidebar">
-                  <IconButton >
+                  <IconButton>
                     <div className="upvote">
                       <ArrowDropUpIcon fontSize="large" />
                     </div>
                   </IconButton>
-                  <Typography>
+                  <Typography style={{ textAlign: 'center' }}>
                     0
                   </Typography>
                   <IconButton>
@@ -57,7 +60,7 @@ class TextDisplayCard extends React.Component {
                   </IconButton>
                 </div>
               </Col>
-              <Col md={10} style={{ padding: '10px' }}>
+              <Col md={11} style={{ paddingLeft: '5%' }} >
                 <Row>
                   <div className="post-title">
                     <CardHeader
@@ -87,8 +90,16 @@ class TextDisplayCard extends React.Component {
                 <Row>
                   <div className="post-footer">
                     <div className="comments footer-action">
-                      <ModeCommentIcon className="comment-icon" />
-                      <span>525 Comments</span>
+                      <div>
+                        <ModeCommentIcon className="comment-icon" />
+                      </div>
+                      <div>
+                        <span>525 Comments</span>
+                      </div>
+                      <div className="reward footer-action">
+                        <CardGiftcardIcon />
+                        <span>Reward</span>
+                      </div>
                       <div className="share footer-action">
                         <ShareIcon />
                         <span>Share</span>

@@ -8,6 +8,7 @@ import Header from '../Header/Header';
 import CommunityAppBar from '../ToolBar/CommunityAppBar';
 import TextDisplayCard from '../Cards/TextDisplayCard';
 import SideBar from './Sidebar/Sidebar';
+import TopBar from '../ToolBar/TopBar';
 
 class Dashboaard extends React.Component {
   render() {
@@ -19,6 +20,8 @@ class Dashboaard extends React.Component {
             <Col md={8}>
               <br />
               <CommunityAppBar />
+              <br />
+              <TopBar />
               <TextDisplayCard />
             </Col>
             <Col md={4}>

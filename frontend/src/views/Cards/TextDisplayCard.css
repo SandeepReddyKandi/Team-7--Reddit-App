@@ -1,8 +1,7 @@
 .posts-wrapper .post {
   display: grid;
   width: 100%;
-  margin: 10px 0px;
-  background-color: white;  
+  background-color: white;
 }
 
 .posts-wrapper .post:hover {
@@ -11,12 +10,11 @@
 
 .posts-wrapper .post .post-sidebar {
   grid-area: post-sidebar;
-  display: flex;
+  height: 100%;
+  display: block;
   flex-direction: column;
   align-items: center;
-
   padding-top: 5px;
-
   background-color: rgb(245, 245, 245);
 }
 
@@ -110,25 +108,21 @@
 }
 
 .posts-wrapper .post .post-body > img {
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
-
   max-height: 500px;
   width: 100%;
 }
 
 .posts-wrapper .post .post-body > .description {
-  margin-top: 10px;
   margin-left: 5px;
-
   display: block;
 }
 
 .posts-wrapper .post .post-footer .footer-action {
   display: flex;
   align-items: center;
-  margin: 0px 5px;
-  padding: 3px;
+  padding: 3px 5px;
 }
 
 .posts-wrapper .post .post-footer .footer-action:first-child {
