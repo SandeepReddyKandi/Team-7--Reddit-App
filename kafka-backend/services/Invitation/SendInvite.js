@@ -1,11 +1,11 @@
-const PostModel = require("../../models/PostModel");
+const InvitationModel = require("../../models/InvitationModel");
 
 const handle_request = async (req, callback) => {
   try {
-    var postModel = new PostModel(req.body);
-    postModel.save().then(() => {
+    var invitation = new InvitationModel(req.body);
+    invitation.save().then(() => {
       callback(null, {
-        msg: "Post Added successfully!",
+        msg: "Invitation sent successfully!",
         success: true,
       });
     });

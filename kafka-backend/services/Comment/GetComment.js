@@ -2,12 +2,15 @@ const CommentModel = require("../../models/CommentModel");
 
 const handle_request = async (req, callback) => {
   try {
-    var commentModel = new CommentModel(req.body);
-    commentModel.save().then(() => {
-      callback(null, {
-        msg: "Comment Added successfully!",
-        success: true,
-      });
+    const criteria = {};
+    if (req.comment_id) {
+      criteria._id = req.comment_id;
+    }
+    let comments = await CommentModel.find(criteria);
+    callback(null, {
+      msg: "",
+      success: true,
+      data: comments,
     });
   } catch (error) {
     callback(null, {

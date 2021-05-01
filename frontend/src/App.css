@@ -5,6 +5,7 @@
 .body{
   background-color: #eeeeee;
 }
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -77,3 +78,15 @@
     transform: rotate(360deg);
   }
 }
+
+/* Added By Ruchir */
+/* START */
+:root {
+  --border-radius: 5px;
+  --border-color: rgb(121, 83, 169);
+}
+
+.hoverable:hover {
+  cursor: pointer;
+}
+/* END */

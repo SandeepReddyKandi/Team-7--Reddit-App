@@ -15,6 +15,7 @@ function App() {
   return (
     <Container fluid style={{ 'background-color': '#eeeeee' }}>
       <Switch>
+        <Route exact path="/" component={Home} />
         <Route exact path="/home" component={Home} />
         <Route exact path="/dashboard" component={Dashboard} />
         <Route exact path="/communityhomepage" component={CommunityHomePage} />

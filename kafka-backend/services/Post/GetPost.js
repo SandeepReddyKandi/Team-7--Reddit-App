@@ -2,12 +2,15 @@ const PostModel = require("../../models/PostModel");
 
 const handle_request = async (req, callback) => {
   try {
-    var postModel = new PostModel(req.body);
-    postModel.save().then(() => {
-      callback(null, {
-        msg: "Post Added successfully!",
-        success: true,
-      });
+    const criteria = {};
+    if (req.post_id) {
+      criteria._id = req.post_id;
+    }
+    let posts = await PostModel.find(criteria);
+    callback(null, {
+      msg: "",
+      success: true,
+      data: posts,
     });
   } catch (error) {
     callback(null, {
