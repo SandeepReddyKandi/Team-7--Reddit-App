@@ -1,9 +1,8 @@
 /* Database setup */
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const connectToDatabase = () => {
-  const uri =
-    'mongodb+srv://admin:admin@cluster0.0uwhi.mongodb.net/RedditDB';
+  const uri = "mongodb+srv://admin:admin@cluster0.0uwhi.mongodb.net/RedditDB";
 
   mongoose.connect(uri, {
     poolSize: 10,
@@ -13,9 +12,9 @@ const connectToDatabase = () => {
 
   const db = mongoose.connection;
 
-  db.on('error', console.error.bind(console, 'connection error'));
-  db.once('open', function () {
-    console.log('Connected to MongoDB');
+  db.on("error", console.error.bind(console, "connection error"));
+  db.once("open", function () {
+    console.log("Connected to MongoDB");
   });
   return db;
 };
