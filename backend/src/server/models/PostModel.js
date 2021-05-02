@@ -8,7 +8,7 @@ const postSchema = new mongoose.Schema(
     },
     description: {
       type: String,
-      // required: true,
+      required: true,
     },
     text:{
       type: String
@@ -25,7 +25,7 @@ const postSchema = new mongoose.Schema(
     comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
     post_body: {
       type: String,
-      // required: true,
+      required: true,
     },
     title: {
       type: String,

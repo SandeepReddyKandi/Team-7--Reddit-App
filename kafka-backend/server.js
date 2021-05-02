@@ -9,6 +9,11 @@ const {
   GET_COMMUNITY,
   ADD_COMMUNITY,
   GET_COMMUNITY_BY_ID,
+  ADD_POST_TEXT,
+  ADD_POST_IMAGE,
+  ADD_POST_LINK,
+  // GET_POST,
+  // GET_POST_BY_ID
 } = require("./kafka/topics");
 
 //user
@@ -19,6 +24,13 @@ const userSignup = require("./services/users/userSignup");
 const addCommunity = require("./services/Community/AddCommunity");
 const getCommunity = require("./services/Community/GetCommunity");
 const getCommunityById = require("./services/Community/GetCommunityById");
+
+//Post
+const addPostText = require("./services/Post/AddPostText");
+const addPostImage = require("./services/Post/AddPostImage");
+const addPostLink = require("./services/Post/AddPostLink");
+// const getPost = require("./services/Post/GetPost");
+// const getPostbyID = require("./services/Post/GetPostbyID");
 
 const port = 3001;
 const connection = require("./kafka/connection");
@@ -81,3 +93,10 @@ handleTopicRequest(USER_SIGNUP, userSignup);
 handleTopicRequest(ADD_COMMUNITY, addCommunity);
 handleTopicRequest(GET_COMMUNITY, getCommunity);
 handleTopicRequest(GET_COMMUNITY_BY_ID, getCommunityById);
+
+//Post
+handleTopicRequest(ADD_POST_TEXT, addPostText);
+handleTopicRequest(ADD_POST_IMAGE, addPostImage);
+handleTopicRequest(ADD_POST_LINK, addPostLink);
+// handleTopicRequest(GET_POST, getPost);
+// handleTopicRequest(GET_POST_BY_ID, getPostbyID);
