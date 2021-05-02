@@ -1,6 +1,7 @@
 'use strict';
 const usersRouter = require('./routes/users');
 const communityRouter = require('./routes/community');
+const postsRouter = require('./routes/posts');
 const cookieParser = require('cookie-parser');
 
 var cors = require('cors');
@@ -36,6 +37,7 @@ app.use(function (req, res, next) {
 // forward all end-point requests to routes
 app.use('/users', usersRouter);
 app.use('/community', communityRouter);
+app.use('/post',postsRouter);
 
 /* Db Connection */
 const db = connectToDatabase().then(() => {
