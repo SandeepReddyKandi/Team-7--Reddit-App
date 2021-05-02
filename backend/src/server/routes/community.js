@@ -13,7 +13,7 @@ const {
 router.post('/invite', sendInvite);
 router.post('/rate', rateCommunity);
 router.post('/add', addCommunity);
-router.post('/', getCommunity);
-router.get('/', getCommunityById);
+router.get('/communities', getCommunity);
+router.get('/communities', getCommunityById);
 
 module.exports = router;

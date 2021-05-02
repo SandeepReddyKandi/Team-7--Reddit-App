@@ -46,7 +46,8 @@ const connection = require("./kafka/connection");
 //     app.listen(port, console.log("Server is listening on port :", port));
 //   });
 
-const uri = "mongodb+srv://admin:admin@cluster0.0uwhi.mongodb.net/RedditDB";
+const uri =
+  "mongodb+srv://admin:admin@cluster0.0uwhi.mongodb.net/RedditDB?retryWrites=true&w=majority";
 
 mongoose.connect(uri, {
   poolSize: 10,
