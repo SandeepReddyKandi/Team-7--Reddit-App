@@ -12,6 +12,9 @@ const {
   RATE_COMMUNITY,
   ADD_POST,
   ADD_COMMENT,
+  GET_COMMENT,
+  SEND_INVITE,
+  GET_POST,
 } = require("./kafka/topics");
 
 //user
@@ -26,9 +29,14 @@ const rateCommunity = require("./services/Community/RateCommunity");
 
 //Post
 const addPost = require("./services/Post/AddPost");
+const getPost = require("./services/Post/GetPost");
 
 //Comment
 const addComment = require("./services/Comment/AddComment");
+const getComment = require("./services/Comment/GetComment");
+
+//Invitation
+const sendInvite = require("./services/Invitation/SendInvite");
 
 const port = 3001;
 const connection = require("./kafka/connection");
@@ -96,6 +104,11 @@ handleTopicRequest(RATE_COMMUNITY, rateCommunity);
 
 //Post
 handleTopicRequest(ADD_POST, addPost);
+handleTopicRequest(GET_POST, getPost);
 
 //Comment
 handleTopicRequest(ADD_COMMENT, addComment);
+handleTopicRequest(GET_COMMENT, getComment);
+
+//Invitation
+handleTopicRequest(SEND_INVITE, sendInvite);
