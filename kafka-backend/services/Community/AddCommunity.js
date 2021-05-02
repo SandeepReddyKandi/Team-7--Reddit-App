@@ -1,29 +1,27 @@
-const CommunityModel = require("../../models/CommunityModel");
+const Community = require("../../models/CommunityModel");
 
 const handle_request = async (req, callback) => {
   try {
-    CommunityModel.find(
-      { community_name: req.body.community_name },
-      (err, docs) => {
-        if (docs.length) {
-          callback(null, {
-            msg: "Community with same name already exists.",
+    Community.find({ community_name: req.body.community_name }, (err, docs) => {
+      if (docs.length) {
+        return callback(null, {
+          msg: "Community with same name already exists.",
+          success: false,
+        });
+      } else {
+        var community = new Community(req.body);
+        community.save().then(() => {
+          return callback(null, {
+            msg: "Community created successfully",
+            data: json,
             success: false,
           });
-        } else {
-          var communityModel = new CommunityModel(req.body);
-          communityModel.save().then(() => {
-            callback(null, {
-              msg: "Community Added successfully!",
-              success: true,
-            });
-          });
-        }
+        });
       }
-    );
+    });
   } catch (error) {
     //res.status(400).json({ msg: error.message });
-    callback(null, {
+    return callback(null, {
       msg: error.message,
       success: false,
     });
