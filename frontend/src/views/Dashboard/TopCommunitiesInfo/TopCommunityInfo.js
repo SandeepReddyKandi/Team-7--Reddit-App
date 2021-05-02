@@ -45,10 +45,10 @@ export default function TopCommunityInfo() {
             <div className="action-buttons">
                 <Button name='primary-button' text='VIEW ALL' />
                 <div className="secondary-buttons">
-                    <Button name='secondary-button' text="Sports" />
-                    <Button name='secondary-button' text="News" />
+                    <Button name='secondary-button' text="Top" />
+                    <Button name='secondary-button' text="Near You" />
                     <Button name='secondary-button' text="Gaming" />
-                    <Button name='secondary-button' text="Aww" />
+                    <Button name='secondary-button' text="News" />
                 </div>
             </div>
         </div>
