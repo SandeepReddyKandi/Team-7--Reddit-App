@@ -1,5 +1,8 @@
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/no-unused-state */
 import React from 'react';
-
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Card from '@material-ui/core/Card';
@@ -9,10 +12,20 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
+import CakeIcon from '@material-ui/icons/Cake';
+import PropTypes from 'prop-types';
 import Collapse from '@material-ui/core/Collapse';
 
 class AboutCommunityCard extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      community: this.props.community_info,
+    };
+  }
+
   render() {
+    const { community } = this.state;
     return (
       <Card>
         <CardHeader
@@ -27,12 +40,27 @@ class AboutCommunityCard extends React.Component {
         />
         <CardMedia image="/static/images/cards/paella.jpg" title="Paella dish" />
         <CardContent>
-          <Typography variant="body2" color="textSecondary" component="p">
-            This impressive paella is a perfect party dish and a fun meal to cook together with your
-            guests. Add 1 cup of frozen peas along with the mussels, if you like.
-          </Typography>
+          <Row>
+            <Col>
+              <Typography variant="body2" color="textSecondary" component="p">
+                {community.description}
+              </Typography>
+            </Col>
+          </Row>
+          <Row>
+            <Col>Members</Col>
+            <Col>Online</Col>
+          </Row>
+          <Row>
+            <Col>{community.members.length}</Col>
+            <Col>{community.members.length}</Col>
+          </Row>
         </CardContent>
         <div className="dropdown-divider" />
+        <Typographya>
+          <CakeIcon fontSize="small" />
+          Created on:{community.createdAt}
+        </Typography>
         <CardActions disableSpacing>
           <Button
             data-testid="Signup"
@@ -61,5 +89,9 @@ class AboutCommunityCard extends React.Component {
     );
   }
 }
+
+AboutCommunityCard.propTypes = {
+  community_info: PropTypes.func.isRequired,
+};
 
 export default AboutCommunityCard;

@@ -5,19 +5,21 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import { Typography } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
+import axios from 'axios';
 import Header from '../Header/Header';
 import RedditICon from '../../community.png';
 import TextDisplayCard from '../Cards/TextDisplayCard';
 import AboutCommunityCard from '../Cards/AboutCommunityCard';
 import CommunityRulesCard from '../Cards/CommunityRulesCard';
 import CommunityAppBar from '../ToolBar/CommunityAppBar';
+import constants from '../../constants/constants';
 
 // import Container from 'react-bootstrap/Container';
 
 class CommunityHomePage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { post: false };
+    this.state = { community: {}, post: false };
   }
 
   handleChange = () => {};
@@ -27,8 +29,29 @@ class CommunityHomePage extends React.Component {
     this.setState({ post: !post });
   };
 
+  componentDidMount = () => {
+    this.getCommunity();
+  };
+
+  getCommunity = () => {
+    axios.defaults.withCredentials = true;
+    axios
+      .get(`${constants.baseUrl}/community/communities/?id=608b8305cf9ebd2d9694e801`)
+      .then((response, error) => {
+        if (!error) {
+          this.setState({
+            community: response.data.data[0],
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        // this.setState({ errormessage: error.response.data.msg });
+      });
+  };
+
   render() {
-    const { post } = this.state;
+    const { post, community } = this.state;
     if (post) {
       return <Redirect to="/createpost" />;
     }
@@ -51,11 +74,11 @@ class CommunityHomePage extends React.Component {
                 <Col md={5}>
                   <Typography variant="h5" component="h5">
                     {' '}
-                    Shrimp and Chorizo Paella
+                    {community.community_name}
                   </Typography>
                   <div>
                     <Typography variant="h7" component="h7" className="header-label">
-                      r/shrimp
+                      {community.community_id}
                     </Typography>
                   </div>
                 </Col>
@@ -84,20 +107,22 @@ class CommunityHomePage extends React.Component {
           <Row>
             <Col md={2}>&nbsp;</Col>
             <Col md={6}>
-              <Row />
-              <Row />
+              <Row>&nbsp;</Row>
               <Row>
                 <CommunityAppBar />
               </Row>
-              <Row />
+              <Row>&nbsp;</Row>
               <Row>
                 <TextDisplayCard />
               </Row>
             </Col>
+            <Col md={1} />
             <Col md={3}>
+              <Row>&nbsp;</Row>
               <Row>
-                <AboutCommunityCard />
+                <AboutCommunityCard community_info={community} />
               </Row>
+              <Row>&nbsp;</Row>
               <Row>
                 <CommunityRulesCard />
               </Row>

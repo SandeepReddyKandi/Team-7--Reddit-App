@@ -8,6 +8,7 @@ const communitySchema = new mongoose.Schema(
     community_name: {
       type: String,
       required: true,
+      unique: true,
     },
     description: {
       type: String,
@@ -19,9 +20,7 @@ const communitySchema = new mongoose.Schema(
     rules: {
       type: Array,
     },
-    posts: {
-      type: Array,
-    },
+    posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "posts" }],
     members: {
       type: Array,
     },
