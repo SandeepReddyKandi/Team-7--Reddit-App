@@ -57,7 +57,7 @@ class AboutCommunityCard extends React.Component {
           </Row>
         </CardContent>
         <div className="dropdown-divider" />
-        <Typographya>
+        <Typography>
           <CakeIcon fontSize="small" />
           Created on:{community.createdAt}
         </Typography>
