@@ -9,8 +9,9 @@ import CommunityAppBar from '../ToolBar/CommunityAppBar';
 import TextDisplayCard from '../Cards/TextDisplayCard';
 import SideBar from './Sidebar/Sidebar';
 import TopBar from '../ToolBar/TopBar';
+import AdvertisementCard from '../Cards/AdvertisementCard/AdvertisementCard';
 
-class Dashboaard extends React.Component {
+class Dashboard extends React.Component {
   render() {
     return (
       <div>
@@ -26,12 +27,23 @@ class Dashboaard extends React.Component {
             </Col>
             <Col md={4}>
               <br />
-              <div className="bars-wrapper-inside" style={{
-                borderRadius: 'var(--border-radius)',
-                border: '1px solid darkgray', backgroundColor: 'white'
-              }}>
-                <SideBar />
-              </div>
+              <Row>
+                <div className="bars-wrapper-inside" style={{
+                  borderRadius: 'var(--border-radius)',
+                  border: '1px solid darkgray', backgroundColor: 'white'
+                }}>
+                  <SideBar />
+                </div>
+              </Row>
+              <br />
+              <Row>
+                <div className="bars-wrapper-inside" style={{
+                  borderRadius: 'var(--border-radius)',
+                  border: '1px solid darkgray', backgroundColor: 'white'
+                }}>
+                  <AdvertisementCard />
+                </div>
+              </Row>
             </Col>
           </Row>
         </Container>
@@ -40,4 +52,4 @@ class Dashboaard extends React.Component {
   }
 }
 
-export default Dashboaard;
+export default Dashboard;

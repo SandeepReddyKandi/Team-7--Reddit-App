@@ -34,6 +34,14 @@ class TextDisplayCard extends React.Component {
     });
   };
 
+  handleUpVote = () => {
+    console.log("Upvote clicked");
+  }
+
+  handleDownVote = () => {
+    console.log("Downvote clicked");
+  }
+
   render() {
     const { expandComment, postId } = this.state;
     return (
@@ -47,7 +55,7 @@ class TextDisplayCard extends React.Component {
                 <div className="post-sidebar">
                   <IconButton>
                     <div className="upvote">
-                      <ArrowDropUpIcon fontSize="large" />
+                      <ArrowDropUpIcon fontSize="large" onClick={this.handleUpVote} />
                     </div>
                   </IconButton>
                   <Typography style={{ textAlign: 'center' }}>
@@ -55,7 +63,7 @@ class TextDisplayCard extends React.Component {
                   </Typography>
                   <IconButton>
                     <div className="downvote">
-                      <ArrowDropDownIcon fontSize="large" />
+                      <ArrowDropDownIcon fontSize="large" onClick={this.handleDownVote} />
                     </div>
                   </IconButton>
                 </div>

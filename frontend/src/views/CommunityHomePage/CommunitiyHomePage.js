@@ -20,7 +20,7 @@ class CommunityHomePage extends React.Component {
     this.state = { post: false };
   }
 
-  handleChange = () => {};
+  handleChange = () => { };
 
   createPost = () => {
     const { post } = this.state;
