@@ -8,15 +8,13 @@ const {
   GET_COMMUNITY,
   ADD_COMMUNITY,
   GET_COMMUNITY_BY_ID,
-<<<<<<< HEAD
+
   ADD_POST_TEXT,
   ADD_POST_IMAGE,
   ADD_POST_LINK,
   // GET_POST,
   // GET_POST_BY_ID
-=======
   GET_COMMUNITY_BY_NAME,
->>>>>>> f457d1c1a83079ea3ffad1106ab640125e8deb8f
   RATE_COMMUNITY,
   ADD_POST,
   ADD_COMMENT,
@@ -140,4 +138,3 @@ handleTopicRequest(GET_COMMENT, getComment);
 
 handleTopicRequest(SEND_INVITE, sendInvite);
 handleTopicRequest(GET_STATUS, getStatus);
-
