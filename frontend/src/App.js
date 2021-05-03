@@ -8,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from './views/Home/Home';
 import Dashboard from './views/Dashboard/Dashboard';
 import CommunityHomePage from './views/CommunityHomePage/CommunitiyHomePage';
+import CommunitySearchPage from './views/CommunitySearchPage/CommunitySearchPage';
 import CreatePost from './views/Post/CreatePost';
 import UserProfile from './views/UserProfile/UserProfile';
 
@@ -20,6 +21,7 @@ function App() {
         <Route exact path="/dashboard" component={Dashboard} />
         <Route exact path="/user/:uid" component={UserProfile} />
         <Route exact path="/communityhomepage" component={CommunityHomePage} />
+        <Route exact path="/communitysearchpage" component={CommunitySearchPage} />
         <Route exact path="/createpost" component={CreatePost} />
       </Switch>
     </Container>
