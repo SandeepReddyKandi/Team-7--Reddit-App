@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+
 const {
   addCommunity,
   getCommunity,
@@ -9,6 +10,7 @@ const {
   sendInvite,
   getStatus,
   getCommunityByName,
+  getRulesTopics,
 } = require('../controllers/community');
 
 // keep adding end-points here
@@ -18,6 +20,8 @@ router.post('/add', addCommunity);
 router.get('/communities', getCommunity);
 router.get('/communities', getCommunityById);
 router.post('/status', getStatus);
+router.get('/gettr', getRulesTopics)
 router.get('/getCommunityByName', getCommunityByName);
+
 
 module.exports = router;

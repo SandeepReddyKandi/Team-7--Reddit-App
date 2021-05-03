@@ -7,7 +7,7 @@ const handle_request = async (req, callback) => {
       community_id: req.body.community_id,
       sender: req.body.userId,
     }).then((response) => {
-      console.log(response);
+     // console.log(response);
       callback(null, {
         msg: "",
         data: response,
