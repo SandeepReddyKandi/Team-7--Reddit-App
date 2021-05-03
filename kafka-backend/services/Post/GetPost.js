@@ -4,7 +4,7 @@ const handle_request = async (req, callback) => {
   try {
     const criteria = {};
     if (req.post_id) {
-      criteria._id = req.post_id;
+      criteria.author_id = req.post_id;
     }
     let posts = await PostModel.find(criteria);
     callback(null, {

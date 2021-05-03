@@ -6,6 +6,7 @@ const {
   RATE_COMMUNITY,
   SEND_INVITE,
   GET_STATUS,
+  GET_COMMUNITY_BY_NAME,
 } = require('../kafka/topics');
 
 exports.addCommunity = async (req, res) => {
@@ -53,6 +54,21 @@ exports.getCommunityById = async (req, res) => {
       res.status(200).json({
         msg: results.msg,
         //role: results.role,
+      });
+    }
+  });
+};
+
+exports.getCommunityByName = async (req, res) => {
+  const payload = { communityName: req.query.name };
+  kafka.make_request(GET_COMMUNITY_BY_NAME, payload, (error, results) => {
+    if (!results.success) {
+      res.status(400).send(results);
+    } else {
+      console.log(results);
+      res.status(200).json({
+        msg: results.msg,
+        data: results.data,
       });
     }
   });

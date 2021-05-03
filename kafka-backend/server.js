@@ -8,6 +8,7 @@ const {
   GET_COMMUNITY,
   ADD_COMMUNITY,
   GET_COMMUNITY_BY_ID,
+  GET_COMMUNITY_BY_NAME,
   RATE_COMMUNITY,
   ADD_POST,
   ADD_COMMENT,
@@ -25,6 +26,7 @@ const userSignup = require("./services/users/userSignup");
 const addCommunity = require("./services/Community/AddCommunity");
 const getCommunity = require("./services/Community/GetCommunity");
 const getCommunityById = require("./services/Community/GetCommunityById");
+const getCommunityByName = require("./services/Community/GetCommunityByName");
 const rateCommunity = require("./services/Community/RateCommunity");
 
 //Post
@@ -101,6 +103,7 @@ handleTopicRequest(USER_SIGNUP, userSignup);
 handleTopicRequest(ADD_COMMUNITY, addCommunity);
 handleTopicRequest(GET_COMMUNITY, getCommunity);
 handleTopicRequest(GET_COMMUNITY_BY_ID, getCommunityById);
+handleTopicRequest(GET_COMMUNITY_BY_NAME, getCommunityByName);
 handleTopicRequest(RATE_COMMUNITY, rateCommunity);
 
 //Post

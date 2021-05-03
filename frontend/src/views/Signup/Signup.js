@@ -149,17 +149,18 @@ class Signup extends React.Component {
         } else {
           const { result } = response;
           if (response.data.msg === 'Registered successfully') {
+            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('user', response.data.userId);
             this.setState({
               redirect: true,
             });
-            localStorage.setItem('token', response.data.token);
           }
           console.log(result);
         }
       })
       .catch((error) => {
         console.log(error);
-        this.setState({ errormessage: error.response.data.errors[0].message });
+        this.setState({ errormessage: error.response.data.msg });
       });
   };
 
