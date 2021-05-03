@@ -6,6 +6,7 @@ const USER_SIGNUP = "userSignup";
 const ADD_COMMUNITY = "addCommunity";
 const GET_COMMUNITY = "getCommunity";
 const GET_COMMUNITY_BY_ID = "getCommunityById";
+const GET_COMMUNITY_BY_NAME = "getCommunityByName";
 const RATE_COMMUNITY = "rateCommunity";
 
 //Post
@@ -37,6 +38,7 @@ module.exports = {
   ADD_POST_LINK,
   // GET_POST,
   // GET_POST_BY_ID
+  GET_COMMUNITY_BY_NAME,
   RATE_COMMUNITY,
   ADD_POST,
   GET_POST,

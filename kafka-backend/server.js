@@ -9,11 +9,15 @@ const {
   GET_COMMUNITY,
   ADD_COMMUNITY,
   GET_COMMUNITY_BY_ID,
+<<<<<<< HEAD
   ADD_POST_TEXT,
   ADD_POST_IMAGE,
   ADD_POST_LINK,
   // GET_POST,
   // GET_POST_BY_ID
+=======
+  GET_COMMUNITY_BY_NAME,
+>>>>>>> f457d1c1a83079ea3ffad1106ab640125e8deb8f
   RATE_COMMUNITY,
   ADD_POST,
   ADD_COMMENT,
@@ -30,6 +34,7 @@ const userSignup = require("./services/users/userSignup");
 const addCommunity = require("./services/Community/AddCommunity");
 const getCommunity = require("./services/Community/GetCommunity");
 const getCommunityById = require("./services/Community/GetCommunityById");
+const getCommunityByName = require("./services/Community/GetCommunityByName");
 const rateCommunity = require("./services/Community/RateCommunity");
 
 //Post
@@ -119,6 +124,7 @@ handleTopicRequest(ADD_POST_IMAGE, addPostImage);
 handleTopicRequest(ADD_POST_LINK, addPostLink);
 // handleTopicRequest(GET_POST, getPost);
 // handleTopicRequest(GET_POST_BY_ID, getPostbyID);
+handleTopicRequest(GET_COMMUNITY_BY_NAME, getCommunityByName);
 handleTopicRequest(RATE_COMMUNITY, rateCommunity);
 
 //Post
