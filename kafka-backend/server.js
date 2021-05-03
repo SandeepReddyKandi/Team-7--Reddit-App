@@ -14,6 +14,12 @@ const {
   ADD_POST_LINK,
   // GET_POST,
   // GET_POST_BY_ID
+  RATE_COMMUNITY,
+  ADD_POST,
+  ADD_COMMENT,
+  GET_COMMENT,
+  SEND_INVITE,
+  GET_POST,
 } = require("./kafka/topics");
 
 //user
@@ -24,6 +30,18 @@ const userSignup = require("./services/users/userSignup");
 const addCommunity = require("./services/Community/AddCommunity");
 const getCommunity = require("./services/Community/GetCommunity");
 const getCommunityById = require("./services/Community/GetCommunityById");
+const rateCommunity = require("./services/Community/RateCommunity");
+
+//Post
+const addPost = require("./services/Post/AddPost");
+const getPost = require("./services/Post/GetPost");
+
+//Comment
+const addComment = require("./services/Comment/AddComment");
+const getComment = require("./services/Comment/GetComment");
+
+//Invitation
+const sendInvite = require("./services/Invitation/SendInvite");
 
 //Post
 const addPostText = require("./services/Post/AddPostText");
@@ -40,7 +58,8 @@ const connection = require("./kafka/connection");
 //     app.listen(port, console.log("Server is listening on port :", port));
 //   });
 
-const uri = "mongodb+srv://admin:admin@cluster0.0uwhi.mongodb.net/RedditDB";
+const uri =
+  "mongodb+srv://admin:admin@cluster0.0uwhi.mongodb.net/RedditDB?retryWrites=true&w=majority";
 
 mongoose.connect(uri, {
   poolSize: 10,
@@ -100,3 +119,15 @@ handleTopicRequest(ADD_POST_IMAGE, addPostImage);
 handleTopicRequest(ADD_POST_LINK, addPostLink);
 // handleTopicRequest(GET_POST, getPost);
 // handleTopicRequest(GET_POST_BY_ID, getPostbyID);
+handleTopicRequest(RATE_COMMUNITY, rateCommunity);
+
+//Post
+handleTopicRequest(ADD_POST, addPost);
+handleTopicRequest(GET_POST, getPost);
+
+//Comment
+handleTopicRequest(ADD_COMMENT, addComment);
+handleTopicRequest(GET_COMMENT, getComment);
+
+//Invitation
+handleTopicRequest(SEND_INVITE, sendInvite);

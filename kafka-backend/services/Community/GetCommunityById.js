@@ -7,12 +7,12 @@ const handle_request = async (req, callback) => {
       { _id: mongoose.Types.ObjectId(req.community_id) },
       (err, response) => {
         if (err) {
-          callback(null, {
+          return callback(null, {
             msg: "Something went wrong!",
             success: false,
           });
         } else {
-          callback(null, {
+          return callback(null, {
             msg: "",
             success: true,
             data: response,
@@ -22,7 +22,7 @@ const handle_request = async (req, callback) => {
     );
   } catch (error) {
     //res.status(400).json({ msg: error.message });
-    callback(null, {
+    return callback(null, {
       msg: error.message,
       success: false,
     });

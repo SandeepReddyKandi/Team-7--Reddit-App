@@ -2,6 +2,9 @@
   "name": "kafka-backend",
   "version": "1.0.0",
   "main": "server.js",
+  "scripts": {    
+    "start": "nodemon server.js"
+  },
   "license": "MIT",
   "scripts": {
     "dev": "nodemon server.js"
