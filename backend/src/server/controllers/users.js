@@ -26,13 +26,13 @@ exports.register = async (req, res) => {
     if (!results.success) {
       res.status(400).send(results);
     } else {
-      console.log(results);
       res.cookie('authtkn', results.token, {
         maxAge: 1000 * 60 * 60 * 4,
         httpOnly: true,
       });
-
+      console.log("Res is: ", results);
       res.status(200).json({
+        token: results.token,
         msg: results.msg,
         userId: results.userId,
         //role: results.role,
@@ -112,6 +112,7 @@ exports.login = async (req, res) => {
       });
 
       res.status(200).json({
+        token: results.token,
         msg: results.msg,
         userId: results.userId,
         role: results.role,
