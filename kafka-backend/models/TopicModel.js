@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const ruleSchema = new mongoose.Schema(
+const topicSchema = new mongoose.Schema(
   {
     description: {
       type: String,
@@ -10,4 +10,4 @@ const ruleSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("rules", ruleSchema);
+module.exports = mongoose.model("topics", topicSchema);

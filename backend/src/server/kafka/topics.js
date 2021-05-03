@@ -8,6 +8,7 @@ const GET_COMMUNITY = 'getCommunity';
 const GET_COMMUNITY_BY_ID = 'getCommunityById';
 const GET_COMMUNITY_BY_NAME = 'getCommunityByName';
 const RATE_COMMUNITY = 'rateCommunity';
+const GET_RULES_TOPICS = 'getRulesTopics'
 
 //Post
 const ADD_POST = 'addPost';
@@ -47,4 +48,5 @@ module.exports = {
   GET_COMMENT,
   SEND_INVITE,
   GET_STATUS,
+  GET_RULES_TOPICS,
 };

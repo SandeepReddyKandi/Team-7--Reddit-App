@@ -1,4 +1,5 @@
 const kafka = require('../kafka/client');
+
 const {
   ADD_COMMUNITY,
   GET_COMMUNITY,
@@ -7,6 +8,7 @@ const {
   SEND_INVITE,
   GET_STATUS,
   GET_COMMUNITY_BY_NAME,
+  GET_RULES_TOPICS,
 } = require('../kafka/topics');
 
 exports.addCommunity = async (req, res) => {
@@ -19,6 +21,22 @@ exports.addCommunity = async (req, res) => {
       res.status(200).json({
         msg: results.msg,
         data: results.data,
+        //role: results.role,
+      });
+    }
+  });
+};
+
+exports.getRulesTopics = async (req, res) => {
+  console.log("Here.....", req.body)
+  const payload = { rules: true, topics: true };
+  kafka.make_request(GET_RULES_TOPICS, payload, (error, results) => {
+    if (!results.success) {
+      res.status(400).send(results);
+    } else {
+      console.log(results);
+      res.status(200).json({
+        msg: results.data,
         //role: results.role,
       });
     }
@@ -58,6 +76,7 @@ exports.getCommunityById = async (req, res) => {
     }
   });
 };
+
 
 exports.getCommunityByName = async (req, res) => {
   const payload = { communityName: req.query.name };
