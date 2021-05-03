@@ -20,8 +20,7 @@ const userSchema = new mongoose.Schema(
     description: String,
     photo: String,
     topics: [String],
-    posts: [{type: mongoose.Schema.Types.ObjectId, ref: "Post" }]
-  },
+    },
   { timestamps: true }
 );
 

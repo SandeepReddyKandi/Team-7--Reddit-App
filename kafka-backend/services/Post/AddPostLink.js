@@ -22,8 +22,8 @@ const handle_request = async (req, callback) => {
                         if(post){
                             community.posts.push(post._id);
                             community.save();
-                            user.posts.push(post._id);
-                            user.save();
+                            // user.posts.push(post._id);
+                            // user.save();
                             res.status = 200;
                             res.data = 'POST_ADDED';
                             callback(null, res);
