@@ -9,6 +9,7 @@ const {
   GET_COMMUNITY,
   ADD_COMMUNITY,
   GET_COMMUNITY_BY_ID,
+  GET_RULES_TOPICS,
 } = require("./kafka/topics");
 
 //user
@@ -19,6 +20,7 @@ const userSignup = require("./services/users/userSignup");
 const addCommunity = require("./services/Community/AddCommunity");
 const getCommunity = require("./services/Community/GetCommunity");
 const getCommunityById = require("./services/Community/GetCommunityById");
+const getRulesTopics = require("./services/Community/GetRulesTopics");
 
 const port = 3001;
 const connection = require("./kafka/connection");
@@ -81,3 +83,4 @@ handleTopicRequest(USER_SIGNUP, userSignup);
 handleTopicRequest(ADD_COMMUNITY, addCommunity);
 handleTopicRequest(GET_COMMUNITY, getCommunity);
 handleTopicRequest(GET_COMMUNITY_BY_ID, getCommunityById);
+handleTopicRequest(GET_RULES_TOPICS, getRulesTopics);

@@ -1,5 +1,5 @@
 const kafka = require('../kafka/client');
-const { ADD_COMMUNITY, GET_COMMUNITY, GET_COMMUNITY_BY_ID } = require('../kafka/topics');
+const { ADD_COMMUNITY, GET_COMMUNITY, GET_COMMUNITY_BY_ID, GET_RULES_TOPICS } = require('../kafka/topics');
 
 exports.addCommunity = async (req, res) => {
   const payload = { body: req.body };
@@ -39,6 +39,22 @@ exports.getCommunityById = async (req, res) => {
       console.log(results);
       res.status(200).json({
         msg: results.msg,
+        //role: results.role,
+      });
+    }
+  });
+};
+
+exports.getRulesTopics = async (req, res) => {
+  console.log("Here.....", req.body)
+  const payload = { rules: true, topics: true };
+  kafka.make_request(GET_RULES_TOPICS, payload, (error, results) => {
+    if (!results.success) {
+      res.status(400).send(results);
+    } else {
+      console.log(results);
+      res.status(200).json({
+        msg: results.data,
         //role: results.role,
       });
     }

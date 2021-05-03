@@ -1,3 +1,4 @@
+/* eslint-disable react/no-string-refs */
 /* eslint-disable react/jsx-no-duplicate-props */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable no-unused-vars */
@@ -6,7 +7,7 @@
 /* eslint-disable import/no-named-as-default */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable constructor-super */
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 // import { Redirect } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Row from 'react-bootstrap/Row';
@@ -32,6 +33,7 @@ const MyCommunity = () => {
   const [showImage, addShowImage] = useState([]);
   const [topicList, addTopic] = useState([]);
   const [rulesList, addRules] = useState([]);
+  const inputrules = React.useRef();
   const dispatch = useDispatch();
   const [textState, setTextState] = useState();
   const [textState2, setTextState2] = useState();
@@ -50,7 +52,7 @@ const MyCommunity = () => {
     ]);
   };
   useEffect(() => {
-    // dispatch(getRulesTopic());
+    dispatch(getRulesTopic());
   }, [dispatch]);
 
   const batchColor = ['primary', 'success', 'danger', 'warning', 'info'];
@@ -87,9 +89,11 @@ const MyCommunity = () => {
   }
   const submit = () => {
     const data = {
-      name: document.getElementById('name').value,
+      community_name: document.getElementById('name').value,
       description: document.getElementById('desc').value,
-      rules: null,
+      rules: rulesList,
+      topic: topicList,
+      images: imageList,
     };
     dispatch(addCommunity(data));
   };
@@ -170,12 +174,13 @@ const MyCommunity = () => {
                     <footer className="blockquote-footer">
                       This will be rules your community{' '}
                     </footer>
-                    <Hint options={reduxData.topics} allowTabFill>
+                    <Hint options={reduxData.rules} allowTabFill>
                       <input
                         pill
                         type="text"
                         value={textState2}
                         id="rules"
+                        ref="inputrules"
                         onChange={(e) => setTextState2(e.target.value)}
                         onKeyDown={addIntoRules}
                         className="form-control"

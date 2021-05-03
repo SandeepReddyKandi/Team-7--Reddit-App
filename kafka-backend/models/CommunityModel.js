@@ -17,6 +17,7 @@ const communitySchema = new mongoose.Schema(
     rules: [{ type: mongoose.Schema.Types.ObjectId, ref: "Rules" }],
     posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
     members: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    topic: [{ type: mongoose.Schema.Types.ObjectId, ref: "Topics" }],
     upvote: {
       type: Array,
     },
