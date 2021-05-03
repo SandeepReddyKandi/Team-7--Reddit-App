@@ -27,10 +27,11 @@ class Dashboard extends React.Component {
   }
 
   getPost = () => {
-    const user = localStorage.getItem('user');
+    const userId = localStorage.getItem('user');
+    // console.log("*********user********", userId);
     axios.defaults.withCredentials = true;
     axios
-      .get(`${constants.baseUrl}/post/?user=${user}`)
+      .get(`${constants.baseUrl}/post/?user=${userId}`)
       .then((response, error) => {
         if (error) {
           this.setState({ errormessage: error.msg });
@@ -63,7 +64,6 @@ class Dashboard extends React.Component {
             <Col md={8}>
               <br />
               <CommunityAppBar />
-              <br />
               <TopBar />
               {posts.map((p) => (
                 <TextDisplayCard post={p} />
@@ -73,13 +73,11 @@ class Dashboard extends React.Component {
               <br />
               <Row>
                 <div
-                  className="bars-wrapper-inside"
                   style={{
                     borderRadius: 'var(--border-radius)',
                     border: '1px solid darkgray',
                     backgroundColor: 'white',
-                  }}
-                >
+                  }}>
                   <SideBar />
                 </div>
               </Row>

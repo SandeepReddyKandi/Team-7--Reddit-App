@@ -47,7 +47,7 @@ class TextDisplayCard extends React.Component {
     const { expandComment, postId } = this.state;
     const { post } = this.props;
     return (
-      <div className="posts-wrapper">
+      <div className="posts-wrapper" style={{marginBottom:'10px'}}>
         <Card>
           <div className="post">
             <Row style={{ width: '100%', height: '100%' }}>

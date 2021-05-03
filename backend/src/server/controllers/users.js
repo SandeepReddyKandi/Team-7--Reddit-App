@@ -5,7 +5,7 @@ const Validator = require('fastest-validator');
 const { v4: uuid } = require('uuid');
 const UserModel = require('../models/UserModel');
 const { USER_LOGIN, USER_SIGNUP } = require('../kafka/topics');
-
+const kafka = require('../kafka/client');
 const validator = new Validator();
 
 //registeration input schema
@@ -30,12 +30,11 @@ exports.register = async (req, res) => {
         maxAge: 1000 * 60 * 60 * 4,
         httpOnly: true,
       });
-      console.log("Res is: ", results);
       res.status(200).json({
         token: results.token,
         msg: results.msg,
         userId: results.userId,
-        //role: results.role,
+        success: true
       });
     }
   });
@@ -96,8 +95,6 @@ exports.register = async (req, res) => {
   // }
 };
 
-const kafka = require('../kafka/client');
-
 //api to login existing user account
 exports.login = async (req, res) => {
   const payload = { body: req.body };
@@ -105,7 +102,6 @@ exports.login = async (req, res) => {
     if (!results.success) {
       res.status(400).send(results);
     } else {
-      console.log(results);
       res.cookie('authtkn', results.token, {
         maxAge: 1000 * 60 * 60 * 4,
         httpOnly: true,
@@ -115,7 +111,7 @@ exports.login = async (req, res) => {
         token: results.token,
         msg: results.msg,
         userId: results.userId,
-        role: results.role,
+        success: true
       });
     }
   });
