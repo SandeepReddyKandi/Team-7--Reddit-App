@@ -7,6 +7,7 @@ const ADD_COMMUNITY = "addCommunity";
 const GET_COMMUNITY = "getCommunity";
 const GET_COMMUNITY_BY_ID = "getCommunityById";
 const RATE_COMMUNITY = "rateCommunity";
+const JOIN_COMMUNITY = "joinCommunity";
 
 //Post
 const ADD_POST = "addPost";
@@ -18,6 +19,7 @@ const GET_COMMENT = "getComment";
 
 //Invitation
 const SEND_INVITE = "sendInvite";
+const GET_STATUS = "getStatus";
 
 module.exports = {
   USER_LOGIN,
@@ -31,4 +33,6 @@ module.exports = {
   ADD_COMMENT,
   GET_COMMENT,
   SEND_INVITE,
+  JOIN_COMMUNITY,
+  GET_STATUS,
 };

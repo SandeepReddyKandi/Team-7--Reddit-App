@@ -18,6 +18,7 @@ const GET_COMMENT = 'getComment';
 
 //Invitation
 const SEND_INVITE = 'sendInvite';
+const GET_STATUS = 'getStatus';
 
 module.exports = {
   USER_LOGIN,
@@ -31,4 +32,5 @@ module.exports = {
   ADD_COMMENT,
   GET_COMMENT,
   SEND_INVITE,
+  GET_STATUS,
 };
