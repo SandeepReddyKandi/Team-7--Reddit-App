@@ -7,7 +7,7 @@ exports.addPostText = async (req, res) => {
     if (!results.success) {
       res.status(400).send(results);
     } else {
-      console.log(results);
+     // console.log(results);
       res.status(200).json({
         msg: results.msg,
         //role: results.role,
@@ -22,7 +22,7 @@ exports.addPostImage = async (req, res) => {
       if (!results.success) {
         res.status(400).send(results);
       } else {
-        console.log(results);
+      //  console.log(results);
         res.status(200).json({
           msg: results.msg,
           //role: results.role,
@@ -37,7 +37,7 @@ exports.addPostImage = async (req, res) => {
       if (!results.success) {
         res.status(400).send(results);
       } else {
-        console.log(results);
+       // console.log(results);
         res.status(200).json({
           msg: results.msg,
           //role: results.role,
@@ -46,15 +46,21 @@ exports.addPostImage = async (req, res) => {
     });
   };
 
-  exports.getPost = async (req, res) => {
+  exports.getPosts = async (req, res) => {
+    // console.log("******getPosts backend controller********");
+
     const payload = { body: req.body };
     kafka.make_request(GET_POST, payload, (error, results) => {
+      // console.log("******results********", results);
+
       if (!results.success) {
         res.status(400).send(results);
       } else {
-        console.log(results);
+       // console.log(results);
         res.status(200).json({
           msg: results.msg,
+          data: results.data,
+          success: results.success
           //role: results.role,
         });
       }
@@ -62,12 +68,16 @@ exports.addPostImage = async (req, res) => {
   };
 
   exports.getPostbyID = async (req, res) => {
+    console.log("******getPostbyID backend controller********");
+
     const payload = { body: req.body };
+    
     kafka.make_request(GET_POST_BY_ID, payload, (error, results) => {
+      console.log("******results********", results);
       if (!results.success) {
         res.status(400).send(results);
       } else {
-        console.log(results);
+       // console.log(results);
         res.status(200).json({
           msg: results.msg,
           //role: results.role,

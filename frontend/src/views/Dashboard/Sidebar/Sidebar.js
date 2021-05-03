@@ -5,10 +5,8 @@ import TopCommunityInfo from '../TopCommunitiesInfo/TopCommunityInfo';
 
 export default function SideBar() {
     return (
-        <div >
-            <div className='side-bar'>
-                <TopCommunityInfo />
-            </div>
+        <div className='side-bar'>
+            <TopCommunityInfo />
         </div >
     );
 }

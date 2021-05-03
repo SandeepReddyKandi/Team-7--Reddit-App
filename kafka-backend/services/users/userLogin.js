@@ -39,7 +39,6 @@ const handle_request = async (req, callback) => {
                 token,
                 msg: 'Logged in successfully',
                 userId: doc.id,
-                role: 'User',
                 success: true
             })
         } else {
