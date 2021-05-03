@@ -6,20 +6,22 @@ const handle_request = async (req, callback) => {
     if (req) {
       criteria._id = req;
     }
-    await Community.find(criteria, (err, response) => {
-      if (err) {
-        return callback(null, {
-          msg: error.message,
-          success: false,
-        });
-      } else {
-        return callback(null, {
-          msg: "",
-          success: true,
-          data: response,
-        });
-      }
-    });
+    await Community.find(criteria)
+      .populate("posts")
+      .then((response, err) => {
+        if (err) {
+          return callback(null, {
+            msg: error.message,
+            success: false,
+          });
+        } else {
+          return callback(null, {
+            msg: "",
+            success: true,
+            data: response,
+          });
+        }
+      });
   } catch (error) {
     //res.status(400).json({ msg: error.message });
     return callback(null, {

@@ -16,7 +16,7 @@ exports.addPost = async (req, res) => {
 };
 
 exports.getPost = async (req, res) => {
-  const payload = { post_id: req.query.post_id };
+  const payload = { post_id: req.query.user };
   kafka.make_request(GET_POST, payload, (error, results) => {
     if (!results.success) {
       res.status(400).send(results);

@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const express = require("express");
 const app = express();
-const { connectToDatabase } = require("./db");
 
 const {
   USER_LOGIN,
@@ -24,6 +23,7 @@ const {
   GET_COMMENT,
   SEND_INVITE,
   GET_POST,
+  GET_STATUS,
 } = require("./kafka/topics");
 
 //user
@@ -47,6 +47,7 @@ const getComment = require("./services/Comment/GetComment");
 
 //Invitation
 const sendInvite = require("./services/Invitation/SendInvite");
+const getStatus = require("./services/Invitation/GetStatus");
 
 //Post
 const addPostText = require("./services/Post/AddPostText");
@@ -136,4 +137,7 @@ handleTopicRequest(ADD_COMMENT, addComment);
 handleTopicRequest(GET_COMMENT, getComment);
 
 //Invitation
+
 handleTopicRequest(SEND_INVITE, sendInvite);
+handleTopicRequest(GET_STATUS, getStatus);
+

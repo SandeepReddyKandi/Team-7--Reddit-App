@@ -2,45 +2,97 @@
 import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col'
-
+import Col from 'react-bootstrap/Col';
+import axios from 'axios';
 import Header from '../Header/Header';
 import CommunityAppBar from '../ToolBar/CommunityAppBar';
 import TextDisplayCard from '../Cards/TextDisplayCard';
 import SideBar from './Sidebar/Sidebar';
 import TopBar from '../ToolBar/TopBar';
+import constants from '../../constants/constants';
 import AdvertisementCard from '../Cards/AdvertisementCard/AdvertisementCard';
 
 class Dashboard extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      errormessage: '',
+      posts: [],
+    };
+    this.getPost();
+  }
+
+  componentDidMount() {
+    this.getPost();
+  }
+
+  getPost = () => {
+    const user = localStorage.getItem('user');
+    axios.defaults.withCredentials = true;
+    axios
+      .get(`${constants.baseUrl}/post/?user=${user}`)
+      .then((response, error) => {
+        if (error) {
+          this.setState({ errormessage: error.msg });
+        } else {
+          this.setState({ posts: response.data.data });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({ errormessage: error.response.data.msg });
+      });
+  };
+
   render() {
+    const { errormessage, posts } = this.state;
+
     return (
       <div>
         <Header />
         <Container>
+          <Row>
+            {' '}
+            {errormessage !== '' ? (
+              <div className="alert alert-danger" role="alert">
+                {errormessage}
+              </div>
+            ) : null}
+          </Row>
           <Row>
             <Col md={8}>
               <br />
               <CommunityAppBar />
               <br />
               <TopBar />
-              <TextDisplayCard />
+              {posts.map((p) => (
+                <TextDisplayCard post={p} />
+              ))}
             </Col>
             <Col md={4}>
               <br />
               <Row>
-                <div className="bars-wrapper-inside" style={{
-                  borderRadius: 'var(--border-radius)',
-                  border: '1px solid darkgray', backgroundColor: 'white'
-                }}>
+                <div
+                  className="bars-wrapper-inside"
+                  style={{
+                    borderRadius: 'var(--border-radius)',
+                    border: '1px solid darkgray',
+                    backgroundColor: 'white',
+                  }}
+                >
                   <SideBar />
                 </div>
               </Row>
               <br />
               <Row>
-                <div className="bars-wrapper-inside" style={{
-                  borderRadius: 'var(--border-radius)',
-                  border: '1px solid darkgray', backgroundColor: 'white'
-                }}>
+                <div
+                  className="bars-wrapper-inside"
+                  style={{
+                    borderRadius: 'var(--border-radius)',
+                    border: '1px solid darkgray',
+                    backgroundColor: 'white',
+                  }}
+                >
                   <AdvertisementCard />
                 </div>
               </Row>

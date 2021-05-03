@@ -60,11 +60,12 @@ class Login extends React.Component {
           this.setState({ errormessage: error.msg });
         } else {
           const { result } = response;
+          localStorage.setItem('token', response.data.token);
+          localStorage.setItem('user', response.data.userId);
           if (response.data.msg === 'Logged in successfully') {
             this.setState({
               redirect: true,
             });
-            // localStorage.setItem('token', response.token);
           }
           console.log(result);
         }

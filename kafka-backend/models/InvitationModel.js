@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const invitationSchema = new mongoose.Schema(
   {
-    inviter: {
+    sender: {
       type: String,
       required: true,
     },
@@ -16,7 +16,7 @@ const invitationSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      default: "P",
+      default: "pending",
     },
   },
   { timestamps: true }

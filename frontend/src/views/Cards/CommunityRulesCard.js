@@ -29,24 +29,20 @@ class CommunityRulesCard extends React.Component {
           height
         />
         <CardMedia image="/static/images/cards/paella.jpg" title="Paella dish" />
-        <CardContent>
-          <Typography variant="body2" color="textSecondary" component="p">
+        <CardContent className="reader-content">
+          <Typography variant="body2" component="p">
             This impressive paella is a perfect party dish and a fun meal to cook together with your
             guests. Add 1 cup of frozen peas along with the mussels, if you like.
           </Typography>
           <div className="dropdown-divider" />
-          <Typography variant="body2" color="textSecondary" component="p">
-            Method:
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
+
+          <Typography variant="body2" component="p">
             Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
             minutes.
           </Typography>
           <div className="dropdown-divider" />
-          <Typography variant="body2" color="textSecondary" component="p">
-            Method:
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
+
+          <Typography variant="body2" component="p">
             Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
             minutes.
           </Typography>

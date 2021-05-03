@@ -7,6 +7,7 @@ const {
   getCommunityById,
   rateCommunity,
   sendInvite,
+  getStatus,
   getCommunityByName,
 } = require('../controllers/community');
 
@@ -16,6 +17,7 @@ router.post('/rate', rateCommunity);
 router.post('/add', addCommunity);
 router.get('/communities', getCommunity);
 router.get('/communities', getCommunityById);
+router.post('/status', getStatus);
 router.get('/getCommunityByName', getCommunityByName);
 
 module.exports = router;

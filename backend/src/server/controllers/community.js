@@ -5,6 +5,7 @@ const {
   GET_COMMUNITY_BY_ID,
   RATE_COMMUNITY,
   SEND_INVITE,
+  GET_STATUS,
   GET_COMMUNITY_BY_NAME,
 } = require('../kafka/topics');
 
@@ -88,6 +89,18 @@ exports.rateCommunity = async (req, res) => {
 exports.sendInvite = async (req, res) => {
   const payload = { body: req.body };
   kafka.make_request(SEND_INVITE, payload, (error, results) => {
+    if (!results.success) {
+      res.status(400).send(results);
+    } else {
+      console.log(results);
+      res.status(200).send(results);
+    }
+  });
+};
+
+exports.getStatus = async (req, res) => {
+  const payload = { body: req.body };
+  kafka.make_request(GET_STATUS, payload, (error, results) => {
     if (!results.success) {
       res.status(400).send(results);
     } else {
