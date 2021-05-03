@@ -7,11 +7,16 @@ import Col from 'react-bootstrap/Col';
 import { Typography } from '@material-ui/core';
 import Container from 'react-bootstrap/Container';
 import Modal from 'react-bootstrap/Modal';
-import Dropdown from 'react-bootstrap/Dropdown';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
+import MailIcon from '@material-ui/icons/Mail';
 import constants from '../../constants/constants';
+import LoginICon from '../../login.png';
+import GoogleICon from '../../google.png';
+import ApplIcon from '../../apple.png';
+// import login from '../../login.png';
+
 // import TextField from '@material-ui/core/TextField';
 
 // eslint-disable-next-line react/prefer-stateless-function
@@ -55,18 +60,19 @@ class Login extends React.Component {
           this.setState({ errormessage: error.msg });
         } else {
           const { result } = response;
+          localStorage.setItem('token', response.data.token);
+          localStorage.setItem('user', response.data.userId);
           if (response.data.msg === 'Logged in successfully') {
             this.setState({
               redirect: true,
             });
-            // localStorage.setItem('token', response.token);
           }
           console.log(result);
         }
       })
       .catch((error) => {
         console.log(error);
-        // this.setState({ errormessage: error.response.data.msg });
+        this.setState({ errormessage: error.response.data.msg });
       });
   };
 
@@ -77,79 +83,146 @@ class Login extends React.Component {
   render() {
     const { showLogin } = this.state;
     if (this.state.redirect) {
-      return <Redirect to="/communityhomepage" />;
+      return <Redirect to="/dashboard" />;
     }
     return (
-      <Modal
-        show={showLogin}
-        onHide={this.handleClose}
-        backdrop="static"
-        keyboard={false}
-        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-      >
-        <form data-testid="alert" className="form-signin" onSubmit={this.handleLogin}>
-          <Modal.Header closeButton>
-            <Modal.Title>Login</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <div>
-              <Typography>
-                By continuing, you agree to our User Agreement and Privacy Policy.
-              </Typography>
-            </div>
-
-            <Dropdown.Divider />
-            <Container>
-              <Row>
-                <Col>
-                  {this.state.errormessage !== '' ? (
-                    <div className="alert alert-danger" role="alert">
-                      {this.state.errormessage}
-                    </div>
-                  ) : null}
-
-                  <div className="clearfix">
-                    <Typography>Email Address</Typography>
-                    <input
-                      type="email"
-                      id="email"
-                      data-testid="email"
-                      onChange={this.emailChangeHandler}
-                      className="form-control"
-                      placeholder="email"
-                      required
-                    />
-                  </div>
-                  <div className="clearfix">
-                    <Typography>Password</Typography>
-                    <input
-                      type="password"
-                      id="password"
-                      data-testid="password"
-                      onChange={this.passwordChangeHandler}
-                      className="form-control"
-                      placeholder="Password"
-                      required
-                    />
-                  </div>
+      <>
+        <Modal
+          size="lg"
+          show={showLogin}
+          onHide={() => this.handleClose(false)}
+          aria-labelledby="example-modal-sizes-title-lg"
+        >
+          <Row>
+            <Col md={2} className="login-image">
+              <img src={LoginICon} className="Art login-image" alt="" />
+            </Col>
+            <Col md={10}>
+              <Modal.Header closeButton style={{ 'border-bottom': 'none' }}>
+                <Col md={10}>
+                  <Row>
+                    <h4 className="title">Login</h4>
+                  </Row>
+                  <Row>
+                    <Typography className="subtitle">
+                      By continuing, you agree to our User Agreement and Privacy Policy.
+                    </Typography>
+                  </Row>
                 </Col>
-              </Row>
-            </Container>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={this.handleClose}>
-              Cancel
-            </Button>
-            <Button
-              variant="primary"
-              style={{ 'background-color': '#0579d3', color: '#ffffff', 'border-color': '#0579d3' }}
-              type="submit"
-            >
-              Login
-            </Button>
-          </Modal.Footer>
-        </form>
-      </Modal>
+              </Modal.Header>
+              <Container className="login-card">
+                <Row>
+                  <Col md={10}>
+                    <Row>&nbsp;</Row>
+                    <Row className="sso-button">
+                      <Button
+                        variant="outlined"
+                        className="google-button sso-google-button"
+                        bcolor="primary"
+                      >
+                        <img
+                          src={GoogleICon}
+                          style={{ width: '10%', height: '10%' }}
+                          className="Art login-image"
+                          alt=""
+                        />
+                        <Typography className="button-label">CONTINUE WITH GOOGLE</Typography>
+                      </Button>
+                    </Row>
+                    <Row className="sso-button">
+                      <Button
+                        variant="outlined"
+                        className="google-button sso-google-button"
+                        bcolor="primary"
+                      >
+                        {' '}
+                        <img
+                          src={ApplIcon}
+                          style={{ width: '10%', height: '10%' }}
+                          className="Art login-image"
+                          alt=""
+                        />
+                        <Typography className="button-label">CONTINUE WITH APPLE</Typography>
+                      </Button>
+                    </Row>
+                    <Row className="sso-button">
+                      <Button
+                        variant="outlined"
+                        className="google-button sso-google-button"
+                        bcolor="primary"
+                      >
+                        <Row>
+                          <Col md={1}>
+                            {' '}
+                            <MailIcon />
+                          </Col>
+                          <Col>
+                            <Typography className="button-label">CONTINUE WITH MAIL</Typography>
+                          </Col>
+                        </Row>
+                      </Button>
+                    </Row>
+                    <Row className="Sso__divider header-label m-small-margin ">
+                      <span className="Sso__dividerLine" />
+                      <span>OR</span>
+                      <span className="Sso__dividerLine" />
+                    </Row>
+                    <form onSubmit={this.handleLogin} encType="multipart/form-data">
+                      <Row>
+                        {' '}
+                        {this.state.errormessage !== '' ? (
+                          <div className="alert alert-danger" role="alert">
+                            {this.state.errormessage}
+                          </div>
+                        ) : null}
+                      </Row>
+                      <Row>
+                        <input
+                          type="email"
+                          id="email"
+                          data-testid="email"
+                          onChange={this.emailChangeHandler}
+                          className="google-button sso-google-button .login-textfield{"
+                          placeholder="username"
+                          required
+                        />
+                      </Row>
+
+                      <Row>
+                        <input
+                          type="password"
+                          id="password"
+                          data-testid="password"
+                          onChange={this.passwordChangeHandler}
+                          className="google-button sso-google-button .login-textfield{"
+                          placeholder="password"
+                          required
+                        />
+                      </Row>
+
+                      <Row>
+                        <button variant="primary" className="login-button" type="submit">
+                          Login
+                        </button>
+                      </Row>
+                    </form>
+                    <Row>
+                      <Typography className="subtitle">
+                        Forgot your username or password?
+                      </Typography>
+                    </Row>
+                    <Row>&nbsp;</Row>
+                    <Row>
+                      <Typography className="subtitle">New to Reddit? SIGN UP</Typography>
+                    </Row>
+                    <Row />
+                  </Col>
+                </Row>
+              </Container>
+            </Col>
+          </Row>
+        </Modal>
+      </>
     );
   }
 }

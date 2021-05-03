@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema(
     description: String,
     photo: String,
     topics: [String],
-  },
+    },
   { timestamps: true }
 );
 

@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 
 const communitySchema = new mongoose.Schema(
   {
+    community_id: {
+      type: String,
+    },
     community_name: {
       type: String,
       required: true,
@@ -14,10 +17,16 @@ const communitySchema = new mongoose.Schema(
     images: {
       type: Array,
     },
-    rules: [{ type: mongoose.Schema.Types.ObjectId, ref: "Rules" }],
-    posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
-    members: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-    topic: [{ type: mongoose.Schema.Types.ObjectId, ref: "Topics" }],
+    rules: {
+      type: Array,
+    },
+    posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "posts" }],
+    members: {
+      type: Array,
+    },
+    topic: {
+      type: Array,
+    },
     upvote: {
       type: Array,
     },
@@ -32,4 +41,4 @@ const communitySchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("community", communitySchema);
+module.exports = mongoose.model("communities", communitySchema);

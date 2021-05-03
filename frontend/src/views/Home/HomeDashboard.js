@@ -1,7 +1,5 @@
 /* eslint-disable constructor-super */
 import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from '@material-ui/core/Card';
@@ -21,13 +19,11 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
-import Chip from '@material-ui/core/Chip';
-import WhatshotIcon from '@material-ui/icons/Whatshot';
-import GradeIcon from '@material-ui/icons/Grade';
 import Container from 'react-bootstrap/Container';
 
 // import TextField from '@material-ui/core/TextField';
 import { Typography } from '@material-ui/core';
+import TopBar from '../ToolBar/TopBar';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class Header extends React.Component {
@@ -36,31 +32,17 @@ class Header extends React.Component {
     this.state = {};
   }
 
-  handleExpandClick = () => {};
+  handleExpandClick = () => { };
 
   render() {
     return (
       <div>
+        <br />
         <Container>
           <Row>
             <Col md={8}>
-              <AppBar position="static" color="default">
-                <Toolbar variant="dense">
-                  {' '}
-                  <Chip icon={<WhatshotIcon />} label="Hot" deleteIcon={<WhatshotIcon />} />
-                  &nbsp;&nbsp;
-                  <Chip
-                    label="Location"
-                    clickable
-                    color="primary"
-                    deleteIcon={<ExpandMoreIcon />}
-                  />
-                  &nbsp;&nbsp;
-                  <Chip label="All" clickable color="primary" deleteIcon={<ExpandMoreIcon />} />
-                  &nbsp;&nbsp;
-                  <Chip icon={<GradeIcon />} label="New" />
-                </Toolbar>
-              </AppBar>{' '}
+              <TopBar/>
+              {' '}
               <Typography color="textSecondary"> Popular Posts</Typography>
               <Card>
                 <Row>

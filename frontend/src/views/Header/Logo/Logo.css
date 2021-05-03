@@ -1,0 +1,14 @@
+.logo img {
+    margin-right: 8px;
+    width: 32px;
+    height: 32px;
+}
+.logo span {
+    font-weight: 600;
+    font-size: 22px;
+    font-family: "Arial";
+}
+.logo {        
+    align-items: center;
+    display: flex;    
+}

@@ -8,7 +8,10 @@ const postSchema = new mongoose.Schema(
     },
     description: {
       type: String,
-      required: true,
+      // required: true,
+    },
+    text:{
+      type: String
     },
     images: {
       type: Array,
@@ -22,7 +25,7 @@ const postSchema = new mongoose.Schema(
     comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
     post_body: {
       type: String,
-      required: true,
+      // required: true,
     },
     title: {
       type: String,
@@ -32,8 +35,11 @@ const postSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    url: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Post", postSchema);
+module.exports = mongoose.model("posts", postSchema);

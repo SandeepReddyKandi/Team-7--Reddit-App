@@ -1,16 +1,30 @@
-const CommunityModel = require("../../models/CommunityModel");
+const Community = require("../../models/CommunityModel");
 
 const handle_request = async (req, callback) => {
   try {
-    let communities = await CommunityModel.find();
-    callback(null, {
-      msg: "",
-      success: true,
-      data: communities,
-    });
+    const criteria = {};
+    if (req) {
+      criteria._id = req;
+    }
+    await Community.find(criteria)
+      .populate("posts")
+      .then((response, err) => {
+        if (err) {
+          return callback(null, {
+            msg: error.message,
+            success: false,
+          });
+        } else {
+          return callback(null, {
+            msg: "",
+            success: true,
+            data: response,
+          });
+        }
+      });
   } catch (error) {
     //res.status(400).json({ msg: error.message });
-    callback(null, {
+    return callback(null, {
       msg: error.message,
       success: false,
     });
