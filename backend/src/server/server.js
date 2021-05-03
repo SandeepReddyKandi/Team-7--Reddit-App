@@ -1,6 +1,7 @@
 'use strict';
 const usersRouter = require('./routes/users');
 const communityRouter = require('./routes/community');
+const postsRouter = require('./routes/posts');
 const postRouter = require('./routes/post');
 const commentRouter = require('./routes/comment');
 const cookieParser = require('cookie-parser');
@@ -38,6 +39,7 @@ app.use(function (req, res, next) {
 // forward all end-point requests to routes
 app.use('/users', usersRouter);
 app.use('/community', communityRouter);
+app.use('/post',postsRouter);
 app.use('/post', postRouter);
 app.use('/comment', commentRouter);
 
