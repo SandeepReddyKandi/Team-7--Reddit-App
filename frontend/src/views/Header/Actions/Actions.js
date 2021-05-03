@@ -10,26 +10,33 @@ import CopyrightIcon from '@material-ui/icons/Copyright';
 import SecurityIcon from '@material-ui/icons/Security';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import Chip from '@material-ui/core/Chip';
 import Dropdown from 'react-bootstrap/Dropdown';
+import PropTypes from 'prop-types';
 
-import Button from '../Button/Button';
-
-export default function Actions() {
+export default function Actions(props) {
   const handleMenu = () => {};
 
   const handleProfilelick = () => {};
   const handleGroupClick = () => {};
   const handleLogout = () => {};
-  const handleLogIn = () => {};
+  const handleSignup = (e) => {
+    e.preventDefault();
+    props.showSignup(true);
+  };
+
+  const handleLogIn = () => {
+    props.showLogin(true);
+  };
 
   return (
     <div className="actions">
       <Col />
       <Col>
-        <Button text="LOG IN" name="secondary-button" />
+        <Chip label="LOG IN" onClick={handleLogIn} />
       </Col>
       <Col>
-        <Button text="SIGN UP" name="primary-button" />
+        <Chip label="Signup" onClick={handleSignup} />
       </Col>
       <div className="profile">
         <Dropdown>
@@ -66,3 +73,4 @@ export default function Actions() {
     </div>
   );
 }
+Actions.propTypes = { showSignup: PropTypes.func.isRequired, showLogin: PropTypes.func.isRequired };

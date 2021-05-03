@@ -1,6 +1,7 @@
 community-section {
   background-color: transparent;
   border-radius: var(--border-radius);
+  border-bottom: darkgray;
 }
 
 .community-section .title {

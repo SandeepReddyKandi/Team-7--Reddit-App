@@ -20,16 +20,17 @@ class CommunityHomePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = { community: {}, post: false };
+    this.getCommunity();
   }
 
-  handleChange = () => {};
+  handleChange = () => { };
 
   createPost = () => {
     const { post } = this.state;
     this.setState({ post: !post });
   };
 
-  componentDidMount = () => {
+  componentDidUpdate = () => {
     this.getCommunity();
   };
 
