@@ -21,7 +21,7 @@ class CommunitySearchPage extends React.Component {
     axios.defaults.withCredentials = true;
     const communityNameFilter = e.target.value;
     axios
-      .get(`${constants.baseUrl}/community/getCommunitiesByName?name=${communityNameFilter}`)
+      .get(`${constants.baseUrl}/community/getCommunityByName?name=${communityNameFilter}`)
       .then((response, error) => {
         if (!error) {
           this.setState({
@@ -57,7 +57,7 @@ class CommunitySearchPage extends React.Component {
                   <Avatar alt="Remy Sharp" src={RedditIcon} className="card-img-top" />
                 </Col>
                 <Col md={5}>
-                  <Typography variant="h5" component="h5">
+                  <Typography variant="h5" component="h5" style={{ paddingLeft: '5%' }}>
                     Community Search Page
                   </Typography>
                 </Col>
@@ -66,8 +66,8 @@ class CommunitySearchPage extends React.Component {
             </Col>
           </Row>
           <Row>
-            <Col md={2}>&nbsp;</Col>
-            <Col md={8}>
+            <Col md={3}>&nbsp;</Col>
+            <Col md={6}>
               <TextField
                 fullWidth
                 id="standard-search"
@@ -76,21 +76,21 @@ class CommunitySearchPage extends React.Component {
                 onKeyUp={this.getCommunities}
               />
             </Col>
-            <Col md={2}>&nbsp;</Col>
+            <Col md={3}>&nbsp;</Col>
           </Row>
           <Row />
           {error}
           {communities.map((community) => (
             <Row>
-              <Col md={2}>&nbsp;</Col>
-              <Col md={8}>
+              <Col md={3}>&nbsp;</Col>
+              <Col md={6}>
                 <Row>&nbsp;</Row>
                 <Row>&nbsp;</Row>
                 <Row>
                   <CommunityListCard community={community} />
                 </Row>
               </Col>
-              <Col md={2}>
+              <Col md={3}>
                 <Row>&nbsp;</Row>
                 <Row>&nbsp;</Row>
               </Col>
