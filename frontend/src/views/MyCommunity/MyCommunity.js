@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable react/no-string-refs */
 /* eslint-disable react/jsx-no-duplicate-props */
 /* eslint-disable jsx-a11y/alt-text */
@@ -83,8 +84,6 @@ const MyCommunity = () => {
     input.addEventListener('keyup', (e) => {
       let event;
       if (!e) event = window.event;
-      console.log(event);
-      console.log(e);
     });
   }
   const submit = () => {
@@ -95,6 +94,15 @@ const MyCommunity = () => {
       topic: topicList,
       images: imageList,
     };
+    const  newTopic=[];
+    const newRule=[];
+    for (const i in rulesList) {
+      if (!reduxData.rules.include(rulesList[i])) newRule.push(rulesList[i])
+    }
+    for (const i in topicList) {
+      if (!reduxData.topics.include(rulesList[i])) newTopic.push(rulesList[i])
+    }
+
     dispatch(addCommunity(data));
   };
   return (
