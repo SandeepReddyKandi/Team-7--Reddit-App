@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const express = require("express");
 const app = express();
-const { connectToDatabase } = require("./db");
 
 const {
   USER_LOGIN,
@@ -15,12 +14,14 @@ const {
   // GET_POST,
   // GET_POST_BY_ID
   GET_COMMUNITY_BY_NAME,
+  GET_RULES_TOPICS,
   RATE_COMMUNITY,
   ADD_POST,
   ADD_COMMENT,
   GET_COMMENT,
   SEND_INVITE,
   GET_POST,
+  GET_STATUS,
 } = require("./kafka/topics");
 
 //user
@@ -31,9 +32,10 @@ const userSignup = require("./services/users/userSignup");
 const addCommunity = require("./services/Community/AddCommunity");
 const getCommunity = require("./services/Community/GetCommunity");
 const getCommunityById = require("./services/Community/GetCommunityById");
+
 const getCommunityByName = require("./services/Community/GetCommunityByName");
 const rateCommunity = require("./services/Community/RateCommunity");
-
+const getRulesTopics = require("./services/Community/GetRulesTopics");
 //Post
 const addPost = require("./services/Post/AddPost");
 const getPost = require("./services/Post/GetPost");
@@ -44,6 +46,7 @@ const getComment = require("./services/Comment/GetComment");
 
 //Invitation
 const sendInvite = require("./services/Invitation/SendInvite");
+const getStatus = require("./services/Invitation/GetStatus");
 
 //Post
 const addPostText = require("./services/Post/AddPostText");
@@ -114,6 +117,7 @@ handleTopicRequest(USER_SIGNUP, userSignup);
 handleTopicRequest(ADD_COMMUNITY, addCommunity);
 handleTopicRequest(GET_COMMUNITY, getCommunity);
 handleTopicRequest(GET_COMMUNITY_BY_ID, getCommunityById);
+handleTopicRequest(GET_RULES_TOPICS, getRulesTopics);
 
 //Post
 handleTopicRequest(ADD_POST_TEXT, addPostText);
@@ -133,4 +137,7 @@ handleTopicRequest(ADD_COMMENT, addComment);
 handleTopicRequest(GET_COMMENT, getComment);
 
 //Invitation
+
 handleTopicRequest(SEND_INVITE, sendInvite);
+handleTopicRequest(GET_STATUS, getStatus);
+

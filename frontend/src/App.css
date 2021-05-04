@@ -112,6 +112,37 @@
 .sso-button{
   padding:0px 0px 10px 0px
 }
+.reader-content{
+  font-family: Noto Sans,Arial,sans-serif;
+  font-size: 14px;
+  line-height: 21px;
+  font-weight: 400;
+  word-wrap: break-word;
+}
+.card-data-label{
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.card-sub-header{
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  display: inline-block;
+  word-break: break-word;
+}
+
+.card-created-data{
+  font-family: Noto Sans,Arial,sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-flow: row nowrap;
+  flex-flow: row nowrap;
+}
 .Art {
   background-image: url(https://www.redditstatic.com/accountmanager/bbb5840….png);
   height: 100vh;

@@ -59,18 +59,17 @@ class Login extends React.Component {
         if (error) {
           this.setState({ errormessage: error.msg });
         } else {
-          const { result } = response;
-          if (response.data.msg === 'Logged in successfully') {
+          localStorage.setItem('token', response.data.token);
+          localStorage.setItem('user', response.data.userId);
+          if (response.data.success === true) {
             this.setState({
               redirect: true,
             });
-            // localStorage.setItem('token', response.token);
           }
-          console.log(result);
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.log("*******error********", error);
         this.setState({ errormessage: error.response.data.msg });
       });
   };

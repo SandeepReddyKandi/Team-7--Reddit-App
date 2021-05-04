@@ -13,10 +13,11 @@ import CardContent from '@material-ui/core/CardContent';
 import Avatar from '@material-ui/core/Avatar';
 import Collapse from '@material-ui/core/Collapse';
 import Button from '@material-ui/core/Button';
-import ShareIcon from "@material-ui/icons/Share";
-import BookmarkIcon from "@material-ui/icons/Bookmark";
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
-import CardGiftcardIcon from "@material-ui/icons/CardGiftcard";
+import ShareIcon from '@material-ui/icons/Share';
+import BookmarkIcon from '@material-ui/icons/Bookmark';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import PropTypes from 'prop-types';
+import CardGiftcardIcon from '@material-ui/icons/CardGiftcard';
 import RedditICon from '../../community.png';
 import Comment from '../Comment/Comment';
 import './TextDisplayCard.css';
@@ -35,32 +36,34 @@ class TextDisplayCard extends React.Component {
   };
 
   handleUpVote = () => {
-    console.log("Upvote clicked");
-  }
+    console.log('Upvote clicked');
+  };
 
   handleDownVote = () => {
-    console.log("Downvote clicked");
-  }
+    console.log('Downvote clicked');
+  };
 
   render() {
     const { expandComment, postId } = this.state;
+    const { post } = this.props;
     return (
-      <div className="posts-wrapper">
-        <Card >
+      <div className="posts-wrapper" style={{marginBottom:'10px'}}>
+        <Card>
           <div className="post">
             <Row style={{ width: '100%', height: '100%' }}>
-              <Col md={1} style={{
-                display: 'flex',
-              }} >
+              <Col
+                md={1}
+                style={{
+                  display: 'flex',
+                }}
+              >
                 <div className="post-sidebar">
                   <IconButton>
                     <div className="upvote">
                       <ArrowDropUpIcon fontSize="large" onClick={this.handleUpVote} />
                     </div>
                   </IconButton>
-                  <Typography style={{ textAlign: 'center' }}>
-                    0
-                  </Typography>
+                  <Typography style={{ textAlign: 'center' }}>0</Typography>
                   <IconButton>
                     <div className="downvote">
                       <ArrowDropDownIcon fontSize="large" onClick={this.handleDownVote} />
@@ -68,23 +71,20 @@ class TextDisplayCard extends React.Component {
                   </IconButton>
                 </div>
               </Col>
-              <Col md={11} style={{ paddingLeft: '5%' }} >
+              <Col md={11} style={{ paddingLeft: '5%' }}>
                 <Row>
                   <div className="post-title">
-                    <CardHeader
-                      avatar={<Avatar src={RedditICon} aria-label="recipe" alt="" />}
-                    />
-                    <div className="subreddit-name">r/reactjs</div>
+                    <CardHeader avatar={<Avatar src={RedditICon} aria-label="recipe" alt="" />} />
+                    <div className="subreddit-name">{post.community_id}</div>
                     <div className="post-user">Posted by</div>
-                    <span className="post-user underline">u/Shrimp and Chorizo Paella</span>
+                    <span className="post-user underline">{post.author_id}</span>
                     <span className="post-user underline">20 hours ago</span>
                   </div>
                 </Row>
                 <Row>
                   <div className="post-body">
-                    <span className="title"> This impressive paella is a perfect party dish and a fun meal to cook together with
-                    your guests. Add 1 cup of frozen peas along with the mussels, if you like.</span>
-                    <img height='200px' src='assets/subreddit.jpg' alt="img" />
+                    <span className="title"> {post.title}</span>
+                    <img height="200px" src="assets/subreddit.jpg" alt="img" />
                     {/* <CardMedia image="assets/subreddit.jpg" title="Paella dish" />
                     <CardActions onClick={this.handleExpandClick} disableSpacing>
                       <IconButton aria-label="show more">
@@ -142,7 +142,7 @@ class TextDisplayCard extends React.Component {
                             default
                           >
                             Comment
-                </Button>
+                          </Button>
                         </CardContent>
 
                         <Comment postId={postId} />
@@ -154,9 +154,13 @@ class TextDisplayCard extends React.Component {
             </Row>
           </div>
         </Card>
-      </div >
+      </div>
     );
   }
 }
+
+TextDisplayCard.propTypes = {
+  post: PropTypes.objectOf.isRequired,
+};
 
 export default TextDisplayCard;

@@ -27,21 +27,21 @@ const handle_request = async (req, callback) => {
                             callback(null, res);
                         }
                         else{
-                            console.log(err);
+                           // console.log(err);
                             res.status = 201;
                             res.data = err;
                             callback(null, res);
                         }
                     })
                 }).catch((e) => {
-                    console.log(e);
+                   // console.log(e);
                     res.status = 500;
                     res.data = e;
                     callback(null, res);
                   });
         })
         .catch((e) => {
-            console.log(e);
+           // console.log(e);
             res.status = 500;
             res.data = e;
             callback(null, res);

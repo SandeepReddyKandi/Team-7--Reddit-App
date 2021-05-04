@@ -24,6 +24,9 @@ const communitySchema = new mongoose.Schema(
     members: {
       type: Array,
     },
+    topic: {
+      type: Array,
+    },
     upvote: {
       type: Array,
     },

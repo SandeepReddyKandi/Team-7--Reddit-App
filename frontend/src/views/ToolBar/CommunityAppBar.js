@@ -28,7 +28,7 @@ class CommunityAppBar extends React.Component {
     }
 
     return (
-      <AppBar position="static" color="white">
+      <AppBar position="static" color="white" style={{ marginBottom: '10px' }}>
         <Toolbar variant="dense">
           {' '}
           <Col md={0.5}>
