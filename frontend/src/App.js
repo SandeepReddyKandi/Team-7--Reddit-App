@@ -11,6 +11,7 @@ import CommunityHomePage from './views/CommunityHomePage/CommunitiyHomePage';
 import CommunitySearchPage from './views/CommunitySearchPage/CommunitySearchPage';
 import CreatePost from './views/Post/CreatePost';
 import UserProfile from './views/UserProfile/UserProfile';
+import MyCommunity from './views/MyCommunity/MyCommunity'
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route exact path="/communityhomepage" component={CommunityHomePage} />
         <Route exact path="/communitysearchpage" component={CommunitySearchPage} />
         <Route exact path="/createpost" component={CreatePost} />
+        <Route exact path="/createCommunity" component={MyCommunity} />
       </Switch>
     </Container>
   );
