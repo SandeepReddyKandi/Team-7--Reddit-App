@@ -2,22 +2,20 @@ const UserModel = require("../../models/UserModel");
 const PostModel = require("../../models/PostModel");
 const CommunityModel = require("../../models/CommunityModel");
 
-const msg= {UserID: "607b6d47b38a6c5d10274a51", CommunityID: "608b8305cf9ebd2d9694e801",title: "testtext", text :"testtextpost"};
+const msg1= {UserID: "609022e68ca680977b4d0fa5"};
 const handle_request = async (req, callback) => {
+    const msg= req.body;
     const res={};
-    console.log("inside services add post link");
-    console.log(msg);
-    UserModel.findById(msg.UserID)
+    UserModel.findById(msg1.UserID)
         .then((user)=>{
-            console.log('----user details found------',user);
-            CommunityModel.findById(msg.CommunityID)
+            CommunityModel.findOne({community_name: msg.community})
+                .exec()
                 .then((community)=>{
-                    console.log('---------inside community-------',community);
                     PostModel.create({
-                        community_id: msg.CommunityID,
+                        community_id: community.community_id,
                         text: msg.text,
                         title: msg.title,
-                        author_id: msg.UserID
+                        author_id: msg1.UserID
                     },(err,post)=>{
                         if(post){
                             community.posts.push(post._id);
@@ -29,21 +27,21 @@ const handle_request = async (req, callback) => {
                             callback(null, res);
                         }
                         else{
-                            console.log(err);
+                         //   console.log(err);
                             res.status = 201;
                             res.data = err;
                             callback(null, res);
                         }
                     })
                 }).catch((e) => {
-                    console.log(e);
+                  //  console.log(e);
                     res.status = 500;
                     res.data = e;
                     callback(null, res);
                   });
         })
         .catch((e) => {
-            console.log(e);
+         //   console.log(e);
             res.status = 500;
             res.data = e;
             callback(null, res);

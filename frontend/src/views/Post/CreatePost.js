@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -126,8 +127,8 @@ class CommunityHomePage extends React.Component {
               </Row>
             </Col>
             <Col md={3}>
-              <AboutCommunityCard />
-              <CommunityRulesCard />
+              {/* <AboutCommunityCard />
+              <CommunityRulesCard /> */}
             </Col>
           </Row>
         </div>

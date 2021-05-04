@@ -32,7 +32,7 @@ class Header extends React.Component {
     this.state = {};
   }
 
-  handleExpandClick = () => { };
+  handleExpandClick = () => {};
 
   render() {
     return (
@@ -41,12 +41,10 @@ class Header extends React.Component {
         <Container>
           <Row>
             <Col md={8}>
-              <TopBar/>
-              {' '}
-              <Typography color="textSecondary"> Popular Posts</Typography>
+              <TopBar /> <Typography color="textSecondary"> Popular Posts</Typography>
               <Card>
                 <Row>
-                  <Col md={2}>|</Col>
+                  <Col md={2}>&nbsp;</Col>
 
                   <Col md={12}>
                     &nvsp;

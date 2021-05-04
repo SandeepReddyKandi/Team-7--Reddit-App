@@ -20,7 +20,7 @@ exports.addCommunity = async (req, res) => {
     if (!results.success) {
       res.status(400).send(results);
     } else {
-      console.log(results);
+      //console.log(results);
       res.status(200).json({
         msg: results.msg,
         data: results.data,
@@ -31,13 +31,13 @@ exports.addCommunity = async (req, res) => {
 };
 
 exports.getRulesTopics = async (req, res) => {
-  console.log("Here.....", req.body)
+  //console.log("Here.....", req.body)
   const payload = { rules: true, topics: true };
   kafka.make_request(GET_RULES_TOPICS, payload, (error, results) => {
     if (!results.success) {
       res.status(400).send(results);
     } else {
-      console.log(results);
+     // console.log(results);
       res.status(200).json({
         msg: results.data,
         //role: results.role,
@@ -70,7 +70,7 @@ exports.getCommunity = async (req, res) => {
     if (!results.success) {
       res.status(400).send(results);
     } else {
-      console.log(results);
+     // console.log(results);
       res.status(200).json({
         msg: results.msg,
         data: results.data,
@@ -85,7 +85,7 @@ exports.getCommunityById = async (req, res) => {
     if (!results.success) {
       res.status(400).send(results);
     } else {
-      console.log(results);
+     // console.log(results);
       res.status(200).json({
         msg: results.msg,
         //role: results.role,
@@ -131,7 +131,7 @@ exports.getCommunityByName = async (req, res) => {
     if (!results.success) {
       res.status(400).send(results);
     } else {
-      console.log(results);
+     // console.log(results);
       res.status(200).json({
         msg: results.msg,
         data: results.data,
@@ -146,7 +146,7 @@ exports.rateCommunity = async (req, res) => {
     if (!results.success) {
       res.status(400).send(results);
     } else {
-      console.log(results);
+     // console.log(results);
       res.status(200).send(results);
     }
   });
@@ -158,7 +158,7 @@ exports.sendInvite = async (req, res) => {
     if (!results.success) {
       res.status(400).send(results);
     } else {
-      console.log(results);
+     // console.log(results);
       res.status(200).send(results);
     }
   });
@@ -170,7 +170,7 @@ exports.getStatus = async (req, res) => {
     if (!results.success) {
       res.status(400).send(results);
     } else {
-      console.log(results);
+     // console.log(results);
       res.status(200).send(results);
     }
   });

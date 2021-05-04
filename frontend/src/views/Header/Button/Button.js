@@ -16,15 +16,7 @@ export default function Button(props) {
   useEffect(() => {
     setText(props.text);
     setName(props.name);
-  }, []);
-
-  // const handleLoginModal = () => {
-  //     console.log("****Open Login Modal window******")
-  // };
-
-  // const handleSignupModal = () => {
-  //     console.log("****Open SignUp Modal window******")
-  // };
+  }, []);  
 
   return (
     <div className={`button ${name}`}>

@@ -18,6 +18,7 @@ const GET_RULES_TOPICS = "getRulesTopics";
 //Post
 const ADD_POST = "addPost";
 const GET_POST = "getPost";
+const GET_POST_BY_PAGE = "getPostByPage";
 
 //Comment
 const ADD_COMMENT = "addComment";
@@ -28,9 +29,9 @@ const SEND_INVITE = "sendInvite";
 const GET_STATUS = "getStatus";
 
 //Post
-const ADD_POST_TEXT='addPostText';
-const ADD_POST_IMAGE='addPostImage';
-const ADD_POST_LINK='addPostLink';
+const ADD_POST_TEXT = "addPostText";
+const ADD_POST_IMAGE = "addPostImage";
+const ADD_POST_LINK = "addPostLink";
 // const GET_POST='getPost';
 // const GET_POST_BY_ID='getPostbyID';
 
@@ -53,6 +54,7 @@ module.exports = {
   ADD_POST,
   GET_POST,
   ADD_COMMENT,
+  GET_POST_BY_PAGE,
   GET_COMMENT,
   SEND_INVITE,
   JOIN_COMMUNITY,

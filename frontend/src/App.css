@@ -32,6 +32,7 @@
 
 .subtitle {
  font-size: 12px !important;
+ margin:10px 10px 10px 10px;
 }
 
 .google-button{
@@ -66,7 +67,13 @@
   padding: 12px 28px;
   width: 80%;
 }
+.sidecard-label{
+  color: #fff;
+}
 
+.card-action-label{
+  font-size: small;
+}
 .login-button{
   font-family: Noto Sans,sans-serif;
   font-size: 14px;
@@ -120,12 +127,14 @@
   word-wrap: break-word;
 }
 .card-data-label{
+  text-align-last: center;
   font-size: 16px;
   font-weight: 500;
   line-height: 20px;
 }
 
 .card-sub-header{
+  text-align-last: center;
   font-size: 12px;
   font-weight: 500;
   line-height: 16px;
@@ -143,13 +152,17 @@
   -ms-flex-flow: row nowrap;
   flex-flow: row nowrap;
 }
+.border{
+  margin:10px 5px 5px 5px !important;
+  border:none;
+  border-radius: none;
+}
 .Art {
   background-image: url(https://www.redditstatic.com/accountmanager/bbb5840….png);
-  height: 100vh;
   min-height: 100%;
   background-repeat: no-repeat;
   background-size: cover;
-  max-width:100%
+  max-width:90% !important;
 }
 
 .login-image{

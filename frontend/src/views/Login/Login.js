@@ -59,19 +59,16 @@ class Login extends React.Component {
         if (error) {
           this.setState({ errormessage: error.msg });
         } else {
-          const { result } = response;
           localStorage.setItem('token', response.data.token);
           localStorage.setItem('user', response.data.userId);
-          if (response.data.msg === 'Logged in successfully') {
+          if (response.data.success === true) {
             this.setState({
               redirect: true,
             });
           }
-          console.log(result);
         }
       })
       .catch((error) => {
-        console.log(error);
         this.setState({ errormessage: error.response.data.msg });
       });
   };
@@ -206,14 +203,18 @@ class Login extends React.Component {
                         </button>
                       </Row>
                     </form>
-                    <Row>
+                    <Row style={{ margin: '10px 10px 10px 10px' }}>
                       <Typography className="subtitle">
                         Forgot your username or password?
                       </Typography>
                     </Row>
-                    <Row>&nbsp;</Row>
+
                     <Row>
-                      <Typography className="subtitle">New to Reddit? SIGN UP</Typography>
+                      <Row style={{ margin: '10px 10px 10px 10px' }}>
+                        <Typography className="subtitle">
+                          New User? <a href="/">Sign Up</a>
+                        </Typography>
+                      </Row>
                     </Row>
                     <Row />
                   </Col>
