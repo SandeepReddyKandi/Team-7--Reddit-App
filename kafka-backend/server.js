@@ -17,6 +17,7 @@ const {
   GET_RULES_TOPICS,
   RATE_COMMUNITY,
   ADD_POST,
+  GET_POST_BY_PAGE,
   ADD_COMMENT,
   GET_COMMENT,
   SEND_INVITE,
@@ -39,6 +40,7 @@ const getRulesTopics = require("./services/Community/GetRulesTopics");
 //Post
 const addPost = require("./services/Post/AddPost");
 const getPost = require("./services/Post/GetPost");
+const getPostByPage = require("./services/Post/GetPostByPage");
 
 //Comment
 const addComment = require("./services/Comment/AddComment");
@@ -131,6 +133,7 @@ handleTopicRequest(RATE_COMMUNITY, rateCommunity);
 //Post
 handleTopicRequest(ADD_POST, addPost);
 handleTopicRequest(GET_POST, getPost);
+handleTopicRequest(GET_POST_BY_PAGE, getPostByPage);
 
 //Comment
 handleTopicRequest(ADD_COMMENT, addComment);
@@ -140,4 +143,3 @@ handleTopicRequest(GET_COMMENT, getComment);
 
 handleTopicRequest(SEND_INVITE, sendInvite);
 handleTopicRequest(GET_STATUS, getStatus);
-

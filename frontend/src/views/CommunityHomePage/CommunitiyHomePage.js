@@ -5,6 +5,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import { Typography } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
+import TablePagination from '@material-ui/core/TablePagination';
 import axios from 'axios';
 import Header from '../Header/Header';
 import RedditICon from '../../community.png';
@@ -22,7 +23,7 @@ class CommunityHomePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      community: { descriptions: '', members: [] },
+      community: { descriptions: '', members: [], page: 0, rows: 5, totalRows: 10 },
       post: false,
       showPage: false,
       status: {
@@ -38,6 +39,19 @@ class CommunityHomePage extends React.Component {
   createPost = () => {
     const { post } = this.state;
     this.setState({ post: !post });
+  };
+
+  handleChangePage = (e, newpage) => {
+    e.preventDefault();
+    if (this.selectedGroup === undefined) {
+      this.setState({ page: newpage }, async () => {
+        this.getPost();
+      });
+    } else {
+      this.setState({ page: newpage }, async () => {
+        this.getPost();
+      });
+    }
   };
 
   checkStatus = async () => {
@@ -83,6 +97,30 @@ class CommunityHomePage extends React.Component {
       });
   };
 
+  handleChangeRowsPerPage = () => {
+    this.getPost();
+  };
+
+  getPost = async () => {
+    const { page, rows } = this.state;
+    const { communityId } = this.state;
+    axios.defaults.withCredentials = true;
+    await axios
+      .get(`${constants.baseUrl}/post/?community_id=${communityId}&page=${page}&rows=${rows}`)
+      .then((response, error) => {
+        if (!error) {
+          this.setState({
+            community: response.data.data[0],
+            showPage: true,
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        // this.setState({ errormessage: error.response.data.msg });
+      });
+  };
+
   getCommunity = async () => {
     axios.defaults.withCredentials = true;
     await axios
@@ -102,7 +140,7 @@ class CommunityHomePage extends React.Component {
   };
 
   render() {
-    const { post, community, showPage, status } = this.state;
+    const { post, community, showPage, status, page, rows, totalRows } = this.state;
     if (post) {
       return <Redirect to="/createpost" />;
     }
@@ -117,7 +155,7 @@ class CommunityHomePage extends React.Component {
             <Row style={{ 'background-color': '#ffffff', height: '20%' }}>
               <Col md={2}>&nbsp;</Col>
 
-              <Col md={11}>
+              <Col md={12}>
                 <Row>
                   <Col md={2}>&nbsp;</Col>
                   <Col md={1}>
@@ -195,28 +233,33 @@ class CommunityHomePage extends React.Component {
             <Row />
             <Row>
               <Col md={2}>&nbsp;</Col>
-              <Col md={6}>
-                <Row>&nbsp;</Row>
-                <Row>
+              <Col md={5}>
+                <Row style={{ 'margin-top': '5px' }}>
                   <CommunityAppBar />
                 </Row>
-                <Row>&nbsp;</Row>
-
                 {community.posts.length >= 0 &&
                   community.posts.map((p) => (
                     <Row>
                       <TextDisplayCard post={p} />
                     </Row>
                   ))}
+                <TablePagination
+                  component="div"
+                  count={totalRows}
+                  page={page}
+                  onChangePage={this.handleChangePage}
+                  rowsPerPage={rows}
+                  onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                  rowsPerPageOptions={[2, 5, 10]}
+                />
               </Col>
-              <Col />
-              <Col md={3}>
-                <Row>&nbsp;</Row>
-                <Row>
+
+              <Col md={2}>
+                <Row className="border">
                   <AboutCommunityCard community_info={community} status={status.status} />
                 </Row>
-                <Row>&nbsp;</Row>
-                <Row>
+
+                <Row className="border">
                   <CommunityRulesCard />
                 </Row>
               </Col>

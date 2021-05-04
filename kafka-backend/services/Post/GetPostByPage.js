@@ -1,16 +1,15 @@
-const CommentModel = require("../../models/CommentModel");
+const PostModel = require("../../models/PostModel");
 
 const handle_request = async (req, callback) => {
   try {
-    const criteria = {};
-    if (req.comment_id) {
-      criteria._id = req.comment_id;
-    }
-    let comments = await CommentModel.find(criteria);
+    let posts = await PostModel.find(req.community_id)
+      .skip(req.page)
+      .limit(req.rows);
+
     return callback(null, {
       msg: "",
+      data: posts,
       success: true,
-      data: comments,
     });
   } catch (error) {
     return callback(null, {
