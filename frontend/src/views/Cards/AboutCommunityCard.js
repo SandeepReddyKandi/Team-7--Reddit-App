@@ -36,7 +36,7 @@ class AboutCommunityCard extends React.Component {
               <MoreVertIcon />
             </IconButton>
           }
-          subheader={<Typography font="white">About Community</Typography>}
+          subheader={<Typography className="sidecard-labels">About Community</Typography>}
           style={{ 'background-color': '#0579d3' }}
           height
         />

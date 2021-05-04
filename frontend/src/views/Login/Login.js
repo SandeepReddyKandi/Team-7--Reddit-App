@@ -69,7 +69,6 @@ class Login extends React.Component {
         }
       })
       .catch((error) => {
-        console.log("*******error********", error);
         this.setState({ errormessage: error.response.data.msg });
       });
   };
@@ -204,14 +203,18 @@ class Login extends React.Component {
                         </button>
                       </Row>
                     </form>
-                    <Row>
+                    <Row style={{ margin: '10px 10px 10px 10px' }}>
                       <Typography className="subtitle">
                         Forgot your username or password?
                       </Typography>
                     </Row>
-                    <Row>&nbsp;</Row>
+
                     <Row>
-                      <Typography className="subtitle">New to Reddit? SIGN UP</Typography>
+                      <Row style={{ margin: '10px 10px 10px 10px' }}>
+                        <Typography className="subtitle">
+                          New User? <a href="/">Sign Up</a>
+                        </Typography>
+                      </Row>
                     </Row>
                     <Row />
                   </Col>

@@ -4,13 +4,13 @@ const handle_request = async (req, callback) => {
   try {
     var commentModel = new CommentModel(req.body);
     commentModel.save().then(() => {
-      callback(null, {
+      return callback(null, {
         msg: "Comment Added successfully!",
         success: true,
       });
     });
   } catch (error) {
-    callback(null, {
+    return callback(null, {
       msg: error.message,
       success: false,
     });
