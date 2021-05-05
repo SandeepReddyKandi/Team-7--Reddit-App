@@ -3,77 +3,91 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col'
-import Avatar from '@material-ui/core/Avatar';
-import { Typography } from '@material-ui/core';
+import EditIcon from '@material-ui/icons/Edit';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import Header from '../Header/Header';
 import TextDisplayCard from '../Cards/TextDisplayCard';
 import TopBar from '../ToolBar/TopBar';
-import RedditICon from '../../community.png';
 
 class UserProfile extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            user: {
+                avatar: 'https://picsum.photos/id/237/200/300',
+                name: 'Mukul Kumar Jha',
+                userName: 'u/mukul-kmr-jha',
+                about: 'Nothing much, just getting bored!'
+            },
+            showMoreOption: false,
+        }
+    }
+
+    toggleShowMoreOption = () => {
+        console.log('Toggle Show More Options')
+    }
+
     render() {
+        const { user, showMoreOption } = this.state;
         return (
             <div>
                 <Header />
                 <Container>
-                    <Row>
-                        <Col md={8}>
-                            <br />
+                    <Row style={{ padding: '20px 24px'}}>
+                        <Col style={{ width: '640px', flexBasis: 'auto'  }} >
                             <TopBar />
                             <TextDisplayCard />
                         </Col>
-                        <Col md={4}>
-                            <br />
-                            <Row>
-                                <div style={{ marginLeft: '5%' }}>
-                                    <Row style={{ height: '50px', 'background-color': '#0579d3' }}>
-                                        <Col md={10}> &nbsp;</Col>
-                                    </Row>
-                                    <Row style={{ 'background-color': '#ffffff', height: '20%' }}>
-                                        <Col md={2}>&nbsp;</Col>
-                                        <Col md={11}>
-                                            <Row>
-                                                <Col md={2}>&nbsp;</Col>
-                                                <Col md={1}>
-                                                    <Avatar alt="Remy Sharp" src={RedditICon} className="card-img-top"
-                                                        style={{
-                                                            height: '16px', width: '16px'
-                                                        }} />
-                                                </Col>
-                                                <Col md={5} style={{
-                                                    alignItems: 'center', textAlign: 'right'
-                                                }}>
-                                                    <Typography variant="dense" component="h6">
-                                                        {' '}
-                                                        Shrimp and Chorizo Paella
-                                                    </Typography>
-                                                    <div>
-                                                        <Typography variant="h7" component="h7" className="header-label">
-                                                            r/shrimp
-                                                        </Typography>
-                                                    </div>
-                                                </Col>
-                                            </Row>
-                                        </Col>
-                                    </Row>
-                                    <Row style={{ paddingTop: '10%', 'background-color': '#ffffff', height: '20%' }}>
-                                        <Col md={2}>&nbsp;</Col>
-                                        <p>name</p>
-                                    </Row>
-                                    <Row style={{ 'background-color': '#ffffff', height: '20%' }}>
-                                        <Col md={2}>&nbsp;</Col>
-                                        <p>communities</p>
-                                    </Row>
-                                    <Row style={{ 'background-color': '#ffffff', height: '20%' }}>
-                                        <Col md={2}>&nbsp;</Col>
-                                        <p>location</p>
-                                    </Row>
-                                    <Row style={{ 'background-color': '#ffffff', height: '20%' }}>
-                                        <Col md={2}>&nbsp;</Col>
-                                        <p>preferences</p>
-                                    </Row>
+                        <Col style={{ width: '312px', marginLeft: '24px', flexBasis: 'auto' }}>
+                            <div className='profile-container'>
+                                <div className='top-background'>
+                                    <div className='avatar-cont'>
+                                        <img src={user.avatar} alt={user.name}/>
+                                        <div className='edit-cont'>
+                                            <EditIcon style={{ color: '#34a7fc' }}/>
+                                        </div>
+                                    </div>
+                                    <div className='edit-cont'>
+                                        <EditIcon style={{ color: '#34a7fc' }} />
+                                    </div>
                                 </div>
-                            </Row>                            
+                                <div className='main-container'>
+                                    <div className='name-container'>
+                                        <h4>{user.name}</h4>
+                                        <span>{user.userName}</span>
+                                    </div>
+                                    <button className='round-btn red-btn' type='button'>
+                                        <span>&nbsp;</span>
+                                        <span>Create Avatar</span>
+                                        <ArrowForwardIosIcon />
+                                    </button>
+                                    <div className='description-cont'>
+                                        <p>{user.about}</p>
+                                    </div>
+                                    <div className='repo-cont'>
+                                        <div className='karma'>
+                                            <span className='label'>Karma</span>
+                                            <span>12</span>
+                                        </div>
+                                        <div className='cake'>
+                                            <span className='label'>Cake day</span>
+                                            <span>5 May, 2021</span>
+                                        </div>
+                                    </div>
+                                    <button className='round-btn blue-btn' type='button'>
+                                        <span>&nbsp;</span>
+                                        <span>New Post</span>
+                                        <span>&nbsp;</span>
+                                    </button>
+                                    <div className='option-toggle'>
+                                        <span onClick={this.toggleShowMoreOption}
+                                              onKeyDown={this.toggleShowMoreOption}
+                                              role="button"
+                                              tabIndex={0}
+                                        >{showMoreOption ? 'More Options' : 'Fewer Options'}</span>
+                                    </div>
+                                </div>
+                            </div>
                         </Col>
                     </Row>
                 </Container>

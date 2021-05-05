@@ -7,7 +7,7 @@ import Container from 'react-bootstrap/Container';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from './views/Home/Home';
 import Dashboard from './views/Dashboard/Dashboard';
-import CommunityHomePage from './views/CommunityHomePage/CommunitiyHomePage';
+import CommunityHomePage from './views/CommunityHomePage/CommunityHomePage';
 import CommunitySearchPage from './views/CommunitySearchPage/CommunitySearchPage';
 import CreatePost from './views/Post/CreatePost';
 import UserProfile from './views/UserProfile/UserProfile';

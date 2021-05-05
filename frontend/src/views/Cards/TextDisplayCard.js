@@ -29,7 +29,7 @@ import './TextDisplayCard.css';
 class TextDisplayCard extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { comment: '', expandComment: false, postId: '', updatetree: false };
+    this.state = { comment: '', expandComment: false, postId: '', updateTree: false };
   }
 
   handleExpandClick = () => {
@@ -64,7 +64,7 @@ class TextDisplayCard extends React.Component {
         if (error) {
           console.log(error.msg);
         } else {
-          this.setState({ updatetree: true });
+          this.setState({ updateTree: true });
         }
       })
       .catch((error) => {
@@ -73,7 +73,7 @@ class TextDisplayCard extends React.Component {
   };
 
   render() {
-    const { expandComment, postId, updatetree } = this.state;
+    const { expandComment, postId, updateTree } = this.state;
     const { post } = this.props;
     return (
       <div
@@ -103,89 +103,91 @@ class TextDisplayCard extends React.Component {
                   </IconButton>
                 </div>
               </Col>
-              <Col md={11} style={{ paddingLeft: '5%' }}>
-                <Row>
-                  <div className="post-title">
-                    <CardHeader avatar={<Avatar src={RedditICon} aria-label="recipe" alt="" />} />
-                    <div className="subreddit-name">{post.community_id}</div>
-                    <div className="post-user">Posted by</div>
-                    <span className="post-user underline">{post.author_id}</span>
-                    <span className="post-user underline">20 hours ago</span>
-                  </div>
-                </Row>
-                <Row>
-                  <CardMedia image="assets/subreddit.jpg" title="Paella dish" />
-                  <CardContent>
+              {post && (
+                  <Col md={11} style={{ paddingLeft: '5%' }}>
                     <Row>
-                      <span> {post.title}</span>
+                      <div className="post-title">
+                        <CardHeader avatar={<Avatar src={RedditICon} aria-label="recipe" alt="" />} />
+                        <div className="subreddit-name">{post.community_id} </div>
+                        <div className="post-user">Posted by</div>
+                        <span className="post-user underline">{post.author_id}</span>
+                        <span className="post-user underline">20 hours ago</span>
+                      </div>
                     </Row>
                     <Row>
-                      <img height="200px" src="assets/subreddit.jpg" alt="img" />
-                    </Row>
-                  </CardContent>
-                </Row>
-                <Row>
-                  <CardActions disableSpacing>
-                    <IconButton aria-label="show more" onClick={this.handleExpandClick}>
-                      <ModeCommentIcon fontSize="small" />
-                      <span className="header-label">
-                        <span className="card-action-label">525 Comments</span>
-                      </span>
-                    </IconButton>
-                    <IconButton aria-label="show more">
-                      {' '}
-                      <CardGiftcardIcon />
-                      <span className="card-action-label">Reward</span>
-                    </IconButton>
-                    <IconButton aria-label="show more">
-                      {' '}
-                      <ShareIcon />
-                      <span className="card-action-label">Share</span>
-                    </IconButton>
-                    <IconButton aria-label="show more">
-                      {' '}
-                      <BookmarkIcon />
-                      <span className="card-action-label">Save</span>
-                    </IconButton>
-                  </CardActions>
-                </Row>
-                <Row>
-                  <Collapse timeout="auto" in={expandComment}>
-                    <Row>
+                      <CardMedia image="assets/subreddit.jpg" title="Paella dish" />
                       <CardContent>
-                        <Typography className="header-label card-action-label">
-                          Comment as{' '}
-                        </Typography>
-                        <TextareaAutosize
-                          rowsMin={6}
-                          placeholder="Comment"
-                          size="large"
-                          defaultValue=""
-                          style={{ width: '100%' }}
-                          onChange={this.handleCommentText}
-                        />
-
-                        <Button
-                          size="medium"
-                          className="btn-primary"
-                          type="button"
-                          style={{
-                            'background-color': '#da907e',
-                            color: '#ffffff',
-                            'border-radius': '9999px',
-                            height: '30px',
-                          }}
-                          onClick={this.handleAddComment}
-                          default
-                        >
-                          Comment
-                        </Button>
+                        <Row>
+                          <span> {post.title}</span>
+                        </Row>
+                        <Row>
+                          <img height="200px" src="assets/subreddit.jpg" alt="img" />
+                        </Row>
                       </CardContent>
                     </Row>
-                    <Comment postId={postId} update={updatetree} />
-                  </Collapse>
-                </Row>
-              </Col>
+                    <Row>
+                      <CardActions disableSpacing>
+                        <IconButton aria-label="show more" onClick={this.handleExpandClick}>
+                          <ModeCommentIcon fontSize="small" />
+                          <span className="header-label">
+                        <span className="card-action-label">525 Comments</span>
+                      </span>
+                        </IconButton>
+                        <IconButton aria-label="show more">
+                          {' '}
+                          <CardGiftcardIcon />
+                          <span className="card-action-label">Reward</span>
+                        </IconButton>
+                        <IconButton aria-label="show more">
+                          {' '}
+                          <ShareIcon />
+                          <span className="card-action-label">Share</span>
+                        </IconButton>
+                        <IconButton aria-label="show more">
+                          {' '}
+                          <BookmarkIcon />
+                          <span className="card-action-label">Save</span>
+                        </IconButton>
+                      </CardActions>
+                    </Row>
+                    <Row>
+                      <Collapse timeout="auto" in={expandComment}>
+                        <Row>
+                          <CardContent>
+                            <Typography className="header-label card-action-label">
+                              Comment as{' '}
+                            </Typography>
+                            <TextareaAutosize
+                                rowsMin={6}
+                                placeholder="Comment"
+                                size="large"
+                                defaultValue=""
+                                style={{ width: '100%' }}
+                                onChange={this.handleCommentText}
+                            />
+
+                            <Button
+                                size="medium"
+                                className="btn-primary"
+                                type="button"
+                                style={{
+                                  'background-color': '#da907e',
+                                  color: '#ffffff',
+                                  'border-radius': '9999px',
+                                  height: '30px',
+                                }}
+                                onClick={this.handleAddComment}
+                                default
+                            >
+                              Comment
+                            </Button>
+                          </CardContent>
+                        </Row>
+                        <Comment postId={postId} update={updateTree} />
+                      </Collapse>
+                    </Row>
+                  </Col>
+              )}
             </Row>
           </div>
         </Card>
