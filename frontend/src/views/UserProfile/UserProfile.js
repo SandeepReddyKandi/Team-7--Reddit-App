@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col'
 import EditIcon from '@material-ui/icons/Edit';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import SettingsIcon from '@material-ui/icons/Settings';
 import Header from '../Header/Header';
 import TextDisplayCard from '../Cards/TextDisplayCard';
 import TopBar from '../ToolBar/TopBar';
@@ -15,8 +16,8 @@ class UserProfile extends React.Component {
         this.state = {
             user: {
                 avatar: 'https://picsum.photos/id/237/200/300',
-                name: 'Mukul Kumar Jha',
-                userName: 'u/mukul-kmr-jha',
+                name: 'Kandi Sandeep',
+                userName: 'u/sandeep-reddy',
                 about: 'Nothing much, just getting bored!'
             },
             showMoreOption: false,
@@ -52,6 +53,9 @@ class UserProfile extends React.Component {
                                     </div>
                                 </div>
                                 <div className='main-container'>
+                                    <div className='setting-cont'>
+                                        <SettingsIcon style={{ color: '#0079d3' }} />
+                                    </div>
                                     <div className='name-container'>
                                         <h4>{user.name}</h4>
                                         <span>{user.userName}</span>
@@ -87,6 +91,37 @@ class UserProfile extends React.Component {
                                         >{showMoreOption ? 'More Options' : 'Fewer Options'}</span>
                                     </div>
                                 </div>
+                            </div>
+                            <div className="trophy-container">
+                                <div className="header-container">
+                                    <h2>Trophy Case (1)</h2>
+                                </div>
+                                <div className="trophy-main-container">
+                                    <div className="trophy-main-content">
+                                        <div className="img-cont">
+                                            <img src="https://www.redditstatic.com/awards2/n00b-40.png" title="New User" alt='new-user'/>
+                                        </div>
+                                        <div className="text-cont">
+                                            <h5>New User</h5>
+                                            <p>Nothing Special, Just a regular dev!</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="help-container">
+                                <div className="help-content">
+                                    <div className="help-col">
+                                        <a href="https://www.reddithelp.com" className="help-item">help</a>
+                                        <a href="https://www.reddit.com/mobile/download" className="help-item">Reddit App</a>
+                                        <a href="https://www.reddit.com/coins" className="help-item">Reddit coins</a>
+                                    </div>
+                                    <div className="help-col">
+                                        <a href="https://www.reddithelp.com" className="help-item">help</a>
+                                        <a href="https://www.reddit.com/mobile/download" className="help-item">Reddit App</a>
+                                        <a href="https://www.reddit.com/coins" className="help-item">Reddit coins</a>
+                                    </div>
+                                </div>
+                                <div className="right-reserved-cont">Team 7 Reddit Clone Inc © 2021.</div>
                             </div>
                         </Col>
                     </Row>
