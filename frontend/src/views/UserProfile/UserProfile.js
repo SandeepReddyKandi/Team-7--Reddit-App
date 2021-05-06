@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col'
 import Header from '../Header/Header';
 import TopBar from '../ToolBar/TopBar';
-import UserProfileComponent from "../UserProfileComponent";
+import UserProfileComponent from "../UserProfileComponent/index";
 
 class UserProfile extends React.Component {
     toggleShowMoreOption = () => {

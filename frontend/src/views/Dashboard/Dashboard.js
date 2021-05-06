@@ -41,7 +41,8 @@ class Dashboard extends React.Component {
       })
       .catch((error) => {
         console.log(error);
-        this.setState({ errormessage: error.response.data.msg });
+        const errormessage = error.response && error.response.data ? error.response.data.msg : 'Something went wrong while getting posts'
+        this.setState({ errormessage });
       });
   };
 

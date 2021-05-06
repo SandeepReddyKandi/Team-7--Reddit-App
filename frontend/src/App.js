@@ -9,6 +9,7 @@ import Home from './views/Home/Home';
 import Dashboard from './views/Dashboard/Dashboard';
 import CommunityHomePage from './views/CommunityHomePage/CommunityHomePage';
 import CommunitySearchPage from './views/CommunitySearchPage/CommunitySearchPage';
+import CommunityAnalytics from './views/CommunityAnalytics';
 import CreatePost from './views/Post/CreatePost';
 import UserProfile from './views/UserProfile/UserProfile';
 import MyCommunity from './views/MyCommunity/MyCommunity'
@@ -21,8 +22,9 @@ function App() {
         <Route exact path="/home" component={Home} />
         <Route exact path="/dashboard" component={Dashboard} />
         <Route exact path="/user/:uid" component={UserProfile} />
-        <Route exact path="/communityhomepage" component={CommunityHomePage} />
-        <Route exact path="/communitysearchpage" component={CommunitySearchPage} />
+        <Route exact path="/community-homepage" component={CommunityHomePage} />
+        <Route exact path="/community-searchpage" component={CommunitySearchPage} />
+        <Route exact path="/community-analytics/:cid" component={CommunityAnalytics} />
         <Route exact path="/createpost" component={CreatePost} />
         <Route exact path="/createCommunity" component={MyCommunity} />
       </Switch>

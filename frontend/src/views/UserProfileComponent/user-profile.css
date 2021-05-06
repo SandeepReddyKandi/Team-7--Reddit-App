@@ -3,13 +3,13 @@
   border-radius: 5px 5px 4px 4px;
 }
 
-.top-background {
+.profile-container .top-background {
   height: 100px;
   background: #34a7fc;
   position: relative;
 }
 
-.edit-cont {
+.profile-container .edit-cont {
   position: absolute;
   width: 36px;
   height: 36px;
@@ -22,7 +22,7 @@
   cursor: pointer;
 }
 
-.avatar-cont {
+.profile-container .avatar-cont {
   position: absolute;
   width: 86px;
   height: 86px;
@@ -33,48 +33,48 @@
   z-index: 99;
 }
 
-.top-background .edit-cont {
+.profile-container.top-background .edit-cont {
   bottom: 12px;
   right: 12px;
 }
 
-.avatar-cont .edit-cont {
+.profile-container.avatar-cont .edit-cont {
   bottom: -10px;
   right: -14px;
 }
 
-img {
+.profile-container img {
   width: 100%;
   height: 100%;
 }
 
-.setting-cont {
+.profile-container .setting-cont {
   position: absolute;
   right: 16px;
   top: 8px;
   cursor: pointer;
 }
 
-.name-container h4 {
+.profile-container .name-container h4 {
   font-size: 16px;
   font-weight: 500;
   line-height: 20px;
   margin-bottom: 0;
 }
 
-.name-container span {
+.profile-container .name-container span {
   font-size: 12px;
   font-weight: 500;
   line-height: 16px;
 }
 
-.main-container {
+.profile-container .main-container {
   padding: 28px 14px 14px;
   background: white;
   position: relative;
 }
 
-.round-btn {
+.profile-container .round-btn {
   margin-top: 8px;
   display: flex;
   min-height: 32px;
@@ -93,19 +93,19 @@ img {
   border: none;
 }
 
-.round-btn svg {
+.profile-container .round-btn svg {
   height: 15px;
 }
 
-.red-btn {
+.profile-container .red-btn {
   background: linear-gradient(90deg, #ec0623, #ff8717);
 }
 
-.blue-btn {
+.profile-container .blue-btn {
   background: #0079d3;
 }
 
-.description-cont p {
+.profile-container .description-cont p {
   font-family: Noto Sans,Arial,sans-serif;
   font-size: 14px;
   font-weight: 400;
@@ -115,12 +115,12 @@ img {
   margin-top: 8px;
 }
 
-.repo-cont {
+.profile-container .repo-cont {
   display: flex;
   gap: 12px;
 }
 
-.karma, .cake {
+.profile-container .karma, .profile-container.cake {
   flex: 1;
   display: flex;
   flex-direction: column;
