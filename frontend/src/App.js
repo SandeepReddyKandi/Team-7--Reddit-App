@@ -9,6 +9,7 @@ import Home from './views/Home/Home';
 import Dashboard from './views/Dashboard/Dashboard';
 import CommunityHomePage from './views/CommunityHomePage/CommunitiyHomePage';
 import CommunitySearchPage from './views/CommunitySearchPage/CommunitySearchPage';
+import Invitations from './views/Invitations/Invitations';
 import CreatePost from './views/Post/CreatePost';
 import UserProfile from './views/UserProfile/UserProfile';
 
@@ -22,6 +23,7 @@ function App() {
         <Route exact path="/user/:uid" component={UserProfile} />
         <Route exact path="/communityhomepage" component={CommunityHomePage} />
         <Route exact path="/communitysearchpage" component={CommunitySearchPage} />
+        <Route exact path="/invitations" component={Invitations} />
         <Route exact path="/createpost" component={CreatePost} />
       </Switch>
     </Container>

@@ -23,11 +23,12 @@ const GET_COMMENT = "getComment";
 //Invitation
 const SEND_INVITE = "sendInvite";
 const GET_STATUS = "getStatus";
+const GET_INVITATIONS = "getInvitations";
 
 //Post
-const ADD_POST_TEXT='addPostText';
-const ADD_POST_IMAGE='addPostImage';
-const ADD_POST_LINK='addPostLink';
+const ADD_POST_TEXT = "addPostText";
+const ADD_POST_IMAGE = "addPostImage";
+const ADD_POST_LINK = "addPostLink";
 // const GET_POST='getPost';
 // const GET_POST_BY_ID='getPostbyID';
 
@@ -49,6 +50,7 @@ module.exports = {
   ADD_COMMENT,
   GET_COMMENT,
   SEND_INVITE,
+  GET_INVITATIONS,
   JOIN_COMMUNITY,
   GET_STATUS,
   GET_RULES_TOPICS,

@@ -8,7 +8,7 @@ const GET_COMMUNITY = 'getCommunity';
 const GET_COMMUNITY_BY_ID = 'getCommunityById';
 const GET_COMMUNITY_BY_NAME = 'getCommunityByName';
 const RATE_COMMUNITY = 'rateCommunity';
-const GET_RULES_TOPICS = 'getRulesTopics'
+const GET_RULES_TOPICS = 'getRulesTopics';
 
 //Post
 const ADD_POST = 'addPost';
@@ -21,11 +21,12 @@ const GET_COMMENT = 'getComment';
 //Invitation
 const SEND_INVITE = 'sendInvite';
 const GET_STATUS = 'getStatus';
+const GET_INVITATIONS = 'getInvitations';
 
 //Post
-const ADD_POST_TEXT='addPostText';
-const ADD_POST_IMAGE='addPostImage';
-const ADD_POST_LINK='addPostLink';
+const ADD_POST_TEXT = 'addPostText';
+const ADD_POST_IMAGE = 'addPostImage';
+const ADD_POST_LINK = 'addPostLink';
 // const GET_POST='getPost';
 // const GET_POST_BY_ID='getPostbyID';
 
@@ -47,6 +48,7 @@ module.exports = {
   ADD_COMMENT,
   GET_COMMENT,
   SEND_INVITE,
+  GET_INVITATIONS,
   GET_STATUS,
   GET_RULES_TOPICS,
 };

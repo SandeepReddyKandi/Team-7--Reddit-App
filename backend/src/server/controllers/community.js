@@ -9,6 +9,7 @@ const {
   GET_STATUS,
   GET_COMMUNITY_BY_NAME,
   GET_RULES_TOPICS,
+  GET_INVITATIONS,
 } = require('../kafka/topics');
 
 exports.addCommunity = async (req, res) => {
@@ -34,7 +35,7 @@ exports.getRulesTopics = async (req, res) => {
     if (!results.success) {
       res.status(400).send(results);
     } else {
-     // console.log(results);
+      // console.log(results);
       res.status(200).json({
         msg: results.data,
         //role: results.role,
@@ -53,7 +54,7 @@ exports.getCommunity = async (req, res) => {
     if (!results.success) {
       res.status(400).send(results);
     } else {
-     // console.log(results);
+      // console.log(results);
       res.status(200).json({
         msg: results.msg,
         data: results.data,
@@ -68,7 +69,7 @@ exports.getCommunityById = async (req, res) => {
     if (!results.success) {
       res.status(400).send(results);
     } else {
-     // console.log(results);
+      // console.log(results);
       res.status(200).json({
         msg: results.msg,
         //role: results.role,
@@ -77,14 +78,13 @@ exports.getCommunityById = async (req, res) => {
   });
 };
 
-
 exports.getCommunityByName = async (req, res) => {
   const payload = { communityName: req.query.name };
   kafka.make_request(GET_COMMUNITY_BY_NAME, payload, (error, results) => {
     if (!results.success) {
       res.status(400).send(results);
     } else {
-     // console.log(results);
+      // console.log(results);
       res.status(200).json({
         msg: results.msg,
         data: results.data,
@@ -99,7 +99,7 @@ exports.rateCommunity = async (req, res) => {
     if (!results.success) {
       res.status(400).send(results);
     } else {
-     // console.log(results);
+      // console.log(results);
       res.status(200).send(results);
     }
   });
@@ -111,7 +111,7 @@ exports.sendInvite = async (req, res) => {
     if (!results.success) {
       res.status(400).send(results);
     } else {
-     // console.log(results);
+      // console.log(results);
       res.status(200).send(results);
     }
   });
@@ -123,8 +123,22 @@ exports.getStatus = async (req, res) => {
     if (!results.success) {
       res.status(400).send(results);
     } else {
-     // console.log(results);
+      // console.log(results);
       res.status(200).send(results);
+    }
+  });
+};
+
+exports.getInvitations = async (req, res) => {
+  const payload = { userId: req.query.userId };
+  kafka.make_request(GET_INVITATIONS, payload, (error, results) => {
+    if (!results.success) {
+      res.status(400).send(results);
+    } else {
+      res.status(200).json({
+        msg: results.msg,
+        data: results.data,
+      });
     }
   });
 };

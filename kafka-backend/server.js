@@ -23,6 +23,7 @@ const {
   SEND_INVITE,
   GET_POST,
   GET_STATUS,
+  GET_INVITATIONS,
 } = require("./kafka/topics");
 
 //user
@@ -48,6 +49,7 @@ const getComment = require("./services/Comment/GetComment");
 //Invitation
 const sendInvite = require("./services/Invitation/SendInvite");
 const getStatus = require("./services/Invitation/GetStatus");
+const getInvitations = require("./services/Invitation/GetInvitations");
 
 //Post
 const addPostText = require("./services/Post/AddPostText");
@@ -138,7 +140,6 @@ handleTopicRequest(ADD_COMMENT, addComment);
 handleTopicRequest(GET_COMMENT, getComment);
 
 //Invitation
-
+handleTopicRequest(GET_INVITATIONS, getInvitations);
 handleTopicRequest(SEND_INVITE, sendInvite);
 handleTopicRequest(GET_STATUS, getStatus);
-
