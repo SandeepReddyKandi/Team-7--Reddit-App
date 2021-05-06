@@ -24,7 +24,7 @@ function App() {
         <Route exact path="/user/:uid" component={UserProfile} />
         <Route exact path="/community-homepage" component={CommunityHomePage} />
         <Route exact path="/community-searchpage" component={CommunitySearchPage} />
-        <Route exact path="/community-analytics/:cid" component={CommunityAnalytics} />
+        <Route exact path="/community-analytics" component={CommunityAnalytics} />
         <Route exact path="/createpost" component={CreatePost} />
         <Route exact path="/createCommunity" component={MyCommunity} />
       </Switch>

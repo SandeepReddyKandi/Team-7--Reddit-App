@@ -1,5 +1,9 @@
 import React from 'react';
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 import Header from "../Header/Header";
+import UserProfileComponent from "../UserProfileComponent";
 import './community-analytics.css';
 
 class CommunityAnalytics extends React.Component {
@@ -36,9 +40,27 @@ class CommunityAnalytics extends React.Component {
                         </div>
                     </div>
                 </div>
-                <div className='main-container'>
-                    {community.name}
-                </div>
+                <Container>
+                    <Row style={{ padding: '20px 24px'}}>
+                        <Col style={{ width: '640px', flexBasis: 'auto'  }} >
+                            <div className='comm-card'>
+                                <div className='comm-card-head'>Active User Info</div>
+                                <div className='info-card'>
+                                    <span>Current number of active users</span>
+                                    <span className='value'>230</span>
+                                </div>
+                                <div className='info-card'>
+                                    <span>Maximum number of active users of all time</span>
+                                    <span className='value'>480</span>
+                                </div>
+                            </div>
+                        </Col>
+                        <Col style={{ width: '312px', marginLeft: '24px', flexBasis: 'auto' }}>
+                            <UserProfileComponent />
+                            {community.name}
+                        </Col>
+                    </Row>
+                </Container>
             </>
         )
     }
