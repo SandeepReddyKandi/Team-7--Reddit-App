@@ -6,6 +6,7 @@ import {Line} from "react-chartjs-2";
 import Header from "../Header/Header";
 import './community-analytics.css';
 import UserCard from "../UserCard";
+import CommunityCard from "../CommunityCard";
 
 class CommunityAnalytics extends React.Component {
     constructor(props) {
@@ -34,6 +35,12 @@ class CommunityAnalytics extends React.Component {
                 name: 'Kandi Sandeep',
                 userName: 'u/sandeep-reddy',
                 about: 'Nothing much, just getting bored!'
+            },
+            mostActiveCommunity: {
+                avatar: 'https://picsum.photos/200/300/?blur',
+                name: 'Hello SJSU!',
+                id: 'r/hello-sjsu',
+                about: 'All the cool discussion going on in our SJSU University!'
             }
         }
     }
@@ -46,6 +53,7 @@ class CommunityAnalytics extends React.Component {
                     label: '# of active users',
                     data: [12, 19, 3, 5, 2, 3],
                     fill: false,
+                    pointRadius: 4,
                     backgroundColor: '#1380d2',
                     borderColor: '#3d79b4',
                 },
@@ -59,6 +67,7 @@ class CommunityAnalytics extends React.Component {
                     label: '# of posts',
                     data: [220, 109, 30, 500, 122, 603],
                     fill: false,
+                    pointRadius: 4,
                     backgroundColor: '#ec0623',
                     borderColor: '#fa8127',
                 },
@@ -89,7 +98,7 @@ class CommunityAnalytics extends React.Component {
     }
 
     render() {
-        const { community, activeUserChart, postsChart, topUser } = this.state;
+        const { community, activeUserChart, postsChart, topUser, mostActiveCommunity } = this.state;
         return (
             <>
                 <Header showLogin={false} showSignup={false} />
@@ -116,30 +125,24 @@ class CommunityAnalytics extends React.Component {
                         <Col style={{ width: '640px', flexBasis: 'auto'  }} >
                             <div className='comm-card'>
                                 <div className='comm-card-head'>Active User Info</div>
-                                <div className='info-card'>
-                                    <span>Current number of active users</span>
-                                    <span className='value'>230</span>
-                                </div>
-                                <div className='info-card'>
-                                    <span>Maximum number of active users of all time</span>
-                                    <span className='value'>480</span>
-                                </div>
                             </div>
 
                             <div className='comm-card'>
-                                <div className='comm-card-head'>Active User Info</div>
                                 <Line data={activeUserChart.data} options={activeUserChart.options} />
                             </div>
 
                             <div className='comm-card'>
                                 <div className='comm-card-head'>Posts Info</div>
-                                <Line data={postsChart.data} options={postsChart.options} />
                             </div>
+
                             <div className='comm-card'>
-                                <div className='comm-card-head'>Posts Info</div>
                                 <Line data={postsChart.data} options={postsChart.options} />
                             </div>
 
+                            <div className='comm-card'>
+                                <div className='comm-card-head'>Most upvoted post</div>
+                            {/*    TODO Show the post in here */}
+                            </div>
                         </Col>
                         <Col style={{ width: '312px', marginLeft: '24px', flexBasis: 'auto' }}>
                             <div className='comm-card'>
@@ -147,6 +150,12 @@ class CommunityAnalytics extends React.Component {
                                 <div className='comm-card-small-text no-mar'>Created most number of posts</div>
                             </div>
                             <UserCard user={topUser} showEdit={false}/>
+
+                            <div className='comm-card m-top-24'>
+                                <div className='comm-card-head no-mar'>Most Active Community</div>
+                                <div className='comm-card-small-text no-mar'>Community with most number of posts</div>
+                            </div>
+                            <CommunityCard community={mostActiveCommunity} showEdit={false}/>
                             {community.name}
                         </Col>
                     </Row>

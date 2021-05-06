@@ -3,9 +3,9 @@ import EditIcon from "@material-ui/icons/Edit";
 import SettingsIcon from "@material-ui/icons/Settings";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import PropTypes from "prop-types";
+import '../UserProfileComponent/user-profile.css';
 
-
-const UserCard = ({user, showEdit}) => {
+const CommunityCard = ({community, showEdit}) => {
     const [showMoreOption, setShowMoreOption] = useState(false);
     const toggleShowMoreOption = () => {
         console.log('Toggle Show More Options')
@@ -15,7 +15,7 @@ const UserCard = ({user, showEdit}) => {
         <div className='profile-container'>
             <div className='top-background'>
                 <div className='avatar-cont'>
-                    <img src={user.avatar} alt={user.name}/>
+                    <img src={community.avatar} alt={community.name}/>
                     {
                         showEdit && (
                             <div className='edit-cont'>
@@ -37,8 +37,8 @@ const UserCard = ({user, showEdit}) => {
                     <SettingsIcon style={{color: '#0079d3'}}/>
                 </div>
                 <div className='name-container'>
-                    <h4>{user.name}</h4>
-                    <span>{user.userName}</span>
+                    <h4>{community.name}</h4>
+                    <span>{community.id}</span>
                 </div>
                 {
                     showEdit && (
@@ -50,27 +50,13 @@ const UserCard = ({user, showEdit}) => {
                     )
                 }
                 <div className='description-cont'>
-                    <p>{user.about}</p>
+                    <p>{community.about}</p>
                 </div>
-                <div className='repo-cont'>
-                    <div className='karma'>
-                        <span className='label'>Karma</span>
-                        <span>12</span>
-                    </div>
-                    <div className='cake'>
-                        <span className='label'>Cake day</span>
-                        <span>5 May, 2021</span>
-                    </div>
-                </div>
-                {
-                    showEdit && (
-                        <button className='round-btn blue-btn' type='button'>
-                            <span>&nbsp;</span>
-                            <span>New Post</span>
-                            <span>&nbsp;</span>
-                        </button>
-                    )
-                }
+                <button className='round-btn blue-btn' type='button'>
+                    <span>&nbsp;</span>
+                    <span>New Post</span>
+                    <span>&nbsp;</span>
+                </button>
                 <div className='option-toggle'>
                     <span onClick={toggleShowMoreOption}
                           onKeyDown={toggleShowMoreOption}
@@ -83,16 +69,15 @@ const UserCard = ({user, showEdit}) => {
     )
 }
 
-UserCard.propTypes = {
-    user: PropTypes.shape({
-        id: PropTypes.number.isRequired,
+CommunityCard.propTypes = {
+    community: PropTypes.shape({
+        id: PropTypes.string,
         title: PropTypes.string,
         name: PropTypes.string,
-        userName: PropTypes.string,
         avatar: PropTypes.string,
         about: PropTypes.string
     }).isRequired,
     showEdit: PropTypes.bool.isRequired,
 };
 
-export default UserCard;
+export default CommunityCard;

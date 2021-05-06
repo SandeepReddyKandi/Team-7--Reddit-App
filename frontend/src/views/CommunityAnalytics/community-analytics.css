@@ -98,6 +98,11 @@
 .no-mar {
     margin: 0;
 }
+
+.m-top-24 {
+    margin-top: 24px;
+}
+
 .info-card {
     display: flex;
     justify-content: space-between;
