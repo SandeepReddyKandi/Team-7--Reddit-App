@@ -8,8 +8,11 @@ const {
   SEND_INVITE,
   GET_STATUS,
   GET_COMMUNITY_BY_NAME,
+  GET_COMMUNITY_BY_ADMIN,
+  GET_COMMUNITY_BY_MEMBER,
   GET_RULES_TOPICS,
   GET_INVITATIONS,
+  DELETE_COMMUNITY_BY_ID,
 } = require('../kafka/topics');
 
 exports.addCommunity = async (req, res) => {
@@ -44,6 +47,20 @@ exports.getRulesTopics = async (req, res) => {
   });
 };
 
+exports.deleteCommunityById = async (req, res) => {
+  const payload = { community_id: req.query.community_id };
+  kafka.make_request(DELETE_COMMUNITY_BY_ID, payload, (error, results) => {
+    if (!results.success) {
+      res.status(400).send(results);
+    } else {
+      console.log(results);
+      res.status(200).json({
+        msg: results.msg,
+      });
+    }
+  });
+};
+
 exports.getCommunity = async (req, res) => {
   let msg = '';
   if (req.query.id !== '') {
@@ -70,6 +87,36 @@ exports.getCommunityById = async (req, res) => {
       res.status(400).send(results);
     } else {
       // console.log(results);
+      res.status(200).json({
+        msg: results.msg,
+        //role: results.role,
+      });
+    }
+  });
+};
+
+exports.getCommunityByAdmin = async (req, res) => {
+  const payload = { adminId: req.query.admin_id };
+  kafka.make_request(GET_COMMUNITY_BY_ADMIN, payload, (error, results) => {
+    if (!results.success) {
+      res.status(400).send(results);
+    } else {
+      console.log(results);
+      res.status(200).json({
+        msg: results.msg,
+        //role: results.role,
+      });
+    }
+  });
+};
+
+exports.getCommunityByMember = async (req, res) => {
+  const payload = { memberId: req.query.member_id };
+  kafka.make_request(GET_COMMUNITY_BY_MEMBER, payload, (error, results) => {
+    if (!results.success) {
+      res.status(400).send(results);
+    } else {
+      console.log(results);
       res.status(200).json({
         msg: results.msg,
         //role: results.role,

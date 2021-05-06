@@ -12,6 +12,7 @@ import CommunitySearchPage from './views/CommunitySearchPage/CommunitySearchPage
 import Invitations from './views/Invitations/Invitations';
 import CreatePost from './views/Post/CreatePost';
 import UserProfile from './views/UserProfile/UserProfile';
+import MyCommunity from './views/MyCommunity/MyCommunity'
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route exact path="/communitysearchpage" component={CommunitySearchPage} />
         <Route exact path="/invitations" component={Invitations} />
         <Route exact path="/createpost" component={CreatePost} />
+        <Route exact path="/createCommunity" component={MyCommunity} />
       </Switch>
     </Container>
   );
