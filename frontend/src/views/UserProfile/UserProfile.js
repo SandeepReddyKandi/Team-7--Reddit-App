@@ -8,9 +8,6 @@ import TopBar from '../ToolBar/TopBar';
 import UserProfileComponent from "../UserProfileComponent/index";
 
 class UserProfile extends React.Component {
-    toggleShowMoreOption = () => {
-        console.log('Toggle Show More Options')
-    }
 
     render() {
         return (
@@ -22,7 +19,7 @@ class UserProfile extends React.Component {
                             <TopBar />
                         </Col>
                         <Col style={{ width: '312px', marginLeft: '24px', flexBasis: 'auto' }}>
-                            <UserProfileComponent />
+                            <UserProfileComponent/>
                         </Col>
                     </Row>
                 </Container>

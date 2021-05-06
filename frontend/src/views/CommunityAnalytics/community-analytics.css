@@ -89,6 +89,15 @@
     margin-bottom: 12px;
 }
 
+.comm-card-small-text {
+    font-weight: 400;
+    color: #7c7c7c;
+    font-size: 14px;
+}
+
+.no-mar {
+    margin: 0;
+}
 .info-card {
     display: flex;
     justify-content: space-between;

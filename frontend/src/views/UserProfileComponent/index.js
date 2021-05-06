@@ -1,8 +1,6 @@
 import React from 'react';
-import EditIcon from "@material-ui/icons/Edit";
-import SettingsIcon from "@material-ui/icons/Settings";
-import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import './user-profile.css';
+import UserCard from "../UserCard";
 
 class UserProfileComponent extends React.Component {
     constructor(props) {
@@ -14,66 +12,14 @@ class UserProfileComponent extends React.Component {
                 userName: 'u/sandeep-reddy',
                 about: 'Nothing much, just getting bored!'
             },
-            showMoreOption: false,
         }
     }
 
     render () {
-        const { user, showMoreOption } = this.state;
+        const { user } = this.state;
         return (
             <>
-                <div className='profile-container'>
-                    <div className='top-background'>
-                        <div className='avatar-cont'>
-                            <img src={user.avatar} alt={user.name}/>
-                            <div className='edit-cont'>
-                                <EditIcon style={{color: '#34a7fc'}}/>
-                            </div>
-                        </div>
-                        <div className='edit-cont'>
-                            <EditIcon style={{color: '#34a7fc'}}/>
-                        </div>
-                    </div>
-                    <div className='main-container'>
-                        <div className='setting-cont'>
-                            <SettingsIcon style={{color: '#0079d3'}}/>
-                        </div>
-                        <div className='name-container'>
-                            <h4>{user.name}</h4>
-                            <span>{user.userName}</span>
-                        </div>
-                        <button className='round-btn red-btn' type='button'>
-                            <span>&nbsp;</span>
-                            <span>Create Avatar</span>
-                            <ArrowForwardIosIcon/>
-                        </button>
-                        <div className='description-cont'>
-                            <p>{user.about}</p>
-                        </div>
-                        <div className='repo-cont'>
-                            <div className='karma'>
-                                <span className='label'>Karma</span>
-                                <span>12</span>
-                            </div>
-                            <div className='cake'>
-                                <span className='label'>Cake day</span>
-                                <span>5 May, 2021</span>
-                            </div>
-                        </div>
-                        <button className='round-btn blue-btn' type='button'>
-                            <span>&nbsp;</span>
-                            <span>New Post</span>
-                            <span>&nbsp;</span>
-                        </button>
-                        <div className='option-toggle'>
-                                        <span onClick={this.toggleShowMoreOption}
-                                              onKeyDown={this.toggleShowMoreOption}
-                                              role="button"
-                                              tabIndex={0}
-                                        >{showMoreOption ? 'More Options' : 'Fewer Options'}</span>
-                        </div>
-                    </div>
-                </div>
+                <UserCard user={user} showEdit />
                 <div className="trophy-container">
                     <div className="header-container">
                         <h2>Trophy Case (1)</h2>
