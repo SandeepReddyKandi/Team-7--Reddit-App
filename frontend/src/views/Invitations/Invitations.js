@@ -14,18 +14,19 @@ import constants from '../../constants/constants';
 class Invitations extends React.Component {
   constructor(props) {
     super(props);
-    this.input = {};
     this.state = {
       invitations: [],
       showModal: false,
       personName: '',
       names: [],
       selectedNames: [],
+      communities: [],
+      selectedCommunity: '',
     };
-    this.inputHandler = this.inputHandler.bind(this);
     this.getInvitations = this.getInvitations.bind(this);
     this.getUsers = this.getUsers.bind(this);
     this.sendInvite = this.sendInvite.bind(this);
+    this.getCommunities = this.getCommunities.bind(this);
   }
 
   componentDidMount() {
@@ -44,6 +45,26 @@ class Invitations extends React.Component {
         }
       })
       .catch((error) => {
+        // eslint-disable-next-line no-alert
+        alert(error);
+      });
+  }
+
+  getCommunities(e) {
+    const communityNameFilter = e.target.value;
+    axios
+      .get(`${constants.baseUrl}/community/getCommunityByName?name=${communityNameFilter}`)
+      .then((response, error) => {
+        if (!error) {
+          this.setState({
+            communities: response.data.data,
+          });
+        }
+      })
+      .catch((error) => {
+        // this.setState({
+        //  error: error.response.msg,
+        // });
         // eslint-disable-next-line no-alert
         alert(error);
       });
@@ -102,11 +123,11 @@ class Invitations extends React.Component {
   sendInvite(event) {
     event.preventDefault();
     const userId = localStorage.getItem('user');
-    const { selectedNames } = this.state;
+    const { selectedNames, selectedCommunity } = this.state;
     selectedNames.forEach((recepient) => {
       const formData = {
         sender: userId,
-        ...this.input,
+        community_id: selectedCommunity.community_id,
         // eslint-disable-next-line no-underscore-dangle
         recepient: recepient._id,
       };
@@ -125,15 +146,12 @@ class Invitations extends React.Component {
           alert(error);
         });
     });
-  }
-
-  inputHandler(event) {
-    this.input[event.target.id] = event.target.value;
+    this.handleClose();
   }
 
   render() {
     // eslint-disable-next-line no-unused-vars
-    const { invitations, showModal, personName, names, selectedNames } = this.state;
+    const { invitations, showModal, personName, names, selectedNames, communities } = this.state;
 
     return (
       <>
@@ -200,15 +218,25 @@ class Invitations extends React.Component {
           </Modal.Header>
           <form onSubmit={this.sendInvite}>
             <Modal.Body>
-              <TextField
+              <Autocomplete
                 fullWidth
-                id="community_id"
-                label="Community"
-                variant="outlined"
+                id="combo-box-demo"
                 size="small"
-                onChange={this.inputHandler}
+                onChange={(event, newValue) => {
+                  this.setState({ selectedCommunity: newValue, communities: [] });
+                }}
+                options={communities}
+                getOptionLabel={(option) => option.community_name}
                 style={{ marginBottom: '10px' }}
-                required
+                renderInput={(params) => (
+                  <TextField
+                    // eslint-disable-next-line react/jsx-props-no-spreading
+                    {...params}
+                    label="Type to search community..."
+                    variant="outlined"
+                    onKeyUp={this.getCommunities}
+                  />
+                )}
               />
 
               <Autocomplete
