@@ -94,13 +94,13 @@ const MyCommunity = () => {
       topic: topicList,
       images: imageList,
     };
-    const  newTopic=[];
-    const newRule=[];
+    const newTopic = [];
+    const newRule = [];
     for (const i in rulesList) {
-      if (!reduxData.rules.include(rulesList[i])) newRule.push(rulesList[i])
+      if (!reduxData.rules.include(rulesList[i])) newRule.push(rulesList[i]);
     }
     for (const i in topicList) {
-      if (!reduxData.topics.include(rulesList[i])) newTopic.push(rulesList[i])
+      if (!reduxData.topics.include(rulesList[i])) newTopic.push(rulesList[i]);
     }
 
     dispatch(addCommunity(data));

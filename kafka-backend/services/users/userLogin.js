@@ -1,55 +1,71 @@
-const UserModel = require('../../models/UserModel');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const UserModel = require("../../models/UserModel");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const salt = bcrypt.genSaltSync(10);
+const { client } = require("../../db");
 
 const handle_request = async (req, callback) => {
+  try {
+    const searchTerm = req.body.email;
+    client.get(searchTerm, async (err, user) => {
+      if (err) throw err;
 
-    //check whether account exists/not
-    await UserModel.findOne({ email: req.body.email }, (err, doc) => {
-        if (!doc) {
+      if (user) {
+        const member = JSON.parse(user);
+        if (bcrypt.compareSync(req.body.password, member.password)) {
+          const token = jwt.sign(
+            { userId: member._id, email: member.email },
+            `${process.env.JWT_SECRET}`,
+            {
+              expiresIn: "4h",
+            }
+          );
+
+          return callback(null, {
+            token,
+            msg: "Logged in successfully",
+            userId: member._id,
+            success: true,
+          });
+        }
+      } else {
+        await UserModel.findOne({ email: req.body.email }, (err, doc) => {
+          console.log(">>>>>>>>>>>Inside Fetch<<<<<<<<<<<<<");
+          if (!doc) {
             //return res.status(404).json({ msg: 'Account Not Found' });
             callback(null, {
-                msg: 'Account Not Found',
-                success: true
-            })
-        }
+              msg: "Account Not Found",
+              success: true,
+            });
+          }
 
-        //check if password entered matches with the one in DB
-        if (bcrypt.compareSync(req.body.password, doc.password)) {
+          //check if password entered matches with the one in DB
+          if (bcrypt.compareSync(req.body.password, doc.password)) {
+            client.setex(searchTerm, 600, JSON.stringify(doc));
             const token = jwt.sign(
-                { userId: doc.id, email: doc.email },
-                `${process.env.JWT_SECRET}`,
-                {
-                    expiresIn: '4h',
-                }
+              { userId: doc.id, email: doc.email },
+              `${process.env.JWT_SECRET}`,
+              {
+                expiresIn: "4h",
+              }
             );
-
-            // res.cookie('authtkn', token, {
-            //     maxAge: 1000 * 60 * 60 * 4,
-            //     httpOnly: true,
-            // });
-
-            // res.status(200).json({
-            //     msg: 'Logged in successfully',
-            //     userId: doc.id,
-            //     role: 'User'
-            // });
             callback(null, {
-                token,
-                msg: 'Logged in successfully',
-                userId: doc.id,
-                success: true
-            })
-        } else {
+              token,
+              msg: "Logged in successfully",
+              userId: doc.id,
+              success: true,
+            });
+          } else {
             //return res.status(401).json({ msg: 'Invalid Credentials Entered' });
             callback(null, {
-                msg: 'Invalid Credentials Entered',
-                success: false
-            })
-        }
+              msg: "Invalid Credentials Entered",
+              success: false,
+            });
+          }
+        });
+      }
     });
-
+  } catch (err) {}
 };
 
 exports.handle_request = handle_request;

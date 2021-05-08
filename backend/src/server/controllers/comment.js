@@ -15,18 +15,15 @@ exports.addComment = async (req, res) => {
 };
 
 exports.getComment = async (req, res) => {
-  const payload = { comment_id: req.query.comment_id };
+  const payload = { comment_id: req.query.id };
   kafka.make_request(GET_COMMENT, payload, (error, results) => {
     if (!results.success) {
       res.status(400).send(results);
     } else {
-      res
-        .status(200)
-        .json({
-          msg: results.msg,
-          data: results.data,
-        })
-        .send();
+      res.status(200).json({
+        msg: results.msg,
+        data: results.data,
+      });
     }
   });
 };
