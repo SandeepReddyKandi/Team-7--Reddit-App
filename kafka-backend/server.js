@@ -5,6 +5,7 @@ const app = express();
 const {
   USER_LOGIN,
   USER_SIGNUP,
+  GET_USERS_BY_NAME,
   GET_COMMUNITY,
   ADD_COMMUNITY,
   GET_COMMUNITY_BY_ID,
@@ -32,13 +33,14 @@ const {
 //user
 const userLogin = require("./services/users/userLogin");
 const userSignup = require("./services/users/userSignup");
+const getUsersByName = require("./services/users/GetUsersByName");
 
 //Community
 const addCommunity = require("./services/Community/AddCommunity");
 const getCommunity = require("./services/Community/GetCommunity");
 const getCommunityById = require("./services/Community/GetCommunityById");
-const getCommunityByAdmin = require('./services/Community/GetCommunityByAdmin');
-const getCommunityByMember = require('./services/Community/GetCommunityByMember');
+const getCommunityByAdmin = require("./services/Community/GetCommunityByAdmin");
+const getCommunityByMember = require("./services/Community/GetCommunityByMember");
 const deleteCommunityById = require("./services/Community/DeleteCommunityById");
 
 const getCommunityByName = require("./services/Community/GetCommunityByName");
@@ -122,6 +124,7 @@ function handleTopicRequest(topic_name, fname) {
 // User
 handleTopicRequest(USER_LOGIN, userLogin);
 handleTopicRequest(USER_SIGNUP, userSignup);
+handleTopicRequest(GET_USERS_BY_NAME, getUsersByName);
 
 //Community
 handleTopicRequest(ADD_COMMUNITY, addCommunity);

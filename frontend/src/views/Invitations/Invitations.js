@@ -3,7 +3,10 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from '@material-ui/core/Button';
 import { Typography } from '@material-ui/core';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
+import { Modal } from 'react-bootstrap';
 import Header from '../Header/Header';
 import InvitationListCard from '../Cards/InvitationListCard';
 import constants from '../../constants/constants';
@@ -11,10 +14,18 @@ import constants from '../../constants/constants';
 class Invitations extends React.Component {
   constructor(props) {
     super(props);
+    this.input = {};
     this.state = {
       invitations: [],
+      showModal: false,
+      personName: '',
+      names: [],
+      selectedNames: [],
     };
+    this.inputHandler = this.inputHandler.bind(this);
     this.getInvitations = this.getInvitations.bind(this);
+    this.getUsers = this.getUsers.bind(this);
+    this.sendInvite = this.sendInvite.bind(this);
   }
 
   componentDidMount() {
@@ -22,9 +33,9 @@ class Invitations extends React.Component {
   }
 
   getInvitations() {
-    axios.defaults.withCredentials = true;
+    const userId = localStorage.getItem('user');
     axios
-      .get(`${constants.baseUrl}/community/getinvitations?userId=607c5f3cfca7772866d40925`)
+      .get(`${constants.baseUrl}/community/getinvitations?userId=${userId}`)
       .then((response, error) => {
         if (!error) {
           this.setState({
@@ -38,8 +49,91 @@ class Invitations extends React.Component {
       });
   }
 
+  getUsers(e) {
+    const nameFilter = e.target.value;
+    axios
+      .get(`${constants.baseUrl}/users/getUsersByName?name=${nameFilter}`)
+      .then((response, error) => {
+        if (!error) {
+          this.setState({
+            names: response.data.data,
+          });
+        }
+      })
+      .catch((error) => {
+        // this.setState({
+        //  error: error.response.msg,
+        // });
+        // eslint-disable-next-line no-alert
+        alert(error);
+      });
+  }
+
+  handleClose = () => this.setState({ showModal: false });
+
+  handleShow = () => this.setState({ showModal: true });
+
+  handleKeyDown = (evt) => {
+    if (['Enter'].includes(evt.key)) {
+      evt.preventDefault();
+      const { selectedNames, personName } = this.state;
+      if (personName.trim()) {
+        this.setState({
+          selectedNames: [...selectedNames, personName],
+          personName: '',
+        });
+      }
+    }
+  };
+
+  handleChange = (evt) => {
+    this.setState({
+      personName: evt.target.value,
+    });
+  };
+
+  handleDelete = (item) => {
+    const { selectedNames } = this.state;
+    this.setState({
+      selectedNames: selectedNames.filter((i) => i !== item),
+    });
+  };
+
+  sendInvite(event) {
+    event.preventDefault();
+    const userId = localStorage.getItem('user');
+    const { selectedNames } = this.state;
+    selectedNames.forEach((recepient) => {
+      const formData = {
+        sender: userId,
+        ...this.input,
+        // eslint-disable-next-line no-underscore-dangle
+        recepient: recepient._id,
+      };
+      axios
+        .post(`${constants.baseUrl}/community/invite`, formData)
+        .then((response, error) => {
+          if (!error) {
+            this.getInvitations();
+          }
+        })
+        .catch((error) => {
+          // this.setState({
+          //  error: error.response.msg,
+          // });
+          // eslint-disable-next-line no-alert
+          alert(error);
+        });
+    });
+  }
+
+  inputHandler(event) {
+    this.input[event.target.id] = event.target.value;
+  }
+
   render() {
-    const { invitations } = this.state;
+    // eslint-disable-next-line no-unused-vars
+    const { invitations, showModal, personName, names, selectedNames } = this.state;
 
     return (
       <>
@@ -65,8 +159,6 @@ class Invitations extends React.Component {
                 </Col>
                 <Col md={3}>
                   <Button
-                    data-testid="Signup"
-                    size="small"
                     className="btn-primary"
                     type="button"
                     style={{
@@ -76,7 +168,7 @@ class Invitations extends React.Component {
                       height: '30px',
                       marginBottom: '10px',
                     }}
-                    onClick={this.handleJoin}
+                    onClick={this.handleShow}
                     default
                   >
                     Send Invite
@@ -101,6 +193,54 @@ class Invitations extends React.Component {
             <Col md={3}>&nbsp;</Col>
           </Row>
         </div>
+
+        <Modal show={showModal} onHide={this.handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Send Invitation</Modal.Title>
+          </Modal.Header>
+          <form onSubmit={this.sendInvite}>
+            <Modal.Body>
+              <TextField
+                fullWidth
+                id="community_id"
+                label="Community"
+                variant="outlined"
+                size="small"
+                onChange={this.inputHandler}
+                style={{ marginBottom: '10px' }}
+                required
+              />
+
+              <Autocomplete
+                multiple
+                value={selectedNames}
+                onChange={(event, newValue) => {
+                  this.setState({ selectedNames: [...newValue], names: [] });
+                }}
+                options={names}
+                getOptionLabel={(option) => option.name}
+                renderInput={(params) => (
+                  <TextField
+                    // eslint-disable-next-line react/jsx-props-no-spreading
+                    {...params}
+                    variant="standard"
+                    label="Recepient(s)"
+                    placeholder="Type to search user..."
+                    onKeyUp={this.getUsers}
+                  />
+                )}
+              />
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={this.handleClose}>
+                Close
+              </Button>
+              <Button variant="primary" type="submit">
+                Send
+              </Button>
+            </Modal.Footer>
+          </form>
+        </Modal>
       </>
     );
   }

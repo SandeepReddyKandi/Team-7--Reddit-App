@@ -16,7 +16,6 @@ class CommunitySearchPage extends React.Component {
   }
 
   getCommunities(e) {
-    axios.defaults.withCredentials = true;
     const communityNameFilter = e.target.value;
     axios
       .get(`${constants.baseUrl}/community/getCommunityByName?name=${communityNameFilter}`)

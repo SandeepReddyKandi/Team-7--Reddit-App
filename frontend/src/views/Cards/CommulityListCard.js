@@ -52,7 +52,7 @@ class CommunityListCard extends React.Component {
                 <NavLink
                   to={{
                     pathname: `/communityhomepage`,
-                    state: { community },
+                    community,
                   }}
                   style={{ textDecoration: 'none', color: 'black' }}
                 >
