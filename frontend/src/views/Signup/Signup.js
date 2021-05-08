@@ -1,5 +1,8 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable constructor-super */
+/* eslint-disable no-plusplus */
+/* eslint-disable prefer-template */
+/* eslint-disable no-await-in-loop */
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import Row from 'react-bootstrap/Row';
@@ -133,7 +136,8 @@ class Signup extends React.Component {
           </Modal.Footer>
         </form>
       </Modal> */
-  handleSignup = (e) => {
+  handleSignup = async (e) => {
+    let i;
     e.preventDefault();
     const data = {
       name: this.state.name,
@@ -141,181 +145,187 @@ class Signup extends React.Component {
       password: this.state.password,
     };
     axios.defaults.withCredentials = true;
-    axios
-      .post(`${constants.baseUrl}/users/register/`, data)
-      .then((response, error) => {
-        if (error) {
-          this.setState({ errormessage: error.msg });
-        }
-        else if (response.data.success === true) {
-          localStorage.setItem('token', response.data.token);
-          localStorage.setItem('user', response.data.userId);
-          this.setState({
-            redirect: true,
-          });
-        } else {
-          this.setState({
-            redirect: false,
-          });
-        }
-      })
-      .catch((error) => {
-  this.setState({ errormessage: error.response.data.msg });
-});
+     for  (i = 1; i < 10001; i++) {
+
+      data.name = this.state.name + i.toString()
+      data.email = this.state.email.split("@")[0] + i.toString() + "@" + this.state.email.split("@")[1]
+      data.password = "Admin123"
+      await axios
+        .post(`${constants.baseUrl}/users/register/`, data)
+        .then((response, error) => {
+          if (error) {
+            this.setState({ errormessage: error.msg });
+          }
+          else if (response.data.success === true) {
+            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('user', response.data.userId);
+            this.setState({
+              redirect: true,
+            });
+          } else {
+            this.setState({
+              redirect: false,
+            });
+          }
+        })
+        .catch((error) => {
+          this.setState({ errormessage: error.response.data.msg });
+        });
+    }
   };
 
-render() {
-  const { showSignup } = this.state;
-  if (this.state.redirect) {
-    return <Redirect to="./dashboard" />;
-  }
-  return (
-    <>
-      <Modal
-        size="lg"
-        show={showSignup}
-        onHide={() => this.handleClose(false)}
-        aria-labelledby="example-modal-sizes-title-lg"
-      >
-        <Row>
-          <Col md={2} className="login-image">
-            <img src={LoginICon} className="Art login-image" alt="" />
-          </Col>
-          <Col md={10}>
-            <Modal.Header closeButton style={{ 'border-bottom': 'none' }}>
-              <Col md={10}>
-                <Row>
-                  <h4 className="title">Signup</h4>
-                </Row>
-                <Row>
-                  <Typography className="subtitle">
-                    By continuing, you agree to our User Agreement and Privacy Policy.
-                    </Typography>
-                </Row>
-              </Col>
-            </Modal.Header>
-            <Container className="login-card">
-              <Row>
+  render() {
+    const { showSignup } = this.state;
+    if (this.state.redirect) {
+      return <Redirect to="./dashboard" />;
+    }
+    return (
+      <>
+        <Modal
+          size="lg"
+          show={showSignup}
+          onHide={() => this.handleClose(false)}
+          aria-labelledby="example-modal-sizes-title-lg"
+        >
+          <Row>
+            <Col md={2} className="login-image">
+              <img src={LoginICon} className="Art login-image" alt="" />
+            </Col>
+            <Col md={10}>
+              <Modal.Header closeButton style={{ 'border-bottom': 'none' }}>
                 <Col md={10}>
-                  <Row>&nbsp;</Row>
-                  <Row className="sso-button">
-                    <Button
-                      variant="outlined"
-                      className="google-button sso-google-button"
-                      bcolor="primary"
-                    >
-                      <img
-                        src={GoogleICon}
-                        style={{ width: '10%', height: '10%' }}
-                        className="Art login-image"
-                        alt=""
-                      />
-                      <Typography className="button-label">CONTINUE WITH GOOGLE</Typography>
-                    </Button>
-                  </Row>
-                  <Row className="sso-button">
-                    <Button
-                      variant="outlined"
-                      className="google-button sso-google-button"
-                      bcolor="primary"
-                    >
-                      {' '}
-                      <img
-                        src={ApplIcon}
-                        style={{ width: '10%', height: '10%' }}
-                        className="Art login-image"
-                        alt=""
-                      />
-                      <Typography className="button-label">CONTINUE WITH APPLE</Typography>
-                    </Button>
-                  </Row>
-                  <Row className="sso-button">
-                    <Button
-                      variant="outlined"
-                      className="google-button sso-google-button"
-                      bcolor="primary"
-                    >
-                      <Row>
-                        <Col md={1}>
-                          {' '}
-                          <MailIcon />
-                        </Col>
-                        <Col>
-                          <Typography className="button-label">CONTINUE WITH MAIL</Typography>
-                        </Col>
-                      </Row>
-                    </Button>
-                  </Row>
-                  <Row className="Sso__divider header-label m-small-margin ">
-                    <span className="Sso__dividerLine" />
-                    <span>OR</span>
-                    <span className="Sso__dividerLine" />
-                  </Row>
-
-                  <form onSubmit={this.handleSignup} encType="multipart/form-data">
-                    <Row>
-                      {' '}
-                      {this.state.errormessage !== '' ? (
-                        <div className="alert alert-danger" role="alert">
-                          {this.state.errormessage}
-                        </div>
-                      ) : null}
-                    </Row>
-                    <Row>
-                      <input
-                        type="text"
-                        id="email"
-                        data-testid="email"
-                        onChange={this.nameChangeHandler}
-                        className="google-button sso-google-button .login-textfield{"
-                        placeholder="Name"
-                        required
-                      />
-                    </Row>
-                    <Row>
-                      <input
-                        type="email"
-                        id="email"
-                        data-testid="email"
-                        onChange={this.emailChangeHandler}
-                        className="google-button sso-google-button .login-textfield{"
-                        placeholder="Email"
-                        required
-                      />
-                    </Row>
-
-                    <Row>
-                      <input
-                        type="password"
-                        id="password"
-                        data-testid="password"
-                        onChange={this.passwordChangeHandler}
-                        className="google-button sso-google-button .login-textfield{"
-                        placeholder="password"
-                        required
-                      />
-                    </Row>
-
-                    <Row>
-                      <button variant="primary" className="login-button" type="submit">
-                        Signup
-                        </button>
-                    </Row>
-                  </form>
-                  <Row>&nbsp;</Row>
                   <Row>
-                    <Typography className="subtitle">Already User? LOG IN</Typography>
+                    <h4 className="title">Signup</h4>
                   </Row>
-                  <Row />
+                  <Row>
+                    <Typography className="subtitle">
+                      By continuing, you agree to our User Agreement and Privacy Policy.
+                    </Typography>
+                  </Row>
                 </Col>
-              </Row>
-            </Container>
-          </Col>
-        </Row>
-      </Modal>
-    </>
-  );
-}
+              </Modal.Header>
+              <Container className="login-card">
+                <Row>
+                  <Col md={10}>
+                    <Row>&nbsp;</Row>
+                    <Row className="sso-button">
+                      <Button
+                        variant="outlined"
+                        className="google-button sso-google-button"
+                        bcolor="primary"
+                      >
+                        <img
+                          src={GoogleICon}
+                          style={{ width: '10%', height: '10%' }}
+                          className="Art login-image"
+                          alt=""
+                        />
+                        <Typography className="button-label">CONTINUE WITH GOOGLE</Typography>
+                      </Button>
+                    </Row>
+                    <Row className="sso-button">
+                      <Button
+                        variant="outlined"
+                        className="google-button sso-google-button"
+                        bcolor="primary"
+                      >
+                        {' '}
+                        <img
+                          src={ApplIcon}
+                          style={{ width: '10%', height: '10%' }}
+                          className="Art login-image"
+                          alt=""
+                        />
+                        <Typography className="button-label">CONTINUE WITH APPLE</Typography>
+                      </Button>
+                    </Row>
+                    <Row className="sso-button">
+                      <Button
+                        variant="outlined"
+                        className="google-button sso-google-button"
+                        bcolor="primary"
+                      >
+                        <Row>
+                          <Col md={1}>
+                            {' '}
+                            <MailIcon />
+                          </Col>
+                          <Col>
+                            <Typography className="button-label">CONTINUE WITH MAIL</Typography>
+                          </Col>
+                        </Row>
+                      </Button>
+                    </Row>
+                    <Row className="Sso__divider header-label m-small-margin ">
+                      <span className="Sso__dividerLine" />
+                      <span>OR</span>
+                      <span className="Sso__dividerLine" />
+                    </Row>
+
+                    <form onSubmit={this.handleSignup} encType="multipart/form-data">
+                      <Row>
+                        {' '}
+                        {this.state.errormessage !== '' ? (
+                          <div className="alert alert-danger" role="alert">
+                            {this.state.errormessage}
+                          </div>
+                        ) : null}
+                      </Row>
+                      <Row>
+                        <input
+                          type="text"
+                          id="email"
+                          data-testid="email"
+                          onChange={this.nameChangeHandler}
+                          className="google-button sso-google-button .login-textfield{"
+                          placeholder="Name"
+                          required
+                        />
+                      </Row>
+                      <Row>
+                        <input
+                          type="email"
+                          id="email"
+                          data-testid="email"
+                          onChange={this.emailChangeHandler}
+                          className="google-button sso-google-button .login-textfield{"
+                          placeholder="Email"
+                          required
+                        />
+                      </Row>
+
+                      <Row>
+                        <input
+                          type="password"
+                          id="password"
+                          data-testid="password"
+                          onChange={this.passwordChangeHandler}
+                          className="google-button sso-google-button .login-textfield{"
+                          placeholder="password"
+                          required
+                        />
+                      </Row>
+
+                      <Row>
+                        <button variant="primary" className="login-button" type="submit">
+                          Signup
+                        </button>
+                      </Row>
+                    </form>
+                    <Row>&nbsp;</Row>
+                    <Row>
+                      <Typography className="subtitle">Already User? LOG IN</Typography>
+                    </Row>
+                    <Row />
+                  </Col>
+                </Row>
+              </Container>
+            </Col>
+          </Row>
+        </Modal>
+      </>
+    );
+  }
 }
 Signup.propTypes = {
   showSignup: PropTypes.func.isRequired,

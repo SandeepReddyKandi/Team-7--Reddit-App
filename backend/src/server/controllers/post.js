@@ -1,5 +1,7 @@
 const kafka = require('../kafka/client');
 const { ADD_POST, GET_POST } = require('../kafka/topics');
+var { auth, checkAuth } = require( '../utils/passport' )
+auth(); 
 
 exports.addPost = async (req, res) => {
   const payload = { body: req.body };

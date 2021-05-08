@@ -2,7 +2,7 @@
 /* eslint-disable import/no-named-as-default */
 import React from 'react';
 import './App.css';
-import { Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from './views/Home/Home';
@@ -11,19 +11,22 @@ import CommunityHomePage from './views/CommunityHomePage/CommunitiyHomePage';
 import CommunitySearchPage from './views/CommunitySearchPage/CommunitySearchPage';
 import CreatePost from './views/Post/CreatePost';
 import UserProfile from './views/UserProfile/UserProfile';
+import ProtectedRoutes from "./views/ProtectedRoutes/ProtectedRoutes";
 
 function App() {
   return (
     <Container fluid style={{ 'background-color': '#eeeeee' }}>
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/home" component={Home} />
-        <Route exact path="/dashboard" component={Dashboard} />
-        <Route exact path="/user/:uid" component={UserProfile} />
-        <Route exact path="/communityhomepage" component={CommunityHomePage} />
-        <Route exact path="/communitysearchpage" component={CommunitySearchPage} />
-        <Route exact path="/createpost" component={CreatePost} />
-      </Switch>
+      <Router>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/home" component={Home} />
+          <ProtectedRoutes exact path="/dashboard" component={Dashboard} />
+          <ProtectedRoutes exact path="/user/:uid" component={UserProfile} />
+          <ProtectedRoutes exact path="/communityhomepage" component={CommunityHomePage} />
+          <ProtectedRoutes exact path="/communitysearchpage" component={CommunitySearchPage} />
+          <ProtectedRoutes exact path="/createpost" component={CreatePost} />
+        </Switch>
+      </Router>
     </Container>
   );
 }

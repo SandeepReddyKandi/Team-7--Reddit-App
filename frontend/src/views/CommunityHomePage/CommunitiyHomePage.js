@@ -1,3 +1,4 @@
+/* eslint-disable  dot-notation */
 import React from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -45,6 +46,7 @@ class CommunityHomePage extends React.Component {
       userId: '607c5f3cfca7772866d40925',
       community_id: '608b8305cf9ebd2d9694e801',
     };
+    axios.defaults.headers.common["authorization"] = localStorage.getItem('token')
     axios.defaults.withCredentials = true;
     await axios
       .post(`${constants.baseUrl}/community/status/`, data)

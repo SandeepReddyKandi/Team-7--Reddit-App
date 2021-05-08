@@ -5,6 +5,8 @@ const Validator = require("fastest-validator");
 const { v4: uuid } = require("uuid");
 const UserModel = require("../../models/UserModel");
 
+const secret = "CMPE_273_Splitwise_secret";
+
 const handle_request = async (req, callback) => {
   const registerSchema = {
     name: { type: "string", nullable: false },
@@ -54,7 +56,7 @@ const handle_request = async (req, callback) => {
             .then(() => {
               const token = jwt.sign(
                 { userId: newUser.id, email: newUser.email },
-                `${process.env.JWT_SECRET}`,
+                secret,
                 {
                   expiresIn: "4h",
                 }
