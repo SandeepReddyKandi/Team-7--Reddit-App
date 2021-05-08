@@ -1,4 +1,6 @@
 /* eslint-disable react/prefer-stateless-function */
+/* eslint-disable  dot-notation */
+/* eslint-disable prefer-template */
 import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -28,7 +30,7 @@ class Dashboard extends React.Component {
 
   getPost = () => {
     const userId = localStorage.getItem('user');
-    // console.log("*********user********", userId);
+    axios.defaults.headers.common["authorization"] = 'Bearer ' + localStorage.getItem('token')
     axios.defaults.withCredentials = true;
     axios
       .get(`${constants.baseUrl}/post/?user=${userId}`)

@@ -37,14 +37,13 @@ class PostCard extends React.Component {
   }
 
   addPostText= async()=>{
-    // preventDefault();
+    axios.defaults.headers.common["authorization"] = localStorage.getItem('token')
+    axios.defaults.withCredentials = true;    
     const data = {
       title: this.state.title,
       text: this.state.text,
       community: this.state.community,
     };
-    // axios.defaults.withCredentials = true;
-    // axios.defaults.headers.common.authorization = localStorage.getItem('id');
     axios.post(`${constants.baseUrl}/post/text`,data);
   }
   render() {
