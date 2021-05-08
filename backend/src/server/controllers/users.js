@@ -9,6 +9,8 @@ const kafka = require('../kafka/client');
 const { client } = require('../db');
 const util = require('util');
 const validator = new Validator();
+var { auth, checkAuth } = require('../utils/passport');
+auth();
 
 //registeration input schema
 const registerSchema = {
@@ -150,6 +152,14 @@ exports.login = async (req, res) => {
   // });
 };
 
+//not migrated yet
+exports.autoLogin = (req, res) => {
+  if (req.user) {
+    res.json({ loggedIn: true, role: req.user.role });
+  } else {
+    res.json({ loggedIn: false, role: '' });
+  }
+};
 //api to build user profile
 exports.profile = async (req, res) => {
   try {

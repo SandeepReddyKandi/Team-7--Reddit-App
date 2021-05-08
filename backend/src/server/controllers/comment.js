@@ -1,5 +1,7 @@
 const kafka = require('../kafka/client');
 const { ADD_COMMENT, GET_COMMENT } = require('../kafka/topics');
+var { auth, checkAuth } = require( '../utils/passport' )
+auth(); 
 
 exports.addComment = async (req, res) => {
   const payload = { body: req.body };

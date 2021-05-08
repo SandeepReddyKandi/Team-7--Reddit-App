@@ -27,6 +27,7 @@ const GET_COMMENT = 'getComment';
 //Invitation
 const SEND_INVITE = 'sendInvite';
 const GET_STATUS = 'getStatus';
+const GET_INVITATIONS = 'getInvitations';
 
 //Post
 const ADD_POST_TEXT = 'addPostText';
@@ -61,6 +62,7 @@ module.exports = {
   ADD_COMMENT,
   GET_COMMENT,
   SEND_INVITE,
+  GET_INVITATIONS,
   GET_STATUS,
   GET_RULES_TOPICS,
 };

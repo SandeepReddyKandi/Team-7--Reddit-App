@@ -1,32 +1,51 @@
-"use strict";
-var JwtStrategy = require("passport-jwt").Strategy;
-var ExtractJwt = require("passport-jwt").ExtractJwt;
-// const Users = require("../models/usermodel");
-const passport = require("passport");
+const passport = require('passport');
 
-const secret = "cmpe273_secret_key";
-// Setup work and export for the JWT passport strategy
+const JwtStrategy = require('passport-jwt').Strategy;
+const ExtractJwt = require('passport-jwt').ExtractJwt;
+
+const UserModel = require('../models/UserModel');
+const secret = "CMPE_273_Splitwise_secret";
+
 function auth() {
-  var opts = {
-    jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme("jwt"),
-    secretOrKey: secret,
-  };
-  passport.use(
-    new JwtStrategy(opts, (jwt_payload, callback) => {
-      const user_id = jwt_payload.user_id;
-      /* Users.findById(user_id, (err, results) => {
-        if (err) {
-          return callback(err, false);
-        }
-        if (results) {
-          callback(null, results);
-        } else {
-          callback(null, false);
-        }
-      }); */
-    })
-  );
-}
+  var opts = {};
+  opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+  opts.secretOrKey = secret;
+  console.log("***********auth method******");
+  passport.use(new JwtStrategy(opts, function (jwt_payload, callback) {
+    console.log("***********jwt_payload******", jwt_payload);
+    UserModel.findOne({ email: jwt_payload.email }, function (err, user) {
+      if (err) {
+        return callback(err, false);
+      }
+      if (user) {
+        const modifiedUser = user.toObject()
+        modifiedUser.userId = user._id;
+        callback(null, modifiedUser);
+      } else {
+        callback(null, false);
+      }
+    }).catch(error => {
+      console.log("Error in authorizing user", error)
+    });
+  }));
+};
 
 exports.auth = auth;
-exports.checkAuth = passport.authenticate("jwt", { session: false });
+exports.checkAuth = (req, res, next) => {
+  passport.authenticate("jwt", { session: false }, (error, user, info) => {
+    console.log("********error*****", error)
+    console.log("********user*****", user)
+    if (error || !user) {
+      console.log("Inside if");
+      const error = {
+        errorMessage: "Please login to continue",
+      };
+      return res.status(401).json(error);
+    }
+    else {
+      console.log("Inside else");
+      req.user = user;
+    }
+    return next();
+  })(req, res, next);
+};

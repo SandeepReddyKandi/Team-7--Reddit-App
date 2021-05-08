@@ -2,8 +2,12 @@ const UserModel = require("../../models/UserModel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const salt = bcrypt.genSaltSync(10);
+<<<<<<< HEAD
 const { client } = require("../../db");
 
+=======
+const secret = "CMPE_273_Splitwise_secret";
+>>>>>>> 1fd203639e4ee83fa77264856e8a0645fa5fbd5c
 const handle_request = async (req, callback) => {
   try {
     const searchTerm = req.body.email;
@@ -43,11 +47,19 @@ const handle_request = async (req, callback) => {
           if (bcrypt.compareSync(req.body.password, doc.password)) {
             client.setex(searchTerm, 600, JSON.stringify(doc));
             const token = jwt.sign(
+<<<<<<< HEAD
               { userId: doc.id, email: doc.email },
               `${process.env.JWT_SECRET}`,
               {
                 expiresIn: "4h",
               }
+=======
+                { userId: doc.id, email: doc.email },
+                secret,
+                {
+                    expiresIn: '4h',
+                }
+>>>>>>> 1fd203639e4ee83fa77264856e8a0645fa5fbd5c
             );
             callback(null, {
               token,
