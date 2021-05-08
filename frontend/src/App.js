@@ -31,6 +31,7 @@ function App() {
           <ProtectedRoutes exact path="/createpost" component={CreatePost} />
           <ProtectedRoutes exact path="/createCommunity" component={MyCommunity} />
         </Switch>
+      </Router>
     </Container>
   );
 }
