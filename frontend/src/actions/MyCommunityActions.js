@@ -1,5 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable dot-notation */
+/* eslint-disable prefer-template */
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
@@ -14,7 +15,7 @@ export const addCommunity = createAsyncThunk('community/addCommunity', async (pc
 });
 
 export const getRulesTopic = createAsyncThunk('community/getRulesTopic', async (pckg) => {
-  axios.defaults.headers.common["authorization"] = localStorage.getItem('token')
+  axios.defaults.headers.common["authorization"] = 'Bearer ' + localStorage.getItem('token')
   axios.defaults.withCredentials = true;
   const response = await axios.get('http://localhost:3001/community/gettr', pckg);
   if (response.status === 200) {
