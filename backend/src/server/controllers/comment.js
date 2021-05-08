@@ -9,7 +9,6 @@ exports.addComment = async (req, res) => {
     if (!results.success) {
       res.status(400).send(results);
     } else {
-     // console.log(results);
       res.status(200).json({
         msg: results.msg,
       });
@@ -23,11 +22,13 @@ exports.getComment = async (req, res) => {
     if (!results.success) {
       res.status(400).send(results);
     } else {
-      //console.log(results);
-      res.status(200).json({
-        msg: results.msg,
-        data: results.data,
-      });
+      res
+        .status(200)
+        .json({
+          msg: results.msg,
+          data: results.data,
+        })
+        .send();
     }
   });
 };

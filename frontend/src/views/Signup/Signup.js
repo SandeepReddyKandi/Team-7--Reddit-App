@@ -63,81 +63,7 @@ class Signup extends React.Component {
     this.props.showSignup(false);
   };
 
-  /*
-   <Modal show={showSignup} onHide={this.handleClose} backdrop="static" keyboard={false}>
-        <form className="form-signin" onSubmit={this.handleSignup}>
-          <Modal.Header closeButton>
-            <Modal.Title>Signup</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <div>
-              <Typography>
-                By continuing, you agree to our User Agreement and Privacy Policy.
-              </Typography>
-            </div>
-
-            <Dropdown.Divider />
-            <Container>
-              <Row>
-                <Col>
-                  {this.state.errormessage !== '' ? (
-                    <div className="alert alert-danger" role="alert">
-                      {this.state.errormessage}
-                    </div>
-                  ) : null}
-                  <div className="form-label-group">
-                    <Typography>My name is</Typography>
-                    <input
-                      type="name"
-                      onChange={this.nameChangeHandler}
-                      id="name"
-                      className="form-control"
-                      placeholder="Full Name"
-                      data-testid="name"
-                    />
-                  </div>
-                  <div className="form-label-group">
-                    <Typography>Heres my email address</Typography>
-                    <input
-                      type="email"
-                      id="email"
-                      onChange={this.emailChangeHandler}
-                      className="form-control"
-                      placeholder="email"
-                      data-testid="email"
-                      required
-                    />
-                  </div>
-                  <Typography>And heres my password</Typography>
-                  <input
-                    type="password"
-                    id="password"
-                    onChange={this.passwordChangeHandler}
-                    className="form-control"
-                    placeholder="Password"
-                    data-testid="password"
-                    required
-                  />
-                </Col>
-              </Row>
-            </Container>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={this.handleClose}>
-              Cancel
-            </Button>
-            <Button
-              variant="primary"
-              style={{ 'background-color': '#0579d3', color: '#ffffff', 'border-color': '#0579d3' }}
-              type="submit"
-            >
-              Signup
-            </Button>
-          </Modal.Footer>
-        </form>
-      </Modal> */
-  handleSignup = async (e) => {
-    let i;
+  handleSignup = (e) => {
     e.preventDefault();
     const data = {
       name: this.state.name,
@@ -145,33 +71,26 @@ class Signup extends React.Component {
       password: this.state.password,
     };
     axios.defaults.withCredentials = true;
-     for  (i = 1; i < 10001; i++) {
-
-      data.name = this.state.name + i.toString()
-      data.email = this.state.email.split("@")[0] + i.toString() + "@" + this.state.email.split("@")[1]
-      data.password = "Admin123"
-      await axios
-        .post(`${constants.baseUrl}/users/register/`, data)
-        .then((response, error) => {
-          if (error) {
-            this.setState({ errormessage: error.msg });
-          }
-          else if (response.data.success === true) {
-            localStorage.setItem('token', response.data.token);
-            localStorage.setItem('user', response.data.userId);
-            this.setState({
-              redirect: true,
-            });
-          } else {
-            this.setState({
-              redirect: false,
-            });
-          }
-        })
-        .catch((error) => {
-          this.setState({ errormessage: error.response.data.msg });
-        });
-    }
+    axios
+      .post(`${constants.baseUrl}/users/register/`, data)
+      .then((response, error) => {
+        if (error) {
+          this.setState({ errormessage: error.msg });
+        } else if (response.data.success === true) {
+          localStorage.setItem('token', response.data.token);
+          localStorage.setItem('user', response.data.userId);
+          this.setState({
+            redirect: true,
+          });
+        } else {
+          this.setState({
+            redirect: false,
+          });
+        }
+      })
+      .catch((error) => {
+        this.setState({ errormessage: error.response.data.msg });
+      });
   };
 
   render() {
@@ -193,7 +112,7 @@ class Signup extends React.Component {
             </Col>
             <Col md={10}>
               <Modal.Header closeButton style={{ 'border-bottom': 'none' }}>
-                <Col md={10}>
+                <Col md={8}>
                   <Row>
                     <h4 className="title">Signup</h4>
                   </Row>
@@ -206,7 +125,7 @@ class Signup extends React.Component {
               </Modal.Header>
               <Container className="login-card">
                 <Row>
-                  <Col md={10}>
+                  <Col md={8}>
                     <Row>&nbsp;</Row>
                     <Row className="sso-button">
                       <Button
@@ -312,9 +231,10 @@ class Signup extends React.Component {
                         </button>
                       </Row>
                     </form>
-                    <Row>&nbsp;</Row>
-                    <Row>
-                      <Typography className="subtitle">Already User? LOG IN</Typography>
+                    <Row style={{ margin: '10px 10px 10px 10px' }}>
+                      <Typography className="subtitle">
+                        Already User? <a href="/"> LOG IN</a>
+                      </Typography>
                     </Row>
                     <Row />
                   </Col>

@@ -1,12 +1,10 @@
 import React from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 import Header from '../Header/Header';
-import RedditIcon from '../../community.png';
 import constants from '../../constants/constants';
 import CommunityListCard from '../Cards/CommulityListCard';
 
@@ -52,12 +50,16 @@ class CommunitySearchPage extends React.Component {
 
             <Col md={11}>
               <Row>
-                <Col md={2}>&nbsp;</Col>
-                <Col md={1}>
-                  <Avatar alt="Remy Sharp" src={RedditIcon} className="card-img-top" />
-                </Col>
+                <Col md={3}>&nbsp;</Col>
                 <Col md={5}>
-                  <Typography variant="h5" component="h5" style={{ paddingLeft: '5%' }}>
+                  <Typography
+                    variant="h5"
+                    component="h5"
+                    style={{
+                      paddingLeft: '5%',
+                      marginBottom: '10px',
+                    }}
+                  >
                     Community Search Page
                   </Typography>
                 </Col>

@@ -15,17 +15,21 @@ import Collapse from '@material-ui/core/Collapse';
 import Button from '@material-ui/core/Button';
 import ShareIcon from '@material-ui/icons/Share';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import CardActions from '@material-ui/core/CardActions';
+import CardMedia from '@material-ui/core/CardMedia';
 import PropTypes from 'prop-types';
 import CardGiftcardIcon from '@material-ui/icons/CardGiftcard';
+import axios from 'axios';
 import RedditICon from '../../community.png';
 import Comment from '../Comment/Comment';
+
+import constants from '../../constants/constants';
 import './TextDisplayCard.css';
 
 class TextDisplayCard extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { expandComment: false, postId: '' };
+    this.state = { comment: '', expandComment: false, postId: '', updatetree: false };
   }
 
   handleExpandClick = () => {
@@ -43,14 +47,42 @@ class TextDisplayCard extends React.Component {
     console.log('Downvote clicked');
   };
 
+  handleCommentText = (e) => {
+    this.setState({
+      comment: e.target.value,
+    });
+  };
+
+  handleAddComment = () => {
+    const { postId, comment } = this.state;
+    const userId = localStorage.getItem('user');
+    axios.defaults.withCredentials = true;
+    const data = { postId, comment, userId };
+    axios
+      .post(`${constants.baseUrl}/comment/add`, data)
+      .then((response, error) => {
+        if (error) {
+          console.log(error.msg);
+        } else {
+          this.setState({ updatetree: true });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   render() {
-    const { expandComment, postId } = this.state;
+    const { expandComment, postId, updatetree } = this.state;
     const { post } = this.props;
     return (
-      <div className="posts-wrapper" style={{marginBottom:'10px'}}>
-        <Card>
+      <div
+        className="posts-wrapper"
+        style={{ marginBottom: '10px', width: '100%', height: '100%' }}
+      >
+        <Card style={{}}>
           <div className="post">
-            <Row style={{ width: '100%', height: '100%' }}>
+            <Row>
               <Col
                 md={1}
                 style={{
@@ -82,73 +114,76 @@ class TextDisplayCard extends React.Component {
                   </div>
                 </Row>
                 <Row>
-                  <div className="post-body">
-                    <span className="title"> {post.title}</span>
-                    <img height="200px" src="assets/subreddit.jpg" alt="img" />
-                    {/* <CardMedia image="assets/subreddit.jpg" title="Paella dish" />
-                    <CardActions onClick={this.handleExpandClick} disableSpacing>
-                      <IconButton aria-label="show more">
-                        <ModeCommentIcon fontSize="small" />
-                        <Typography className="header-label">525 Comments</Typography>
-                      </IconButton>
-                    </CardActions>
-    */}
-                  </div>
+                  <CardMedia image="assets/subreddit.jpg" title="Paella dish" />
+                  <CardContent>
+                    <Row>
+                      <span> {post.title}</span>
+                    </Row>
+                    <Row>
+                      <img height="200px" src="assets/subreddit.jpg" alt="img" />
+                    </Row>
+                  </CardContent>
                 </Row>
                 <Row>
-                  <div className="post-footer">
-                    <div className="comments footer-action">
-                      <div>
-                        <ModeCommentIcon className="comment-icon" />
-                      </div>
-                      <div>
-                        <span>525 Comments</span>
-                      </div>
-                      <div className="reward footer-action">
-                        <CardGiftcardIcon />
-                        <span>Reward</span>
-                      </div>
-                      <div className="share footer-action">
-                        <ShareIcon />
-                        <span>Share</span>
-                      </div>
-                      <div className="save footer-action">
-                        <BookmarkIcon />
-                        <span>Save</span>
-                      </div>
-                      <MoreHorizIcon className="more-icon footer-action" />
-                      <Collapse timeout="auto" in={expandComment}>
-                        <CardContent>
-                          <Typography className="header-label">Comment as </Typography>
-                          <TextareaAutosize
-                            rowsMin={6}
-                            placeholder="Comment"
-                            size="large"
-                            defaultValue=""
-                            style={{ width: '100%' }}
-                          />
+                  <CardActions disableSpacing>
+                    <IconButton aria-label="show more" onClick={this.handleExpandClick}>
+                      <ModeCommentIcon fontSize="small" />
+                      <span className="header-label">
+                        <span className="card-action-label">525 Comments</span>
+                      </span>
+                    </IconButton>
+                    <IconButton aria-label="show more">
+                      {' '}
+                      <CardGiftcardIcon />
+                      <span className="card-action-label">Reward</span>
+                    </IconButton>
+                    <IconButton aria-label="show more">
+                      {' '}
+                      <ShareIcon />
+                      <span className="card-action-label">Share</span>
+                    </IconButton>
+                    <IconButton aria-label="show more">
+                      {' '}
+                      <BookmarkIcon />
+                      <span className="card-action-label">Save</span>
+                    </IconButton>
+                  </CardActions>
+                </Row>
+                <Row>
+                  <Collapse timeout="auto" in={expandComment}>
+                    <Row>
+                      <CardContent>
+                        <Typography className="header-label card-action-label">
+                          Comment as{' '}
+                        </Typography>
+                        <TextareaAutosize
+                          rowsMin={6}
+                          placeholder="Comment"
+                          size="large"
+                          defaultValue=""
+                          style={{ width: '100%' }}
+                          onChange={this.handleCommentText}
+                        />
 
-                          <Button
-                            size="medium"
-                            className="btn-primary"
-                            type="button"
-                            style={{
-                              'background-color': '#da907e',
-                              color: '#ffffff',
-                              'border-radius': '9999px',
-                              height: '30px',
-                            }}
-                            onClick={this.handleSignupModal}
-                            default
-                          >
-                            Comment
-                          </Button>
-                        </CardContent>
-
-                        <Comment postId={postId} />
-                      </Collapse>
-                    </div>
-                  </div>
+                        <Button
+                          size="medium"
+                          className="btn-primary"
+                          type="button"
+                          style={{
+                            'background-color': '#da907e',
+                            color: '#ffffff',
+                            'border-radius': '9999px',
+                            height: '30px',
+                          }}
+                          onClick={this.handleAddComment}
+                          default
+                        >
+                          Comment
+                        </Button>
+                      </CardContent>
+                    </Row>
+                    <Comment postId={postId} update={updatetree} />
+                  </Collapse>
                 </Row>
               </Col>
             </Row>

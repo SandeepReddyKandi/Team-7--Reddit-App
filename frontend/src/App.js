@@ -9,9 +9,11 @@ import Home from './views/Home/Home';
 import Dashboard from './views/Dashboard/Dashboard';
 import CommunityHomePage from './views/CommunityHomePage/CommunitiyHomePage';
 import CommunitySearchPage from './views/CommunitySearchPage/CommunitySearchPage';
+import Invitations from './views/Invitations/Invitations';
 import CreatePost from './views/Post/CreatePost';
 import UserProfile from './views/UserProfile/UserProfile';
 import ProtectedRoutes from "./views/ProtectedRoutes/ProtectedRoutes";
+import MyCommunity from './views/MyCommunity/MyCommunity'
 
 function App() {
   return (
@@ -25,8 +27,10 @@ function App() {
           <ProtectedRoutes exact path="/communityhomepage" component={CommunityHomePage} />
           <ProtectedRoutes exact path="/communitysearchpage" component={CommunitySearchPage} />
           <ProtectedRoutes exact path="/createpost" component={CreatePost} />
+          <ProtectedRoutes exact path="/invitations" component={Invitations} />
+          <ProtectedRoutes exact path="/createpost" component={CreatePost} />
+          <ProtectedRoutes exact path="/createCommunity" component={MyCommunity} />
         </Switch>
-      </Router>
     </Container>
   );
 }

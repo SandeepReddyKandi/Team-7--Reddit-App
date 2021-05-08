@@ -18,18 +18,37 @@ class PostCard extends React.Component {
   constructor(props){
     super(props);
     this.state={
+      title:'',
+      text:'',
+      community:'test5',
       communityList:[],
     }
   }
 
+  onChangeText = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  }
+  onChangeTitle = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  }
+
   addPostText= async()=>{
     axios.defaults.headers.common["authorization"] = localStorage.getItem('token')
-    axios.defaults.withCredentials = true;
-    axios.post(`${constants.baseUrl}/post/text`)
+    axios.defaults.withCredentials = true;    
+    const data = {
+      title: this.state.title,
+      text: this.state.text,
+      community: this.state.community,
+    };
+    axios.post(`${constants.baseUrl}/post/text`,data);
   }
   render() {
     const communitylist= new Set();
-    communitylist.add(<Dropdown.Item as="button" value="1">1</Dropdown.Item>)
+    communitylist.add(<Dropdown.Item as="button" value="test5">test5</Dropdown.Item>)
     return (
       <>
         <div>
@@ -45,6 +64,8 @@ class PostCard extends React.Component {
                         menuAlign="right"
                         title="Choose a Community"
                         id="dropdown-menu-align-right"
+                        onChange={this.onChange}
+                        value={this.state.community}
                         >
                         {communitylist}
                         </DropdownButton>
@@ -54,21 +75,27 @@ class PostCard extends React.Component {
                     <Row>
                       {' '}
                       <TextField
+                        name="title"
                         id="outlined-size-small"
                         placeholder="Title"
                         variant="outlined"
                         size="small"
                         fullWidth="true"
+                        value={this.state.title}
+                        onChange={this.onChangeTitle}
                         // onClick={this.createPost}
                       />
                     </Row>
                     <Row>&nbsp;</Row>
                     <Row>
                       <TextareaAutosize
+                        name="text"
                         rowsMin={6}
-                        placeholder="Text(required)"
+                        placeholder="Text (required)"
                         size="large"
                         defaultValue=""
+                        value={this.state.text}
+                        onChange={this.onChangeText}
                         style={{ width: '100%' }}
                       />
                     </Row>
