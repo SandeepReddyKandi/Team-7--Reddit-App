@@ -9,7 +9,7 @@ const handle_request = async (req, callback) => {
     await UserModel.findOne({ email: req.body.email }, (err, doc) => {
         if (!doc) {
             //return res.status(404).json({ msg: 'Account Not Found' });
-            callback(null, {
+            return callback(null, {
                 msg: 'Account Not Found',
                 success: true
             })
@@ -35,7 +35,7 @@ const handle_request = async (req, callback) => {
             //     userId: doc.id,
             //     role: 'User'
             // });
-            callback(null, {
+            return callback(null, {
                 token,
                 msg: 'Logged in successfully',
                 userId: doc.id,
@@ -43,7 +43,7 @@ const handle_request = async (req, callback) => {
             })
         } else {
             //return res.status(401).json({ msg: 'Invalid Credentials Entered' });
-            callback(null, {
+            return callback(null, {
                 msg: 'Invalid Credentials Entered',
                 success: false
             })

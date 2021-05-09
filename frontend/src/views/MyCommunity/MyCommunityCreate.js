@@ -34,6 +34,8 @@ const MyCommunityCreate = () => {
   const [showImage, addShowImage] = useState([]);
   const [topicList, addTopic] = useState([]);
   const [rulesList, addRules] = useState([]);
+  const [halfRule, addHalf] = useState('');
+  const [showDesc, changeShow] = useState(false);
   const inputrules = React.useRef();
   const dispatch = useDispatch();
   const [textState, setTextState] = useState();
@@ -64,11 +66,36 @@ const MyCommunityCreate = () => {
     }
   };
   const addIntoRules = (e) => {
-    if (e.key === 'Enter') {
-      addRules([...rulesList, e.target.value]);
-      document.getElementById('rules').value = '';
+    if (e.key === 'Enter'){
+      console.log(e.target.id)
+      if (showDesc && e.target.id === 'rulesdesc') {
+        const ruleElement = {title: halfRule, description: e.target.value};
+        console.log("in here", ruleElement)
+        addHalf('');
+        addRules([...rulesList, ruleElement]);
+        changeShow(false)
+      }
+      else {
+        let flag = true
+        for (const i in reduxData.rules) {
+          if (e.target.value === reduxData.rules[i].title) {
+            if (!rulesList.includes(reduxData.rules[i])){
+              addRules([...rulesList, reduxData.rules[i]]);
+              flag = false;
+            }
+            else{
+              flag = false;
+            }
+          }
+        }
+        if (flag){
+          addHalf(e.target.value)
+          changeShow(true)
+        }
+      }
     }
   };
+  
   const removeFromRules = (rules) => {
     rulesList.splice(rulesList.indexOf(rules), 1);
     addRules([...rulesList]);
@@ -79,6 +106,8 @@ const MyCommunityCreate = () => {
     addTopic([...topicList]);
     // addTopic(topicList.splice();
   };
+  const rulesTitles = reduxData.rules.map((rule) => rule.title)
+  const topicDescription = reduxData.topics.map((topic) => topic.description)
   const input = document.querySelector('topic');
   if (input !== null) {
     input.addEventListener('keyup', (e) => {
@@ -88,23 +117,26 @@ const MyCommunityCreate = () => {
   }
   const submit = () => {
     const data = {
+      admin_id: localStorage.getItem('token'),
       community_name: document.getElementById('name').value,
-      description: document.getElementById('desc').value,
+      description: document.getElementById('description').value,
       rules: rulesList,
       topic: topicList,
-      images: imageList,
+      // images: imageList,
     };
     const  newTopic=[];
     const newRule=[];
-    for (const i in rulesList) {
-      if (!reduxData.rules.include(rulesList[i])) newRule.push(rulesList[i])
-    }
-    for (const i in topicList) {
-      if (!reduxData.topics.include(rulesList[i])) newTopic.push(rulesList[i])
-    }
+    // for (const i in rulesList) {
+    //   if (!reduxData.rules.include(rulesList[i])) newRule.push(rulesList[i])
+    // }
+    // for (const i in topicList) {
+    //   if (!reduxData.topics.include(rulesList[i])) newTopic.push(rulesList[i])
+    // }
 
     dispatch(addCommunity(data));
   };
+  console.log(rulesList)
+  console.log("in here", showDesc);
   return (
     <>
       <Header />
@@ -153,7 +185,7 @@ const MyCommunityCreate = () => {
                     <footer className="blockquote-footer">
                       This will help relevant user to find your community{' '}
                     </footer>
-                    <Hint options={reduxData.topics} allowTabFill>
+                    <Hint options={topicDescription} allowTabFill>
                       <input
                         type="text"
                         value={textState}
@@ -178,28 +210,42 @@ const MyCommunityCreate = () => {
                       : null}
                   </div>
                   <div className="form-label-group">
-                    <Typography>Rules of the group</Typography>
+                    <Typography>Rules of the group(Titles)</Typography>
                     <footer className="blockquote-footer">
                       This will be rules your community{' '}
                     </footer>
-                    <Hint options={reduxData.rules} allowTabFill>
+                    <Hint options={rulesTitles} allowTabFill>
                       <input
                         pill
                         type="text"
                         value={textState2}
-                        id="rules"
+                        id="rulestitle"
                         ref="inputrules"
                         onChange={(e) => setTextState2(e.target.value)}
                         onKeyDown={addIntoRules}
                         className="form-control"
-                        data-testid="rules"
+                        data-testid="rulestitle"
                       />
                     </Hint>
+                    
+                    {showDesc ? <div className="form-label-group">
+                    <h6>Rule Description</h6>
+                    <input
+                      type="description"
+                      onChange={null}
+                      id="rulesdesc"
+                      className="form-control"
+                      placeholder="Community Description"
+                      onKeyDown={addIntoRules}
+                      data-testid="rulesdesc"
+                    />
+                  </div> : null
+                    }
                     {rulesList.length > 0
                       ? rulesList.map((rules) => (
                           <Badge pill variant={batchColor[rulesList.indexOf(rules) % 5]}>
                             {' '}
-                            {rules}{' '}
+                            {`${rules.title}: ${rules.description}`}{' '}
                             <FaTimes
                               onClick={() => removeFromRules(rules)}
                               style={{ color: 'white', cursor: 'pointer' }}
@@ -245,7 +291,7 @@ const MyCommunityCreate = () => {
                     color: '#ffffff',
                     'border-color': '#0579d3',
                   }}
-                  onClick="Submit"
+                  onClick={() => submit()}
                 >
                   Create Community
                 </Button>
