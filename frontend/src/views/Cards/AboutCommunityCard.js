@@ -3,12 +3,10 @@
 import React from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import IconButton from '@material-ui/core/IconButton';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Card from '@material-ui/core/Card';
 import { Typography } from '@material-ui/core';
 import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
+// import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
@@ -31,16 +29,9 @@ class AboutCommunityCard extends React.Component {
     return (
       <Card>
         <CardHeader
-          action={
-            <IconButton aria-label="settings">
-              <MoreVertIcon />
-            </IconButton>
-          }
           subheader={<Typography className="sidecard-labels">About Community</Typography>}
-          style={{ 'background-color': '#0579d3' }}
-          height
+          className="right-side-card"
         />
-        <CardMedia image="/static/images/cards/paella.jpg" title="Paella dish" />
         <CardContent>
           <Row>
             <Col>

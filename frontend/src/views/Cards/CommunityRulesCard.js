@@ -1,7 +1,5 @@
 import React from 'react';
 
-import IconButton from '@material-ui/core/IconButton';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Card from '@material-ui/core/Card';
 import { Typography } from '@material-ui/core';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -19,13 +17,8 @@ class CommunityRulesCard extends React.Component {
     return (
       <Card>
         <CardHeader
-          action={
-            <IconButton aria-label="settings">
-              <MoreVertIcon />
-            </IconButton>
-          }
-          subheader={<span fontColor="white">Rules</span>}
-          style={{ 'background-color': '#0579d3' }}
+          subheader={<Typography className="sidecard-labels">Rules</Typography>}
+          className="right-side-card"
           height
         />
         <CardMedia image="/static/images/cards/paella.jpg" title="Paella dish" />

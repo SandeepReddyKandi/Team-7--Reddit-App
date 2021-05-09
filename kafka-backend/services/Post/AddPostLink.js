@@ -13,7 +13,7 @@ const handle_request = async (req, callback) => {
                 .then((community)=>{
                     PostModel.create({
                         community_id: community.community_id,
-                        text: msg.URL,
+                        url: msg.URL,
                         title: msg.title,
                         author_id: msg1.UserID
                     },(err,post)=>{

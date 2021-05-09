@@ -35,6 +35,11 @@
  margin:10px 10px 10px 10px;
 }
 
+.right-side-card{
+  background-color: #0579d3;
+  color: #ffffff;
+  max-height: 15%;
+}
 .google-button{
   font-family: IBMPlexSans,sans-serif;
   font-size: 14px;
