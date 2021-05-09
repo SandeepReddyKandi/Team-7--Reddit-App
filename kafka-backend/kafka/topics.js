@@ -67,9 +67,6 @@ module.exports = {
   JOIN_COMMUNITY,
   GET_STATUS,
   GET_RULES_TOPICS,
-<<<<<<< HEAD
-  GET_POST_COMMUNITY
-=======
+  GET_POST_COMMUNITY,
   UPVOTE_POST,
->>>>>>> 748eb8074c356aaddb8fa1f54699ec9146efc10b
 };
