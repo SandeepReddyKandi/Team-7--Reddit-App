@@ -6,11 +6,11 @@ const secret = "CMPE_273_Splitwise_secret";
 const handle_request = async (req, callback) => {
   //check whether account exists/not
   await UserModel.findOne({ email: req.body.email }, (err, doc) => {
-    if (doc === null) {
+    if (!doc) {
       //return res.status(404).json({ msg: 'Account Not Found' });
       return callback(null, {
         msg: "Account Not Found",
-        success: false,
+        success: true,
       });
     }
 
@@ -44,6 +44,12 @@ const handle_request = async (req, callback) => {
       });
     }
   });
+
+  // res.status(200).json({
+  //     msg: 'Logged in successfully',
+  //     userId: doc.id,
+  //     role: 'User'
+  // });
 };
 
 exports.handle_request = handle_request;

@@ -1,9 +1,15 @@
+/* eslint-disable  dot-notation */
+/* eslint-disable prefer-template */
+/* eslint-disable no-underscore-dangle */
 import React from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from '@material-ui/core/Button';
 import { Typography } from '@material-ui/core';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
+import { Modal } from 'react-bootstrap';
 import Header from '../Header/Header';
 import InvitationListCard from '../Cards/InvitationListCard';
 import constants from '../../constants/constants';
@@ -13,8 +19,17 @@ class Invitations extends React.Component {
     super(props);
     this.state = {
       invitations: [],
+      showModal: false,
+      personName: '',
+      names: [],
+      selectedNames: [],
+      communities: [],
+      selectedCommunity: '',
     };
     this.getInvitations = this.getInvitations.bind(this);
+    this.getUsers = this.getUsers.bind(this);
+    this.sendInvite = this.sendInvite.bind(this);
+    this.getCommunities = this.getCommunities.bind(this);
   }
 
   componentDidMount() {
@@ -22,9 +37,11 @@ class Invitations extends React.Component {
   }
 
   getInvitations() {
+    const userId = localStorage.getItem('user');
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
     axios
-      .get(`${constants.baseUrl}/community/getinvitations?userId=607c5f3cfca7772866d40925`)
+      .get(`${constants.baseUrl}/community/getinvitations?userId=${userId}`)
       .then((response, error) => {
         if (!error) {
           this.setState({
@@ -38,8 +55,113 @@ class Invitations extends React.Component {
       });
   }
 
+  getCommunities(e) {
+    const communityNameFilter = e.target.value;
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    axios.defaults.withCredentials = true;
+    axios
+      .get(`${constants.baseUrl}/community/getCommunityByName?name=${communityNameFilter}`)
+      .then((response, error) => {
+        if (!error) {
+          this.setState({
+            communities: response.data.data,
+          });
+        }
+      })
+      .catch((error) => {
+        // this.setState({
+        //  error: error.response.msg,
+        // });
+        // eslint-disable-next-line no-alert
+        alert(error);
+      });
+  }
+
+  getUsers(e) {
+    const nameFilter = e.target.value;
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    axios.defaults.withCredentials = true;
+    axios
+      .get(`${constants.baseUrl}/users/getUsersByName?name=${nameFilter}`)
+      .then((response, error) => {
+        if (!error) {
+          this.setState({
+            names: response.data.data,
+          });
+        }
+      })
+      .catch((error) => {
+        // this.setState({
+        //  error: error.response.msg,
+        // });
+        // eslint-disable-next-line no-alert
+        alert(error);
+      });
+  }
+
+  handleClose = () => this.setState({ showModal: false });
+
+  handleShow = () => this.setState({ showModal: true });
+
+  handleKeyDown = (evt) => {
+    if (['Enter'].includes(evt.key)) {
+      evt.preventDefault();
+      const { selectedNames, personName } = this.state;
+      if (personName.trim()) {
+        this.setState({
+          selectedNames: [...selectedNames, personName],
+          personName: '',
+        });
+      }
+    }
+  };
+
+  handleChange = (evt) => {
+    this.setState({
+      personName: evt.target.value,
+    });
+  };
+
+  handleDelete = (item) => {
+    const { selectedNames } = this.state;
+    this.setState({
+      selectedNames: selectedNames.filter((i) => i !== item),
+    });
+  };
+
+  sendInvite(event) {
+    event.preventDefault();
+    const userId = localStorage.getItem('user');
+    const { selectedNames, selectedCommunity } = this.state;
+    selectedNames.forEach((recepient) => {
+      const formData = {
+        sender: userId,
+        community_id: selectedCommunity._id,
+        recepient: recepient._id,
+      };
+      axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+      axios.defaults.withCredentials = true;
+      axios
+        .post(`${constants.baseUrl}/community/invite`, formData)
+        .then((response, error) => {
+          if (!error) {
+            this.getInvitations();
+          }
+        })
+        .catch((error) => {
+          // this.setState({
+          //  error: error.response.msg,
+          // });
+          // eslint-disable-next-line no-alert
+          alert(error);
+        });
+    });
+    this.handleClose();
+  }
+
   render() {
-    const { invitations } = this.state;
+    // eslint-disable-next-line no-unused-vars
+    const { invitations, showModal, personName, names, selectedNames, communities } = this.state;
 
     return (
       <>
@@ -65,8 +187,6 @@ class Invitations extends React.Component {
                 </Col>
                 <Col md={3}>
                   <Button
-                    data-testid="Signup"
-                    size="small"
                     className="btn-primary"
                     type="button"
                     style={{
@@ -76,7 +196,7 @@ class Invitations extends React.Component {
                       height: '30px',
                       marginBottom: '10px',
                     }}
-                    onClick={this.handleJoin}
+                    onClick={this.handleShow}
                     default
                   >
                     Send Invite
@@ -101,6 +221,64 @@ class Invitations extends React.Component {
             <Col md={3}>&nbsp;</Col>
           </Row>
         </div>
+
+        <Modal show={showModal} onHide={this.handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Send Invitation</Modal.Title>
+          </Modal.Header>
+          <form onSubmit={this.sendInvite}>
+            <Modal.Body>
+              <Autocomplete
+                fullWidth
+                id="combo-box-demo"
+                size="small"
+                onChange={(event, newValue) => {
+                  this.setState({ selectedCommunity: newValue, communities: [] });
+                }}
+                options={communities}
+                getOptionLabel={(option) => option.community_name}
+                style={{ marginBottom: '10px' }}
+                renderInput={(params) => (
+                  <TextField
+                    // eslint-disable-next-line react/jsx-props-no-spreading
+                    {...params}
+                    label="Type to search community..."
+                    variant="outlined"
+                    onKeyUp={this.getCommunities}
+                  />
+                )}
+              />
+
+              <Autocomplete
+                multiple
+                value={selectedNames}
+                onChange={(event, newValue) => {
+                  this.setState({ selectedNames: [...newValue], names: [] });
+                }}
+                options={names}
+                getOptionLabel={(option) => option.name}
+                renderInput={(params) => (
+                  <TextField
+                    // eslint-disable-next-line react/jsx-props-no-spreading
+                    {...params}
+                    variant="standard"
+                    label="Recepient(s)"
+                    placeholder="Type to search user..."
+                    onKeyUp={this.getUsers}
+                  />
+                )}
+              />
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={this.handleClose}>
+                Close
+              </Button>
+              <Button variant="primary" type="submit">
+                Send
+              </Button>
+            </Modal.Footer>
+          </form>
+        </Modal>
       </>
     );
   }

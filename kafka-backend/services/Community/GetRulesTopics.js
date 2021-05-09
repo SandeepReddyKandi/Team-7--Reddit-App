@@ -4,25 +4,18 @@ const Topics = require("../../models/TopicModel");
 
 const handle_request = async (req, callback) => {
     try {
+        console.log("final_data");
         const rules = await Rules.find();
         const topics = await Topics.find();
-        let rule_list =[];
-        let topic_list =[];
-        for (let i in rules){
-            rule_list.push(rules[i].description)
-        }
-        for (let i in topics){
-            topic_list.push(topics[i].description)
-        }
-        const final_data = {rules: rule_list, topics: topic_list}
-        callback(null, {
+        const final_data = {rules: rules, topics: topics}
+        return callback(null, {
             msg: "",
             success: true,
             data: final_data,
         });
     }
     catch (error) {
-        callback(null, {
+        return callback(null, {
           msg: error.message,
           success: false,
         });
