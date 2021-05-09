@@ -1,10 +1,22 @@
 const express = require('express');
 const router = express.Router();
-const { auth, checkAuth } = require( '../utils/passport' )
+const { auth, checkAuth } = require('../utils/passport');
 auth();
-const { addPost, getPost, getPostByUserId } = require('../controllers/post');
+
+const {
+  addPost,
+  getPost,
+  getPostByUserId,
+  getPostByPage,
+  updatePostUpvote,
+  updatePostDownvote,
+} = require('../controllers/post');
 
 // keep adding end-points here
 router.post('/add', checkAuth, addPost);
 router.get('/', checkAuth, getPost);
+router.get('/post', getPostByPage);
+router.post('/upvote', updatePostUpvote);
+router.post('/downvote', updatePostDownvote);
+
 module.exports = router;

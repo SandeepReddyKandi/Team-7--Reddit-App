@@ -6,9 +6,11 @@ const { v4: uuid } = require('uuid');
 const UserModel = require('../models/UserModel');
 const { USER_LOGIN, USER_SIGNUP, GET_USERS } = require('../kafka/topics');
 const kafka = require('../kafka/client');
+const { client } = require('../db');
+const util = require('util');
 const validator = new Validator();
-var { auth, checkAuth } = require( '../utils/passport' )
-auth(); 
+var { auth, checkAuth } = require('../utils/passport');
+auth();
 
 //registeration input schema
 const registerSchema = {
@@ -36,7 +38,7 @@ exports.register = async (req, res) => {
         token: results.token,
         msg: results.msg,
         userId: results.userId,
-        success: true
+        success: true,
       });
     }
   });
@@ -113,7 +115,7 @@ exports.login = async (req, res) => {
         token: results.token,
         msg: results.msg,
         userId: results.userId,
-        success: true
+        success: true,
       });
     }
   });
@@ -184,21 +186,21 @@ exports.profile = async (req, res) => {
   }
 };
 
-//api to build user profile
-exports.getUsers = async (req, res) => {
-  const payload = { body: req.body };
-  kafka.make_request(GET_USERS, payload, (error, results) => {
-    if (!results.success) {
-      res.status(400).send(results);
-    } 
-    else {
-      res.status(200).json({
-        msg: results.msg,
-        data: results.data,
-        success: true
-      });
-    }
-  });
-}
-
-
+exports.getusers = async (req, res) => {
+  try {
+    const payload = { body: req.body };
+    kafka.make_request(GET_USERS, payload, (error, results) => {
+      if (!results.success) {
+        res.status(400).send(results);
+      } else {
+        res.status(200).json({
+          msg: results.msg,
+          users: results.data,
+          success: true,
+        });
+      }
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};

@@ -15,6 +15,8 @@ const {
   ADD_POST_TEXT,
   ADD_POST_IMAGE,
   ADD_POST_LINK,
+  UPVOTE_POST,
+  DOWNVOTE_POST,
   // GET_POST,
   // GET_POST_BY_ID
   GET_COMMUNITY_BY_NAME,
@@ -27,6 +29,7 @@ const {
   SEND_INVITE,
   GET_POST,
   GET_STATUS,
+  GET_USERS,
   GET_INVITATIONS,
 } = require("./kafka/topics");
 
@@ -39,8 +42,8 @@ const getUsers = require("./services/users/getUsers");
 const addCommunity = require("./services/Community/AddCommunity");
 const getCommunity = require("./services/Community/GetCommunity");
 const getCommunityById = require("./services/Community/GetCommunityById");
-const getCommunityByAdmin = require('./services/Community/GetCommunityByAdmin');
-const getCommunityByMember = require('./services/Community/GetCommunityByMember');
+const getCommunityByAdmin = require("./services/Community/GetCommunityByAdmin");
+const getCommunityByMember = require("./services/Community/GetCommunityByMember");
 const deleteCommunityById = require("./services/Community/DeleteCommunityById");
 
 const getCommunityByName = require("./services/Community/GetCommunityByName");
@@ -50,6 +53,7 @@ const getRulesTopics = require("./services/Community/GetRulesTopics");
 const addPost = require("./services/Post/AddPost");
 const getPost = require("./services/Post/GetPost");
 const getPostByPage = require("./services/Post/GetPostByPage");
+const upvotePost = require("./services/Post/UpvotePost");
 
 //Comment
 const addComment = require("./services/Comment/AddComment");
@@ -64,6 +68,7 @@ const getInvitations = require("./services/Invitation/GetInvitations");
 const addPostText = require("./services/Post/AddPostText");
 const addPostImage = require("./services/Post/AddPostImage");
 const addPostLink = require("./services/Post/AddPostLink");
+const downvotePost = require("./services/Post/DownvotePost");
 // const getPost = require("./services/Post/GetPost");
 // const getPostbyID = require("./services/Post/GetPostbyID");
 
@@ -148,6 +153,8 @@ handleTopicRequest(RATE_COMMUNITY, rateCommunity);
 handleTopicRequest(ADD_POST, addPost);
 handleTopicRequest(GET_POST, getPost);
 handleTopicRequest(GET_POST_BY_PAGE, getPostByPage);
+handleTopicRequest(UPVOTE_POST, upvotePost);
+handleTopicRequest(DOWNVOTE_POST, downvotePost);
 
 //Comment
 handleTopicRequest(ADD_COMMENT, addComment);

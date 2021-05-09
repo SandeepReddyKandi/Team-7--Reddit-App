@@ -33,48 +33,72 @@ import MyCommunityCard from './MyCommunityCard';
 const MyCommunity = () => {
   const dispatch = useDispatch();
   const reduxData = useSelector((state) => state.addCommunity);
-//   const myCommunities = [
-//     {
-//         "image_src": "assets/subreddit.jpg",
-//         "name": "UpliftingNews"
-//     },
-//     {
-//         "image_src": "assets/subreddit.jpg",
-//         "name": "nottheonion"
-//     },
-//     {
-//         "image_src": "assets/subreddit.jpg",
-//         "name": "technews"
-//     },
-//     {
-//         "image_src": "assets/subreddit.jpg",
-//         "name": "gamernews"
-//     },
-//     {
-//         "image_src": "assets/subreddit.jpg",
-//         "name": "news"
-//     }
-// ];
+  //   const myCommunities = [
+  //     {
+  //         "image_src": "assets/subreddit.jpg",
+  //         "name": "UpliftingNews"
+  //     },
+  //     {
+  //         "image_src": "assets/subreddit.jpg",
+  //         "name": "nottheonion"
+  //     },
+  //     {
+  //         "image_src": "assets/subreddit.jpg",
+  //         "name": "technews"
+  //     },
+  //     {
+  //         "image_src": "assets/subreddit.jpg",
+  //         "name": "gamernews"
+  //     },
+  //     {
+  //         "image_src": "assets/subreddit.jpg",
+  //         "name": "news"
+  //     }
+  // ];
   const handleGetUsers = async (e) => {
-  const response = await axios.get('http://localhost:3001/users/getUsers');
-
+    const response = await axios.get('http://localhost:3001/users/getUsers');
   };
 
-  return (
-    <div>
-      <Header />
+  const input = document.querySelector('topic');
+  if (input !== null) {
+    input.addEventListener('keyup', (e) => {
+      let event;
+      if (!e) event = window.event;
+    });
+  }
+  const submit = () => {
+    const data = {
+      community_name: document.getElementById('name').value,
+      description: document.getElementById('desc').value,
+      rules: rulesList,
+      topic: topicList,
+      images: imageList,
+    };
+    const newTopic = [];
+    const newRule = [];
+    for (const i in rulesList) {
+      if (!reduxData.rules.include(rulesList[i])) newRule.push(rulesList[i]);
+    }
+    for (const i in topicList) {
+      if (!reduxData.topics.include(rulesList[i])) newTopic.push(rulesList[i]);
+    }
 
-      <Button onClick={handleGetUsers}>Get Users</Button>
-      <Row>
-        <Col sm={3}>
+    return (
+      <div>
+        <Header />
+
+        <Button onClick={handleGetUsers}>Get Users</Button>
+        <Row>
+          <Col sm={3}>
             <p>Sample</p>
-        </Col>
-        <Col md={6}>
-        <MyCommunityCard communities={reduxData.community}/>
-        </Col>
-      </Row>
-    </div>
-  )
+          </Col>
+          <Col md={6}>
+            <MyCommunityCard communities={reduxData.community} />
+          </Col>
+        </Row>
+      </div>
+    );
+  };
 };
 
 export default MyCommunity;

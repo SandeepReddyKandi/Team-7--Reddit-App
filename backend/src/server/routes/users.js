@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { auth, checkAuth } = require( '../utils/passport' )
+const { auth, checkAuth } = require('../utils/passport');
 auth();
+
 const { register, login, profile, autoLogin, getUsers } = require('../controllers/users');
 
 // keep adding end-points here

@@ -9,14 +9,14 @@ const postsRouter = require('./routes/posts');
 const postRouter = require('./routes/post');
 const commentRouter = require('./routes/comment');
 
-const dotenv = require('dotenv');
+// const dotenv = require('dotenv');
 const passport = require('passport');
 const { auth } = require('./utils/passport');
-var session = require( "express-session" );
-const bodyParser = require("body-parser");
+var session = require('express-session');
+const bodyParser = require('body-parser');
 
 const app = express();
-dotenv.config();
+//dotenv.config();
 
 //activate body parser
 app.use(express.json());
@@ -28,20 +28,20 @@ app.use(cookieParser());
 app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 app.use(express.urlencoded({ extended: false }));
 app.use(
-  session( {
-      key: 'user_sid',
-      secret: "CMPE_273_Splitwise_secret",
-      resave: false,
-      saveUninitialized: false,
-      cookie: {
-          expires: 6000000
-      }
-  } )
+  session({
+    key: 'user_sid',
+    secret: 'CMPE_273_Splitwise_secret',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      expires: 6000000,
+    },
+  })
 );
 
 // passport
-app.use(passport.initialize())
-app.use(passport.session())
+app.use(passport.initialize());
+app.use(passport.session());
 auth();
 
 // forward all end-point requests to routes
@@ -63,15 +63,18 @@ app.use(function (req, res, next) {
   return next();
 });
 
-
 // app.use("/api", api); //routes from api folder will come here
 // app.get("/", (req, res) => {
 //   res.send("Hello World!");
 // });
 
+// forward all end-point requests to routes
+app.use('/users', usersRouter);
+app.use('/community', communityRouter);
+app.use('/post', postRouter);
+app.use('/comment', commentRouter);
 const port = 3001;
 const { connectToDatabase } = require('./db');
-
 
 /* Db Connection */
 const db = connectToDatabase().then(() => {
