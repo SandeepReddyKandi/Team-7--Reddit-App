@@ -29,6 +29,7 @@ const {
   SEND_INVITE,
   GET_POST,
   GET_STATUS,
+  GET_POST_COMMUNITY,
   GET_USERS,
   GET_INVITATIONS,
 } = require("./kafka/topics");
@@ -69,6 +70,7 @@ const getInvitations = require("./services/Invitation/GetInvitations");
 const addPostText = require("./services/Post/AddPostText");
 const addPostImage = require("./services/Post/AddPostImage");
 const addPostLink = require("./services/Post/AddPostLink");
+const getPostCommunity = require("./services/Post/GetPostCommunity");
 const downvotePost = require("./services/Post/DownvotePost");
 // const getPost = require("./services/Post/GetPost");
 // const getPostbyID = require("./services/Post/GetPostbyID");
@@ -146,7 +148,7 @@ handleTopicRequest(GET_COMMUNITY_BY_ADMIN, getCommunityByAdmin);
 handleTopicRequest(ADD_POST_TEXT, addPostText);
 handleTopicRequest(ADD_POST_IMAGE, addPostImage);
 handleTopicRequest(ADD_POST_LINK, addPostLink);
-// handleTopicRequest(GET_POST, getPost);
+handleTopicRequest(GET_POST_COMMUNITY, getPostCommunity);
 // handleTopicRequest(GET_POST_BY_ID, getPostbyID);
 handleTopicRequest(GET_COMMUNITY_BY_NAME, getCommunityByName);
 handleTopicRequest(RATE_COMMUNITY, rateCommunity);

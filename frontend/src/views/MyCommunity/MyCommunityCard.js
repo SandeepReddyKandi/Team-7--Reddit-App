@@ -1,10 +1,13 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable react/prop-types */
-import React from 'react';
+import {useState} from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import IconButton from '@material-ui/core/IconButton';
 import Card from '@material-ui/core/Card';
+import TablePagination from '@material-ui/core/TablePagination';
 import { Carousel } from 'react-bootstrap';
 import { Typography } from '@material-ui/core';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -14,7 +17,10 @@ import PeopleIcon from '@material-ui/icons/People';
 import NotesIcon from '@material-ui/icons/Notes';
 import './TextDisplayCard.css';
 
-const MyCommunityCard = ({communities}) => (
+const MyCommunityCard = ({communities}) => {
+  const [page, setPage] = useState([]);
+  const [totalPage, setTotalPage] = useState(communities.length);
+  return (
         <div>
         {communities.map((community) => 
         <Card>
@@ -77,8 +83,16 @@ const MyCommunityCard = ({communities}) => (
         </Row>
       </Card>
         )}
-        
+        <TablePagination
+                  component="div"
+                  count={20}
+                  page={page}
+                  onChangePage={null}
+                  rowsPerPage={5}
+                  onChangeRowsPerPage={null}
+                  rowsPerPageOptions={[2, 5, 10]}
+                />
         </div>
     )
-
+}
 export default MyCommunityCard

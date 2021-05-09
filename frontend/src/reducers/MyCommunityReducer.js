@@ -16,7 +16,7 @@ export const MyCommunityReducer = createSlice({
       posts: 23,
       members: 4,
       createdAt: "2021-04-30T04:09:41.307+00:00",
-      rules: ["rule1", "rule2"],
+      rules: [],
       topics: ["topic1", "topic2"],
     }]
   },

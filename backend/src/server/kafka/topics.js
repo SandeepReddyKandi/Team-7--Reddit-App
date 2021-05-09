@@ -35,10 +35,11 @@ const GET_STATUS = 'getStatus';
 const GET_INVITATIONS = 'getInvitations';
 
 //Post
-const ADD_POST_TEXT = 'addPostText';
-const ADD_POST_IMAGE = 'addPostImage';
-const ADD_POST_LINK = 'addPostLink';
-// const GET_POST='getPost';
+const ADD_POST_TEXT='addPostText';
+const ADD_POST_IMAGE='addPostImage';
+const ADD_POST_LINK='addPostLink';
+const GET_POST_COMMUNITY='getPostCommunity';
+
 // const GET_POST_BY_ID='getPostbyID';
 
 module.exports = {
@@ -71,4 +72,5 @@ module.exports = {
   GET_INVITATIONS,
   GET_STATUS,
   GET_RULES_TOPICS,
+  GET_POST_COMMUNITY,
 };
