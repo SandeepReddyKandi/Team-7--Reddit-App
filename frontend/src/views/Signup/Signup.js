@@ -1,5 +1,8 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable constructor-super */
+/* eslint-disable no-plusplus */
+/* eslint-disable prefer-template */
+/* eslint-disable no-await-in-loop */
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import Row from 'react-bootstrap/Row';
@@ -228,7 +231,6 @@ class Signup extends React.Component {
                         </button>
                       </Row>
                     </form>
-
                     <Row style={{ margin: '10px 10px 10px 10px' }}>
                       <Typography className="subtitle">
                         Already User? <a href="/"> LOG IN</a>

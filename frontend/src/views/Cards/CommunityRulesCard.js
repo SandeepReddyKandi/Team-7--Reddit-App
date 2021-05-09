@@ -24,8 +24,8 @@ class CommunityRulesCard extends React.Component {
               <MoreVertIcon />
             </IconButton>
           }
-          subheader={<span fontColor="white">Rules</span>}
-          style={{ 'background-color': '#0579d3' }}
+          subheader={<Typography className="sidecard-labels">Rules</Typography>}
+          className="right-side-card"
           height
         />
         <CardMedia image="/static/images/cards/paella.jpg" title="Paella dish" />
@@ -58,7 +58,7 @@ class CommunityRulesCard extends React.Component {
           </CardContent>
         </Collapse>
       </Card>
-    );
+    )
   }
 }
 

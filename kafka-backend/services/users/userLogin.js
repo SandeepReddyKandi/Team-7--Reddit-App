@@ -2,7 +2,7 @@ const UserModel = require('../../models/UserModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const salt = bcrypt.genSaltSync(10);
-
+const secret = "CMPE_273_Splitwise_secret";
 const handle_request = async (req, callback) => {
 
     //check whether account exists/not
@@ -19,7 +19,7 @@ const handle_request = async (req, callback) => {
         if (bcrypt.compareSync(req.body.password, doc.password)) {
             const token = jwt.sign(
                 { userId: doc.id, email: doc.email },
-                `${process.env.JWT_SECRET}`,
+                secret,
                 {
                     expiresIn: '4h',
                 }

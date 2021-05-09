@@ -12,7 +12,18 @@ import PropTypes from 'prop-types';
 import Logo from './Logo/Logo';
 import Searchbar from './Searchbar/Searchbar';
 
+// import { authContext } from "../../context/AuthContext";
+
 export default function Header(props) {
+  const token = localStorage.getItem('token');
+  let loggedIn;
+  if (token) {
+    loggedIn = true;
+  }
+  else {
+    loggedIn = false;
+  }
+
   const handleLogIn = (e) => {
     e.preventDefault();
     props.showLogin(true);
@@ -44,12 +55,22 @@ export default function Header(props) {
               </Col>
               <Col md={3}>
                 <Row>
-                  <Col md={1.5}>
-                    <Chip label="LOG IN" onClick={handleLogIn} />
-                  </Col>
-                  <Col>
-                    <Chip label="SIGN UP" onClick={handleSignup} />
-                  </Col>
+                  {loggedIn ? (
+                    <>
+                      <p>test</p>
+                      <p>test2</p>
+                      <p>test3</p>
+                    </>
+                  ) : (
+                    <>
+                      <Col md={1.5}>
+                        <Chip label="LOG IN" onClick={handleLogIn} />
+                      </Col>
+                      <Col>
+                        <Chip label="SIGN UP" onClick={handleSignup} />
+                      </Col>
+                    </>
+                  )}
                 </Row>
               </Col>
             </Toolbar>

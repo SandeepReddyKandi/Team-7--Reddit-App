@@ -2,6 +2,7 @@
 const USER_LOGIN = "userLogin";
 const USER_SIGNUP = "userSignup";
 const GET_USERS_BY_NAME = "getUsersByName";
+const GET_USERS = "getUsers";
 
 //Community
 const ADD_COMMUNITY = "addCommunity";
@@ -15,11 +16,13 @@ const GET_COMMUNITY_BY_ADMIN = "getCommunityByAdmin";
 const RATE_COMMUNITY = "rateCommunity";
 const JOIN_COMMUNITY = "joinCommunity";
 const GET_RULES_TOPICS = "getRulesTopics";
+const DOWNVOTE_POST = "downvotePost";
 
 //Post
 const ADD_POST = "addPost";
 const GET_POST = "getPost";
 const GET_POST_BY_PAGE = "getPostByPage";
+const UPVOTE_POST = "upvotePost";
 
 //Comment
 const ADD_COMMENT = "addComment";
@@ -38,9 +41,11 @@ const ADD_POST_LINK = "addPostLink";
 // const GET_POST_BY_ID='getPostbyID';
 
 module.exports = {
+  GET_USERS,
   USER_LOGIN,
   USER_SIGNUP,
   GET_USERS_BY_NAME,
+  GET_USERS,
   ADD_COMMUNITY,
   GET_COMMUNITY,
   GET_COMMUNITY_BY_ID,
@@ -48,6 +53,7 @@ module.exports = {
   ADD_POST_TEXT,
   ADD_POST_IMAGE,
   ADD_POST_LINK,
+  DOWNVOTE_POST,
   // GET_POST,
   // GET_POST_BY_ID
   GET_COMMUNITY_BY_NAME,
@@ -64,4 +70,5 @@ module.exports = {
   JOIN_COMMUNITY,
   GET_STATUS,
   GET_RULES_TOPICS,
+  UPVOTE_POST,
 };

@@ -25,6 +25,8 @@ class ImageCard extends React.Component {
   addPostLink= async()=>{
     // axios.defaults.withCredentials = true;
     // axios.defaults.headers.common.authorization = localStorage.getItem('id');
+    axios.defaults.headers.common["authorization"] = localStorage.getItem('token')
+    axios.defaults.withCredentials = true;
     axios.post(`${constants.baseUrl}/post/image/`)
   }
   render() {

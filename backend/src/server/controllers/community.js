@@ -1,4 +1,6 @@
 const kafka = require('../kafka/client');
+var { auth, checkAuth } = require( '../utils/passport' )
+auth(); 
 
 const {
   ADD_COMMUNITY,
@@ -103,7 +105,7 @@ exports.getCommunityByAdmin = async (req, res) => {
     } else {
       console.log(results);
       res.status(200).json({
-        msg: results.msg,
+        msg: results.data,
         //role: results.role,
       });
     }

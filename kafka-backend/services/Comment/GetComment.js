@@ -1,10 +1,11 @@
 const CommentModel = require("../../models/CommentModel");
+const mongoose = require("mongoose");
 
 const handle_request = async (req, callback) => {
   try {
     const criteria = {};
     if (req.comment_id) {
-      criteria._id = req.comment_id;
+      criteria.post_id = mongoose.Types.ObjectId(req.comment_id);
     }
     let comments = await CommentModel.find(criteria);
     return callback(null, {
