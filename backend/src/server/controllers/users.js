@@ -7,6 +7,8 @@ const UserModel = require('../models/UserModel');
 const { USER_LOGIN, USER_SIGNUP, GET_USERS } = require('../kafka/topics');
 const kafka = require('../kafka/client');
 const validator = new Validator();
+var { auth, checkAuth } = require( '../utils/passport' )
+auth(); 
 
 //registeration input schema
 const registerSchema = {
@@ -148,6 +150,14 @@ exports.login = async (req, res) => {
   // });
 };
 
+//not migrated yet
+exports.autoLogin = (req, res) => {
+  if (req.user) {
+    res.json({ loggedIn: true, role: req.user.role });
+  } else {
+    res.json({ loggedIn: false, role: '' });
+  }
+};
 //api to build user profile
 exports.profile = async (req, res) => {
   try {

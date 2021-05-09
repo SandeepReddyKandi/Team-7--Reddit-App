@@ -1,12 +1,14 @@
 const express = require('express');
 const router = express.Router();
-
-const { register, login, profile, getUsers } = require('../controllers/users');
+const { auth, checkAuth } = require( '../utils/passport' )
+auth();
+const { register, login, profile, autoLogin, getUsers } = require('../controllers/users');
 
 // keep adding end-points here
 router.post('/register', register);
 router.post('/login', login);
-router.post('/profile', profile);
-router.get('/getUsers', getUsers);
+router.get('/autoLogin', checkAuth, autoLogin);
+router.post('/profile', checkAuth, profile);
+router.get('/getUsers', checkAuth, getUsers);
 
 module.exports = router;
