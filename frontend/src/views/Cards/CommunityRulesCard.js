@@ -58,7 +58,7 @@ class CommunityRulesCard extends React.Component {
           </CardContent>
         </Collapse>
       </Card>
-    );
+    )
   }
 }
 

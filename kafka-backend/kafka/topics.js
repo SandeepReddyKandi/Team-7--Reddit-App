@@ -1,6 +1,7 @@
 // User
 const USER_LOGIN = "userLogin";
 const USER_SIGNUP = "userSignup";
+const GET_USERS = "getUsers";
 
 //Community
 const ADD_COMMUNITY = "addCommunity";
@@ -39,6 +40,7 @@ const ADD_POST_LINK = "addPostLink";
 module.exports = {
   USER_LOGIN,
   USER_SIGNUP,
+  GET_USERS,
   ADD_COMMUNITY,
   GET_COMMUNITY,
   GET_COMMUNITY_BY_ID,
