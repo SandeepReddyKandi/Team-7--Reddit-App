@@ -2,11 +2,10 @@
 const mongoose = require('mongoose');
 
 const connectToDatabase = () => {
-  const uri =
-    'mongodb+srv://admin:admin@cluster0.0uwhi.mongodb.net/RedditDB';
+  const uri = 'mongodb+srv://admin:admin@cluster0.0uwhi.mongodb.net/RedditDB';
 
   mongoose.connect(uri, {
-    poolSize: 10,
+    poolSize: 1,
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
@@ -19,5 +18,12 @@ const connectToDatabase = () => {
   });
   return db;
 };
+
+// const redis = require('redis');
+// const client = redis.createClient();
+
+// client.on('error', function (error) {
+//   console.error(error);
+// });
 
 module.exports = { connectToDatabase };

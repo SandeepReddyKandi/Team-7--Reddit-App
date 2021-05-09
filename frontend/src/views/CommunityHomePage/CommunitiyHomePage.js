@@ -1,3 +1,5 @@
+/* eslint-disable  dot-notation */
+/* eslint-disable prefer-template */
 import React from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -5,7 +7,9 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import { Typography } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
+import TablePagination from '@material-ui/core/TablePagination';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 import Header from '../Header/Header';
 import RedditICon from '../../community.png';
 import TextDisplayCard from '../Cards/TextDisplayCard';
@@ -13,38 +17,60 @@ import AboutCommunityCard from '../Cards/AboutCommunityCard';
 import CommunityRulesCard from '../Cards/CommunityRulesCard';
 import CommunityAppBar from '../ToolBar/CommunityAppBar';
 import constants from '../../constants/constants';
-// import ImageCard from '../Cards/ImageCard';
-// import LinkCard from '../Cards/LinkCard';
 
-// import Container from 'react-bootstrap/Container';
+import CommunityMembersList from '../Cards/CommunityMembersList';
 
 class CommunityHomePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      community: { descriptions: '', members: [] },
+      community: {},
+      page: 0,
+      rows: 5,
+      totalRows: 10,
       post: false,
+      posts: [],
       showPage: false,
       status: {
         status: '',
       },
     };
-    this.checkStatus();
-    this.getCommunity();
   }
 
-  componentDidMount() {}
+  async componentDidMount() {
+    const { community } = this.props;
+    this.setState(community);
+    await this.checkStatus();
+    await this.getCommunity();
+    await this.getPost();
+    // this.getPost();
+  }
 
   createPost = () => {
     const { post } = this.state;
     this.setState({ post: !post });
   };
 
+  handleChangePage = (e, newpage) => {
+    e.preventDefault();
+    if (this.selectedGroup === undefined) {
+      this.setState({ page: newpage }, async () => {
+        this.getPost();
+      });
+    } else {
+      this.setState({ page: newpage }, async () => {
+        this.getPost();
+      });
+    }
+  };
+
   checkStatus = async () => {
+    // const { community } = this.state;
     const data = {
-      userId: '607c5f3cfca7772866d40925',
+      userId: '607c5f3cfca7772866d40925', // localStorage.getItem('user'),
       community_id: '608b8305cf9ebd2d9694e801',
     };
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
     await axios
       .post(`${constants.baseUrl}/community/status/`, data)
@@ -67,6 +93,7 @@ class CommunityHomePage extends React.Component {
       recepient: '',
       community_id: '',
     };
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
     await axios
       .post(`${constants.baseUrl}/community/invite/`, data)
@@ -83,7 +110,33 @@ class CommunityHomePage extends React.Component {
       });
   };
 
+  handleChangeRowsPerPage = () => {
+    this.getPost();
+  };
+
+  getPost = async () => {
+    const { page, rows } = this.state;
+    // const community = this.state;
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    axios.defaults.withCredentials = true;
+    await axios
+      .get(`${constants.baseUrl}/post/post/?id=608b8305cf9ebd2d9694e801&page=${page}&rows=${rows}`)
+      .then((response, error) => {
+        if (!error) {
+          this.setState({
+            posts: response.data.data,
+            showPage: true,
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        // this.setState({ errormessage: error.response.data.msg });
+      });
+  };
+
   getCommunity = async () => {
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
     await axios
       .get(`${constants.baseUrl}/community/communities/?id=608b8305cf9ebd2d9694e801`)
@@ -102,7 +155,7 @@ class CommunityHomePage extends React.Component {
   };
 
   render() {
-    const { post, community, showPage, status } = this.state;
+    const { post, posts, community, showPage, status, page, rows, totalRows } = this.state;
     if (post) {
       return <Redirect to="/createpost" />;
     }
@@ -117,7 +170,7 @@ class CommunityHomePage extends React.Component {
             <Row style={{ 'background-color': '#ffffff', height: '20%' }}>
               <Col md={2}>&nbsp;</Col>
 
-              <Col md={11}>
+              <Col md={12}>
                 <Row>
                   <Col md={2}>&nbsp;</Col>
                   <Col md={1}>
@@ -195,29 +248,37 @@ class CommunityHomePage extends React.Component {
             <Row />
             <Row>
               <Col md={2}>&nbsp;</Col>
-              <Col md={6}>
-                <Row>&nbsp;</Row>
-                <Row>
+              <Col md={5}>
+                <Row style={{ 'margin-top': '5px' }}>
                   <CommunityAppBar />
                 </Row>
-                <Row>&nbsp;</Row>
-
-                {community.posts.length >= 0 &&
-                  community.posts.map((p) => (
+                {posts.length >= 0 &&
+                  posts.map((p) => (
                     <Row>
                       <TextDisplayCard post={p} />
                     </Row>
                   ))}
+                <TablePagination
+                  component="div"
+                  count={totalRows}
+                  page={page}
+                  onChangePage={this.handleChangePage}
+                  rowsPerPage={rows}
+                  onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                  rowsPerPageOptions={[2, 5, 10]}
+                />
               </Col>
-              <Col />
-              <Col md={3}>
-                <Row>&nbsp;</Row>
-                <Row>
+
+              <Col md={2}>
+                <Row className="border">
                   <AboutCommunityCard community_info={community} status={status.status} />
                 </Row>
-                <Row>&nbsp;</Row>
-                <Row>
+
+                <Row className="border">
                   <CommunityRulesCard />
+                </Row>
+                <Row className="border">
+                  <CommunityMembersList community_info={community} />
                 </Row>
               </Col>
             </Row>
@@ -227,5 +288,9 @@ class CommunityHomePage extends React.Component {
     );
   }
 }
+
+CommunityHomePage.propTypes = {
+  community: PropTypes.objectOf.isRequired,
+};
 
 export default CommunityHomePage;

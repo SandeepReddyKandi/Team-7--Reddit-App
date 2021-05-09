@@ -1,5 +1,6 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable constructor-super */
+/* eslint-disable dot-notation */
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import Row from 'react-bootstrap/Row';
@@ -16,11 +17,10 @@ import LoginICon from '../../login.png';
 import GoogleICon from '../../google.png';
 import ApplIcon from '../../apple.png';
 // import login from '../../login.png';
-
 // import TextField from '@material-ui/core/TextField';
-
 // eslint-disable-next-line react/prefer-stateless-function
-class Login extends React.Component {
+
+class Login extends React.Component { 
   constructor(props) {
     super(props);
     this.state = {
@@ -52,6 +52,7 @@ class Login extends React.Component {
       email: this.state.email,
       password: this.state.password,
     };
+    axios.defaults.headers.common["authorization"] = localStorage.getItem('token')
     axios.defaults.withCredentials = true;
     axios
       .post(`${constants.baseUrl}/users/login/`, data)
@@ -69,14 +70,13 @@ class Login extends React.Component {
         }
       })
       .catch((error) => {
-        console.log("*******error********", error);
         this.setState({ errormessage: error.response.data.msg });
       });
   };
 
   handleClose = () => {
     this.props.showLogin(false);
-  };
+  };  
 
   render() {
     const { showLogin } = this.state;
@@ -204,14 +204,18 @@ class Login extends React.Component {
                         </button>
                       </Row>
                     </form>
-                    <Row>
+                    <Row style={{ margin: '10px 10px 10px 10px' }}>
                       <Typography className="subtitle">
                         Forgot your username or password?
                       </Typography>
                     </Row>
-                    <Row>&nbsp;</Row>
+
                     <Row>
-                      <Typography className="subtitle">New to Reddit? SIGN UP</Typography>
+                      <Row style={{ margin: '10px 10px 10px 10px' }}>
+                        <Typography className="subtitle">
+                          New User? <a href="/">Sign Up</a>
+                        </Typography>
+                      </Row>
                     </Row>
                     <Row />
                   </Col>

@@ -54,6 +54,7 @@ class CommunityListCard extends React.Component {
                     pathname: `/communityhomepage`,
                     state: { community },
                   }}
+                  style={{ textDecoration: 'none', color: 'black' }}
                 >
                   <Row>
                     <div className="post-title">

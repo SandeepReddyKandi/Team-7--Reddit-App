@@ -4,11 +4,10 @@ const mongoose = require("mongoose");
 const handle_request = async (req, callback) => {
   try {
     await InvitationModel.find({
-      community_id: req.body.community_id,
+      community_id: mongoose.Types.ObjectId(req.body.community_id),
       sender: req.body.userId,
     }).then((response) => {
-     // console.log(response);
-      callback(null, {
+      return callback(null, {
         msg: "",
         data: response,
         success: true,

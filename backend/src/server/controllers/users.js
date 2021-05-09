@@ -4,9 +4,13 @@ const salt = bcrypt.genSaltSync(10);
 const Validator = require('fastest-validator');
 const { v4: uuid } = require('uuid');
 const UserModel = require('../models/UserModel');
-const { USER_LOGIN, USER_SIGNUP } = require('../kafka/topics');
+const { USER_LOGIN, USER_SIGNUP, GET_USERS } = require('../kafka/topics');
 const kafka = require('../kafka/client');
+const { client } = require('../db');
+const util = require('util');
 const validator = new Validator();
+var { auth, checkAuth } = require('../utils/passport');
+auth();
 
 //registeration input schema
 const registerSchema = {
@@ -34,7 +38,7 @@ exports.register = async (req, res) => {
         token: results.token,
         msg: results.msg,
         userId: results.userId,
-        success: true
+        success: true,
       });
     }
   });
@@ -111,7 +115,7 @@ exports.login = async (req, res) => {
         token: results.token,
         msg: results.msg,
         userId: results.userId,
-        success: true
+        success: true,
       });
     }
   });
@@ -148,6 +152,14 @@ exports.login = async (req, res) => {
   // });
 };
 
+//not migrated yet
+exports.autoLogin = (req, res) => {
+  if (req.user) {
+    res.json({ loggedIn: true, role: req.user.role });
+  } else {
+    res.json({ loggedIn: false, role: '' });
+  }
+};
 //api to build user profile
 exports.profile = async (req, res) => {
   try {
@@ -171,5 +183,24 @@ exports.profile = async (req, res) => {
     );
   } catch (error) {
     return res.status(500).json({ msg: error.message });
+  }
+};
+
+exports.getUsers = async (req, res) => {
+  try {
+    const payload = { body: req.body };
+    kafka.make_request(GET_USERS, payload, (error, results) => {
+      if (!results.success) {
+        res.status(400).send(results);
+      } else {
+        res.status(200).json({
+          msg: results.msg,
+          users: results.data,
+          success: true,
+        });
+      }
+    });
+  } catch (err) {
+    console.log(err);
   }
 };
