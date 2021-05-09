@@ -33,7 +33,7 @@ const handle_request = async (req, callback) => {
           console.log(">>>>>>>>>>>Inside Fetch<<<<<<<<<<<<<");
           if (!doc) {
             //return res.status(404).json({ msg: 'Account Not Found' });
-            callback(null, {
+            return callback(null, {
               msg: "Account Not Found",
               success: true,
             });
@@ -49,7 +49,7 @@ const handle_request = async (req, callback) => {
                 expiresIn: "4h",
               }
             );
-            callback(null, {
+            return callback(null, {
               token,
               msg: "Logged in successfully",
               userId: doc.id,
@@ -57,7 +57,7 @@ const handle_request = async (req, callback) => {
             });
           } else {
             //return res.status(401).json({ msg: 'Invalid Credentials Entered' });
-            callback(null, {
+            return callback(null, {
               msg: "Invalid Credentials Entered",
               success: false,
             });

@@ -66,39 +66,22 @@ const MyCommunity = () => {
       if (!e) event = window.event;
     });
   }
-  const submit = () => {
-    const data = {
-      community_name: document.getElementById('name').value,
-      description: document.getElementById('desc').value,
-      rules: rulesList,
-      topic: topicList,
-      images: imageList,
-    };
-    const newTopic = [];
-    const newRule = [];
-    for (const i in rulesList) {
-      if (!reduxData.rules.include(rulesList[i])) newRule.push(rulesList[i]);
-    }
-    for (const i in topicList) {
-      if (!reduxData.topics.include(rulesList[i])) newTopic.push(rulesList[i]);
-    }
 
-    return (
-      <div>
-        <Header />
+  return (
+    <div>
+      <Header />
 
-        <Button onClick={handleGetUsers}>Get Users</Button>
-        <Row>
-          <Col sm={3}>
-            <p>Sample</p>
-          </Col>
-          <Col md={6}>
-            <MyCommunityCard communities={reduxData.community} />
-          </Col>
-        </Row>
-      </div>
-    );
-  };
+      <Button onClick={handleGetUsers}>Get Users</Button>
+      <Row>
+        <Col sm={3}>
+          <p>Sample</p>
+        </Col>
+        <Col md={6}>
+          <MyCommunityCard communities={reduxData.community} />
+        </Col>
+      </Row>
+    </div>
+  );
 };
 
 export default MyCommunity;

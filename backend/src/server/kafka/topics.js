@@ -22,6 +22,7 @@ const ADD_POST = 'addPost';
 const GET_POST = 'getPost';
 const UPVOTE_POST = 'upvotePost';
 const DOWNVOTE_POST = 'downvotePost';
+const GET_POST_BY_PAGE = 'getPostByPage';
 
 //Comment
 const ADD_COMMENT = 'addComment';

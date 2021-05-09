@@ -186,7 +186,7 @@ exports.profile = async (req, res) => {
   }
 };
 
-exports.getusers = async (req, res) => {
+exports.getUsers = async (req, res) => {
   try {
     const payload = { body: req.body };
     kafka.make_request(GET_USERS, payload, (error, results) => {
