@@ -1,10 +1,26 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable constructor-super */
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable no-unused-vars */
+
 import React from 'react';
 import './Header.css';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+
+import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import PostAddIcon from '@material-ui/icons/PostAdd';
+import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
+import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
+
 import Chip from '@material-ui/core/Chip';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -13,8 +29,44 @@ import Logo from './Logo/Logo';
 import Searchbar from './Searchbar/Searchbar';
 
 // import { authContext } from "../../context/AuthContext";
+const StyledMenu = withStyles({
+  paper: {
+    border: '1px solid #d3d4d5',
+    width: '190px'
+  },
+})((props) => (
+  <Menu
+    elevation={0}
+    getContentAnchorEl={null}
+    anchorOrigin={{
+      vertical: 'bottom',
+      horizontal: 'center',
+    }}
+    transformOrigin={{
+      vertical: 'top',
+      horizontal: 'center',
+    }}
+    {...props}
+  />
+));
+
+const StyledMenuItem = withStyles((theme) => ({
+  root: {
+    marginBottom: '2px',
+    paddingLeft: '5px',
+    '&:focus': {
+      backgroundColor: theme.palette.primary.main,
+      '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
+        color: theme.palette.common.white,
+        minWidth: '30px'
+      }
+    }
+  },
+}))(MenuItem);
 
 export default function Header(props) {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
   const token = localStorage.getItem('token');
   let loggedIn;
   if (token) {
@@ -38,7 +90,12 @@ export default function Header(props) {
     showLogin: PropTypes.func.isRequired,
     showSignup: PropTypes.func.isRequired,
   };
-
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   return (
     <header>
       <Row>
@@ -48,18 +105,60 @@ export default function Header(props) {
               <Col md={3} alignContent>
                 <Logo />
               </Col>
-              <Col md={6}>
-                <div>
+              <Col md={7}>
+                <div >
                   <Searchbar />
                 </div>
               </Col>
-              <Col md={3}>
+              <Col md={2}>
                 <Row>
                   {loggedIn ? (
                     <>
-                      <p>test</p>
-                      <p>test2</p>
-                      <p>test3</p>
+                      <Button
+                        aria-controls="customized-menu"
+                        aria-haspopup="true" style={{ width: "90%", border: "1px solid rgb(230,230,230)", borderRadius: "2px" }}
+                        color="transparent"
+                        onClick={handleClick}>
+                        UserName
+                      </Button>
+                      <StyledMenu
+                        id="customized-menu"
+                        anchorEl={anchorEl}
+                        keepMounted
+                        open={Boolean(anchorEl)} style={{ width: "235px", minHeight: "300px" }}
+                        onClose={handleClose}
+                      >
+                        <StyledMenuItem>
+                          <ListItemIcon>
+                            <AccountBoxIcon fontSize="medium" />
+                          </ListItemIcon>
+                          <ListItemText primary="Profile" />
+                        </StyledMenuItem>
+                        <StyledMenuItem>
+                          <ListItemIcon>
+                            <PostAddIcon fontSize="medium" />
+                          </ListItemIcon>
+                          <ListItemText primary="Create Post" />
+                        </StyledMenuItem>
+                        <StyledMenuItem>
+                          <ListItemIcon>
+                            <LibraryAddIcon fontSize="medium" />
+                          </ListItemIcon>
+                          <ListItemText primary="Create Community" />
+                        </StyledMenuItem>
+                        <StyledMenuItem>
+                          <ListItemIcon>
+                            <LibraryBooksIcon fontSize="medium" />
+                          </ListItemIcon>
+                          <ListItemText primary="My Communities" />
+                        </StyledMenuItem>
+                        <StyledMenuItem >
+                          <ListItemIcon>
+                            <ExitToAppIcon fontSize="medium" />
+                          </ListItemIcon>
+                          <ListItemText primary="Log Out" />
+                        </StyledMenuItem>
+                      </StyledMenu>
                     </>
                   ) : (
                     <>
@@ -77,6 +176,6 @@ export default function Header(props) {
           </AppBar>
         </Col>
       </Row>
-    </header>
+    </header >
   );
 }
