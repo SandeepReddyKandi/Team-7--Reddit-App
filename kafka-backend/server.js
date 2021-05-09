@@ -22,6 +22,7 @@ const {
   SEND_INVITE,
   GET_POST,
   GET_STATUS,
+  GET_POST_COMMUNITY,
 } = require("./kafka/topics");
 
 //user
@@ -52,7 +53,7 @@ const getStatus = require("./services/Invitation/GetStatus");
 const addPostText = require("./services/Post/AddPostText");
 const addPostImage = require("./services/Post/AddPostImage");
 const addPostLink = require("./services/Post/AddPostLink");
-// const getPost = require("./services/Post/GetPost");
+const getPostCommunity = require("./services/Post/GetPostCommunity");
 // const getPostbyID = require("./services/Post/GetPostbyID");
 
 const port = 3001;
@@ -123,7 +124,7 @@ handleTopicRequest(GET_RULES_TOPICS, getRulesTopics);
 handleTopicRequest(ADD_POST_TEXT, addPostText);
 handleTopicRequest(ADD_POST_IMAGE, addPostImage);
 handleTopicRequest(ADD_POST_LINK, addPostLink);
-// handleTopicRequest(GET_POST, getPost);
+handleTopicRequest(GET_POST_COMMUNITY, getPostCommunity);
 // handleTopicRequest(GET_POST_BY_ID, getPostbyID);
 handleTopicRequest(GET_COMMUNITY_BY_NAME, getCommunityByName);
 handleTopicRequest(RATE_COMMUNITY, rateCommunity);

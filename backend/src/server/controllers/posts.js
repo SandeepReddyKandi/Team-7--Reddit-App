@@ -1,5 +1,5 @@
 const kafka = require('../kafka/client');
-const { ADD_POST_TEXT,ADD_POST_IMAGE,ADD_POST_LINK, GET_POST, GET_POST_BY_ID } = require('../kafka/topics');
+const { ADD_POST_TEXT,ADD_POST_IMAGE,ADD_POST_LINK, GET_POST, GET_POST_COMMUNITY, GET_POST_BY_ID } = require('../kafka/topics');
 
 exports.addPostText = async (req, res) => {
   const payload = { body: req.body };
@@ -86,3 +86,23 @@ exports.addPostImage = async (req, res) => {
     });
   };
   
+  exports.getPostCommunity = async (req, res) => {
+    // console.log("******getPosts backend controller********");
+
+    const payload = { body: req.body };
+    kafka.make_request(GET_POST_COMMUNITY, payload, (error, results) => {
+      // console.log("******results********", results);
+
+      if (!results.success) {
+        res.status(400).send(results);
+      } else {
+       // console.log(results);
+        res.status(200).json({
+          msg: results.msg,
+          data: results.data,
+          success: results.success
+          //role: results.role,
+        });
+      }
+    });
+  };

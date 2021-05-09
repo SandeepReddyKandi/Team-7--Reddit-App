@@ -26,7 +26,7 @@ const GET_STATUS = 'getStatus';
 const ADD_POST_TEXT='addPostText';
 const ADD_POST_IMAGE='addPostImage';
 const ADD_POST_LINK='addPostLink';
-// const GET_POST='getPost';
+const GET_POST_COMMUNITY='getPostCommunity';
 // const GET_POST_BY_ID='getPostbyID';
 
 module.exports = {
@@ -49,4 +49,5 @@ module.exports = {
   SEND_INVITE,
   GET_STATUS,
   GET_RULES_TOPICS,
+  GET_POST_COMMUNITY,
 };

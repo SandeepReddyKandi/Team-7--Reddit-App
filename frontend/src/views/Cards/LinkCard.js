@@ -20,9 +20,26 @@ class LinkCard extends React.Component {
     this.state = {
       title:'',
       URL:'',
-      community:'test5',
+      community:'Choose a Community',
       communityList: [],
     };
+  }
+
+  componentDidMount(){
+    this.getCommunityList()
+  }
+
+  handleSelect = (evtKey) => {
+    console.log("---evtkey----",evtKey);
+    this.setState({
+      community:evtKey
+    });
+}
+
+  onChangeCommunity=(e)=>{
+    this.setState({
+      [e.target.name]:e.target.value
+    });
   }
 
   onChangeURL = (e) => {
@@ -34,6 +51,17 @@ class LinkCard extends React.Component {
     this.setState({
       [e.target.name]: e.target.value,
     });
+  }
+
+  getCommunityList= async()=>{
+    const communities=[];
+    // axios.defaults.withCredentials = true;
+    // axios.defaults.headers.common.authorization = localStorage.getItem('id');
+    const data= await axios.get(`${constants.baseUrl}/community/communities`);
+    if(data.data.data){
+      (data.data.data).map((d)=>communities.push(d.community_name))
+      this.setState({communityList:communities});
+    }
   }
 
   addPostLink= async()=>{
@@ -60,12 +88,18 @@ class LinkCard extends React.Component {
                     <Row>
                       <Col className="p-0" md={3.5} style={{ display: 'flex', justifyContent: 'flex-end' }}>
                         <DropdownButton
+                        name="community"                        
                         variant="light"
                         menuAlign="right"
-                        title="Choose a Community"
+                        title={this.state.community}
                         id="dropdown-menu-align-right"
+                        onChange={this.onChangeCommunity}
+                        value={this.state.community}
+                        onSelect={this.handleSelect}
                         >
-                        {communitylist}
+                        {this.state.communityList.map((p)=>
+                          <Dropdown.Item eventKey={p}>{p}</Dropdown.Item>
+                        )}
                         </DropdownButton>
                       </Col>
                     </Row>
