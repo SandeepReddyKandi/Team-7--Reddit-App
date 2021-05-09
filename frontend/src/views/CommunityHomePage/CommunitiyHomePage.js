@@ -93,6 +93,7 @@ class CommunityHomePage extends React.Component {
       recepient: '',
       community_id: '',
     };
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
     await axios
       .post(`${constants.baseUrl}/community/invite/`, data)
@@ -116,8 +117,8 @@ class CommunityHomePage extends React.Component {
   getPost = async () => {
     const { page, rows } = this.state;
     // const community = this.state;
-    axios.defaults.withCredentials = true;
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    axios.defaults.withCredentials = true;
     await axios
       .get(`${constants.baseUrl}/post/post/?id=608b8305cf9ebd2d9694e801&page=${page}&rows=${rows}`)
       .then((response, error) => {
@@ -135,6 +136,7 @@ class CommunityHomePage extends React.Component {
   };
 
   getCommunity = async () => {
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
     await axios
       .get(`${constants.baseUrl}/community/communities/?id=608b8305cf9ebd2d9694e801`)

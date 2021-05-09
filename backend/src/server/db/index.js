@@ -19,11 +19,11 @@ const connectToDatabase = () => {
   return db;
 };
 
-const redis = require('redis');
-const client = redis.createClient();
+// const redis = require('redis');
+// const client = redis.createClient();
 
-client.on('error', function (error) {
-  console.error(error);
-});
+// client.on('error', function (error) {
+//   console.error(error);
+// });
 
-module.exports = { connectToDatabase, client };
+module.exports = { connectToDatabase };
