@@ -15,7 +15,7 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import PropTypes from 'prop-types';
 
-import ConvertDate from '../../constants/CommonService';
+// import ConvertDate from '../../constants/CommonService';
 
 class CommunityMembersList extends React.Component {
   constructor(props) {
@@ -29,25 +29,24 @@ class CommunityMembersList extends React.Component {
     const { community } = this.state;
 
     return (
-      <Card style={{ 'min-width': '100%' }}>
+      <Card style={{ 'min-width': '100%', margin: '0px 0px 0px 0px' }}>
         <CardHeader
-          subheader={<Typography className="sidecard-labels">Members</Typography>}
+          subheader={
+            <Typography className="sidecard-labels">
+              Members ({community.members.length})
+            </Typography>
+          }
           className="right-side-card"
         />
-        <CardContent>
-          <List>
-            {community.member !== undefined && community.member.length > 0 ? (
+        <CardContent style={{ padding: '0px' }}>
+          <List style={{ margin: '5px' }}>
+            {community.members !== undefined && community.members.length > 0 ? (
               community.members.map((m) => (
                 <ListItem>
                   <ListItemAvatar>
                     <Avatar>{m.image_url}</Avatar>
                   </ListItemAvatar>
-                  <ListItemText
-                    primary="Single-line item"
-                    secondary={
-                      <Typography className="header-label">{ConvertDate(m.createdAt)} </Typography>
-                    }
-                  />
+                  <ListItemText secondary={m} />
                 </ListItem>
               ))
             ) : (
