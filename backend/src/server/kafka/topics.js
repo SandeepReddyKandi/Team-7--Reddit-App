@@ -28,6 +28,8 @@ const GET_POST_BY_PAGE = 'getPostByPage';
 //Comment
 const ADD_COMMENT = 'addComment';
 const GET_COMMENT = 'getComment';
+const UPVOTE_COMMENT = 'upvoteComment';
+const DOWNVOTE_COMMENT = 'downvoteComment';
 
 //Invitation
 const SEND_INVITE = 'sendInvite';
@@ -56,6 +58,8 @@ module.exports = {
   ADD_POST_LINK,
   UPVOTE_POST,
   DOWNVOTE_POST,
+  UPVOTE_COMMENT,
+  DOWNVOTE_COMMENT,
   // GET_POST,
   // GET_POST_BY_ID
   GET_COMMUNITY_BY_NAME,

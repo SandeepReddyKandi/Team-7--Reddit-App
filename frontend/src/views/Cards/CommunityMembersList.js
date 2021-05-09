@@ -3,8 +3,6 @@
 import React from 'react';
 // import Row from 'react-bootstrap/Row';
 // import Col from 'react-bootstrap/Col';
-import IconButton from '@material-ui/core/IconButton';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Card from '@material-ui/core/Card';
 import { Typography } from '@material-ui/core';
 import List from '@material-ui/core/List';
@@ -33,11 +31,6 @@ class CommunityMembersList extends React.Component {
     return (
       <Card style={{ 'min-width': '100%' }}>
         <CardHeader
-          action={
-            <IconButton aria-label="settings">
-              <MoreVertIcon />
-            </IconButton>
-          }
           subheader={<Typography className="sidecard-labels">Members</Typography>}
           className="right-side-card"
         />

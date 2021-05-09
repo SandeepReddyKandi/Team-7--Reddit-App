@@ -1,17 +1,16 @@
 const CommentModel = require("../../models/CommentModel");
 
+const CommentsModel = require("../../models/CommentModel");
+const mongoose = require("mongoose");
+
 const handle_request = async (req, callback) => {
   try {
-    var commentModel = new CommentModel(req.body);
-    commentModel.save().then((response, error) => {
-      if (error) {
-        return callback(null, {
-          msg: "Failed to add comment",
-          success: true,
-        });
-      }
+    await CommentsModel.findOneAndUpdate(
+      { _id: mongoose.Types.ObjectId(req.id) },
+      { $push: { downvote: req.user } }
+    ).then(() => {
       return callback(null, {
-        msg: "Comment Added successfully!",
+        msg: "Upvote Updated successfully!",
         success: true,
       });
     });
