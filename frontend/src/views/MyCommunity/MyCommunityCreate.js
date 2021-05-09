@@ -117,7 +117,7 @@ const MyCommunityCreate = () => {
   }
   const submit = () => {
     const data = {
-      admin_id: localStorage.getItem('token'),
+      admin_id: localStorage.getItem('user'),
       community_name: document.getElementById('name').value,
       description: document.getElementById('description').value,
       rules: rulesList,
