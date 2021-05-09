@@ -1,6 +1,6 @@
 import React from 'react';
-import './user-profile.css';
 import UserCard from "../UserCard";
+import './index.css';
 
 class UserProfileComponent extends React.Component {
     constructor(props) {

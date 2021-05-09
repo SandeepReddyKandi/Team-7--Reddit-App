@@ -29,7 +29,7 @@ export default function Header(props) {
   };
 
   return (
-    <header>
+    <header style={{ width: '100%' }}>
       <Row>
         <Col>
           <AppBar position="static" color="default" width="100%">

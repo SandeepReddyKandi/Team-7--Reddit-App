@@ -33,12 +33,12 @@
   z-index: 99;
 }
 
-.profile-container.top-background .edit-cont {
+.profile-container .top-background .edit-cont {
   bottom: 12px;
   right: 12px;
 }
 
-.profile-container.avatar-cont .edit-cont {
+.profile-container .avatar-cont .edit-cont {
   bottom: -10px;
   right: -14px;
 }
