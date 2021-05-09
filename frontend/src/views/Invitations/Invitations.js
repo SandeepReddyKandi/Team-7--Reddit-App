@@ -1,3 +1,6 @@
+/* eslint-disable  dot-notation */
+/* eslint-disable prefer-template */
+/* eslint-disable no-underscore-dangle */
 import React from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -35,6 +38,8 @@ class Invitations extends React.Component {
 
   getInvitations() {
     const userId = localStorage.getItem('user');
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    axios.defaults.withCredentials = true;
     axios
       .get(`${constants.baseUrl}/community/getinvitations?userId=${userId}`)
       .then((response, error) => {
@@ -52,6 +57,8 @@ class Invitations extends React.Component {
 
   getCommunities(e) {
     const communityNameFilter = e.target.value;
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    axios.defaults.withCredentials = true;
     axios
       .get(`${constants.baseUrl}/community/getCommunityByName?name=${communityNameFilter}`)
       .then((response, error) => {
@@ -72,6 +79,8 @@ class Invitations extends React.Component {
 
   getUsers(e) {
     const nameFilter = e.target.value;
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    axios.defaults.withCredentials = true;
     axios
       .get(`${constants.baseUrl}/users/getUsersByName?name=${nameFilter}`)
       .then((response, error) => {
@@ -127,10 +136,11 @@ class Invitations extends React.Component {
     selectedNames.forEach((recepient) => {
       const formData = {
         sender: userId,
-        community_id: selectedCommunity.community_id,
-        // eslint-disable-next-line no-underscore-dangle
+        community_id: selectedCommunity._id,
         recepient: recepient._id,
       };
+      axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+      axios.defaults.withCredentials = true;
       axios
         .post(`${constants.baseUrl}/community/invite`, formData)
         .then((response, error) => {

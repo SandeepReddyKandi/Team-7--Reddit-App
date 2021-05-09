@@ -1,3 +1,5 @@
+/* eslint-disable  dot-notation */
+/* eslint-disable prefer-template */
 import React, { Component } from 'react';
 import Talk from 'talkjs';
 import TextField from '@material-ui/core/TextField';
@@ -62,6 +64,8 @@ class SearchUsers extends Component {
 
   getUsers(e) {
     const nameFilter = e.target.value;
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    axios.defaults.withCredentials = true;
     axios
       .get(`${constants.baseUrl}/users/getUsersByName?name=${nameFilter}`)
       .then((response, error) => {

@@ -15,7 +15,7 @@ const {
 // keep adding end-points here
 router.post('/register', register);
 router.post('/login', login);
-router.get('/getUsersByName', getUsersByName);
+router.get('/getUsersByName', checkAuth, getUsersByName);
 router.get('/autoLogin', checkAuth, autoLogin);
 router.post('/profile', checkAuth, profile);
 router.get('/getUsers', checkAuth, getUsers);
