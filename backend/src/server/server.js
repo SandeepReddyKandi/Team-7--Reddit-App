@@ -9,14 +9,14 @@ const postsRouter = require('./routes/posts');
 const postRouter = require('./routes/post');
 const commentRouter = require('./routes/comment');
 
-const dotenv = require('dotenv');
+// const dotenv = require('dotenv');
 const passport = require('passport');
 const { auth } = require('./utils/passport');
 var session = require('express-session');
 const bodyParser = require('body-parser');
 
 const app = express();
-dotenv.config();
+//dotenv.config();
 
 //activate body parser
 app.use(express.json());

@@ -7,14 +7,17 @@ const GET_USERS = 'getUsers';
 const ADD_COMMUNITY = 'addCommunity';
 const GET_COMMUNITY = 'getCommunity';
 const GET_COMMUNITY_BY_ID = 'getCommunityById';
+const DELETE_COMMUNITY_BY_ID = 'deleteCommunity';
+
 const GET_COMMUNITY_BY_NAME = 'getCommunityByName';
 const GET_COMMUNITY_BY_MEMBER = 'getCommunityByMember';
 const GET_COMMUNITY_BY_ADMIN = 'getCommunityByAdmin';
 const RATE_COMMUNITY = 'rateCommunity';
+const JOIN_COMMUNITY = 'joinCommunity';
 const GET_RULES_TOPICS = 'getRulesTopics';
-const DELETE_COMMUNITY_BY_ID = 'deleteCommunityById';
 
 //Post
+
 const ADD_POST = 'addPost';
 const GET_POST = 'getPost';
 const UPVOTE_POST = 'upvotePost';
@@ -33,7 +36,6 @@ const GET_INVITATIONS = 'getInvitations';
 const ADD_POST_TEXT = 'addPostText';
 const ADD_POST_IMAGE = 'addPostImage';
 const ADD_POST_LINK = 'addPostLink';
-const GET_POST_BY_PAGE = 'getPostByPage';
 // const GET_POST='getPost';
 // const GET_POST_BY_ID='getPostbyID';
 
@@ -53,15 +55,16 @@ module.exports = {
   // GET_POST,
   // GET_POST_BY_ID
   GET_COMMUNITY_BY_NAME,
-  GET_COMMUNITY_BY_ADMIN,
   GET_COMMUNITY_BY_MEMBER,
+  GET_COMMUNITY_BY_ADMIN,
   RATE_COMMUNITY,
   ADD_POST,
   GET_POST,
-  GET_POST_BY_PAGE,
   ADD_COMMENT,
+  GET_POST_BY_PAGE,
   GET_COMMENT,
   SEND_INVITE,
+  JOIN_COMMUNITY,
   GET_INVITATIONS,
   GET_STATUS,
   GET_RULES_TOPICS,

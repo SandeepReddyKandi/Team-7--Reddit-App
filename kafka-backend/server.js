@@ -5,6 +5,7 @@ const app = express();
 const {
   USER_LOGIN,
   USER_SIGNUP,
+  GET_USERS,
   GET_COMMUNITY,
   ADD_COMMUNITY,
   GET_COMMUNITY_BY_ID,

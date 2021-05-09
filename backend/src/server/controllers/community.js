@@ -105,7 +105,7 @@ exports.getCommunityByAdmin = async (req, res) => {
     } else {
       console.log(results);
       res.status(200).json({
-        msg: results.msg,
+        msg: results.data,
         //role: results.role,
       });
     }

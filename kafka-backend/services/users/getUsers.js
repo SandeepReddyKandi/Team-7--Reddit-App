@@ -6,14 +6,13 @@ const { client } = require("../../db");
 
 const handle_request = async (req, callback) => {
   try {
-    const num = "163456789";
+    const redKey = req;
     let bool = false;
 
-    client.get(num, (err, user) => {
+    client.get(redKey, (err, user) => {
       if (err) throw err;
 
       if (user) {
-        console.log(">>>>>>>>>>Inside redis<<<<<<<<<<<<<<<");
         const member = JSON.parse(user);
         return callback(null, {
           msg: "Logged in successfully",
@@ -23,8 +22,7 @@ const handle_request = async (req, callback) => {
       }
       UserModel.find({}, { name: 1, email: 1 }, (err, users) => {
         if (users && users.length > 0) {
-          console.log(">>>>>>>>>>Inside fetch<<<<<<<<<<<<<<<");
-          client.setex(num, 600, JSON.stringify(users));
+          client.setex(redKey, 600, JSON.stringify(users));
           return callback(null, {
             msg: "User list retrieved successfully",
             data: users,
