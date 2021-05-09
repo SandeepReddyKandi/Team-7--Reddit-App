@@ -18,10 +18,10 @@ export const getRulesTopic = createAsyncThunk('community/getRulesTopic', async (
   return { auth: false, message: 'Server issue' };
 });
 
-export const addRulesTopic = createAsyncThunk('community/addRulesTopic', async (pckg) => {
-  const response = await axios.get('http://localhost:3001/community/addtr', pckg);
+export const getMyCommunity = createAsyncThunk('community/getMyCommunity', async (pckg) => {
+  const response = await axios.get('http://localhost:3001/community/getCommunityByAdmin', pckg);
   if (response.status === 200) {
-    return { auth: true, message: "Successful" };
+    return { auth: true, response: response.data.msg };
   }
   return { auth: false, message: 'Server issue' };
 });

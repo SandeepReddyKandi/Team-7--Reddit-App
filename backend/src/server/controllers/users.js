@@ -4,7 +4,7 @@ const salt = bcrypt.genSaltSync(10);
 const Validator = require('fastest-validator');
 const { v4: uuid } = require('uuid');
 const UserModel = require('../models/UserModel');
-const { USER_LOGIN, USER_SIGNUP } = require('../kafka/topics');
+const { USER_LOGIN, USER_SIGNUP, GET_USERS } = require('../kafka/topics');
 const kafka = require('../kafka/client');
 const validator = new Validator();
 
@@ -173,3 +173,22 @@ exports.profile = async (req, res) => {
     return res.status(500).json({ msg: error.message });
   }
 };
+
+//api to build user profile
+exports.getUsers = async (req, res) => {
+  const payload = { body: req.body };
+  kafka.make_request(GET_USERS, payload, (error, results) => {
+    if (!results.success) {
+      res.status(400).send(results);
+    } 
+    else {
+      res.status(200).json({
+        msg: results.msg,
+        data: results.data,
+        success: true
+      });
+    }
+  });
+}
+
+

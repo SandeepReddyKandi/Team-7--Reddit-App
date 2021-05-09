@@ -5,6 +5,7 @@ const app = express();
 const {
   USER_LOGIN,
   USER_SIGNUP,
+  GET_USERS,
   GET_COMMUNITY,
   ADD_COMMUNITY,
   GET_COMMUNITY_BY_ID,
@@ -31,6 +32,7 @@ const {
 //user
 const userLogin = require("./services/users/userLogin");
 const userSignup = require("./services/users/userSignup");
+const getUsers = require("./services/users/getUsers");
 
 //Community
 const addCommunity = require("./services/Community/AddCommunity");
@@ -120,6 +122,7 @@ function handleTopicRequest(topic_name, fname) {
 // User
 handleTopicRequest(USER_LOGIN, userLogin);
 handleTopicRequest(USER_SIGNUP, userSignup);
+handleTopicRequest(GET_USERS, getUsers);
 
 //Community
 handleTopicRequest(ADD_COMMUNITY, addCommunity);
