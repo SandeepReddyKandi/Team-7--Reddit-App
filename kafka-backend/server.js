@@ -16,6 +16,8 @@ const {
   ADD_POST_LINK,
   UPVOTE_POST,
   DOWNVOTE_POST,
+  UPVOTE_COMMENT,
+  DOWNVOTE_COMMENT,
   // GET_POST,
   // GET_POST_BY_ID
   GET_COMMUNITY_BY_NAME,
@@ -48,6 +50,7 @@ const deleteCommunityById = require("./services/Community/DeleteCommunityById");
 const getCommunityByName = require("./services/Community/GetCommunityByName");
 const rateCommunity = require("./services/Community/RateCommunity");
 const getRulesTopics = require("./services/Community/GetRulesTopics");
+
 //Post
 const addPost = require("./services/Post/AddPost");
 const getPost = require("./services/Post/GetPost");
@@ -57,6 +60,8 @@ const upvotePost = require("./services/Post/UpvotePost");
 //Comment
 const addComment = require("./services/Comment/AddComment");
 const getComment = require("./services/Comment/GetComment");
+const upvoteComment = require("./services/Comment/UpvoteComment");
+const downvoteComment = require("./services/Comment/DownvoteComment");
 
 //Invitation
 const sendInvite = require("./services/Invitation/SendInvite");
@@ -158,6 +163,8 @@ handleTopicRequest(DOWNVOTE_POST, downvotePost);
 //Comment
 handleTopicRequest(ADD_COMMENT, addComment);
 handleTopicRequest(GET_COMMENT, getComment);
+handleTopicRequest(UPVOTE_COMMENT, upvoteComment);
+handleTopicRequest(DOWNVOTE_COMMENT, downvoteComment);
 
 //Invitation
 handleTopicRequest(GET_INVITATIONS, getInvitations);
