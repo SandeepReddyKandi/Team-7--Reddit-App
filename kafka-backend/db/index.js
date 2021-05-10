@@ -30,6 +30,10 @@ const connectToDatabase = () => {
   return db;
 };
 
+client.on('error', err => {
+    console.log('Error ' + err);
+});
+
 // const redis = require("redis");
 // const client = redis.createClient();
 

@@ -24,7 +24,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Hint } from 'react-autocomplete-hint';
 import { FaTimes } from 'react-icons/fa';
 import MyCommunityTab from './MyCommunityTab';
-import { addCommunity, getRulesTopic } from '../../actions/MyCommunityActions';
+import { getMyCommunity, getRulesTopic } from '../../actions/MyCommunityActions';
 import Header from '../Header/Header';
 import logo from '../../side_bg.jpeg';
 import MyCommunityCard from './MyCommunityCard';
@@ -33,28 +33,10 @@ import MyCommunityCard from './MyCommunityCard';
 const MyCommunity = () => {
   const dispatch = useDispatch();
   const reduxData = useSelector((state) => state.addCommunity);
-  //   const myCommunities = [
-  //     {
-  //         "image_src": "assets/subreddit.jpg",
-  //         "name": "UpliftingNews"
-  //     },
-  //     {
-  //         "image_src": "assets/subreddit.jpg",
-  //         "name": "nottheonion"
-  //     },
-  //     {
-  //         "image_src": "assets/subreddit.jpg",
-  //         "name": "technews"
-  //     },
-  //     {
-  //         "image_src": "assets/subreddit.jpg",
-  //         "name": "gamernews"
-  //     },
-  //     {
-  //         "image_src": "assets/subreddit.jpg",
-  //         "name": "news"
-  //     }
-  // ];
+  useEffect(() => {
+    dispatch(getMyCommunity(localStorage.getItem('user')))
+  }, [dispatch])
+  
   const handleGetUsers = async (e) => {
     const response = await axios.get('http://localhost:3001/users/getUsers');
   };
