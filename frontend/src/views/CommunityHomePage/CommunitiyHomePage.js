@@ -1,5 +1,10 @@
+/* eslint no-underscore-dangle: ["error", { "allow": ["__place"] }] */
+/* eslint no-underscore-dangle: 0 */
 /* eslint-disable  dot-notation */
 /* eslint-disable prefer-template */
+/* eslint-disable camelcase */
+/* eslint-disable arrow-body-style */
+
 import React from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -10,6 +15,7 @@ import { Redirect } from 'react-router-dom';
 import TablePagination from '@material-ui/core/TablePagination';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Header from '../Header/Header';
 import RedditICon from '../../community.png';
 import TextDisplayCard from '../Cards/TextDisplayCard';
@@ -17,6 +23,7 @@ import AboutCommunityCard from '../Cards/AboutCommunityCard';
 import CommunityRulesCard from '../Cards/CommunityRulesCard';
 import CommunityAppBar from '../ToolBar/CommunityAppBar';
 import constants from '../../constants/constants';
+import * as communityAction from '../../actions/CommunityHomePageActions';
 
 import CommunityMembersList from '../Cards/CommunityMembersList';
 
@@ -38,9 +45,9 @@ class CommunityHomePage extends React.Component {
   }
 
   async componentDidMount() {
-    const { community } = this.props;
-    this.setState(community);
-    await this.checkStatus();
+    const { location } = this.props;
+    await this.setState({ community: location.community });
+    // await this.checkStatus();
     await this.getCommunity();
     await this.getPost();
     // this.getPost();
@@ -65,10 +72,10 @@ class CommunityHomePage extends React.Component {
   };
 
   checkStatus = async () => {
-    // const { community } = this.state;
+    const { community } = this.props;
     const data = {
-      userId: '607c5f3cfca7772866d40925', // localStorage.getItem('user'),
-      community_id: '608b8305cf9ebd2d9694e801',
+      userId: localStorage.getItem('user'), // localStorage.getItem('user'),
+      community_id: community._id,
     };
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
@@ -116,11 +123,12 @@ class CommunityHomePage extends React.Component {
 
   getPost = async () => {
     const { page, rows } = this.state;
-    // const community = this.state;
+    const { community } = this.state;
+    const community_id = community._id;
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
     await axios
-      .get(`${constants.baseUrl}/post/post/?id=608b8305cf9ebd2d9694e801&page=${page}&rows=${rows}`)
+      .get(`${constants.baseUrl}/post/post/?id=${community_id}&page=${page}&rows=${rows}`)
       .then((response, error) => {
         if (!error) {
           this.setState({
@@ -135,11 +143,13 @@ class CommunityHomePage extends React.Component {
       });
   };
 
-  getCommunity = async () => {
+  /* getCommunity = async () => {
+    const { community } = this.state;
+    const community_id = community._id;
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
     await axios
-      .get(`${constants.baseUrl}/community/communities/?id=608b8305cf9ebd2d9694e801`)
+      .get(`${constants.baseUrl}/community/communities/?id=${community_id}`)
       .then((response, error) => {
         if (!error) {
           this.setState({
@@ -150,8 +160,15 @@ class CommunityHomePage extends React.Component {
       })
       .catch((error) => {
         console.log(error);
-        // this.setState({ errormessage: error.response.data.msg });
       });
+  }; */
+  getCommunity = async () => {
+    const { community } = this.state;
+    const community_id = community._id;
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    axios.defaults.withCredentials = true;
+    const { getCommunity } = this.props;
+    getCommunity(community_id);
   };
 
   render() {
@@ -291,6 +308,18 @@ class CommunityHomePage extends React.Component {
 
 CommunityHomePage.propTypes = {
   community: PropTypes.objectOf.isRequired,
+  location: PropTypes.objectOf.isRequired,
+  getCommunity: PropTypes.func.isRequired,
 };
 
-export default CommunityHomePage;
+const mapStatetoProps = (state) => {
+  return {
+    community: state.communityHome,
+  };
+};
+
+const mapDispatchToProps = {
+  getCommunity: communityAction.getCommunity,
+};
+
+export default connect(mapStatetoProps, mapDispatchToProps)(CommunityHomePage);
