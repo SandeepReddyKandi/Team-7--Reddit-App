@@ -59,7 +59,7 @@ const MyCommunityCard = ({communities}) => {
                 <Row>
                     <CardContent >
                         <Typography variant="body2" color="textSecondary" component="p" style={{
-                            paddingLeft:30
+                            paddingLeft:60
                         }}>{community.description}
                         </Typography>
                     </CardContent>

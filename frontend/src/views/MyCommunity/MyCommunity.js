@@ -34,7 +34,7 @@ const MyCommunity = () => {
   const dispatch = useDispatch();
   const reduxData = useSelector((state) => state.addCommunity);
   useEffect(() => {
-    dispatch(getMyCommunity({member_id: localStorage.getItem('user')}))
+    dispatch(getMyCommunity(localStorage.getItem('user')))
   }, [dispatch])
   
   const handleGetUsers = async (e) => {
