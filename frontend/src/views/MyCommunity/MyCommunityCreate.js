@@ -122,6 +122,7 @@ const MyCommunityCreate = () => {
       description: document.getElementById('description').value,
       rules: rulesList,
       topic: topicList,
+      members: [localStorage.getItem('user')],
       // images: imageList,
     };
     const  newTopic=[];
