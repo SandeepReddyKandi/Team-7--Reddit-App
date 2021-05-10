@@ -10,8 +10,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import ImageIcon from '@material-ui/icons/Image';
-import WorkIcon from '@material-ui/icons/Work';
-import BeachAccessIcon from '@material-ui/icons/BeachAccess';
+// import WorkIcon from '@material-ui/icons/Work';
+// import BeachAccessIcon from '@material-ui/icons/BeachAccess';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
@@ -47,6 +47,9 @@ class Comment extends React.Component {
 
   handleUpVote = async (id) => {
     const userId = localStorage.getItem('user');
+    if (id.upvote.includes(userId) || id.downvote.includes(userId)) {
+      return;
+    }
     axios.defaults.withCredentials = true;
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     const data = { id, user: userId };
@@ -66,6 +69,9 @@ class Comment extends React.Component {
 
   handleDownVote = async (id) => {
     const userId = localStorage.getItem('user');
+    if (id.upvote.includes(userId) || id.downvote.includes(userId)) {
+      return;
+    }
     axios.defaults.withCredentials = true;
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     const data = { id, user: userId };
@@ -128,16 +134,13 @@ class Comment extends React.Component {
               <CardActions disableSpacing>
                 <IconButton>
                   <div className="upvote">
-                    <ArrowDropUpIcon fontSize="large" onClick={() => this.handleUpVote(c._id)} />
+                    <ArrowDropUpIcon fontSize="large" onClick={() => this.handleUpVote(c)} />
                   </div>
                 </IconButton>
                 <Typography style={{ textAlign: 'center' }}>0</Typography>
                 <IconButton>
                   <div className="downvote">
-                    <ArrowDropDownIcon
-                      fontSize="large"
-                      onClick={() => this.handleDownVote(c._id)}
-                    />
+                    <ArrowDropDownIcon fontSize="large" onClick={() => this.handleDownVote(c)} />
                   </div>
                 </IconButton>
                 <IconButton
@@ -152,59 +155,42 @@ class Comment extends React.Component {
                 <CardContent>
                   {' '}
                   <List>
-                    <ListItem className="border">
-                      <ListItemAvatar>
-                        <Avatar>
-                          <ImageIcon />
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText primary="Photos" secondary="Jan 9, 2014" />
-                    </ListItem>
-                    <ListItem className="border">
-                      <ListItemAvatar>
-                        <Avatar>
-                          <WorkIcon />
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText primary="Work" secondary="Jan 7, 2014" />
-                    </ListItem>
-                    <ListItem>
-                      <ListItemAvatar>
-                        <Avatar>
-                          <BeachAccessIcon />
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText primary="Vacation" secondary="July 20, 2014" />
-                    </ListItem>
-                    <ListItem>
-                      <TextareaAutosize
-                        rowsMin={1}
-                        placeholder="Reply"
-                        size="large"
-                        defaultValue=""
-                        style={{ width: '130vh' }}
-                        onChange={this.handleCommentText}
-                      />
-                    </ListItem>
-                    <ListItem>
-                      {' '}
-                      <Button
-                        size="medium"
-                        className="btn-primary"
-                        type="button"
-                        style={{
-                          'background-color': '#da907e',
-                          color: '#ffffff',
-                          'border-radius': '9999px',
-                          height: '30px',
-                        }}
-                        onClick={this.handleAddComment}
-                        default
-                      >
-                        Reply
-                      </Button>
-                    </ListItem>
+                    {c.sub_comment !== undefined &&
+                      c.sub_comment.length > 0 &&
+                      c.sub_comment.map((s) => (
+                        <ListItem className="border">
+                          <ListItemAvatar>
+                            <Avatar>
+                              <ImageIcon />
+                            </Avatar>
+                          </ListItemAvatar>
+                          <ListItemText primary={s.author_id} secondary={s.createdAt} />
+                        </ListItem>
+                      ))}
                   </List>
+                  <TextareaAutosize
+                    rowsMin={1}
+                    placeholder="Reply"
+                    size="medium"
+                    defaultValue=""
+                    style={{ 'max-width': '100vh' }}
+                    onChange={this.handleCommentText}
+                  />
+                  <Button
+                    size="medium"
+                    className="btn-primary"
+                    type="button"
+                    style={{
+                      'background-color': '#da907e',
+                      color: '#ffffff',
+                      'border-radius': '9999px',
+                      height: '30px',
+                    }}
+                    onClick={this.handleAddComment}
+                    default
+                  >
+                    Reply
+                  </Button>
                 </CardContent>
               </Collapse>
             </Card>

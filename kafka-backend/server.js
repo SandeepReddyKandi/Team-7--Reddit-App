@@ -19,6 +19,8 @@ const {
   DOWNVOTE_POST,
   UPVOTE_COMMENT,
   DOWNVOTE_COMMENT,
+  SORT_POST_BY_UPVOTE,
+  SORT_POST_BY_DOWNVOTE,
   // GET_POST,
   // GET_POST_BY_ID
   GET_COMMUNITY_BY_NAME,
@@ -34,6 +36,7 @@ const {
   GET_POST_COMMUNITY,
   GET_USERS,
   GET_INVITATIONS,
+  SORT_POST_BY_DATE,
 } = require("./kafka/topics");
 
 //user
@@ -59,6 +62,8 @@ const addPost = require("./services/Post/AddPost");
 const getPost = require("./services/Post/GetPost");
 const getPostByPage = require("./services/Post/GetPostByPage");
 const upvotePost = require("./services/Post/UpvotePost");
+const sortPostByUpvote = require("./services/Post/SortPostWithUpvote");
+const sortPostByDownvote = require("./services/Post/SortPostWithDownvote");
 
 //Comment
 const addComment = require("./services/Comment/AddComment");
@@ -77,16 +82,12 @@ const addPostImage = require("./services/Post/AddPostImage");
 const addPostLink = require("./services/Post/AddPostLink");
 const getPostCommunity = require("./services/Post/GetPostCommunity");
 const downvotePost = require("./services/Post/DownvotePost");
+const sortPostByDATE = require("./services/Post/SortPostByDate");
 // const getPost = require("./services/Post/GetPost");
 // const getPostbyID = require("./services/Post/GetPostbyID");
 
 const port = 3001;
 const connection = require("./kafka/connection");
-
-// /* Db Connection */
-// const db = connectToDatabase().then(() => {
-//     app.listen(port, console.log("Server is listening on port :", port));
-//   });
 
 const uri =
   "mongodb+srv://admin:admin@cluster0.0uwhi.mongodb.net/RedditDB?retryWrites=true&w=majority";
@@ -164,6 +165,9 @@ handleTopicRequest(GET_POST, getPost);
 handleTopicRequest(GET_POST_BY_PAGE, getPostByPage);
 handleTopicRequest(UPVOTE_POST, upvotePost);
 handleTopicRequest(DOWNVOTE_POST, downvotePost);
+handleTopicRequest(SORT_POST_BY_UPVOTE, sortPostByUpvote);
+handleTopicRequest(SORT_POST_BY_DOWNVOTE, sortPostByDownvote);
+handleTopicRequest(SORT_POST_BY_DATE, sortPostByDATE);
 
 //Comment
 handleTopicRequest(ADD_COMMENT, addComment);
