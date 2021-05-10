@@ -16,7 +16,7 @@ import Col from 'react-bootstrap/Col';
 import { Typography } from '@material-ui/core';
 import Container from 'react-bootstrap/Container';
 import { Form, Carousel } from 'react-bootstrap';
-// import axios from 'axios';
+import axios from 'axios';
 import Dropdown from 'react-bootstrap/Dropdown';
 // eslint-disable-next-line import/no-named-as-default-member
 import Badge from 'react-bootstrap/Badge';
@@ -26,6 +26,7 @@ import { FaTimes } from 'react-icons/fa';
 import { addCommunity, getRulesTopic } from '../../actions/MyCommunityActions';
 import Header from '../Header/Header';
 import logo from '../../side_bg.jpeg';
+import constants from "../../constants/constants"
 
 // eslint-disable-next-line arrow-body-style
 const MyCommunityCreate = () => {
@@ -35,29 +36,42 @@ const MyCommunityCreate = () => {
   const [topicList, addTopic] = useState([]);
   const [rulesList, addRules] = useState([]);
   const [halfRule, addHalf] = useState('');
+  const [imageURL, addImageURL] = useState(null);
   const [showDesc, changeShow] = useState(false);
   const inputrules = React.useRef();
   const dispatch = useDispatch();
   const [textState, setTextState] = useState();
   const [textState2, setTextState2] = useState();
   const reduxData = useSelector((state) => state.addCommunity);
-  const ImageTake = async (event) => {
-    const url = URL.createObjectURL(event.target.files[0]);
-    addShowImage([...showImage, url]);
-    addCounter(imgCounter + 1);
-    addImage([
-      ...imageList,
-      {
-        id: `image${imgCounter}`,
-        file: event.target.files[0],
-        file_name: event.target.files[0].name,
-      },
-    ]);
-  };
+  
   useEffect(() => {
     dispatch(getRulesTopic());
   }, [dispatch]);
 
+  const onFileUpload = (file) => {
+    const formData = new FormData();
+    formData.append('userprofile', file);
+    axios
+      .put(
+        `${constants.baseUrl}/users/uploadfile`,
+        formData,
+        {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        },
+        { responseType: 'blob' }
+      )
+      .then((res) => {
+        // this.setState({ image_path: res.data.Location });
+        addImage([...imageList, res.data.Location])
+      })
+      .catch((error) => {
+        addImageURL(null)
+      });
+  };
+
+  const ImageTake = async (event) => {
+    await onFileUpload(event.target.files[0])
+  };
   const batchColor = ['primary', 'success', 'danger', 'warning', 'info'];
   const addIntoTopics = (e) => {
     if (e.key === 'Enter') {
@@ -67,10 +81,8 @@ const MyCommunityCreate = () => {
   };
   const addIntoRules = (e) => {
     if (e.key === 'Enter'){
-      console.log(e.target.id)
       if (showDesc && e.target.id === 'rulesdesc') {
         const ruleElement = {title: halfRule, description: e.target.value};
-        console.log("in here", ruleElement)
         addHalf('');
         addRules([...rulesList, ruleElement]);
         changeShow(false)
@@ -123,7 +135,7 @@ const MyCommunityCreate = () => {
       rules: rulesList,
       topic: topicList,
       members: [localStorage.getItem('user')],
-      // images: imageList,
+      images: imageList,
     };
     const  newTopic=[];
     const newRule=[];
@@ -133,11 +145,8 @@ const MyCommunityCreate = () => {
     // for (const i in topicList) {
     //   if (!reduxData.topics.include(rulesList[i])) newTopic.push(rulesList[i])
     // }
-
     dispatch(addCommunity(data));
   };
-  console.log(rulesList)
-  console.log("in here", showDesc);
   return (
     <>
       <Header />
@@ -260,7 +269,7 @@ const MyCommunityCreate = () => {
                     <Form.File id="custom-file" label="Add" custom onChange={ImageTake} />
                     <br />
 
-                    {showImage.length === 0 ? null : (
+                    {imageList.length === 0 ? null : (
                       <Carousel
                         style={{
                           maxWidth: '400px',
@@ -269,7 +278,7 @@ const MyCommunityCreate = () => {
                           textAlign: 'center',
                         }}
                       >
-                        {showImage.map((image) => (
+                        {imageList.map((image) => (
                           <Carousel.Item>
                             <img
                               style={{ maxWidth: '400px', maxHeight: '200px', minHeight: '200px' }}

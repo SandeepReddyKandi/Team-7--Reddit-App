@@ -13,14 +13,12 @@ const handle_request = async (req, callback) => {
         community.save().then(() => {
           return callback(null, {
             msg: "Community created successfully",
-            data: json,
-            success: false,
+            success: true,
           });
         });
       }
     });
   } catch (error) {
-    //res.status(400).json({ msg: error.message });
     return callback(null, {
       msg: error.message,
       success: false,
