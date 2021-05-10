@@ -23,11 +23,8 @@ exports.addCommunity = async (req, res) => {
     if (!results.success) {
       res.status(400).send(results);
     } else {
-      //console.log(results);
       res.status(200).json({
         msg: results.msg,
-        data: results.data,
-        //role: results.role,
       });
     }
   });
@@ -98,7 +95,7 @@ exports.getCommunityById = async (req, res) => {
 };
 
 exports.getCommunityByAdmin = async (req, res) => {
-  const payload = { adminId: req.query.admin_id };
+  const payload = { adminId: req.body.admin_id };
   kafka.make_request(GET_COMMUNITY_BY_ADMIN, payload, (error, results) => {
     if (!results.success) {
       res.status(400).send(results);
@@ -113,14 +110,15 @@ exports.getCommunityByAdmin = async (req, res) => {
 };
 
 exports.getCommunityByMember = async (req, res) => {
-  const payload = { memberId: req.query.member_id };
+  const payload = { memberId: req.body.member_id };
+  console.log(payload,"..........", req.body)
   kafka.make_request(GET_COMMUNITY_BY_MEMBER, payload, (error, results) => {
     if (!results.success) {
       res.status(400).send(results);
     } else {
       console.log(results);
       res.status(200).json({
-        msg: results.msg,
+        msg: results.data,
         //role: results.role,
       });
     }

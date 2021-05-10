@@ -27,7 +27,7 @@ export const getRulesTopic = createAsyncThunk('community/getRulesTopic', async (
 export const getMyCommunity = createAsyncThunk('community/getMyCommunity', async (pckg) => {
   axios.defaults.headers.common["authorization"] = 'Bearer ' + localStorage.getItem('token')
   axios.defaults.withCredentials = true;
-  const response = await axios.get('http://localhost:3001/community/getCommunityByAdmin', pckg);
+  const response = await axios.get('http://localhost:3001/community/getCommunityByMember', pckg);
   if (response.status === 200) {
     return { auth: true, response: response.data.msg };
   }

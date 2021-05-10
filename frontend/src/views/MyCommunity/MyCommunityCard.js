@@ -24,7 +24,7 @@ const MyCommunityCard = ({communities}) => {
         <div>
         {communities.map((community) => 
         <Card>
-        <Row>
+        <Row style={{marginTop: "1%"}}>
             <Col md={8}>
                 <Row>
                     <Col md={4}>
@@ -45,9 +45,8 @@ const MyCommunityCard = ({communities}) => {
                               />
                             </Carousel.Item>
                           ))}
-                          ;
                         </Carousel>
-                        )};
+                        )}
                     </Col>
                     <Col md={8}>
                         <CardHeader
@@ -72,11 +71,11 @@ const MyCommunityCard = ({communities}) => {
                         <IconButton aria-label="add to favorites" disabled >
                             <PeopleIcon />
                         </IconButton>
-                        <Typography>{`${community.members}`}</Typography>
+                        <Typography>{`${community.members.length}`}</Typography>
                         <IconButton aria-label="share" disabled >
                             <NotesIcon />
                         </IconButton>
-                        <Typography>{`${community.posts}`}</Typography>
+                        <Typography>{`${community.posts.length}`}</Typography>
                     </CardActions>
                 </Row>
             </Col>
