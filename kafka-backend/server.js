@@ -37,6 +37,7 @@ const {
   GET_USERS,
   GET_INVITATIONS,
   SORT_POST_BY_DATE,
+  ADD_SUB_COMMENT,
 } = require("./kafka/topics");
 
 //user
@@ -70,6 +71,7 @@ const addComment = require("./services/Comment/AddComment");
 const getComment = require("./services/Comment/GetComment");
 const upvoteComment = require("./services/Comment/UpvoteComment");
 const downvoteComment = require("./services/Comment/DownvoteComment");
+const addSubComment = require("./services/Comment/AddSubComment");
 
 //Invitation
 const sendInvite = require("./services/Invitation/SendInvite");
@@ -174,6 +176,7 @@ handleTopicRequest(ADD_COMMENT, addComment);
 handleTopicRequest(GET_COMMENT, getComment);
 handleTopicRequest(UPVOTE_COMMENT, upvoteComment);
 handleTopicRequest(DOWNVOTE_COMMENT, downvoteComment);
+handleTopicRequest(ADD_SUB_COMMENT, addSubComment);
 
 //Invitation
 handleTopicRequest(GET_INVITATIONS, getInvitations);
