@@ -75,6 +75,9 @@ class TextDisplayCard extends React.Component {
   handleUpVote = async () => {
     const { post } = this.props;
     const userId = localStorage.getItem('user');
+    if (post.upvote.includes(userId) || post.downvote.includes(userId)) {
+      return;
+    }
     axios.defaults.withCredentials = true;
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     const data = { id: post._id, user: userId };
@@ -95,6 +98,9 @@ class TextDisplayCard extends React.Component {
   handleDownVote = async () => {
     const { post } = this.props;
     const userId = localStorage.getItem('user');
+    if (post.upvote.includes(userId) || post.downvote.includes(userId)) {
+      return;
+    }
     axios.defaults.withCredentials = true;
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     const data = { id: post._id, user: userId };
@@ -138,7 +144,7 @@ class TextDisplayCard extends React.Component {
                   </IconButton>
                 </div>
               </Col>
-              <Col md={11}>
+              <Col md={10}>
                 <Row>
                   <div className="post-title">
                     <CardHeader
@@ -203,7 +209,7 @@ class TextDisplayCard extends React.Component {
                           <Row>
                             <Col>
                               <Typography className="header-label card-action-label">
-                                Comment as{' '}
+                                Comment as {localStorage.getItem('user')}
                               </Typography>
                             </Col>
                           </Row>
@@ -214,14 +220,14 @@ class TextDisplayCard extends React.Component {
                                 placeholder="Comment"
                                 size="large"
                                 defaultValue=""
-                                style={{ width: '130vh' }}
+                                style={{ 'min-width': '80vh' }}
                                 onChange={this.handleCommentText}
                               />
                             </Col>
                           </Row>
                           <Row>
-                            <Col />
-                            <Col>
+                            <Col md={6} />
+                            <Col ms={3}>
                               {' '}
                               <Button
                                 size="medium"

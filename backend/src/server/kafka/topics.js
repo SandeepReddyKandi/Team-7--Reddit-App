@@ -24,12 +24,14 @@ const GET_POST = 'getPost';
 const UPVOTE_POST = 'upvotePost';
 const DOWNVOTE_POST = 'downvotePost';
 const GET_POST_BY_PAGE = 'getPostByPage';
+const SORT_POST_BY_DOWNVOTE = 'sortPostByDownvote';
 
 //Comment
 const ADD_COMMENT = 'addComment';
 const GET_COMMENT = 'getComment';
 const UPVOTE_COMMENT = 'upvoteComment';
 const DOWNVOTE_COMMENT = 'downvoteComment';
+const ADD_SUB_COMMENT = 'addSubComment';
 
 //Invitation
 const SEND_INVITE = 'sendInvite';
@@ -37,10 +39,12 @@ const GET_STATUS = 'getStatus';
 const GET_INVITATIONS = 'getInvitations';
 
 //Post
-const ADD_POST_TEXT='addPostText';
-const ADD_POST_IMAGE='addPostImage';
-const ADD_POST_LINK='addPostLink';
-const GET_POST_COMMUNITY='getPostCommunity';
+const ADD_POST_TEXT = 'addPostText';
+const ADD_POST_IMAGE = 'addPostImage';
+const ADD_POST_LINK = 'addPostLink';
+const GET_POST_COMMUNITY = 'getPostCommunity';
+const SORT_POST_BY_UPVOTE = 'sortPostByUpvote';
+const SORT_POST_BY_DATE = 'sortPostByDate';
 
 // const GET_POST_BY_ID='getPostbyID';
 
@@ -60,6 +64,9 @@ module.exports = {
   DOWNVOTE_POST,
   UPVOTE_COMMENT,
   DOWNVOTE_COMMENT,
+  SORT_POST_BY_UPVOTE,
+  SORT_POST_BY_DOWNVOTE,
+  SORT_POST_BY_DATE,
   // GET_POST,
   // GET_POST_BY_ID
   GET_COMMUNITY_BY_NAME,
@@ -77,4 +84,5 @@ module.exports = {
   GET_STATUS,
   GET_RULES_TOPICS,
   GET_POST_COMMUNITY,
+  ADD_SUB_COMMENT,
 };

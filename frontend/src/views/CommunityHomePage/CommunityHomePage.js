@@ -1,5 +1,10 @@
+/* eslint no-underscore-dangle: ["error", { "allow": ["__place"] }] */
+/* eslint no-underscore-dangle: 0 */
 /* eslint-disable  dot-notation */
 /* eslint-disable prefer-template */
+/* eslint-disable camelcase */
+/* eslint-disable arrow-body-style */
+
 import React from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -10,6 +15,7 @@ import { Redirect } from 'react-router-dom';
 import TablePagination from '@material-ui/core/TablePagination';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Header from '../Header/Header';
 import RedditICon from '../../community.png';
 import TextDisplayCard from '../Cards/TextDisplayCard';
@@ -17,6 +23,7 @@ import AboutCommunityCard from '../Cards/AboutCommunityCard';
 import CommunityRulesCard from '../Cards/CommunityRulesCard';
 import CommunityAppBar from '../ToolBar/CommunityAppBar';
 import constants from '../../constants/constants';
+import * as communityAction from '../../actions/CommunityHomePageActions';
 
 import CommunityMembersList from '../Cards/CommunityMembersList';
 
@@ -24,9 +31,9 @@ class CommunityHomePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      community: {},
+      community: this.props,
       page: 0,
-      rows: 5,
+      rows: 2,
       totalRows: 10,
       post: false,
       posts: [],
@@ -38,12 +45,13 @@ class CommunityHomePage extends React.Component {
   }
 
   async componentDidMount() {
-    const { community } = this.props;
-    this.setState(community);
+    const { location } = this.props;
+    await this.setState({ community: location.community });
     await this.checkStatus();
+
     await this.getCommunity();
     await this.getPost();
-    // this.getPost();
+    this.getPost();
   }
 
   createPost = () => {
@@ -65,10 +73,10 @@ class CommunityHomePage extends React.Component {
   };
 
   checkStatus = async () => {
-    // const { community } = this.state;
+    const { community } = this.state;
     const data = {
-      userId: '607c5f3cfca7772866d40925', // localStorage.getItem('user'),
-      community_id: '608b8305cf9ebd2d9694e801',
+      userId: localStorage.getItem('user'), // localStorage.getItem('user'),
+      community_id: community._id,
     };
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
@@ -87,11 +95,87 @@ class CommunityHomePage extends React.Component {
       });
   };
 
-  handleJoin = async () => {
+  sortPostByUpvote = async () => {
+    const { community, page, rows } = this.state;
     const data = {
-      sender: '',
-      recepient: '',
-      community_id: '',
+      userId: localStorage.getItem('user'),
+      id: community._id,
+      page,
+      rows,
+    };
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    axios.defaults.withCredentials = true;
+    await axios
+      .post(`${constants.baseUrl}/post/upvote/sort`, data)
+      .then((response, error) => {
+        if (!error) {
+          this.setState({
+            posts: response.data.data,
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        // this.setState({ errormessage: error.response.data.msg });
+      });
+  };
+
+  sortPostByDownvote = async () => {
+    const { community, page, rows } = this.state;
+    const data = {
+      userId: localStorage.getItem('user'),
+      id: community._id,
+      page,
+      rows,
+    };
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    axios.defaults.withCredentials = true;
+    await axios
+      .post(`${constants.baseUrl}/post/downvote/sort`, data)
+      .then((response, error) => {
+        if (!error) {
+          this.setState({
+            posts: response.data.data,
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        // this.setState({ errormessage: error.response.data.msg });
+      });
+  };
+
+  sortPostByDate = async () => {
+    const { community, page, rows } = this.state;
+    const data = {
+      userId: localStorage.getItem('user'),
+      id: community._id,
+      page,
+      rows,
+    };
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    axios.defaults.withCredentials = true;
+    await axios
+      .post(`${constants.baseUrl}/post/date/sort`, data)
+      .then((response, error) => {
+        if (!error) {
+          this.setState({
+            posts: response.data.data,
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        // this.setState({ errormessage: error.response.data.msg });
+      });
+  };
+
+  handleJoin = async () => {
+    const { community } = this.props;
+    const data = {
+      sender: localStorage.getItem('user'),
+      recepient: community.admin_id,
+      community_id: community._id,
     };
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
@@ -99,59 +183,48 @@ class CommunityHomePage extends React.Component {
       .post(`${constants.baseUrl}/community/invite/`, data)
       .then((response, error) => {
         if (!error) {
-          this.setState({
-            status: response.data.data[0],
-          });
+          this.checkStatus();
         }
       })
       .catch((error) => {
         console.log(error);
-        // this.setState({ errormessage: error.response.data.msg });
       });
   };
 
-  handleChangeRowsPerPage = () => {
+  handleChangeRowsPerPage = (event) => {
+    this.setState({ rows: parseInt(event.target.value, 10), page: 0 });
     this.getPost();
   };
 
   getPost = async () => {
     const { page, rows } = this.state;
-    // const community = this.state;
+    const { community } = this.state;
+    const community_id = community._id;
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
-    await axios
-      .get(`${constants.baseUrl}/post/post/?id=608b8305cf9ebd2d9694e801&page=${page}&rows=${rows}`)
-      .then((response, error) => {
+    await axios.get(`${constants.baseUrl}/post/post/?id=${community_id}&page=${page}&rows=${rows}`).then((response, error) => {
         if (!error) {
           this.setState({
             posts: response.data.data,
             showPage: true,
           });
         }
-      })
-      .catch((error) => {
-        console.log(error);
-        // this.setState({ errormessage: error.response.data.msg });
-      });
-  };
-
-  getCommunity = async () => {
-    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
-    axios.defaults.withCredentials = true;
-    await axios
-      .get(`${constants.baseUrl}/community/communities/?id=608b8305cf9ebd2d9694e801`)
-      .then((response, error) => {
-        if (!error) {
-          this.setState({
-            community: response.data.data[0],
-            showPage: true,
-          });
+        if (response.success) {
+          this.checkStatus();
         }
       })
       .catch((error) => {
         console.log(error);
-        // this.setState({ errormessage: error.response.data.msg });
       });
+  }; 
+
+  getCommunity = async () => {
+    const { community } = this.state;
+    const community_id = community._id;
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    axios.defaults.withCredentials = true;
+    const { getCommunity } = this.props;
+    getCommunity(community_id);
   };
 
   render() {
@@ -164,7 +237,7 @@ class CommunityHomePage extends React.Component {
         <Header />
         {showPage === true && (
           <div>
-            <Row style={{ height: '100px', 'background-color': '#0579d3' }}>
+            <Row style={{ height: '30vh', 'background-color': '#0579d3' }}>
               <Col md={12}> &nbsp;</Col>
             </Row>
             <Row style={{ 'background-color': '#ffffff', height: '20%' }}>
@@ -176,7 +249,7 @@ class CommunityHomePage extends React.Component {
                   <Col md={1}>
                     <Avatar alt="Remy Sharp" src={RedditICon} className="card-img-top" />
                   </Col>
-                  <Col md={5}>
+                  <Col md={4}>
                     <Typography variant="h5" component="h5">
                       {' '}
                       {community.community_name}
@@ -248,9 +321,13 @@ class CommunityHomePage extends React.Component {
             <Row />
             <Row>
               <Col md={2}>&nbsp;</Col>
-              <Col md={5}>
+              <Col md={6}>
                 <Row style={{ 'margin-top': '5px' }}>
-                  <CommunityAppBar />
+                  <CommunityAppBar
+                    upvote={this.sortPostByUpvote}
+                    downvote={this.sortPostByDownvote}
+                    date={this.sortPostByDate}
+                  />
                 </Row>
                 {posts.length >= 0 &&
                   posts.map((p) => (
@@ -269,7 +346,7 @@ class CommunityHomePage extends React.Component {
                 />
               </Col>
 
-              <Col md={2}>
+              <Col md={3}>
                 <Row className="border">
                   <AboutCommunityCard community_info={community} status={status.status} />
                 </Row>
@@ -291,6 +368,18 @@ class CommunityHomePage extends React.Component {
 
 CommunityHomePage.propTypes = {
   community: PropTypes.objectOf.isRequired,
+  location: PropTypes.objectOf.isRequired,
+  getCommunity: PropTypes.func.isRequired,
 };
 
-export default CommunityHomePage;
+const mapStatetoProps = (state) => {
+  return {
+    community: state.communityHome.community[0],
+  };
+};
+
+const mapDispatchToProps = {
+  getCommunity: communityAction.getCommunity,
+};
+
+export default connect(mapStatetoProps, mapDispatchToProps)(CommunityHomePage);

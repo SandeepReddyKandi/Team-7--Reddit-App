@@ -1,6 +1,17 @@
 /* Database setup */
 const mongoose = require("mongoose");
 
+const redis = require("redis");
+const client = redis.createClient({
+  host: "52.37.23.130",
+  port: "6379",
+  password: "",
+});
+
+client.on("error", (err) => {
+  console.log("Error " + err);
+});
+
 const connectToDatabase = () => {
   const uri = "mongodb+srv://admin:admin@cluster0.0uwhi.mongodb.net/RedditDB";
 
@@ -19,6 +30,10 @@ const connectToDatabase = () => {
   return db;
 };
 
+client.on('error', err => {
+    console.log('Error ' + err);
+});
+
 // const redis = require("redis");
 // const client = redis.createClient();
 
@@ -26,4 +41,4 @@ const connectToDatabase = () => {
 //   console.error(error);
 // });
 
-module.exports = { connectToDatabase };
+module.exports = { connectToDatabase, client };

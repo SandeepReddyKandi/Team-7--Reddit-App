@@ -7,6 +7,7 @@ const {
   getComment,
   upvoteComment,
   downvoteComment,
+  addSubComment,
 } = require('../controllers/comment');
 
 // keep adding end-points here
@@ -14,5 +15,6 @@ router.post('/add', checkAuth, addComment);
 router.get('/', checkAuth, getComment);
 router.post('/upvote', checkAuth, upvoteComment);
 router.post('/downvote', checkAuth, downvoteComment);
+router.post('/subcomment', addSubComment);
 
 module.exports = router;
