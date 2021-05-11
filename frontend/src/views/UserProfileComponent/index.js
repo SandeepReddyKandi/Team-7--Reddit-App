@@ -1,7 +1,7 @@
 import React from 'react';
 import UserCard from "../UserCard";
 import './index.css';
-import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
+import UserDetailsCard from "../UserDetailsCard";
 
 class UserProfileComponent extends React.Component {
     constructor(props) {
@@ -21,27 +21,7 @@ class UserProfileComponent extends React.Component {
         return (
             <>
                 <UserCard user={user} showEdit />
-                <div className="trophy-container">
-                    <div className="header-container">
-                        <h2>Trophy Case (1)</h2>
-                    </div>
-                    <div className="trophy-main-container">
-                        <div className="trophy-main-content">
-                            <div className="img-cont">
-                                <img src="https://www.redditstatic.com/awards2/n00b-40.png" title="New User"
-                                     alt='new-user'/>
-                            </div>
-                            <div className="text-cont">
-                                <h5>User Data</h5>
-                                <button className='round-btn red-btn' type='button'>
-                                    <span>&nbsp;</span>
-                                    <span>Edit Your Profile</span>
-                                    <ArrowForwardIosIcon/>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <UserDetailsCard user={user} isMyProfile />
                 <div className="help-container">
                     <div className="help-content">
                         <div className="help-col">

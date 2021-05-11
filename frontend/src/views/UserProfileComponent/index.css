@@ -101,6 +101,10 @@
   background: linear-gradient(90deg, #ec0623, #ff8717);
 }
 
+.profile-container .green-btn {
+  background: linear-gradient(90deg, #157604, #42b5ff);
+}
+
 .profile-container .blue-btn {
   background: #0079d3;
 }
@@ -236,4 +240,17 @@
   font-weight: 400;
   line-height: 16px;
   margin-top: 24px;
+}
+
+/* USER DETAILS CARD CSS */
+.MuiFormControl-root {
+  margin: 8px 0!important;
+}
+#gender {
+  display: flex;
+  flex-direction: row;
+}
+
+.user-data .MuiFormLabel-root {
+  /*font-size: 12px;*/
 }
