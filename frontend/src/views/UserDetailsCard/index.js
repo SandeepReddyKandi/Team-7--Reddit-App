@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import TextField from '@material-ui/core/TextField';
 import FormLabel from '@material-ui/core/FormLabel';
+import Chip from '@material-ui/core/Chip';
+import Button from '@material-ui/core/Button';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
@@ -10,8 +12,10 @@ import PropTypes from "prop-types";
 const UserDetailsCard = ({ user, isMyProfile }) => {
     const [showEditForm, setShowEditForm] = useState(false);
     const [formData, setFormData] = useState({
+        topics: [],
         ...user,
     })
+    const [currentTopic, setCurrentTopic] = useState('');
 
     const handleChange = (e) => {
         setFormData({
@@ -31,6 +35,19 @@ const UserDetailsCard = ({ user, isMyProfile }) => {
 
     }
 
+    const handleChipDelete = () => {
+        // eslint-disable-next-line no-console
+        console.log('Handle Chip Delete');
+    }
+
+    const handleAddTopic = () => {
+        setFormData({
+            ...formData,
+            topics: [ ...formData.topics, currentTopic],
+        });
+        setCurrentTopic('');
+    }
+
     return (
         <div className="trophy-container profile-container">
             <div className="header-container">
@@ -47,7 +64,23 @@ const UserDetailsCard = ({ user, isMyProfile }) => {
                     </RadioGroup>
                     <TextField id="location" label="Location" name='location' defaultValue={formData.location} value={formData.location} onChange={handleChange}/>
                     <TextField id="description" label="Description" name='description' defaultValue={formData.description} value={formData.description} onChange={handleChange}/>
-                    <TextField id="password" type='password' label="Name" name='password' defaultValue={formData.password} value={formData.password} onChange={handleChange}/>
+                    <TextField id="password" type='password' label="Password" name='password' defaultValue={formData.password} value={formData.password} onChange={handleChange}/>
+                    <div className='topics-input-cont'>
+                        <TextField id="topics" label="Add Topic" name='topics' defaultValue={currentTopic} value={currentTopic} onChange={(e) => setCurrentTopic(e.target.value)}/>
+                        <Button variant="contained" onClick={handleAddTopic}>
+                            Add Topic
+                        </Button>
+                    </div>
+                    <div className='topics-list-cont'>
+                        {formData.topics.map(topic =>(
+                                <Chip
+                                    label={topic}
+                                    onDelete={ () => handleChipDelete(topic)}
+                                    color="primary"
+                                />
+                            )
+                        )}
+                    </div>
                 </div>
                 <div className='edit-btns-container'>
 

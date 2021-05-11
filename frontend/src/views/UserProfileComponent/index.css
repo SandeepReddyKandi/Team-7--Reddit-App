@@ -245,6 +245,7 @@
 /* USER DETAILS CARD CSS */
 .MuiFormControl-root {
   margin: 8px 0!important;
+  width: 100%;
 }
 #gender {
   display: flex;
@@ -253,4 +254,25 @@
 
 .user-data .MuiFormLabel-root {
   /*font-size: 12px;*/
+}
+
+.topics-input-cont {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.topics-input-cont .MuiFormControl-root {
+  flex: 2;
+}
+.topics-input-cont button {
+  padding: 4px 6px;
+  font-size: 12px;
+  background: #ec0623;
+  color: white;
+  flex: 1;
+}
+
+.topics-list-cont > div {
+  margin: 4px 8px 6px 0;
 }
