@@ -1,6 +1,7 @@
 import React from 'react';
 import UserCard from "../UserCard";
 import './index.css';
+import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 
 class UserProfileComponent extends React.Component {
     constructor(props) {
@@ -31,8 +32,12 @@ class UserProfileComponent extends React.Component {
                                      alt='new-user'/>
                             </div>
                             <div className="text-cont">
-                                <h5>New User</h5>
-                                <p>Nothing Special, Just a regular dev!</p>
+                                <h5>User Data</h5>
+                                <button className='round-btn red-btn' type='button'>
+                                    <span>&nbsp;</span>
+                                    <span>Edit Your Profile</span>
+                                    <ArrowForwardIosIcon/>
+                                </button>
                             </div>
                         </div>
                     </div>
