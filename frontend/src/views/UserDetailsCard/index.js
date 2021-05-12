@@ -160,7 +160,7 @@ UserDetailsCard.propTypes = {
         title: PropTypes.string,
         name: PropTypes.string,
         userName: PropTypes.string,
-        avatar: PropTypes.string,
+        photo: PropTypes.string,
         about: PropTypes.string
     }).isRequired,
     isMyProfile: PropTypes.bool.isRequired,

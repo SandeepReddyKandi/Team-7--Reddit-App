@@ -15,7 +15,7 @@ const CommunityCard = ({community, showEdit}) => {
         <div className='profile-container'>
             <div className='top-background'>
                 <div className='avatar-cont'>
-                    <img src={community.avatar} alt={community.name}/>
+                    <img src={community.photo} alt={community.name}/>
                     {
                         showEdit && (
                             <div className='edit-cont'>
@@ -74,7 +74,7 @@ CommunityCard.propTypes = {
         id: PropTypes.string,
         title: PropTypes.string,
         name: PropTypes.string,
-        avatar: PropTypes.string,
+        photo: PropTypes.string,
         about: PropTypes.string
     }).isRequired,
     showEdit: PropTypes.bool.isRequired,

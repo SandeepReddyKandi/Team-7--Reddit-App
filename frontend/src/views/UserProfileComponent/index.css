@@ -22,6 +22,19 @@
   cursor: pointer;
 }
 
+.profile-container .edit-cont-upload {
+  white-space: nowrap;
+  border-radius: 0;
+  width: auto;
+  display: flex;
+  padding: 0 12px;
+  align-items: center;
+}
+
+.profile-container .edit-cont-upload p {
+  margin-bottom: 0;
+}
+
 .profile-container .avatar-cont {
   position: absolute;
   width: 86px;
@@ -41,6 +54,12 @@
 .profile-container .avatar-cont .edit-cont {
   bottom: -10px;
   right: -14px;
+}
+
+
+.profile-container .edit-cont-upload .edit-cont  {
+  bottom: 15px;
+  right: 50px;
 }
 
 .profile-container img {

@@ -12,6 +12,7 @@ const {
   autoLogin,
   getUsers,
   getUserByUserName,
+  uploadUserProfile,
   getUsersByName,
 } = require('../controllers/users');
 
@@ -50,6 +51,7 @@ router.get('/getUsersByName', checkAuth, getUsersByName);
 router.get('/autoLogin', checkAuth, autoLogin);
 router.post('/profile', checkAuth, profile);
 router.post('/profile/:userName', checkAuth, getUserByUserName);
+router.post("/upload-profile-picture/:userName", checkAuth, upload, uploadUserProfile);
 router.get('/getUsers', checkAuth, getUsers);
 
 module.exports = router;

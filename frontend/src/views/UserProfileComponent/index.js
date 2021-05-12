@@ -11,7 +11,7 @@ class UserProfileComponent extends React.Component {
         this.state = {
             userId: window.location.pathname.split('/users/')[1],
             user: {
-                avatar: '',
+                photo: '',
                 name: '',
                 userName: '',
                 description: ''

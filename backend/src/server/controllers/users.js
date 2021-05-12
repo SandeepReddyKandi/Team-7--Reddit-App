@@ -8,8 +8,13 @@ const { USER_LOGIN, USER_SIGNUP, GET_USERS, GET_USERS_BY_NAME, GET_USER_BY_USER_
 const kafka = require('../kafka/client');
 const { client } = require('../db');
 const util = require('util');
+const AWS = require("aws-sdk");
 const validator = new Validator();
 var { auth, checkAuth } = require('../utils/passport');
+const s3 = new AWS.S3({
+  accessKeyId: "AKIARGSBJRNBLKLYG7UH",
+  secretAccessKey: "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",
+});
 auth();
 
 //registeration input schema
@@ -38,6 +43,7 @@ exports.register = async (req, res) => {
         token: results.token,
         msg: results.msg,
         userId: results.userId,
+        userName: results.userName,
         success: true,
       });
     }
@@ -198,7 +204,6 @@ exports.getUsersByName = async (req, res) => {
 };
 
 exports.getUserByUserName = async (req, res) => {
-  console.log('Inside GET_USER_BY_USER_NAME');
   const payload = { userName: req.params.userName };
   kafka.make_request(GET_USER_BY_USER_NAME, payload, (error, results) => {
     if (!results.success) {
@@ -230,3 +235,46 @@ exports.getUsers = async (req, res) => {
     console.log(err);
   }
 };
+
+exports.uploadUserProfile = async (req, res) => {
+  // Check if the userName is valid or not
+  const user = await UserModel.findOne({ userName: req.params.userName});
+  console.log('User is ', user);
+  if (!user) {
+    res.status(400).send({
+      success: false,
+      msg: 'Invalid Username passed',
+    });
+  }
+
+  // Check if user is allowed to update the profile image for this username
+  if (`${user._id}` !== `${req.user._id}`) {
+    console.log('USER IS', user._id, req.user._id)
+    return res.status(400).send({
+      success: false,
+      msg: 'You cannot update profile image of other users!',
+    });
+  }
+
+  const params = {
+    Bucket: "redditapp",
+    Key: `${req.file.originalname}`,
+    Body: req.file.buffer,
+  };
+
+  s3.upload(params, async (error, data) => {
+    if (error) {
+      return res.status(400).send({
+        success: false,
+        msg: 'Could not upload the profile image!',
+      });
+    }
+    const updatedUser = await user.update({ photo: data.Location });
+    console.log('----------------')
+    console.log('updated user is ', updatedUser);
+    return res.status(200).send({
+      success: true,
+      msg: 'Uploaded image successfully!',
+    });
+  });
+}
