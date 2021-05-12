@@ -204,7 +204,7 @@ class Signup extends React.Component {
                             id="userName"
                             data-testid="userName"
                             onChange={this.userNameChangeHandler}
-                            className="google-button sso-google-button .login-textfield{"
+                            className="google-button sso-google-button .login-textfield"
                             placeholder="Username (Unique)"
                             required
                         />

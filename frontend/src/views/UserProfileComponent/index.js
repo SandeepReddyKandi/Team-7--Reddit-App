@@ -21,19 +21,20 @@ class UserProfileComponent extends React.Component {
 
     componentDidMount() {
         // Get user data from its user id
-        this.getUserById().then((data) => {
+        this.getUserByUserName().then((data) => {
+            console.log(data);
             this.setState({
                 user: data,
             });
         });
     }
 
-    getUserById = async () => {
+    getUserByUserName = async () => {
         axios.defaults.headers.common.authorization = `Bearer ${localStorage.getItem('token')}`;
         axios.defaults.withCredentials = true;
         try {
             const { userId } = this.state;
-            const { data } = await axios.post(`${constants.baseUrl}/users/${userId}`);
+            const { data } = await axios.post(`${constants.baseUrl}/users/profile/${userId}`);
             return data;
         } catch (e) {
             console.log('Something went wrong while fetching the user data');

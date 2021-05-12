@@ -1,7 +1,7 @@
 // User
 const USER_LOGIN = 'userLogin';
 const USER_SIGNUP = 'userSignup';
-const GET_USER_BY_ID = 'getUserById';
+const GET_USER_BY_USER_NAME = 'getUserByUserName';
 const UPDATE_USER_PROFILE = 'updateUserProfile';
 const GET_USERS_BY_NAME = 'getUsersByName';
 const GET_USERS = 'getUsers';
@@ -53,7 +53,7 @@ const SORT_POST_BY_DATE = 'sortPostByDate';
 module.exports = {
   USER_LOGIN,
   USER_SIGNUP,
-  GET_USER_BY_ID,
+  GET_USER_BY_USER_NAME,
   UPDATE_USER_PROFILE,
   GET_USERS_BY_NAME,
   GET_USERS,

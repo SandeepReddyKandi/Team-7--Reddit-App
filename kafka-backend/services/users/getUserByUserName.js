@@ -1,15 +1,16 @@
 const UserModel = require("../../models/UserModel");
 
 const handle_request = async (req, callback) => {
-    if (!req.userId) {
+    console.log('Inside handle Request GET USER BY USER ID');
+    console.log(req);
+    if (!req.userName) {
         return callback(null, {
-            msg: 'UserId is required!',
+            msg: 'User Name is required!',
             success: false,
         });
     }
     try {
-        UserModel.find({ userId: req.userId}, (err, response) => {
-            console.log('Inside last step for the get User by Id')
+        UserModel.findOne({ userName: req.userName}, (err, response) => {
             if (err) {
                 console.log('Error', err.message)
                 return callback(null, {

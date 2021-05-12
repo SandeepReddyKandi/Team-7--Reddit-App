@@ -4,7 +4,7 @@ const salt = bcrypt.genSaltSync(10);
 const Validator = require('fastest-validator');
 const { v4: uuid } = require('uuid');
 const UserModel = require('../models/UserModel');
-const { USER_LOGIN, USER_SIGNUP, GET_USERS, GET_USERS_BY_NAME, GET_USER_BY_ID, UPDATE_USER_PROFILE } = require('../kafka/topics');
+const { USER_LOGIN, USER_SIGNUP, GET_USERS, GET_USERS_BY_NAME, GET_USER_BY_USER_NAME, UPDATE_USER_PROFILE } = require('../kafka/topics');
 const kafka = require('../kafka/client');
 const { client } = require('../db');
 const util = require('util');
@@ -219,10 +219,10 @@ exports.getUsersByName = async (req, res) => {
   });
 };
 
-exports.getUserById = async (req, res) => {
-  console.log('Inside GET_USER_BY_ID');
-  const payload = { userId: req.params.userId };
-  kafka.make_request(GET_USER_BY_ID, payload, (error, results) => {
+exports.getUserByUserName = async (req, res) => {
+  console.log('Inside GET_USER_BY_USER_NAME');
+  const payload = { userName: req.params.userName };
+  kafka.make_request(GET_USER_BY_USER_NAME, payload, (error, results) => {
     if (!results.success) {
       res.status(400).send(results);
     } else {
