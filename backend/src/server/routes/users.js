@@ -11,6 +11,7 @@ const {
   profile,
   autoLogin,
   getUsers,
+  getUserById,
   getUsersByName,
 } = require('../controllers/users');
 
@@ -48,6 +49,7 @@ router.post('/login', login);
 router.get('/getUsersByName', checkAuth, getUsersByName);
 router.get('/autoLogin', checkAuth, autoLogin);
 router.post('/profile', checkAuth, profile);
+router.post('/:userId', checkAuth, getUserById);
 router.get('/getUsers', checkAuth, getUsers);
 
 module.exports = router;

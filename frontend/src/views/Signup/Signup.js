@@ -28,6 +28,7 @@ class Signup extends React.Component {
     this.state = {
       showSignup: this.props.showSignup,
       name: '',
+      userName: '',
       email: '',
       password: '',
       redirect: false,
@@ -43,6 +44,12 @@ class Signup extends React.Component {
   nameChangeHandler = (e) => {
     this.setState({
       name: e.target.value,
+    });
+  };
+
+  userNameChangeHandler = (e) => {
+    this.setState({
+      userName: e.target.value,
     });
   };
 
@@ -67,6 +74,7 @@ class Signup extends React.Component {
     e.preventDefault();
     const data = {
       name: this.state.name,
+      userName: this.state.userName,
       email: this.state.email,
       password: this.state.password,
     };
@@ -192,13 +200,24 @@ class Signup extends React.Component {
                       </Row>
                       <Row>
                         <input
-                          type="text"
-                          id="email"
-                          data-testid="email"
-                          onChange={this.nameChangeHandler}
-                          className="google-button sso-google-button .login-textfield{"
-                          placeholder="Name"
-                          required
+                            type="text"
+                            id="userName"
+                            data-testid="userName"
+                            onChange={this.userNameChangeHandler}
+                            className="google-button sso-google-button .login-textfield{"
+                            placeholder="Username (Unique)"
+                            required
+                        />
+                      </Row>
+                      <Row>
+                        <input
+                            type="text"
+                            id="name"
+                            data-testid="name"
+                            onChange={this.nameChangeHandler}
+                            className="google-button sso-google-button .login-textfield{"
+                            placeholder="Name"
+                            required
                         />
                       </Row>
                       <Row>
@@ -220,7 +239,7 @@ class Signup extends React.Component {
                           data-testid="password"
                           onChange={this.passwordChangeHandler}
                           className="google-button sso-google-button .login-textfield{"
-                          placeholder="password"
+                          placeholder="Password"
                           required
                         />
                       </Row>

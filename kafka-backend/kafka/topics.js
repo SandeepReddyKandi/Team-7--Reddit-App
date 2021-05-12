@@ -1,6 +1,8 @@
 // User
 const USER_LOGIN = "userLogin";
 const USER_SIGNUP = "userSignup";
+const GET_USER_BY_ID = 'getUserById';
+const UPDATE_USER_PROFILE = 'updateUserProfile';
 const GET_USERS_BY_NAME = "getUsersByName";
 const GET_USERS = "getUsers";
 
@@ -49,6 +51,8 @@ module.exports = {
   GET_USERS,
   USER_LOGIN,
   USER_SIGNUP,
+  GET_USER_BY_ID,
+  UPDATE_USER_PROFILE,
   GET_USERS_BY_NAME,
   GET_USERS,
   ADD_COMMUNITY,

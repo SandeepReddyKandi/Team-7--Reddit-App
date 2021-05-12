@@ -1,18 +1,43 @@
 import React from 'react';
+import axios from "axios";
+import constants from "../../constants/constants";
 import UserCard from "../UserCard";
-import './index.css';
 import UserDetailsCard from "../UserDetailsCard";
+import './index.css';
 
 class UserProfileComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            userId: window.location.pathname.split('/user/')[1],
             user: {
                 avatar: 'https://picsum.photos/id/237/200/300',
                 name: 'Kandi Sandeep',
                 userName: 'u/sandeep-reddy',
                 about: 'Nothing much, just getting bored!'
             },
+        }
+    }
+
+    componentDidMount() {
+        // Get user data from its user id
+        this.getUserById().then((data) => {
+            this.setState({
+                user: data,
+            });
+        });
+    }
+
+    getUserById = async () => {
+        axios.defaults.headers.common.authorization = `Bearer ${localStorage.getItem('token')}`;
+        axios.defaults.withCredentials = true;
+        try {
+            const { userId } = this.state;
+            const { data } = await axios.post(`${constants.baseUrl}/users/${userId}`);
+            return data;
+        } catch (e) {
+            console.log('Something went wrong while fetching the user data');
+            return {}
         }
     }
 
