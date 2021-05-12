@@ -11287,7 +11287,7 @@ class Login extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
           });
         } else {
           localStorage.setItem('token', response.data.token);
-          localStorage.setItem('user', response.data.userId);
+          localStorage.setItem('userId', response.data.userId);
 
           if (response.data.success === true) {
             this.setState({

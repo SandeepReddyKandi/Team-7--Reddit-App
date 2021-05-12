@@ -1,8 +1,6 @@
 const UserModel = require("../../models/UserModel");
 
 const handle_request = async (req, callback) => {
-    console.log('Inside handle Request GET USER BY USER ID');
-    console.log(req);
     if (!req.userName) {
         return callback(null, {
             msg: 'User Name is required!',
@@ -10,21 +8,23 @@ const handle_request = async (req, callback) => {
         });
     }
     try {
-        UserModel.findOne({ userName: req.userName}, (err, response) => {
-            if (err) {
-                console.log('Error', err.message)
-                return callback(null, {
-                    msg: err.message,
-                    success: false,
-                });
-            } else {
-                console.log('Response', response)
-                return callback(null, {
-                    msg: "",
-                    success: true,
-                    data: response,
-                });
-            }
+        const user = await UserModel.findOne({ userName: req.userName}, {
+            userName: 1,
+            name: 1,
+            location: 1,
+            description: 1,
+            gender: 1,
+            photo: 1,
+            topics: 1,
+            createdAt: 1,
+        });
+        return callback(null, {
+            msg: "",
+            success: true,
+            data: {
+                ...user._doc,
+                userId: user._id,
+            },
         });
     } catch (error) {
         return callback(null, {

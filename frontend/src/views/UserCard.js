@@ -3,9 +3,9 @@ import EditIcon from "@material-ui/icons/Edit";
 import SettingsIcon from "@material-ui/icons/Settings";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import PropTypes from "prop-types";
+import RedditMascot from '../assets/redditMascot.jpg';
 
-
-const UserCard = ({user, showEdit}) => {
+const UserCard = ({user, isMyProfile}) => {
     const [showMoreOption, setShowMoreOption] = useState(false);
     const toggleShowMoreOption = () => {
         console.log('Toggle Show More Options')
@@ -16,9 +16,9 @@ const UserCard = ({user, showEdit}) => {
         <div className='profile-container'>
             <div className='top-background'>
                 <div className='avatar-cont'>
-                    <img src={user.avatar || 'https://picsum.photos/id/237/200/300'} alt={user.name}/>
+                    <img src={user.avatar || RedditMascot} alt={user.name}/>
                     {
-                        showEdit && (
+                        isMyProfile && (
                             <div className='edit-cont'>
                                 <EditIcon style={{color: '#34a7fc'}} />
                             </div>
@@ -26,7 +26,7 @@ const UserCard = ({user, showEdit}) => {
                     }
                 </div>
                 {
-                    showEdit && (
+                    isMyProfile && (
                         <div className='edit-cont'>
                             <EditIcon style={{color: '#34a7fc'}}/>
                         </div>
@@ -42,7 +42,7 @@ const UserCard = ({user, showEdit}) => {
                     <span>{user.userName}</span>
                 </div>
                 {
-                    showEdit && (
+                    isMyProfile && (
                         <button className='round-btn red-btn' type='button'>
                             <span>&nbsp;</span>
                             <span>Create Avatar</span>
@@ -61,12 +61,12 @@ const UserCard = ({user, showEdit}) => {
                     <div className='cake'>
                         <span className='label'>Cake day</span>
                         <span>
-                            {new Date(user.createdAt) !== 'Invalid Date' ? new Date(user.createdAt).toDateString() : ''}
+                            {new Date(user.createdAt).toDateString() !== 'Invalid Date' ? new Date(user.createdAt).toDateString() : ''}
                         </span>
                     </div>
                 </div>
                 {
-                    showEdit && (
+                    isMyProfile && (
                         <button className='round-btn blue-btn' type='button'>
                             <span>&nbsp;</span>
                             <span>New Post</span>
@@ -96,7 +96,7 @@ UserCard.propTypes = {
         description: PropTypes.string,
         createdAt: PropTypes.string
     }).isRequired,
-    showEdit: PropTypes.bool.isRequired,
+    isMyProfile: PropTypes.bool.isRequired,
 };
 
 export default UserCard;

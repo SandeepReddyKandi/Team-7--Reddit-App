@@ -20,7 +20,7 @@ import ApplIcon from '../../apple.png';
 // import TextField from '@material-ui/core/TextField';
 // eslint-disable-next-line react/prefer-stateless-function
 
-class Login extends React.Component { 
+class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -61,7 +61,8 @@ class Login extends React.Component {
           this.setState({ errormessage: error.msg });
         } else {
           localStorage.setItem('token', response.data.token);
-          localStorage.setItem('user', response.data.userId);
+          localStorage.setItem('userId', response.data.userId);
+          localStorage.setItem('userName', response.data.userName);
           if (response.data.success === true) {
             this.setState({
               redirect: true,
@@ -76,7 +77,7 @@ class Login extends React.Component {
 
   handleClose = () => {
     this.props.showLogin(false);
-  };  
+  };
 
   render() {
     const { showLogin } = this.state;

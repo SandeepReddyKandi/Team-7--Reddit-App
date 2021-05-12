@@ -110,11 +110,12 @@ exports.login = async (req, res) => {
         maxAge: 1000 * 60 * 60 * 4,
         httpOnly: true,
       });
-
       res.status(200).json({
         token: results.token,
         msg: results.msg,
         userId: results.userId,
+        userName: results.userName,
+        extra: 'extra',
         success: true,
       });
     }
@@ -160,11 +161,13 @@ exports.autoLogin = (req, res) => {
     res.json({ loggedIn: false, role: '' });
   }
 };
-//api to build user profile
+
+// API to update user profile
 exports.profile = async (req, res) => {
-  //api to login existing user account
-    const payload = { body: req.body };
-    kafka.make_request(UPDATE_USER_PROFILE, payload, (error, results) => {
+    kafka.make_request(UPDATE_USER_PROFILE, {
+      ...req.body,
+      jwtAuthData: req.user
+    }, (error, results) => {
       if (!results.success) {
         res.status(400).send(results);
       } else {
@@ -172,37 +175,12 @@ exports.profile = async (req, res) => {
           maxAge: 1000 * 60 * 60 * 4,
           httpOnly: true,
         });
-        console.log(results)
         res.status(200).json({
           success: true,
-          userId: results.userId,
+          userId: results.userId, // TODO check if profile is returned or not
         });
       }
     });
-
-
-  // try {
-  //   const user = await UserModel.findById(req.user.userId);
-  //   await UserModel.updateOne(
-  //     { _id: req.user.userId },
-  //     {
-  //       $set: {
-  //         name: req.body.name,
-  //         email: req.body.email,
-  //         gender: req.body.gender,
-  //         location: req.body.location,
-  //         description: req.body.description,
-  //         photo: req.body.photo ? req.body.photo : '',
-  //         //add topics also
-  //       },
-  //     },
-  //     () => {
-  //       res.json({ user: { ...user.toObject(), password: '' } });
-  //     }
-  //   );
-  // } catch (error) {
-  //   return res.status(500).json({ msg: error.message });
-  // }
 };
 
 exports.getUsersByName = async (req, res) => {

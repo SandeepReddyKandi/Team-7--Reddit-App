@@ -9,13 +9,14 @@ class UserProfileComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            userId: window.location.pathname.split('/user/')[1],
+            userId: window.location.pathname.split('/users/')[1],
             user: {
                 avatar: '',
                 name: '',
                 userName: '',
                 description: ''
             },
+            isMyProfile: false
         }
     }
 
@@ -27,8 +28,11 @@ class UserProfileComponent extends React.Component {
                 user: {
                     ...data,
                 },
+                isMyProfile: data.userId === localStorage.getItem('userId')
             });
+            console.log( data.userId === localStorage.getItem('userId'), data.userId, localStorage.getItem('userId'))
         });
+
     }
 
     getUserByUserName = async () => {
@@ -45,11 +49,11 @@ class UserProfileComponent extends React.Component {
     }
 
     render () {
-        const { user } = this.state;
+        const { user, isMyProfile } = this.state;
         return (
             <>
-                <UserCard user={user} showEdit />
-                <UserDetailsCard user={user} isMyProfile />
+                <UserCard user={user} isMyProfile={isMyProfile} />
+                <UserDetailsCard user={user} isMyProfile={isMyProfile} />
                 <div className="help-container">
                     <div className="help-content">
                         <div className="help-col">

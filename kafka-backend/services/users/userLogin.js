@@ -20,12 +20,22 @@ const handle_request = async (req, callback) => {
             expiresIn: "4h",
           }
         );
-        return callback(null, {
-          token,
-          msg: "Logged in successfully",
-          userId: response.id,
-          success: true,
-        });
+        try {
+          response = JSON.parse(response);
+          return callback(null, {
+            success: true,
+            msg: "Logged in successfully!",
+            token,
+            userId: response._id,
+            userName: response.userName,
+          });
+        } catch (e) {
+          return callback(null, {
+            msg: "Something went wrong while parsing the Redis Response",
+            success: false,
+          });
+        }
+
       } else {
         return callback(null, {
           msg: "Invalid Credentials Entered",
@@ -50,6 +60,7 @@ const handle_request = async (req, callback) => {
             token,
             msg: "Logged in successfully",
             userId: doc.id,
+            userName: doc.userName,
             success: true,
           });
         } else {

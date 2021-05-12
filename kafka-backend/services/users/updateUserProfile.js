@@ -5,64 +5,46 @@ const salt = bcrypt.genSaltSync(10);
 const secret = "CMPE_273_Splitwise_secret";
 const { client } = require("../../db");
 const handle_request = async (req, callback) => {
-    //check whether account exists/not
-    const key = JSON.stringify(req);
-    console.log('Logging out Key', key);
-    client.get(key, async (err, response) => {
-        if (err) throw err;
-        console.log('logging out response', response);
-        if (response) {
-            if (
-                bcrypt.compareSync(req.body.password, JSON.parse(response).password)
-            ) {
-                const token = jwt.sign(
-                    { userId: response.id, email: response.email },
-                    secret,
-                    {
-                        expiresIn: "4h",
-                    }
-                );
-                return callback(null, {
-                    token,
-                    msg: "Logged in successfully",
-                    userId: response.id,
-                    success: true,
-                });
-            } else {
-                return callback(null, {
-                    msg: "Invalid Credentials Entered",
-                    success: false,
-                });
-            }
+    if (!req.userName) {
+        return callback(null, {
+            msg: 'User Name is required to update the profile!',
+            success: false,
+        });
+    }
+    try {
+        // Fetch the user from this Id
+        const user = await UserModel.findOne({ userName: req.userName});
+
+        // Check if the user is trying to update someone else profile
+        // Casting these vars, Since types are matching for these variables
+        if (`${user._id}` !== `${req.jwtAuthData._id}`) {
+            console.log()
+            return callback(null, {
+                msg: 'You are not allowed to edit other users profile!',
+                success: false,
+            });
         } else {
-            await UserModel.findOne({ email: req.body.email }, (err, doc) => {
-                if (!doc) {
-                    return callback(null, {
-                        msg: "Account Not Found",
-                        success: true,
-                    });
-                }
-                client.setex(key, 600, JSON.stringify(doc));
-                //check if password entered matches with the one in DB
-                if (bcrypt.compareSync(req.body.password, doc.password)) {
-                    const token = jwt.sign({ userId: doc.id, email: doc.email }, secret, {
-                        expiresIn: "4h",
-                    });
-                    return callback(null, {
-                        token,
-                        msg: "Logged in successfully",
-                        userId: doc.id,
-                        success: true,
-                    });
-                } else {
-                    return callback(null, {
-                        msg: "Invalid Credentials Entered",
-                        success: false,
-                    });
-                }
+            const updatedFields = {}
+            if (req.name) updatedFields.name = req.name;
+            if (req.location) updatedFields.location = req.location;
+            if (req.description) updatedFields.description = req.description;
+            if (req.gender) updatedFields.gender = req.gender;
+            if (req.topics) updatedFields.topics = req.topics;
+            if (req.password) updatedFields.password =  bcrypt.hashSync(req.password, salt);
+            const updatedUser = await user.update(updatedFields);
+            return callback(null, {
+                msg: "",
+                success: true,
+                data: updatedUser,
             });
         }
-    });
+    }
+    catch (e) {
+        return callback(null, {
+            msg: e.message,
+            success: false,
+        });
+    }
 };
 
 exports.handle_request = handle_request;

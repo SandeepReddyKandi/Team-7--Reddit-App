@@ -34,9 +34,9 @@ const MyCommunity = () => {
   const dispatch = useDispatch();
   const reduxData = useSelector((state) => state.addCommunity);
   useEffect(() => {
-    dispatch(getMyCommunity(localStorage.getItem('user')))
+    dispatch(getMyCommunity(localStorage.getItem('userId')))
   }, [dispatch])
-  
+
   const handleGetUsers = async (e) => {
     const response = await axios.get('http://localhost:3001/users/getUsers');
   };

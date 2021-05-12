@@ -29,7 +29,7 @@ class Dashboard extends React.Component {
   }
 
   getPost = () => {
-    const userId = localStorage.getItem('user');
+    const userId = localStorage.getItem('userId');
     axios.defaults.headers.common["authorization"] = 'Bearer ' + localStorage.getItem('token')
     axios.defaults.withCredentials = true;
     axios

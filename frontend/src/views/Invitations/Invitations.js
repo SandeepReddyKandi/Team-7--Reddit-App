@@ -37,7 +37,7 @@ class Invitations extends React.Component {
   }
 
   getInvitations() {
-    const userId = localStorage.getItem('user');
+    const userId = localStorage.getItem('userId');
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
     axios
@@ -131,7 +131,7 @@ class Invitations extends React.Component {
 
   sendInvite(event) {
     event.preventDefault();
-    const userId = localStorage.getItem('user');
+    const userId = localStorage.getItem('userId');
     const { selectedNames, selectedCommunity } = this.state;
     selectedNames.forEach((recepient) => {
       const formData = {

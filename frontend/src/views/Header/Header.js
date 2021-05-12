@@ -5,6 +5,7 @@
 /* eslint-disable no-unused-vars */
 
 import React from 'react';
+import { useHistory } from "react-router-dom";
 import './Header.css';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -68,6 +69,8 @@ export default function Header(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const token = localStorage.getItem('token');
+  const userName = localStorage.getItem('userName');
+  const history = useHistory();
   let loggedIn;
   if (token) {
     loggedIn = true;
@@ -96,6 +99,11 @@ export default function Header(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const navigateToProfile = () => {
+    history.push(`/users/${userName}`)
+  }
+
   return (
     <header style={{ width: '100%' }}>
       <Row>
@@ -119,7 +127,7 @@ export default function Header(props) {
                         aria-haspopup="true" style={{ width: "90%", border: "1px solid rgb(230,230,230)", borderRadius: "2px" }}
                         color="transparent"
                         onClick={handleClick}>
-                        UserName
+                        {userName || 'UserName'}
                       </Button>
                       <StyledMenu
                         id="customized-menu"
@@ -128,7 +136,7 @@ export default function Header(props) {
                         open={Boolean(anchorEl)} style={{ width: "235px", minHeight: "300px" }}
                         onClose={handleClose}
                       >
-                        <StyledMenuItem>
+                        <StyledMenuItem onClick={navigateToProfile}>
                           <ListItemIcon>
                             <AccountBoxIcon fontSize="medium" />
                           </ListItemIcon>

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import TextField from '@material-ui/core/TextField';
 import FormLabel from '@material-ui/core/FormLabel';
 import Chip from '@material-ui/core/Chip';
@@ -8,16 +8,33 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import PropTypes from "prop-types";
+import axios from "axios";
+import constants from "../../constants/constants";
 
 const UserDetailsCard = ({ user, isMyProfile }) => {
     const [showEditForm, setShowEditForm] = useState(false);
     const [formData, setFormData] = useState({
         topics: [],
+        location: '',
+        description: '',
+        gender: '',
         ...user,
+        password: '',
     })
     const [currentTopic, setCurrentTopic] = useState('');
 
+    useEffect(() => {
+        setFormData({
+            topics: [],
+            ...user,
+            password: '',
+        });
+    }, [user.userName])
+
+
+
     const handleChange = (e) => {
+        console.log( formData);
         setFormData({
             ...formData,
             [e.target.name]: e.target.value,
@@ -27,12 +44,31 @@ const UserDetailsCard = ({ user, isMyProfile }) => {
     const handleCancel = () => {
         // eslint-disable-next-line no-console
         console.log('Handle Cancel');
+        setShowEditForm(false);
     }
 
     const handleSave = () => {
-        // eslint-disable-next-line no-console
-        console.log('Handle Save');
-
+        axios.defaults.withCredentials = true;
+        axios.defaults.headers.common.authorization = `Bearer ${localStorage.getItem('token')}`;
+        const data = {
+            userName: formData.userName,
+            name: formData.name,
+            gender: formData.gender,
+            location: formData.location,
+            description: formData.description,
+            topics: formData.topics,
+        };
+        axios.post(`${constants.baseUrl}/users/profile`, data)
+            .then((response, error) => {
+                if (error) {
+                    console.log(error.msg);
+                } else {
+                    setShowEditForm(false);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 
     const handleChipDelete = () => {
@@ -55,19 +91,20 @@ const UserDetailsCard = ({ user, isMyProfile }) => {
             </div>
             <div className="trophy-main-container">
                 <div className='user-data'>
-                    <TextField id="name" label="Name" name='name' defaultValue={formData.name} value={formData.name} onChange={handleChange}/>
+                    <TextField id="userName" label="User Name" name='userName' defaultValue={formData.userName} value={formData.userName} disabled/>
+                    <TextField id="name" label="Name" name='name' defaultValue={formData.name} value={formData.name} onChange={handleChange} disabled={!showEditForm}/>
                     <FormLabel component="legend" style={{ fontSize: '12px'}}>Gender</FormLabel>
-                    <RadioGroup id='gender' aria-label="gender" name="gender1" value={formData.gender} onChange={handleChange}>
-                        <FormControlLabel value="female" control={<Radio />} label="Female" />
-                        <FormControlLabel value="male" control={<Radio />} label="Male" />
-                        <FormControlLabel value="other" control={<Radio />} label="Other" />
+                    <RadioGroup id='gender' aria-label="gender" name="gender" value={formData.gender} onChange={handleChange}>
+                        <FormControlLabel value="female" control={<Radio />} checked={formData.gender ? formData.gender.toLowerCase() === 'female' : false } label="Female" disabled={!showEditForm} />
+                        <FormControlLabel value="male" control={<Radio />} checked={formData.gender ? formData.gender.toLowerCase() === 'male' : false } label="Male" disabled={!showEditForm} />
+                        <FormControlLabel value="other" control={<Radio />} checked={formData.gender ? formData.gender.toLowerCase() === 'other' : false } label="Other" disabled={!showEditForm} />
                     </RadioGroup>
-                    <TextField id="location" label="Location" name='location' defaultValue={formData.location} value={formData.location} onChange={handleChange}/>
-                    <TextField id="description" label="Description" name='description' defaultValue={formData.description} value={formData.description} onChange={handleChange}/>
-                    <TextField id="password" type='password' label="Password" name='password' defaultValue={formData.password} value={formData.password} onChange={handleChange}/>
+                    <TextField id="location" label="Location" name='location' defaultValue={formData.location} value={formData.location} onChange={handleChange} disabled={!showEditForm}/>
+                    <TextField id="description" label="Description" name='description' defaultValue={formData.description} value={formData.description} onChange={handleChange} disabled={!showEditForm}/>
+                    <TextField id="password" type='password' label="Password" name='password' defaultValue={formData.password} value={formData.password} onChange={handleChange} />
                     <div className='topics-input-cont'>
-                        <TextField id="topics" label="Add Topic" name='topics' defaultValue={currentTopic} value={currentTopic} onChange={(e) => setCurrentTopic(e.target.value)}/>
-                        <Button variant="contained" onClick={handleAddTopic}>
+                        <TextField id="topics" label="Add Topic" name='topics' defaultValue={currentTopic} value={currentTopic} onChange={(e) => setCurrentTopic(e.target.value)} disabled={!showEditForm}/>
+                        <Button variant="contained" onClick={handleAddTopic} disabled={!showEditForm}>
                             Add Topic
                         </Button>
                     </div>
@@ -77,6 +114,7 @@ const UserDetailsCard = ({ user, isMyProfile }) => {
                                     label={topic}
                                     onDelete={ () => handleChipDelete(topic)}
                                     color="primary"
+                                    disabled={!showEditForm}
                                 />
                             )
                         )}
