@@ -9,13 +9,14 @@ const UserCard = ({user, showEdit}) => {
     const [showMoreOption, setShowMoreOption] = useState(false);
     const toggleShowMoreOption = () => {
         console.log('Toggle Show More Options')
+        console.log(user);
         setShowMoreOption(!showMoreOption);
     }
     return (
         <div className='profile-container'>
             <div className='top-background'>
                 <div className='avatar-cont'>
-                    <img src={user.avatar} alt={user.name}/>
+                    <img src={user.avatar || 'https://picsum.photos/id/237/200/300'} alt={user.name}/>
                     {
                         showEdit && (
                             <div className='edit-cont'>
@@ -50,7 +51,7 @@ const UserCard = ({user, showEdit}) => {
                     )
                 }
                 <div className='description-cont'>
-                    <p>{user.about}</p>
+                    <p>{user.description}</p>
                 </div>
                 <div className='repo-cont'>
                     <div className='karma'>
@@ -59,7 +60,9 @@ const UserCard = ({user, showEdit}) => {
                     </div>
                     <div className='cake'>
                         <span className='label'>Cake day</span>
-                        <span>5 May, 2021</span>
+                        <span>
+                            {new Date(user.createdAt) !== 'Invalid Date' ? new Date(user.createdAt).toDateString() : ''}
+                        </span>
                     </div>
                 </div>
                 {
@@ -90,7 +93,8 @@ UserCard.propTypes = {
         name: PropTypes.string,
         userName: PropTypes.string,
         avatar: PropTypes.string,
-        about: PropTypes.string
+        description: PropTypes.string,
+        createdAt: PropTypes.string
     }).isRequired,
     showEdit: PropTypes.bool.isRequired,
 };

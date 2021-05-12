@@ -11,10 +11,10 @@ class UserProfileComponent extends React.Component {
         this.state = {
             userId: window.location.pathname.split('/user/')[1],
             user: {
-                avatar: 'https://picsum.photos/id/237/200/300',
-                name: 'Kandi Sandeep',
-                userName: 'u/sandeep-reddy',
-                about: 'Nothing much, just getting bored!'
+                avatar: '',
+                name: '',
+                userName: '',
+                description: ''
             },
         }
     }
@@ -24,7 +24,9 @@ class UserProfileComponent extends React.Component {
         this.getUserByUserName().then((data) => {
             console.log(data);
             this.setState({
-                user: data,
+                user: {
+                    ...data,
+                },
             });
         });
     }
@@ -34,8 +36,8 @@ class UserProfileComponent extends React.Component {
         axios.defaults.withCredentials = true;
         try {
             const { userId } = this.state;
-            const { data } = await axios.post(`${constants.baseUrl}/users/profile/${userId}`);
-            return data;
+            const { data: responseData } = await axios.post(`${constants.baseUrl}/users/profile/${userId}`);
+            return responseData.data;
         } catch (e) {
             console.log('Something went wrong while fetching the user data');
             return {}
