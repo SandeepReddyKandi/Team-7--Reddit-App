@@ -1,6 +1,7 @@
 /* eslint-disable react/prefer-stateless-function */
 /* eslint-disable  dot-notation */
 /* eslint-disable prefer-template */
+/* eslint-disable react/self-closing-comp */
 import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -63,7 +64,26 @@ class Dashboard extends React.Component {
             ) : null}
           </Row>
           <Row>
-            <Col md={8}>
+            <Col md={2}>
+            <br></br>
+              <h4>Arrange Posts</h4>
+              <Row>
+                <h6>Sort by:</h6>
+                <select>
+                  <option value="upvotes" key="dfds">Upvotes</option>
+                  <option value="users" key="dfds">Users</option>
+                  <option value="comments" key="dfds">Comments</option>
+                </select>
+              </Row>
+              <Row>
+                <h6>Order by:</h6>
+                <select>
+                  <option value="ascending" key="dfds">Ascending</option>
+                  <option value="descending" key="dfds">Descending</option>
+                </select>
+              </Row>
+            </Col>
+            <Col md={7}>
               <br />
               <CommunityAppBar />
               <TopBar />
@@ -71,7 +91,7 @@ class Dashboard extends React.Component {
                 <TextDisplayCard post={p} />
               ))}
             </Col>
-            <Col md={4}>
+            <Col md={3}>
               <br />
               <Row>
                 <div
