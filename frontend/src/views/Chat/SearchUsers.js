@@ -34,7 +34,7 @@ class SearchUsers extends Component {
   handleClick(userId) {
     /* Retrieve the two users that will participate in the conversation */
     const { currentUser, users } = this.state;
-    const user = users.find((u) => u.id === userId);
+    const user = users.find((u) => u._id === userId);
     // eslint-disable-next-line no-underscore-dangle
     user.id = user._id;
     /* Session initialization code */
@@ -143,18 +143,17 @@ class SearchUsers extends Component {
               />
             </div>
             <ul>
-              {users.map((user) => (
-                <li key={user.id} className="user">
+              {users.map((userData) => (
+                <li key={userData._id} className="user">
                   <picture className="user-picture">
-                    <img src={user.photoUrl} alt={`${user.name}`} />
+                    <img src={userData.photo} alt={`${userData.name}`} />
                   </picture>
                   <div className="user-info-container">
                     <div className="user-info">
-                      <h4>{user.name}</h4>
-                      <p>{user.info}</p>
+                      <h4>{userData.name}</h4>
                     </div>
                     <div className="user-action">
-                      <button type="button" onClick={() => this.handleClick(user._id)}>
+                      <button type="button" onClick={() => this.handleClick(userData._id)}>
                         Message
                       </button>
                     </div>
