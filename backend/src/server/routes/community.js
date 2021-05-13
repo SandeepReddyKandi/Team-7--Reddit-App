@@ -15,6 +15,7 @@ const {
   getCommunityByName,
   getCommunityByAdmin,
   getCommunityByMember,
+  getCommunityAnalytics,
   getRulesTopics,
   getInvitations,
 } = require('../controllers/community');
@@ -29,6 +30,7 @@ router.post('/status', checkAuth, getStatus);
 router.get('/gettr', checkAuth, getRulesTopics);
 router.get('/getCommunityByName', checkAuth, getCommunityByName);
 router.get('/getCommunityByAdmin', checkAuth, getCommunityByAdmin);
+router.get('/get-community-analytics', getCommunityAnalytics);
 router.get('/getCommunityByMember', checkAuth, getCommunityByMember);
 router.get('/deletecommunitybyid', checkAuth, deleteCommunityById);
 

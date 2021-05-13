@@ -1,6 +1,6 @@
 const kafka = require('../kafka/client');
 var { auth, checkAuth } = require( '../utils/passport' )
-auth(); 
+auth();
 
 const {
   ADD_COMMUNITY,
@@ -11,6 +11,7 @@ const {
   GET_STATUS,
   GET_COMMUNITY_BY_NAME,
   GET_COMMUNITY_BY_ADMIN,
+  GET_COMMUNITY_ANALYTICS,
   GET_COMMUNITY_BY_MEMBER,
   GET_RULES_TOPICS,
   GET_INVITATIONS,
@@ -104,6 +105,22 @@ exports.getCommunityByAdmin = async (req, res) => {
       res.status(200).json({
         msg: results.data,
         //role: results.role,
+      });
+    }
+  });
+};
+
+exports.getCommunityAnalytics = async (req, res) => {
+  console.log('REQUEST BODY IS', req.body);
+  const payload = { adminId: req.body.adminId, jwtAuthData: req.user };
+  kafka.make_request(GET_COMMUNITY_ANALYTICS, payload, (error, results) => {
+    if (!results.success) {
+      res.status(400).send(results);
+    } else {
+      console.log(results);
+      res.status(200).json({
+        success: true,
+        data: results.data,
       });
     }
   });

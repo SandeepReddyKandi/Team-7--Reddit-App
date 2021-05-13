@@ -15,6 +15,7 @@ const DELETE_COMMUNITY_BY_ID = "deleteCommunity";
 const GET_COMMUNITY_BY_NAME = "getCommunityByName";
 const GET_COMMUNITY_BY_MEMBER = "getCommunityByMember";
 const GET_COMMUNITY_BY_ADMIN = "getCommunityByAdmin";
+const GET_COMMUNITY_ANALYTICS = "getCommunityAnalytics";
 const RATE_COMMUNITY = "rateCommunity";
 const JOIN_COMMUNITY = "joinCommunity";
 const GET_RULES_TOPICS = "getRulesTopics";
@@ -73,6 +74,7 @@ module.exports = {
   GET_COMMUNITY_BY_NAME,
   GET_COMMUNITY_BY_MEMBER,
   GET_COMMUNITY_BY_ADMIN,
+  GET_COMMUNITY_ANALYTICS,
   RATE_COMMUNITY,
   ADD_POST,
   GET_POST,

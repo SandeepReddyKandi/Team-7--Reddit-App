@@ -11,6 +11,7 @@ const {
   GET_COMMUNITY,
   ADD_COMMUNITY,
   GET_COMMUNITY_BY_ID,
+  GET_COMMUNITY_ANALYTICS,
   DELETE_COMMUNITY_BY_ID,
   GET_COMMUNITY_BY_ADMIN,
   GET_COMMUNITY_BY_MEMBER,
@@ -55,6 +56,7 @@ const addCommunity = require("./services/Community/AddCommunity");
 const getCommunity = require("./services/Community/GetCommunity");
 const getCommunityById = require("./services/Community/GetCommunityById");
 const getCommunityByAdmin = require("./services/Community/GetCommunityByAdmin");
+const getCommunityAnalytics = require("./services/Community/GetCommunityAnalytics");
 const getCommunityByMember = require("./services/Community/GetCommunityByMember");
 const deleteCommunityById = require("./services/Community/DeleteCommunityById");
 
@@ -117,12 +119,12 @@ function handleTopicRequest(topic_name, fname) {
   var producer = connection.getProducer();
   console.log("server is running ");
   consumer.on("message", function (message) {
-    console.log("message received for " + topic_name + " ", fname);
-    console.log(JSON.stringify(message.value));
+    // console.log("message received for " + topic_name + " ", fname);
+    // console.log(JSON.stringify(message.value));
     var data = JSON.parse(message.value);
 
     fname.handle_request(data.data, function (err, res) {
-      console.log("after handle" + res);
+      // console.log("after handle" + res);
       var payloads = [
         {
           topic: data.replyTo,
@@ -157,6 +159,7 @@ handleTopicRequest(GET_RULES_TOPICS, getRulesTopics);
 handleTopicRequest(DELETE_COMMUNITY_BY_ID, deleteCommunityById);
 handleTopicRequest(GET_COMMUNITY_BY_MEMBER, getCommunityByMember);
 handleTopicRequest(GET_COMMUNITY_BY_ADMIN, getCommunityByAdmin);
+handleTopicRequest(GET_COMMUNITY_ANALYTICS, getCommunityAnalytics);
 
 //Post
 handleTopicRequest(ADD_POST_TEXT, addPostText);

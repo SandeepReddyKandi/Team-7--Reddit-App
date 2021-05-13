@@ -269,9 +269,7 @@ exports.uploadUserProfile = async (req, res) => {
         msg: 'Could not upload the profile image!',
       });
     }
-    const updatedUser = await user.update({ photo: data.Location });
-    console.log('----------------')
-    console.log('updated user is ', updatedUser);
+    await user.update({ photo: data.Location });
     return res.status(200).send({
       success: true,
       msg: 'Uploaded image successfully!',
