@@ -8,6 +8,7 @@ const handle_request = async (req, callback) => {
     }
     await Community.find(criteria)
       .populate("posts")
+      .populate("members")
       .then((response, err) => {
         if (err) {
           return callback(null, {
