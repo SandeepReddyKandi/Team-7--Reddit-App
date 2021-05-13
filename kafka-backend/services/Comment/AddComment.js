@@ -8,6 +8,7 @@ const handle_request = async (req, callback) => {
         return callback(null, {
           msg: "Failed to add comment",
           success: true,
+          data: "response",
         });
       }
       return callback(null, {

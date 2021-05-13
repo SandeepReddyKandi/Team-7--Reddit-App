@@ -31,7 +31,7 @@ import ConvertDate from '../../constants/CommonService';
 class Comment extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { comments: [], expanded: false, panel: '' };
+    this.state = { comments: [], expanded: false, panel: '', subComment: '' };
   }
 
   componentDidMount = async () => {
@@ -41,6 +41,10 @@ class Comment extends React.Component {
   handleExpandClick = (e) => {
     const { expanded } = this.state;
     this.setState({ expanded: !expanded, panel: e });
+  };
+
+  handleSubaComment = (e) => {
+    this.setState({ subComment: e.target.value });
   };
 
   handleUpVote = async (id) => {
@@ -73,6 +77,26 @@ class Comment extends React.Component {
     axios.defaults.withCredentials = true;
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     const data = { id, user: userId };
+    await axios
+      .post(`${constants.baseUrl}/comment/downvote`, data)
+      .then((response, error) => {
+        if (error) {
+          console.log(response.msg);
+        } else {
+          // this.setState({ updatetree: true });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  handleSubComment = async (id) => {
+    const userId = localStorage.getItem('user');
+    const { subComment } = this.state;
+    axios.defaults.withCredentials = true;
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    const data = { id, user: userId, comment: subComment };
     await axios
       .post(`${constants.baseUrl}/comment/downvote`, data)
       .then((response, error) => {
@@ -135,7 +159,9 @@ class Comment extends React.Component {
                     <ArrowDropUpIcon fontSize="large" onClick={() => this.handleUpVote(c)} />
                   </div>
                 </IconButton>
-                <Typography style={{ textAlign: 'center' }}>0</Typography>
+                <Typography style={{ textAlign: 'center' }}>
+                  {c.upvote.length - c.downvote.length}
+                </Typography>
                 <IconButton>
                   <div className="downvote">
                     <ArrowDropDownIcon fontSize="large" onClick={() => this.handleDownVote(c)} />
@@ -154,16 +180,16 @@ class Comment extends React.Component {
                   <Row>
                     {' '}
                     <List>
-                      {c.sub_comment !== undefined &&
-                        c.sub_comment.length > 0 &&
-                        c.sub_comment.map((s) => (
+                      {c.sub_comments !== undefined &&
+                        c.sub_comments.length > 0 &&
+                        c.sub_comments.map((s) => (
                           <ListItem className="border">
                             <ListItemAvatar>
                               <Avatar>
                                 <ImageIcon />
                               </Avatar>
                             </ListItemAvatar>
-                            <ListItemText primary={s.author_id} secondary={s.createdAt} />
+                            <ListItemText primary={s.author_id} secondary={s.comment} />
                           </ListItem>
                         ))}
                     </List>
@@ -187,7 +213,7 @@ class Comment extends React.Component {
                         'border-radius': '9999px',
                         height: '30px',
                       }}
-                      onClick={this.handleAddComment}
+                      onClick={() => this.handleSubComment(c._id)}
                       default
                     >
                       Reply

@@ -8,7 +8,7 @@ import React from 'react';
 import './Header.css';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-
+import Dropdown from 'react-bootstrap/Dropdown';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
@@ -25,6 +25,7 @@ import Chip from '@material-ui/core/Chip';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import PropTypes from 'prop-types';
+import history from '../../history';
 import Logo from './Logo/Logo';
 import Searchbar from './Searchbar/Searchbar';
 
@@ -32,7 +33,7 @@ import Searchbar from './Searchbar/Searchbar';
 const StyledMenu = withStyles({
   paper: {
     border: '1px solid #d3d4d5',
-    width: '190px'
+    width: '190px',
   },
 })((props) => (
   <Menu
@@ -58,9 +59,9 @@ const StyledMenuItem = withStyles((theme) => ({
       backgroundColor: theme.palette.primary.main,
       '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
         color: theme.palette.common.white,
-        minWidth: '30px'
-      }
-    }
+        minWidth: '30px',
+      },
+    },
   },
 }))(MenuItem);
 
@@ -71,8 +72,7 @@ export default function Header(props) {
   let loggedIn;
   if (token) {
     loggedIn = true;
-  }
-  else {
+  } else {
     loggedIn = false;
   }
 
@@ -90,12 +90,36 @@ export default function Header(props) {
     showLogin: PropTypes.func.isRequired,
     showSignup: PropTypes.func.isRequired,
   };
+
+  const handleProfilelick = (e) => {
+    e.preventDefault();
+    history.push(`/user/:${localStorage.getItem('user')}`);
+  };
+
+  const handleCreatePostClick = (e) => {
+    e.preventDefault();
+    history.push('/createpost');
+  };
+
+  const handleCreateCommunityClick = (e) => {
+    e.preventDefault();
+    history.push(`/createCommunity`);
+  };
+
+  const handleMyCommunityClick = (e) => {
+    e.preventDefault();
+    history.push(`/myCommunity`);
+  };
+
+  const handleLogout = (e) => {};
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   return (
     <header>
       <Row>
@@ -106,7 +130,7 @@ export default function Header(props) {
                 <Logo />
               </Col>
               <Col md={7}>
-                <div >
+                <div>
                   <Searchbar />
                 </div>
               </Col>
@@ -114,51 +138,26 @@ export default function Header(props) {
                 <Row>
                   {loggedIn ? (
                     <>
-                      <Button
-                        aria-controls="customized-menu"
-                        aria-haspopup="true" style={{ width: "90%", border: "1px solid rgb(230,230,230)", borderRadius: "2px" }}
-                        color="transparent"
-                        onClick={handleClick}>
-                        UserName
-                      </Button>
-                      <StyledMenu
-                        id="customized-menu"
-                        anchorEl={anchorEl}
-                        keepMounted
-                        open={Boolean(anchorEl)} style={{ width: "235px", minHeight: "300px" }}
-                        onClose={handleClose}
-                      >
-                        <StyledMenuItem>
-                          <ListItemIcon>
-                            <AccountBoxIcon fontSize="medium" />
-                          </ListItemIcon>
-                          <ListItemText primary="Profile" />
-                        </StyledMenuItem>
-                        <StyledMenuItem>
-                          <ListItemIcon>
-                            <PostAddIcon fontSize="medium" />
-                          </ListItemIcon>
-                          <ListItemText primary="Create Post" />
-                        </StyledMenuItem>
-                        <StyledMenuItem>
-                          <ListItemIcon>
-                            <LibraryAddIcon fontSize="medium" />
-                          </ListItemIcon>
-                          <ListItemText primary="Create Community" />
-                        </StyledMenuItem>
-                        <StyledMenuItem>
-                          <ListItemIcon>
-                            <LibraryBooksIcon fontSize="medium" />
-                          </ListItemIcon>
-                          <ListItemText primary="My Communities" />
-                        </StyledMenuItem>
-                        <StyledMenuItem >
-                          <ListItemIcon>
-                            <ExitToAppIcon fontSize="medium" />
-                          </ListItemIcon>
-                          <ListItemText primary="Log Out" />
-                        </StyledMenuItem>
-                      </StyledMenu>
+                      <div>
+                        <Dropdown>
+                          <Dropdown.Toggle className="header-user" id="dropdown-basic">
+                            {localStorage.getItem('user')}
+                          </Dropdown.Toggle>
+                          <Dropdown.Menu>
+                            <Dropdown.Item onClick={handleProfilelick}>My Profile</Dropdown.Item>
+                            <Dropdown.Item onClick={handleCreatePostClick}>
+                              Create Post
+                            </Dropdown.Item>
+                            <Dropdown.Item onClick={handleCreateCommunityClick}>
+                              Create Community
+                            </Dropdown.Item>
+                            <Dropdown.Item onClick={handleMyCommunityClick}>
+                              My Communities
+                            </Dropdown.Item>
+                            <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
+                          </Dropdown.Menu>
+                        </Dropdown>
+                      </div>
                     </>
                   ) : (
                     <>
@@ -176,6 +175,6 @@ export default function Header(props) {
           </AppBar>
         </Col>
       </Row>
-    </header >
+    </header>
   );
 }
