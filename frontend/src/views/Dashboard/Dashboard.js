@@ -21,8 +21,7 @@ class Dashboard extends React.Component {
     this.state = {
       errormessage: '',
       posts: [],
-    };
-    this.getPost();
+    };   
   }
 
   componentDidMount() {

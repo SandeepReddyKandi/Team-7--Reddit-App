@@ -47,7 +47,7 @@ auth();
 // forward all end-point requests to routes
 app.use('/users', usersRouter);
 app.use('/community', communityRouter);
-app.use('/post', postsRouter);
+app.use('/posts', postsRouter);
 app.use('/post', postRouter);
 app.use('/comment', commentRouter);
 
@@ -62,11 +62,6 @@ app.use(function (req, res, next) {
   res.setHeader('Cache-Control', 'no-cache');
   return next();
 });
-
-// app.use("/api", api); //routes from api folder will come here
-// app.get("/", (req, res) => {
-//   res.send("Hello World!");
-// });
 
 // forward all end-point requests to routes
 app.use('/users', usersRouter);
