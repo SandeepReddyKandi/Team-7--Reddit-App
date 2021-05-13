@@ -31,7 +31,6 @@ class PostCard extends React.Component {
   }
 
   handleSelect = (evtKey) => {
-    console.log('---evtkey----', evtKey);
     this.setState({
       community: evtKey,
     });
@@ -55,8 +54,8 @@ class PostCard extends React.Component {
 
   getCommunityList = async () => {
     const communities = [];
-    // axios.defaults.withCredentials = true;
-    // axios.defaults.headers.common.authorization = localStorage.getItem('id');
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    axios.defaults.withCredentials = true;
     const data = await axios.get(`${constants.baseUrl}/community/communities`);
     if (data.data.data) {
       data.data.data.map((d) => communities.push(d.community_name));
@@ -65,13 +64,13 @@ class PostCard extends React.Component {
   };
 
   addPostText = async () => {
-    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
-    axios.defaults.withCredentials = true;
     const data = {
       title: this.state.title,
       text: this.state.text,
       community: this.state.community,
     };
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    axios.defaults.withCredentials = true;
     axios.post(`${constants.baseUrl}/post/text`, data);
   };
   render() {
