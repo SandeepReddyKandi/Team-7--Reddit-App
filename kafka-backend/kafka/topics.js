@@ -3,6 +3,7 @@ const USER_LOGIN = "userLogin";
 const USER_SIGNUP = "userSignup";
 const GET_USERS_BY_NAME = "getUsersByName";
 const GET_USERS = "getUsers";
+const GET_USER_BY_ID = "getUserById";
 
 //Community
 const ADD_COMMUNITY = "addCommunity";
@@ -50,6 +51,7 @@ module.exports = {
   USER_LOGIN,
   USER_SIGNUP,
   GET_USERS_BY_NAME,
+  GET_USER_BY_ID,
   GET_USERS,
   ADD_COMMUNITY,
   GET_COMMUNITY,
