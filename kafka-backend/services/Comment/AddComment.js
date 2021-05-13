@@ -1,20 +1,17 @@
 const CommentModel = require("../../models/CommentModel");
+const PostModel = require("../../models/PostModel");
 
 const handle_request = async (req, callback) => {
   try {
     var commentModel = new CommentModel(req.body);
-    commentModel.save().then((response, error) => {
-      if (error) {
-        return callback(null, {
-          msg: "Failed to add comment",
-          success: true,
-          data: "response",
-        });
-      }
-      return callback(null, {
-        msg: "Comment Added successfully!",
-        success: true,
-      });
+    const savedComment = await commentModel.save();
+    await PostModel.findOneAndUpdate(
+      { _id: savedComment.post_id },
+      { $push: { comments: savedComment._id } }
+    );
+    callback(null, {
+      msg: "Comment Added successfully!",
+      success: true,
     });
   } catch (error) {
     return callback(null, {

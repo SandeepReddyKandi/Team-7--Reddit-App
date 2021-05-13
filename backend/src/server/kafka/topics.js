@@ -31,6 +31,7 @@ const ADD_COMMENT = 'addComment';
 const GET_COMMENT = 'getComment';
 const UPVOTE_COMMENT = 'upvoteComment';
 const DOWNVOTE_COMMENT = 'downvoteComment';
+const ADD_SUB_COMMENT = 'addSubComment';
 
 //Invitation
 const SEND_INVITE = 'sendInvite';
@@ -83,4 +84,5 @@ module.exports = {
   GET_STATUS,
   GET_RULES_TOPICS,
   GET_POST_COMMUNITY,
+  ADD_SUB_COMMENT,
 };
