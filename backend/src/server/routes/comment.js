@@ -15,6 +15,6 @@ router.post('/add', checkAuth, addComment);
 router.get('/', checkAuth, getComment);
 router.post('/upvote', checkAuth, upvoteComment);
 router.post('/downvote', checkAuth, downvoteComment);
-router.post('/subcomment', addSubComment);
+router.post('/subcomment', checkAuth, addSubComment);
 
 module.exports = router;
