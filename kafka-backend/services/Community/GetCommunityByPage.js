@@ -30,10 +30,19 @@ const handle_request = async (req, callback) => {
     ])
       .skip(parseInt(req.page))
       .limit(parseInt(req.rows));
+
+    const totalRows = await Community.countDocuments(criteria);
+    communities.totalRows = totalRows;
+
+    let json = {
+      communities,
+      totalRows,
+    };
+
     callback(null, {
       msg: "",
       success: true,
-      data: communities,
+      data: json,
     });
   } catch (error) {
     return callback(null, {
