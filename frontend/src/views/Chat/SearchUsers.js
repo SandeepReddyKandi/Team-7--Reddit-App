@@ -111,12 +111,13 @@ class SearchUsers extends Component {
   }
 
   render() {
+    // eslint-disable-next-line no-unused-vars
     const { currentUser, users } = this.state;
 
     return (
       <>
         <div className="users">
-          <div className="current-user-container">
+          {/* <div className="current-user-container">
             {currentUser && (
               <div>
                 <picture className="current-user-picture">
@@ -128,7 +129,7 @@ class SearchUsers extends Component {
                 </div>
               </div>
             )}
-          </div>
+          </div> */}
 
           <div className="users-container">
             <div style={{ width: '95%', paddingLeft: '10px' }}>

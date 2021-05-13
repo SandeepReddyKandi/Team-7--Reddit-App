@@ -25,6 +25,7 @@ const {
   // GET_POST,
   // GET_POST_BY_ID
   GET_COMMUNITY_BY_NAME,
+  GET_COMMUNITY_BY_PAGE,
   GET_RULES_TOPICS,
   RATE_COMMUNITY,
   ADD_POST,
@@ -55,7 +56,7 @@ const getCommunityById = require("./services/Community/GetCommunityById");
 const getCommunityByAdmin = require("./services/Community/GetCommunityByAdmin");
 const getCommunityByMember = require("./services/Community/GetCommunityByMember");
 const deleteCommunityById = require("./services/Community/DeleteCommunityById");
-
+const getCommunityByPage = require("./services/Community/GetCommunityByPage");
 const getCommunityByName = require("./services/Community/GetCommunityByName");
 const rateCommunity = require("./services/Community/RateCommunity");
 const getRulesTopics = require("./services/Community/GetRulesTopics");
@@ -154,6 +155,7 @@ handleTopicRequest(GET_RULES_TOPICS, getRulesTopics);
 handleTopicRequest(DELETE_COMMUNITY_BY_ID, deleteCommunityById);
 handleTopicRequest(GET_COMMUNITY_BY_MEMBER, getCommunityByMember);
 handleTopicRequest(GET_COMMUNITY_BY_ADMIN, getCommunityByAdmin);
+handleTopicRequest(GET_COMMUNITY_BY_PAGE, getCommunityByPage);
 
 //Post
 handleTopicRequest(ADD_POST_TEXT, addPostText);
