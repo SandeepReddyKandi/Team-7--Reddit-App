@@ -16,6 +16,7 @@ import UserProfile from './views/UserProfile/UserProfile';
 import MyCommunity from './views/MyCommunity/MyCommunity';
 import MyCommunityCreate from './views/MyCommunity/MyCommunityCreate';
 import ProtectedRoutes from './views/ProtectedRoutes/ProtectedRoutes';
+import CommunityModeration from './views/CommunityModeration/CommunityModeration';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
           <ProtectedRoutes exact path="/createpost" component={CreatePost} />
           <ProtectedRoutes exact path="/createCommunity" component={MyCommunityCreate} />
           <ProtectedRoutes exact path="/myCommunity" component={MyCommunity} />
+          <ProtectedRoutes exact path="/communitymoderation" component={CommunityModeration} />
         </Switch>
       </Router>
     </Container>
