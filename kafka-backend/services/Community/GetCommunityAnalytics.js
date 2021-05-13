@@ -10,12 +10,12 @@ const handle_request = async (req, callback) => {
                 success: false,
             });
         }
-        // else if (`${req.adminId}` !== `${req.jwtAuthData._id}`) {
-        //     return callback(null, {
-        //         msg: 'You cannot view other community analytics for other users',
-        //         success: false,
-        //     });
-        // }
+        else if (`${req.adminId}` !== `${req.jwtAuthData._id}`) {
+            return callback(null, {
+                msg: 'You cannot view other community analytics for other users',
+                success: false,
+            });
+        }
         const criteria = {};
         if (req.adminId) {
             criteria.admin_id = req.adminId;
@@ -63,7 +63,8 @@ const handle_request = async (req, callback) => {
                 query: postsQueryList,
                 membersCount: doc.membersCount,
                 postsCount: doc.postsCount,
-                communityId: doc._id
+                communityId: doc._id,
+                communityName: doc.community_name,
             };
         }
 

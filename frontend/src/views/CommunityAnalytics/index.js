@@ -2,20 +2,29 @@ import React from 'react';
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import axios from "axios";
 import {Line} from "react-chartjs-2/dist";
 import Header from "../Header/Header";
 import './community-analytics.css';
 import UserCard from "../UserCard";
 import CommunityCard from "../CommunityCard";
+import constants from "../../constants/constants";
+
+
+const options = {
+    scales: {
+        yAxes: [{
+            ticks: {
+                beginAtZero: true,
+            },
+        }],
+    },
+};
 
 class CommunityAnalytics extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            community: {
-                name: 'Hello SJSU!',
-                id: 'r/hello_sjsu',
-            },
             activeUserChart: {
                 data: {
                     label: [],
@@ -30,24 +39,55 @@ class CommunityAnalytics extends React.Component {
                 },
                 options: {}
             },
-            topUser: {
-                avatar: 'https://picsum.photos/id/237/200/300',
-                name: 'Kandi Sandeep',
-                userName: 'u/sandeep-reddy',
-                about: 'Nothing much, just getting bored!'
-            },
             mostActiveCommunity: {
                 avatar: 'https://picsum.photos/200/300/?blur',
                 name: 'Hello SJSU!',
                 id: 'r/hello-sjsu',
                 about: 'All the cool discussion going on in our SJSU University!'
-            }
+            },
+            analyticsData: {}
         }
     }
 
     componentDidMount() {
-        const data = {
-            labels: ['hello-sjsu', 'awesome-group', 'kandi-group', 'sumeet-group', 'ruchi-group', 'kurakar-group'], // Ids of group
+        // Call API to get the community analytics community/get-community-analytics
+        axios.post(`${constants.baseUrl}/community/get-community-analytics`, {
+            adminId: localStorage.getItem('userId'),
+            headers: { authorization: `Bearer ${localStorage.getItem('token')}` },
+        }).then((response, error) => {
+            if (error) {
+                console.log(response);
+            } else {
+                this.transformAnalyticsData(response.data);
+            }
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
+
+    getMostActiveCommunityDetails(maxUpvotesCommId) {
+        // get the community details by comm-ID
+        axios.get(`${constants.baseUrl}/community/communities/${maxUpvotesCommId}`, {
+            headers: { authorization: `Bearer ${localStorage.getItem('token')}` },
+        }).then((response, error) => {
+            if (error) {
+                console.log(response);
+            } else {
+                this.setState({
+                    mostActiveCommunity: response.data.data,
+                })
+            }
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
+
+    transformAnalyticsData = async (param) => {
+
+        const data = param ? param.data : {};
+
+        const memberData = {
+            labels: [], // Ids of group
             datasets: [
                 {
                     label: '# of active users',
@@ -58,14 +98,13 @@ class CommunityAnalytics extends React.Component {
                     borderColor: '#3d79b4',
                 },
             ],
-        };
-
+        }
         const postData = {
-            labels: ['hello-sjsu', 'awesome-group', 'kandi-group', 'sumeet-group', 'ruchi-group', 'kurakar-group'], // Ids of group
+            labels: [], // Ids of group
             datasets: [
                 {
                     label: '# of posts',
-                    data: [220, 109, 30, 500, 122, 603],
+                    data: [],
                     fill: false,
                     pointRadius: 4,
                     backgroundColor: '#ec0623',
@@ -74,31 +113,43 @@ class CommunityAnalytics extends React.Component {
             ],
         };
 
-        const options = {
-            scales: {
-                yAxes: [
-                    {
-                        ticks: {
-                            beginAtZero: true,
-                        },
-                    },
-                ],
-            },
-        };
+        const commNameLabels = []
+        const postPerComm = []
+        const memPerComm = []
+        let maxUpvotes = 0;
+        let maxUpvotesCommId = '';
+
+        Object.keys(data).forEach((commId) => {
+            commNameLabels.push(data[commId].communityName);
+            postPerComm.push(data[commId].postsCount);
+            memPerComm.push(data[commId].membersCount);
+            if (maxUpvotes < data[commId]) {
+                maxUpvotes = data[commId];
+                maxUpvotesCommId = commId;
+            }
+        });
+        postData.labels = commNameLabels;
+        postData.datasets = postPerComm;
+        memberData.labels = commNameLabels;
+        memberData.datasets = postPerComm;
+
         this.setState({
             activeUserChart: {
-                data,
+                data: memberData,
                 options,
             },
             postsChart : {
                 data: postData,
                 options,
-            }
-        })
+            },
+            analyticsData: data || {},
+        });
+
+        this.getMostActiveCommunityDetails(maxUpvotesCommId);
     }
 
     render() {
-        const { community, activeUserChart, postsChart, topUser, mostActiveCommunity } = this.state;
+        const { analyticsData, activeUserChart, postsChart, mostActiveCommunity } = this.state;
         return (
             <>
                 <Header showLogin={false} showSignup={false} />
@@ -138,25 +189,37 @@ class CommunityAnalytics extends React.Component {
                             <div className='comm-card'>
                                 <Line data={postsChart.data} options={postsChart.options} />
                             </div>
-
-                            <div className='comm-card'>
-                                <div className='comm-card-head'>Most upvoted post</div>
-                            {/*    TODO Show the post in here */}
-                            </div>
+                            {
+                                Object.keys(analyticsData).map(comm => (
+                                        <>
+                                            <div className='comm-card'>
+                                                <div className='comm-card-head'>Most upvoted post In <b>{analyticsData[comm].communityName}</b></div>
+                                                {/*    TODO Show the post in here */}
+                                            </div>
+                                        </>
+                                    )
+                                )
+                            }
                         </Col>
                         <Col style={{ width: '312px', marginLeft: '24px', flexBasis: 'auto' }}>
-                            <div className='comm-card'>
-                                <div className='comm-card-head no-mar'>Most Active User</div>
-                                <div className='comm-card-small-text no-mar'>Created most number of posts</div>
-                            </div>
-                            <UserCard user={topUser} showEdit={false}/>
+                            {
+                                analyticsData && Object.keys(analyticsData).map(comm => (
+                                        <>
+                                            <div className='comm-card'>
+                                                <div className='comm-card-head no-mar'>Most Active User In <b>{analyticsData[comm].communityName}</b></div>
+                                                <div className='comm-card-small-text no-mar'>Created most number of posts in <b>{analyticsData[comm].communityName}</b></div>
+                                            </div>
+                                            <UserCard user={analyticsData[comm].mostActiveUser} showEdit={false}/>
+                                        </>
+                                    )
+                                )
+                            }
 
                             <div className='comm-card m-top-24'>
                                 <div className='comm-card-head no-mar'>Most Active Community</div>
                                 <div className='comm-card-small-text no-mar'>Community with most number of posts</div>
                             </div>
                             <CommunityCard community={mostActiveCommunity} showEdit={false}/>
-                            {community.name}
                         </Col>
                     </Row>
                 </Container>

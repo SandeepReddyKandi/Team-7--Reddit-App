@@ -40,9 +40,9 @@ app.use(
 );
 
 // passport
-// app.use(passport.initialize());
-// app.use(passport.session());
-// auth();
+app.use(passport.initialize());
+app.use(passport.session());
+auth();
 
 // forward all end-point requests to routes
 app.use('/users', usersRouter);

@@ -1,4 +1,5 @@
 import React, {useState, useRef} from 'react';
+import {useHistory} from "react-router-dom";
 import axios from "axios";
 import EditIcon from "@material-ui/icons/Edit";
 import SettingsIcon from "@material-ui/icons/Settings";
@@ -12,6 +13,8 @@ const UserCard = ({user, isMyProfile}) => {
     const [fileData, setFileData] = useState();
     const [localImageUrl, setLocalImageUrl] = useState();
     const fileUploadInputRef = useRef();
+
+    const history = useHistory();
 
     const toggleShowMoreOption = () => {
         console.log('Toggle Show More Options')
@@ -85,9 +88,9 @@ const UserCard = ({user, isMyProfile}) => {
                 </div>
                 {
                     isMyProfile && (
-                        <button className='round-btn red-btn' type='button'>
+                        <button className='round-btn red-btn' type='button' onClick={ () => history.push('/community-analytics')}>
                             <span>&nbsp;</span>
-                            <span>Create Avatar</span>
+                            <span>Community Analytics</span>
                             <ArrowForwardIosIcon/>
                         </button>
                     )

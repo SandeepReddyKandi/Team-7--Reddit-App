@@ -25,12 +25,12 @@ router.post('/invite', checkAuth, sendInvite);
 router.post('/rate', checkAuth, rateCommunity);
 router.post('/add', checkAuth, addCommunity);
 router.get('/communities', checkAuth, getCommunity);
-router.get('/communities', checkAuth, getCommunityById);
+router.get('/communities/:id', checkAuth, getCommunityById);
 router.post('/status', checkAuth, getStatus);
 router.get('/gettr', checkAuth, getRulesTopics);
 router.get('/getCommunityByName', checkAuth, getCommunityByName);
 router.get('/getCommunityByAdmin', checkAuth, getCommunityByAdmin);
-router.get('/get-community-analytics', getCommunityAnalytics);
+router.post('/get-community-analytics', checkAuth, getCommunityAnalytics);
 router.get('/getCommunityByMember', checkAuth, getCommunityByMember);
 router.get('/deletecommunitybyid', checkAuth, deleteCommunityById);
 
