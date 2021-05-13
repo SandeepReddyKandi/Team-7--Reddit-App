@@ -40,7 +40,7 @@ export default function TopCommunityInfo() {
                         <span className="name">r/{community.name}</span>
                     </div>
                 ))}
-            </div>           
+            </div>
         </div>
     );
 }
