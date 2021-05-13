@@ -1,6 +1,7 @@
 /* eslint-disable  dot-notation */
 /* eslint-disable prefer-template */
 /* eslint no-underscore-dangle: 0 */
+/* eslint-disable no-lonely-if */
 
 import React from 'react';
 import Row from 'react-bootstrap/Row';
@@ -43,7 +44,7 @@ class Comment extends React.Component {
     this.setState({ expanded: !expanded, panel: e });
   };
 
-  handleSubaComment = (e) => {
+  handleSubCommentBox = (e) => {
     this.setState({ subComment: e.target.value });
   };
 
@@ -96,14 +97,18 @@ class Comment extends React.Component {
     const { subComment } = this.state;
     axios.defaults.withCredentials = true;
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
-    const data = { id, user: userId, comment: subComment };
+    const data = { comment_id: id, author_id: userId, comment: subComment };
     await axios
-      .post(`${constants.baseUrl}/comment/downvote`, data)
+      .post(`${constants.baseUrl}/comment/subcomment`, data)
       .then((response, error) => {
         if (error) {
           console.log(response.msg);
         } else {
-          // this.setState({ updatetree: true });
+          if (response.data.msg === 'SubComment Added successfully!') {
+            this.getComments();
+          } else {
+            console.log(response);
+          }
         }
       })
       .catch((error) => {
@@ -189,7 +194,10 @@ class Comment extends React.Component {
                                 <ImageIcon />
                               </Avatar>
                             </ListItemAvatar>
-                            <ListItemText primary={s.author_id} secondary={s.comment} />
+                            <ListItemText
+                              primary={<Typography>s.author_id</Typography>}
+                              secondary={s.comment}
+                            />
                           </ListItem>
                         ))}
                     </List>
@@ -201,7 +209,7 @@ class Comment extends React.Component {
                       size="medium"
                       defaultValue=""
                       style={{ 'max-width': '100vh' }}
-                      onChange={this.handleCommentText}
+                      onChange={this.handleSubCommentBox}
                     />
                     <Button
                       size="medium"

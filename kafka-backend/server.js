@@ -16,6 +16,7 @@ const {
   ADD_POST_TEXT,
   ADD_POST_IMAGE,
   ADD_POST_LINK,
+  GET_POST_BY_ID,
   UPVOTE_POST,
   DOWNVOTE_POST,
   UPVOTE_COMMENT,
@@ -67,6 +68,7 @@ const getPostByPage = require("./services/Post/GetPostByPage");
 const upvotePost = require("./services/Post/UpvotePost");
 const sortPostByUpvote = require("./services/Post/SortPostWithUpvote");
 const sortPostByDownvote = require("./services/Post/SortPostWithDownvote");
+const getPostById = require("./services/Post/GetPostById");
 
 //Comment
 const addComment = require("./services/Comment/AddComment");
@@ -168,6 +170,7 @@ handleTopicRequest(RATE_COMMUNITY, rateCommunity);
 handleTopicRequest(ADD_POST, addPost);
 handleTopicRequest(GET_POST, getPost);
 handleTopicRequest(GET_POST_BY_PAGE, getPostByPage);
+handleTopicRequest(GET_POST_BY_ID, getPostById);
 handleTopicRequest(UPVOTE_POST, upvotePost);
 handleTopicRequest(DOWNVOTE_POST, downvotePost);
 handleTopicRequest(SORT_POST_BY_UPVOTE, sortPostByUpvote);

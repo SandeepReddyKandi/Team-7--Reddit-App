@@ -26,6 +26,7 @@ const UPVOTE_POST = 'upvotePost';
 const DOWNVOTE_POST = 'downvotePost';
 const GET_POST_BY_PAGE = 'getPostByPage';
 const SORT_POST_BY_DOWNVOTE = 'sortPostByDownvote';
+const GET_POST_BY_ID = 'getPostById';
 
 //Comment
 const ADD_COMMENT = 'addComment';
@@ -84,6 +85,7 @@ module.exports = {
   JOIN_COMMUNITY,
   GET_INVITATIONS,
   GET_STATUS,
+  GET_POST_BY_ID,
   GET_RULES_TOPICS,
   GET_POST_COMMUNITY,
   ADD_SUB_COMMENT,

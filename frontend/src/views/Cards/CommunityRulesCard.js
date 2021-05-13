@@ -10,11 +10,11 @@ import Collapse from '@material-ui/core/Collapse';
 class CommunityRulesCard extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { rules: this.props };
+    this.state = { community: this.props };
   }
 
   render() {
-    const { rules } = this.state;
+    const { community } = this.state;
     return (
       <Card style={{ width: '100%' }}>
         <CardHeader
@@ -24,11 +24,11 @@ class CommunityRulesCard extends React.Component {
         />
         <CardMedia image="/static/images/cards/paella.jpg" title="Paella dish" />
         <CardContent className="reader-content">
-          {rules.length > 0 ? (
-            rules.map((r) => (
+          {community.community.rules.length > 0 ? (
+            community.community.rules.map((r) => (
               <>
                 <Typography variant="body2" component="p">
-                  {r}
+                  {r.description}
                 </Typography>
                 <div className="dropdown-divider" />;
               </>

@@ -166,3 +166,21 @@ exports.sortPostByDate = async (req, res) => {
     }
   });
 };
+
+exports.getPostById = async (req, res) => {
+  const data = {
+    post_id: req.body.post_id,
+  };
+  const payload = data;
+  kafka.make_request(GET_POST_BY_ID, payload, (error, results) => {
+    if (!results.success) {
+      res.status(400).send(results);
+    } else {
+      //console.log(results);
+      res.status(200).json({
+        msg: results.msg,
+        data: results.data,
+      });
+    }
+  });
+};
