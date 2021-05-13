@@ -10,12 +10,13 @@ import Collapse from '@material-ui/core/Collapse';
 class CommunityRulesCard extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { rules: this.props };
   }
 
   render() {
+    const { rules } = this.state;
     return (
-      <Card>
+      <Card style={{ width: '100%' }}>
         <CardHeader
           subheader={<Typography className="sidecard-labels">Rules</Typography>}
           className="right-side-card"
@@ -23,22 +24,20 @@ class CommunityRulesCard extends React.Component {
         />
         <CardMedia image="/static/images/cards/paella.jpg" title="Paella dish" />
         <CardContent className="reader-content">
-          <Typography variant="body2" component="p">
-            This impressive paella is a perfect party dish and a fun meal to cook together with your
-            guests. Add 1 cup of frozen peas along with the mussels, if you like.
-          </Typography>
-          <div className="dropdown-divider" />
-
-          <Typography variant="body2" component="p">
-            Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
-            minutes.
-          </Typography>
-          <div className="dropdown-divider" />
-
-          <Typography variant="body2" component="p">
-            Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
-            minutes.
-          </Typography>
+          {rules.length > 0 ? (
+            rules.map((r) => (
+              <>
+                <Typography variant="body2" component="p">
+                  {r}
+                </Typography>
+                <div className="dropdown-divider" />;
+              </>
+            ))
+          ) : (
+            <Typography variant="body2" component="p">
+              No Rules
+            </Typography>
+          )}
         </CardContent>
 
         <Collapse timeout="auto" unmountOnExit>

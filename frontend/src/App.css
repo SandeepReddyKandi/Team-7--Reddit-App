@@ -82,6 +82,14 @@
   color: #fff;
 }
 
+.header-user,
+.btn-primary:hover,
+.show > .btn-primary.dropdown-toggle {
+  color:black !important;
+  background-color: transparent !important;
+  border: none !important;
+}
+
 .card-action-label{
   font-size: small;
 }
