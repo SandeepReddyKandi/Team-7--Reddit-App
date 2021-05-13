@@ -49,5 +49,9 @@ router.get('/getUserById', checkAuth, getUserById);
 router.get('/autoLogin', checkAuth, autoLogin);
 router.post('/profile', checkAuth, profile);
 router.get('/getUsers', checkAuth, getUsers);
+router.post('/logout', (req, res) => {
+  res.clearCookie('authtkn');
+  res.json({ message: 'Logged Out' });
+});
 
 module.exports = router;

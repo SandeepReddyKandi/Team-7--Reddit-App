@@ -10,7 +10,6 @@ const handle_request = async (req, callback) => {
   client.get(key, async (err, response) => {
     if (err) throw err;
     if (response) {
-      console.log("****Inside if Response is*****:", response);
       if (bcrypt.compareSync(req.body.password, JSON.parse(response).password)) {
         const token = jwt.sign(
           { userId: response._id, email: response.email },
@@ -21,12 +20,11 @@ const handle_request = async (req, callback) => {
         );
         return callback(null, {
           token,
-          msg: "Logged in successfully",
+          msg: "Loggeed in successfully",
           userId: response._id,
           success: true
         });
       } else {
-        console.log("****Inside else");
         return callback(null, {
           msg: "Invalid Credentials Entered",
           success: false,
@@ -40,7 +38,6 @@ const handle_request = async (req, callback) => {
             success: false,
           });
         }
-        console.log("*****doc is******", doc);
         client.setex(key, 600, JSON.stringify(doc));
         //check if password entered matches with the one in DB
         if (bcrypt.compareSync(req.body.password, doc.password)) {
@@ -50,7 +47,7 @@ const handle_request = async (req, callback) => {
           return callback(null, {
             token,
             msg: "Logged in successfully",
-            userId: doc._id,
+            userId: doc.id,
             success: true,
           });
         } else {

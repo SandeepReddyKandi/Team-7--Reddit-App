@@ -3,7 +3,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { createBrowserHistory } from 'history';
@@ -24,7 +24,7 @@ function App() {
   const history = createBrowserHistory();
   return (
     <Container fluid style={{ 'background-color': '#eeeeee' }}>
-      <Router history={history}>
+      <BrowserRouter history={history}>
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/home" component={Home} />
@@ -40,7 +40,7 @@ function App() {
           <ProtectedRoutes exact path="/myCommunity" component={MyCommunity} />
           <ProtectedRoutes exact path="/communitymoderation" component={CommunityModeration} />
         </Switch>
-      </Router>
+      </BrowserRouter>
     </Container>
   );
 }

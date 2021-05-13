@@ -27,7 +27,7 @@ class CommunityListCard extends React.Component {
       <div className="posts-wrapper">
         <Card>
           <div className="post">
-            <Row style={{ width: '100%', height: '100%' }}>
+            <Row style={{ width: '720px', height: '100%', flexWrap: 'nowrap', marginRight: '0' }}>
               <Col
                 md={1}
                 style={{
