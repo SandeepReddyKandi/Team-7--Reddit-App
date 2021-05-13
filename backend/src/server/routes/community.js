@@ -29,6 +29,7 @@ router.get('/communities/:id', checkAuth, getCommunityById);
 router.post('/status', checkAuth, getStatus);
 router.get('/gettr', checkAuth, getRulesTopics);
 router.get('/getCommunityByName', checkAuth, getCommunityByName);
+router.post('/getCommunityByPage', checkAuth, getCommunityByName);
 router.get('/getCommunityByAdmin', checkAuth, getCommunityByAdmin);
 router.post('/get-community-analytics', checkAuth, getCommunityAnalytics);
 router.get('/getCommunityByMember', checkAuth, getCommunityByMember);

@@ -1,6 +1,8 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable constructor-super */
 /* eslint-disable dot-notation */
+/* eslint-disable prefer-template */
+
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import Row from 'react-bootstrap/Row';
@@ -45,16 +47,16 @@ class Login extends React.Component {
     });
   };
 
-  handleLogin = (e) => {
+  handleLogin = async (e) => {
     e.preventDefault();
     const data = {
       name: this.state.name,
       email: this.state.email,
       password: this.state.password,
     };
-    axios.defaults.headers.common["authorization"] = localStorage.getItem('token')
+    axios.defaults.headers.common["authorization"] = 'Bearer ' + localStorage.getItem('token')
     axios.defaults.withCredentials = true;
-    axios
+    await axios
       .post(`${constants.baseUrl}/users/login/`, data)
       .then((response, error) => {
         if (error) {

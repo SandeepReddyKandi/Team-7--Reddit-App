@@ -9,7 +9,7 @@ class UserProfileComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            userId: window.location.pathname.split('/users/')[1],
+            userId: window.location.pathname.split('/my-profile/')[1],
             user: {
                 photo: '',
                 name: '',
@@ -23,7 +23,6 @@ class UserProfileComponent extends React.Component {
     componentDidMount() {
         // Get user data from its user id
         this.getUserByUserName().then((data) => {
-            console.log(data);
             this.setState({
                 user: {
                     ...data,

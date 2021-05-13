@@ -34,7 +34,7 @@ class CommunityHomePage extends React.Component {
       community: this.props,
       page: 0,
       rows: 2,
-      totalRows: 10,
+      totalRows: 0,
       post: false,
       posts: [],
       showPage: false,
@@ -51,7 +51,6 @@ class CommunityHomePage extends React.Component {
 
     await this.getCommunity();
     await this.getPost();
-    this.getPost();
   }
 
   createPost = () => {
@@ -84,14 +83,15 @@ class CommunityHomePage extends React.Component {
       .post(`${constants.baseUrl}/community/status/`, data)
       .then((response, error) => {
         if (!error) {
-          this.setState({
-            status: response.data.data[0],
-          });
+          if (response.data.data.length > 0) {
+            this.setState({
+              status: response.data.data[0],
+            });
+          }
         }
       })
       .catch((error) => {
         console.log(error);
-        // this.setState({ errormessage: error.response.data.msg });
       });
   };
 
@@ -111,6 +111,7 @@ class CommunityHomePage extends React.Component {
         if (!error) {
           this.setState({
             posts: response.data.data,
+            totalRows: response.data.data.length,
           });
         }
       })
@@ -136,6 +137,7 @@ class CommunityHomePage extends React.Component {
         if (!error) {
           this.setState({
             posts: response.data.data,
+            totalRows: response.data.data.length,
           });
         }
       })
@@ -161,6 +163,7 @@ class CommunityHomePage extends React.Component {
         if (!error) {
           this.setState({
             posts: response.data.data,
+            totalRows: response.data.data.length,
           });
         }
       })
@@ -191,8 +194,8 @@ class CommunityHomePage extends React.Component {
       });
   };
 
-  handleChangeRowsPerPage = (event) => {
-    this.setState({ rows: parseInt(event.target.value, 10), page: 0 });
+  handleChangeRowsPerPage = async (event) => {
+    await this.setState({ rows: parseInt(event.target.value, 10), page: 0 });
     this.getPost();
   };
 
@@ -202,10 +205,13 @@ class CommunityHomePage extends React.Component {
     const community_id = community._id;
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
-    await axios.get(`${constants.baseUrl}/post/post/?id=${community_id}&page=${page}&rows=${rows}`).then((response, error) => {
+    await axios
+      .get(`${constants.baseUrl}/post/post/?id=${community_id}&page=${page}&rows=${rows}`)
+      .then((response, error) => {
         if (!error) {
           this.setState({
             posts: response.data.data,
+            totalRows: response.data.data.length,
             showPage: true,
           });
         }
@@ -247,7 +253,11 @@ class CommunityHomePage extends React.Component {
                 <Row>
                   <Col md={2}>&nbsp;</Col>
                   <Col md={1}>
-                    <Avatar alt="Remy Sharp" src={RedditICon} className="card-img-top" />
+                    {community.img_url !== '' ? (
+                      <Avatar alt="Remy Sharp" src={RedditICon} className="card-img-top" />
+                    ) : (
+                      <Avatar alt="Remy Sharp" src={RedditICon} className="card-img-top" />
+                    )}
                   </Col>
                   <Col md={4}>
                     <Typography variant="h5" component="h5">
@@ -329,12 +339,15 @@ class CommunityHomePage extends React.Component {
                     date={this.sortPostByDate}
                   />
                 </Row>
-                {posts.length >= 0 &&
+                {posts.length > 0 ? (
                   posts.map((p) => (
                     <Row>
                       <TextDisplayCard post={p} />
                     </Row>
-                  ))}
+                  ))
+                ) : (
+                  <Typography>No Posts</Typography>
+                )}
                 <TablePagination
                   component="div"
                   count={totalRows}
@@ -352,7 +365,7 @@ class CommunityHomePage extends React.Component {
                 </Row>
 
                 <Row className="border">
-                  <CommunityRulesCard />
+                  <CommunityRulesCard community={community} />
                 </Row>
                 <Row className="border">
                   <CommunityMembersList community_info={community} />

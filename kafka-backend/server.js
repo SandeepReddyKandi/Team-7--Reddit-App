@@ -8,6 +8,7 @@ const {
   GET_USER_BY_USER_NAME,
   UPDATE_USER_PROFILE,
   GET_USERS_BY_NAME,
+  GET_USER_BY_ID,
   GET_COMMUNITY,
   ADD_COMMUNITY,
   GET_COMMUNITY_BY_ID,
@@ -18,6 +19,7 @@ const {
   ADD_POST_TEXT,
   ADD_POST_IMAGE,
   ADD_POST_LINK,
+  GET_POST_BY_ID,
   UPVOTE_POST,
   DOWNVOTE_POST,
   UPVOTE_COMMENT,
@@ -27,6 +29,7 @@ const {
   // GET_POST,
   // GET_POST_BY_ID
   GET_COMMUNITY_BY_NAME,
+  GET_COMMUNITY_BY_PAGE,
   GET_RULES_TOPICS,
   RATE_COMMUNITY,
   ADD_POST,
@@ -49,6 +52,7 @@ const updateUserProfile = require("./services/users/updateUserProfile");
 const userSignup = require("./services/users/userSignup");
 const getUsersByName = require("./services/users/GetUsersByName");
 const getUserByUserName = require("./services/users/getUserByUserName");
+const getUserById = require("./services/users/GetUserById");
 const getUsers = require("./services/users/getUsers");
 
 //Community
@@ -59,7 +63,7 @@ const getCommunityByAdmin = require("./services/Community/GetCommunityByAdmin");
 const getCommunityAnalytics = require("./services/Community/GetCommunityAnalytics");
 const getCommunityByMember = require("./services/Community/GetCommunityByMember");
 const deleteCommunityById = require("./services/Community/DeleteCommunityById");
-
+const getCommunityByPage = require("./services/Community/GetCommunityByPage");
 const getCommunityByName = require("./services/Community/GetCommunityByName");
 const rateCommunity = require("./services/Community/RateCommunity");
 const getRulesTopics = require("./services/Community/GetRulesTopics");
@@ -71,6 +75,7 @@ const getPostByPage = require("./services/Post/GetPostByPage");
 const upvotePost = require("./services/Post/UpvotePost");
 const sortPostByUpvote = require("./services/Post/SortPostWithUpvote");
 const sortPostByDownvote = require("./services/Post/SortPostWithDownvote");
+const getPostById = require("./services/Post/GetPostById");
 
 //Comment
 const addComment = require("./services/Comment/AddComment");
@@ -119,12 +124,12 @@ function handleTopicRequest(topic_name, fname) {
   var producer = connection.getProducer();
   console.log("server is running ");
   consumer.on("message", function (message) {
-    // console.log("message received for " + topic_name + " ", fname);
-    // console.log(JSON.stringify(message.value));
+    console.log("message received for " + topic_name + " ", fname);
+    console.log(JSON.stringify(message.value));
     var data = JSON.parse(message.value);
 
     fname.handle_request(data.data, function (err, res) {
-      // console.log("after handle" + res);
+      console.log("after handle" + res);
       var payloads = [
         {
           topic: data.replyTo,
@@ -149,6 +154,7 @@ handleTopicRequest(UPDATE_USER_PROFILE, updateUserProfile);
 handleTopicRequest(USER_SIGNUP, userSignup);
 handleTopicRequest(GET_USER_BY_USER_NAME, getUserByUserName);
 handleTopicRequest(GET_USERS_BY_NAME, getUsersByName);
+handleTopicRequest(GET_USER_BY_ID, getUserById);
 handleTopicRequest(GET_USERS, getUsers);
 
 //Community
@@ -159,6 +165,7 @@ handleTopicRequest(GET_RULES_TOPICS, getRulesTopics);
 handleTopicRequest(DELETE_COMMUNITY_BY_ID, deleteCommunityById);
 handleTopicRequest(GET_COMMUNITY_BY_MEMBER, getCommunityByMember);
 handleTopicRequest(GET_COMMUNITY_BY_ADMIN, getCommunityByAdmin);
+handleTopicRequest(GET_COMMUNITY_BY_PAGE, getCommunityByPage);
 handleTopicRequest(GET_COMMUNITY_ANALYTICS, getCommunityAnalytics);
 
 //Post
@@ -174,6 +181,7 @@ handleTopicRequest(RATE_COMMUNITY, rateCommunity);
 handleTopicRequest(ADD_POST, addPost);
 handleTopicRequest(GET_POST, getPost);
 handleTopicRequest(GET_POST_BY_PAGE, getPostByPage);
+handleTopicRequest(GET_POST_BY_ID, getPostById);
 handleTopicRequest(UPVOTE_POST, upvotePost);
 handleTopicRequest(DOWNVOTE_POST, downvotePost);
 handleTopicRequest(SORT_POST_BY_UPVOTE, sortPostByUpvote);

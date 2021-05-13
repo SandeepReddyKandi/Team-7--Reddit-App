@@ -33,16 +33,49 @@ import './TextDisplayCard.css';
 class TextDisplayCard extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { comment: '', expandComment: false };
+    this.state = {
+      comment: '',
+      expandComment: false,
+      panel: '',
+      post: this.props,
+    };
   }
 
-  handleExpandClick = (e) => {
+  handleExpandClick = (e, postId) => {
     e.preventDefault();
     const { expandComment } = this.state;
     // const { post_id } = this.state;
     this.setState({
       expandComment: !expandComment,
+      panel: postId,
     });
+  };
+
+  getPost = async () => {
+    // const { page, rows } = this.state;
+    const { post } = this.state;
+    const postId = post._id;
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    axios.defaults.withCredentials = true;
+    await axios
+      .get(`${constants.baseUrl}/post/post/id/?id=${postId}`)
+      .then((response, error) => {
+        if (!error) {
+          this.setState({
+            post: response.data.data,
+          });
+        }
+        if (response.success) {
+          this.checkStatus();
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  handleCommentBox = async (id) => {
+    this.setState({ panel: id });
   };
 
   handleCommentText = (e) => {
@@ -52,8 +85,8 @@ class TextDisplayCard extends React.Component {
   };
 
   handleAddComment = () => {
-    const { comment } = this.state;
-    const { post } = this.props;
+    const { comment, post } = this.state;
+    // const { post } = this.props;
     const userId = localStorage.getItem('userId');
     axios.defaults.withCredentials = true;
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
@@ -119,7 +152,7 @@ class TextDisplayCard extends React.Component {
   };
 
   render() {
-    const { expandComment } = this.state;
+    const { expandComment, panel } = this.state;
     const { post } = this.props;
     return (
       <div
@@ -136,7 +169,9 @@ class TextDisplayCard extends React.Component {
                       <ArrowDropUpIcon fontSize="large" onClick={this.handleUpVote} />
                     </div>
                   </IconButton>
-                  <Typography style={{ textAlign: 'center' }}>0</Typography>
+                  <Typography style={{ textAlign: 'center' }}>
+                    {post.upvote.length - post.downvote.length}
+                  </Typography>
                   <IconButton>
                     <div className="downvote">
                       <ArrowDropDownIcon fontSize="large" onClick={this.handleDownVote} />
@@ -203,7 +238,7 @@ class TextDisplayCard extends React.Component {
                 </Row>
                 <Row>
                   <Col>
-                    <Collapse timeout="auto" in={expandComment}>
+                    <Collapse timeout="auto" in={expandComment && panel === post._id}>
                       <Row>
                         <CardContent style={{ 'min-width': '100%' }}>
                           <Row>
@@ -220,13 +255,13 @@ class TextDisplayCard extends React.Component {
                                 placeholder="Comment"
                                 size="large"
                                 defaultValue=""
-                                style={{ 'min-width': '80vh' }}
+                                style={{ 'min-width': '130vh' }}
                                 onChange={this.handleCommentText}
                               />
                             </Col>
                           </Row>
                           <Row>
-                            <Col md={6} />
+                            <Col md={9} />
                             <Col ms={3}>
                               {' '}
                               <Button
@@ -246,7 +281,7 @@ class TextDisplayCard extends React.Component {
                               </Button>
                             </Col>
                           </Row>
-                          {expandComment && <Comment postId={post} />}
+                          {expandComment && panel === post._id && <Comment postId={post} />}
                         </CardContent>
                       </Row>
                     </Collapse>

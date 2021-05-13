@@ -24,7 +24,7 @@ const handle_request = async (req, callback) => {
                 callback(null, {
                     msg: "GET_POST_FAILED",
                     success: true,
-                    data: res,
+                    data: res.data,
                   });
               }
         })

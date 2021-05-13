@@ -3,7 +3,6 @@ import React from 'react';
 // import './AdvertisementCard.css';
 import Col from 'react-bootstrap/Col'
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
-import Button from "../../Header/Button/Button";
 
 export default function AdvertisementCard() {
     return (
@@ -13,9 +12,6 @@ export default function AdvertisementCard() {
             </Col>
             <Col md={6} style={{ display: 'flex', maxWidth: '125px' }} >
                 <p>The best Reddit experience, with monthly Coins</p>
-            </Col>
-            <Col md={5} style={{verticalAlign:'middle'}}>
-                <Button name='tertiary-button' text='Try Now' />
             </Col>
         </div>
     );

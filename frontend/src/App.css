@@ -82,6 +82,14 @@
   color: #fff;
 }
 
+.header-user,
+.btn-primary:hover,
+.show > .btn-primary.dropdown-toggle {
+  color:black !important;
+  background-color: transparent !important;
+  border: none !important;
+}
+
 .card-action-label{
   font-size: small;
 }
@@ -169,7 +177,6 @@
   border-radius: none;
 }
 .Art {
-  background-image: url(https://www.redditstatic.com/accountmanager/bbb5840….png);
   min-height: 100%;
   background-repeat: no-repeat;
   background-size: cover;
