@@ -4,6 +4,7 @@ import React from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Typography from '@material-ui/core/Typography';
+import TablePagination from '@material-ui/core/TablePagination';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 import Header from '../Header/Header';
@@ -13,20 +14,56 @@ import CommunityListCard from '../Cards/CommulityListCard';
 class CommunitySearchPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { communities: [], error: '' };
+    this.state = {
+      communities: [],
+      error: '',
+      communityNameFilter: '*',
+      page: 0,
+      rows: 2,
+      totalRows: 10,
+    };
     this.getCommunities = this.getCommunities.bind(this);
+    this.handleCommunityNameChange = this.handleCommunityNameChange.bind(this);
   }
 
-  getCommunities(e) {
-    const communityNameFilter = e.target.value;
+  componentDidMount() {
+    this.getCommunities();
+  }
+
+  handleCommunityNameChange(e) {
+    this.setState({ communityNameFilter: e.target.value }, async () => {
+      this.getCommunities();
+    });
+  }
+
+  handleChangeRowsPerPage = async (event) => {
+    await this.setState({ rows: parseInt(event.target.value, 10), page: 0 });
+    this.getCommunities();
+  };
+
+  handleChangePage = (e, newpage) => {
+    e.preventDefault();
+    this.setState({ page: newpage }, async () => {
+      this.getCommunities();
+    });
+  };
+
+  getCommunities() {
+    const { communityNameFilter, page, rows } = this.state;
+    const data = {
+      name: communityNameFilter,
+      page,
+      rows,
+    };
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
     axios
-      .get(`${constants.baseUrl}/community/getCommunityByName?name=${communityNameFilter}`)
+      .post(`${constants.baseUrl}/community/getCommunityByPage`, data)
       .then((response, error) => {
         if (!error) {
           this.setState({
             communities: response.data.data,
+            totalRows: response.data.data.length,
           });
         }
       })
@@ -40,7 +77,7 @@ class CommunitySearchPage extends React.Component {
   }
 
   render() {
-    const { error, communities } = this.state;
+    const { error, communities, page, rows, totalRows } = this.state;
     return (
       <>
         <Header />
@@ -101,6 +138,15 @@ class CommunitySearchPage extends React.Component {
               </Col>
             </Row>
           ))}
+          <TablePagination
+            component="div"
+            count={totalRows}
+            page={page}
+            onChangePage={this.handleChangePage}
+            rowsPerPage={rows}
+            onChangeRowsPerPage={this.handleChangeRowsPerPage}
+            rowsPerPageOptions={[2, 5, 10]}
+          />
         </div>
       </>
     );

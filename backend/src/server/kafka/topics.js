@@ -10,7 +10,7 @@ const ADD_COMMUNITY = 'addCommunity';
 const GET_COMMUNITY = 'getCommunity';
 const GET_COMMUNITY_BY_ID = 'getCommunityById';
 const DELETE_COMMUNITY_BY_ID = 'deleteCommunity';
-
+const GET_COMMUNITY_BY_PAGE = 'getCommunityByPage';
 const GET_COMMUNITY_BY_NAME = 'getCommunityByName';
 const GET_COMMUNITY_BY_MEMBER = 'getCommunityByMember';
 const GET_COMMUNITY_BY_ADMIN = 'getCommunityByAdmin';
@@ -73,6 +73,7 @@ module.exports = {
   // GET_POST,
   // GET_POST_BY_ID
   GET_COMMUNITY_BY_NAME,
+  GET_COMMUNITY_BY_PAGE,
   GET_COMMUNITY_BY_MEMBER,
   GET_COMMUNITY_BY_ADMIN,
   RATE_COMMUNITY,
