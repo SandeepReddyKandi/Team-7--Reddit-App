@@ -45,19 +45,4 @@ community-section {
   font-weight: 600;
 }
 
-.community-section .action-buttons {
-  padding: 0px 15px;
-  text-align: center;
-}
 
-.community-section .action-buttons > .primary-button {
-  margin-top: 15px;
-  text-align: center;
-}
-
-.community-section .action-buttons .secondary-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin: 15px 0px;
-}
