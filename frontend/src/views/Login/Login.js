@@ -47,7 +47,7 @@ class Login extends React.Component {
     });
   };
 
-  handleLogin = (e) => {
+  handleLogin = async (e) => {
     e.preventDefault();
     const data = {
       name: this.state.name,
@@ -56,7 +56,7 @@ class Login extends React.Component {
     };
     axios.defaults.headers.common["authorization"] = 'Bearer ' + localStorage.getItem('token')
     axios.defaults.withCredentials = true;
-    axios
+    await axios
       .post(`${constants.baseUrl}/users/login/`, data)
       .then((response, error) => {
         if (error) {

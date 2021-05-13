@@ -14,7 +14,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import NotificationsIcon from '@material-ui/icons/Notifications';
@@ -28,6 +27,7 @@ import constants from '../../constants/constants';
 import history from '../../history';
 import Logo from './Logo/Logo';
 import Searchbar from './Searchbar/Searchbar';
+import logout from '../../utils/logout';
 
 // import { authContext } from "../../context/AuthContext";
 const StyledMenu = withStyles({
@@ -98,7 +98,6 @@ export default function Header(props) {
     axios
       .get(`${constants.baseUrl}/users/getUserById?id=${localStorage.getItem('user')}`)
       .then((res) => {
-        console.log('response:', res);
         const currentUser = res.data.data[0];
         setUserName(currentUser.name);
       });
@@ -123,7 +122,7 @@ export default function Header(props) {
     history.push(`/myCommunity`);
   };
 
-  const handleLogout = (e) => {};
+  // const handleLogout = (e) => {};
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -191,7 +190,11 @@ export default function Header(props) {
                                 My Communities
                               </Link>
                             </Dropdown.Item>
-                            <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
+                            <Dropdown.Item onClick={logout}>
+                              <Link to="/" style={{ cursor: 'pointer', color: 'black' }}>
+                                Logout
+                            </Link>
+                            </Dropdown.Item>
                           </Dropdown.Menu>
                         </Dropdown>
                       </Col>
