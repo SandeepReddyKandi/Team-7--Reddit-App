@@ -2,6 +2,7 @@
 /* eslint-disable constructor-super */
 /* eslint-disable dot-notation */
 /* eslint-disable prefer-template */
+/* eslint-disable class-methods-use-this */
 
 import React from 'react';
 import Button from '@material-ui/core/Button';
@@ -56,29 +57,38 @@ class Login extends React.Component {
     };
     axios.defaults.headers.common["authorization"] = 'Bearer ' + localStorage.getItem('token')
     axios.defaults.withCredentials = true;
-    await axios
+    const response = await axios
       .post(`${constants.baseUrl}/users/login/`, data)
-      .then((response, error) => {
-        if (error) {
-          this.setState({ errormessage: error.msg });
-        } else {
-          localStorage.setItem('token', response.data.token);
-          localStorage.setItem('user', response.data.userId);
-          if (response.data.success === true) {
-            this.setState({
-              redirect: true,
-            });
-          }
-        }
-      })
-      .catch((error) => {
-        this.setState({ errormessage: error.response.data.msg });
-      });
+    if (response) {
+      // if (error) {
+      //   this.setState({ errormessage: error.msg });
+      // } else {
+      // await this.delay(1000);
+      localStorage.setItem('token', response.data.token);
+      console.log("response is: ", response);
+      localStorage.setItem('user', response.data.userId);
+      if (response.data.success === true) {
+        this.setState({
+          redirect: true,
+        });
+      }
+    }
+    else {
+      this.setState({ errormessage: "Login Unsuccessful" });
+    }
   };
 
   handleClose = () => {
     this.props.showLogin(false);
-  };  
+  };
+
+  delay(delayInms) {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(2);
+      }, delayInms);
+    });
+  }
 
   render() {
     const { showLogin } = this.state;

@@ -1,6 +1,6 @@
 .side-bar {
-    flex: 0.35;
-    margin-left: 25px;
+    flex: 0.15;
+    margin-left: 15px;
     border-left: 1px solid darkgray;
     margin-bottom: '10px';
   }
