@@ -4,7 +4,7 @@ const handle_request = async (req, callback) => {
   try {
     const criteria = {};
     if (req.communityName) {
-      criteria.community_name = { $regex: req.communityName };
+      criteria.community_name = { $regex: req.communityName, $options: "i" };
     }
     Community.find(criteria, (err, response) => {
       if (err) {

@@ -191,8 +191,8 @@ class CommunityHomePage extends React.Component {
       });
   };
 
-  handleChangeRowsPerPage = (event) => {
-    this.setState({ rows: parseInt(event.target.value, 10), page: 0 });
+  handleChangeRowsPerPage = async (event) => {
+    await this.setState({ rows: parseInt(event.target.value, 10), page: 0 });
     this.getPost();
   };
 
@@ -202,7 +202,9 @@ class CommunityHomePage extends React.Component {
     const community_id = community._id;
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
-    await axios.get(`${constants.baseUrl}/post/post/?id=${community_id}&page=${page}&rows=${rows}`).then((response, error) => {
+    await axios
+      .get(`${constants.baseUrl}/post/post/?id=${community_id}&page=${page}&rows=${rows}`)
+      .then((response, error) => {
         if (!error) {
           this.setState({
             posts: response.data.data,
@@ -216,7 +218,7 @@ class CommunityHomePage extends React.Component {
       .catch((error) => {
         console.log(error);
       });
-  }; 
+  };
 
   getCommunity = async () => {
     const { community } = this.state;

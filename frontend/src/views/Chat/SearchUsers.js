@@ -1,35 +1,40 @@
 /* eslint-disable  dot-notation */
 /* eslint-disable prefer-template */
+/* eslint-disable no-underscore-dangle */
 import React, { Component } from 'react';
 import Talk from 'talkjs';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 import constants from '../../constants/constants';
 
-const jwtDecode = require('jwt-decode');
-
 class SearchUsers extends Component {
   constructor(props) {
     super(props);
-    let currentUser;
-    const token = localStorage.getItem('token');
-    const currentTalkjsUser = jwtDecode(token);
-    if (currentTalkjsUser) {
-      currentUser = currentTalkjsUser;
-      // eslint-disable-next-line no-underscore-dangle
-      currentUser.id = currentUser.userId;
-    }
+    // let currentUser;
+    // const token = localStorage.getItem('token');
+    // const currentTalkjsUser = jwtDecode(token);
+    // const currentTalkjsUser = await this.getUserById(localStorage.getItem('user'));
+    // if (currentTalkjsUser) {
+    //  currentUser = currentTalkjsUser;
+    // eslint-disable-next-line no-underscore-dangle
+    //  currentUser.id = currentUser._id;
+    // }
     this.state = {
       users: [],
-      currentUser,
+      currentUser: '',
     };
     this.getUsers = this.getUsers.bind(this);
+    this.getUserById = this.getUserById.bind(this);
+  }
+
+  componentDidMount() {
+    this.getUserById(localStorage.getItem('user'));
   }
 
   handleClick(userId) {
     /* Retrieve the two users that will participate in the conversation */
     const { currentUser, users } = this.state;
-    const user = users.find((u) => u.id === userId);
+    const user = users.find((u) => u._id === userId);
     // eslint-disable-next-line no-underscore-dangle
     user.id = user._id;
     /* Session initialization code */
@@ -60,6 +65,27 @@ class SearchUsers extends Component {
       })
       // eslint-disable-next-line no-console
       .catch((e) => console.error(e));
+  }
+
+  getUserById(id) {
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    axios.defaults.withCredentials = true;
+    axios
+      .get(`${constants.baseUrl}/users/getUserById?id=${id}`)
+      .then((response, error) => {
+        if (!error) {
+          const currentUser = response.data.data[0];
+          currentUser.id = currentUser._id;
+          this.setState({ currentUser });
+        }
+      })
+      .catch((error) => {
+        // this.setState({
+        //  error: error.response.msg,
+        // });
+        // eslint-disable-next-line no-alert
+        alert(error);
+      });
   }
 
   getUsers(e) {
@@ -117,18 +143,17 @@ class SearchUsers extends Component {
               />
             </div>
             <ul>
-              {users.map((user) => (
-                <li key={user.id} className="user">
+              {users.map((userData) => (
+                <li key={userData._id} className="user">
                   <picture className="user-picture">
-                    <img src={user.photoUrl} alt={`${user.name}`} />
+                    <img src={userData.photo} alt={`${userData.name}`} />
                   </picture>
                   <div className="user-info-container">
                     <div className="user-info">
-                      <h4>{user.name}</h4>
-                      <p>{user.info}</p>
+                      <h4>{userData.name}</h4>
                     </div>
                     <div className="user-action">
-                      <button type="button" onClick={() => this.handleClick(user.id)}>
+                      <button type="button" onClick={() => this.handleClick(userData._id)}>
                         Message
                       </button>
                     </div>
