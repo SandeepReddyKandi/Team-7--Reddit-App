@@ -17,7 +17,7 @@ class CommunitySearchPage extends React.Component {
     this.state = {
       communities: [],
       error: '',
-      communityNameFilter: '*',
+      communityNameFilter: '/*',
       page: 0,
       rows: 2,
       totalRows: 10,
@@ -62,8 +62,8 @@ class CommunitySearchPage extends React.Component {
       .then((response, error) => {
         if (!error) {
           this.setState({
-            communities: response.data.data,
-            totalRows: response.data.data.length,
+            communities: response.data.data.communities,
+            totalRows: response.data.data.totalRows,
           });
         }
       })
@@ -115,7 +115,7 @@ class CommunitySearchPage extends React.Component {
                 id="standard-search"
                 label="Search community"
                 type="search"
-                onKeyUp={this.getCommunities}
+                onChange={this.handleCommunityNameChange}
               />
             </Col>
             <Col md={3}>&nbsp;</Col>
