@@ -2,6 +2,7 @@
 /* eslint-disable  dot-notation */
 /* eslint-disable prefer-template */
 /* eslint-disable react/self-closing-comp */
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -21,7 +22,7 @@ class Dashboard extends React.Component {
     this.state = {
       errormessage: '',
       posts: [],
-    };   
+    };
   }
 
   componentDidMount() {
@@ -54,17 +55,15 @@ class Dashboard extends React.Component {
       <div>
         <Header />
         <Container>
-          <Row>
-            {' '}
-            {errormessage !== '' ? (
-              <div className="alert alert-danger" role="alert">
-                {errormessage}
-              </div>
-            ) : null}
-          </Row>
+          {errormessage ? (
+            <div className="alert alert-danger" role="alert">
+              {errormessage}
+            </div>
+          ) : null
+          }          
           <Row>
             <Col md={2}>
-            <br></br>
+              <br></br>
               <h4>Arrange Posts</h4>
               <Row>
                 <h6>Sort by:</h6>
