@@ -2,7 +2,6 @@
 import React from 'react';
 import './TopCommunityInfo.css';
 import ArrowDropUp from "@material-ui/icons/ArrowDropUp";
-import Button from "../../Header/Button/Button";
 
 export default function TopCommunityInfo() {
     const communities = [
@@ -41,16 +40,7 @@ export default function TopCommunityInfo() {
                         <span className="name">r/{community.name}</span>
                     </div>
                 ))}
-            </div>
-            <div className="action-buttons">
-                <Button name='primary-button' text='VIEW ALL' />
-                <div className="secondary-buttons">
-                    <Button name='secondary-button' text="Top" />
-                    <Button name='secondary-button' text="Near You" />
-                    <Button name='secondary-button' text="Gaming" />
-                    <Button name='secondary-button' text="News" />
-                </div>
-            </div>
+            </div>           
         </div>
     );
 }

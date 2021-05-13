@@ -3,31 +3,31 @@
 /* eslint-disable constructor-super */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-unused-vars */
+/* eslint-disable  dot-notation */
+/* eslint-disable prefer-template */
 
-import React from 'react';
+import React, { useEffect } from 'react';
+import axios from 'axios';
 import './Header.css';
+import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import PostAddIcon from '@material-ui/icons/PostAdd';
-import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
-import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import ChatIcon from '@material-ui/icons/Chat';
 
 import Chip from '@material-ui/core/Chip';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import PropTypes from 'prop-types';
+import constants from '../../constants/constants';
 import history from '../../history';
 import Logo from './Logo/Logo';
 import Searchbar from './Searchbar/Searchbar';
+import logout from '../../utils/logout';
 
 // import { authContext } from "../../context/AuthContext";
 const StyledMenu = withStyles({
@@ -67,6 +67,7 @@ const StyledMenuItem = withStyles((theme) => ({
 
 export default function Header(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [userName, setUserName] = React.useState('');
 
   const token = localStorage.getItem('token');
   let loggedIn;
@@ -91,19 +92,29 @@ export default function Header(props) {
     showSignup: PropTypes.func.isRequired,
   };
 
-  const handleProfilelick = (e) => {
-    e.preventDefault();
-    history.push(`/user/:${localStorage.getItem('user')}`);
+  const getUserName = () => {
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    axios.defaults.withCredentials = true;
+    axios
+      .get(`${constants.baseUrl}/users/getUserById?id=${localStorage.getItem('user')}`)
+      .then((res) => {
+        const currentUser = res.data.data[0];
+        setUserName(currentUser.name);
+      });
   };
 
-  const handleCreatePostClick = (e) => {
+  useEffect(() => {
+    getUserName();
+  }, []);
+
+  const handleNotificationClick = (e) => {
     e.preventDefault();
-    history.push('/createpost');
+    window.location.replace('/invitations');
   };
 
-  const handleCreateCommunityClick = (e) => {
+  const handleChatClick = (e) => {
     e.preventDefault();
-    history.push(`/createCommunity`);
+    window.location.replace('/chat');
   };
 
   const handleMyCommunityClick = (e) => {
@@ -111,11 +122,10 @@ export default function Header(props) {
     history.push(`/myCommunity`);
   };
 
-  const handleLogout = (e) => {};
+  // const handleLogout = (e) => {};
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -138,26 +148,56 @@ export default function Header(props) {
                 <Row>
                   {loggedIn ? (
                     <>
-                      <div>
+                      <Col md={2}>
+                        <ChatIcon
+                          onClick={handleChatClick}
+                          style={{ marginTop: '35%', cursor: 'pointer', color: 'black' }}
+                        />
+                      </Col>
+                      <Col md={2}>
+                        <NotificationsIcon
+                          onClick={handleNotificationClick}
+                          style={{ marginTop: '35%', cursor: 'pointer', color: 'black' }}
+                        />
+                      </Col>
+                      <Col md={1.5}>
                         <Dropdown>
                           <Dropdown.Toggle className="header-user" id="dropdown-basic">
-                            {localStorage.getItem('user')}
+                            {userName}
                           </Dropdown.Toggle>
                           <Dropdown.Menu>
-                            <Dropdown.Item onClick={handleProfilelick}>My Profile</Dropdown.Item>
-                            <Dropdown.Item onClick={handleCreatePostClick}>
-                              Create Post
+                            <Dropdown.Item>
+                              {' '}
+                              <Link to="/user" style={{ cursor: 'pointer', color: 'black' }}>
+                                My Profile
+                              </Link>
                             </Dropdown.Item>
-                            <Dropdown.Item onClick={handleCreateCommunityClick}>
-                              Create Community
+                            <Dropdown.Item>
+                              <Link to="/createpost" style={{ cursor: 'pointer', color: 'black' }}>
+                                Create Post
+                              </Link>
                             </Dropdown.Item>
-                            <Dropdown.Item onClick={handleMyCommunityClick}>
-                              My Communities
+                            <Dropdown.Item>
+                              <Link
+                                to="/createCommunity"
+                                style={{ cursor: 'pointer', color: 'black' }}
+                              >
+                                Create Community
+                              </Link>
                             </Dropdown.Item>
-                            <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
+                            <Dropdown.Item>
+                              <Link to="/myCommunity" style={{ cursor: 'pointer', color: 'black' }}>
+                                My Communities
+                              </Link>
+                            </Dropdown.Item>
+                            <Dropdown.Item onClick={logout}>
+                              <Link to="/" style={{ cursor: 'pointer', color: 'black' }}>
+                                Logout
+                            </Link>
+                            </Dropdown.Item>
                           </Dropdown.Menu>
                         </Dropdown>
-                      </div>
+                      </Col>
                     </>
                   ) : (
                     <>

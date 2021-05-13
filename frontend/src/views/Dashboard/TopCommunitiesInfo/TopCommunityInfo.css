@@ -8,14 +8,14 @@ community-section {
   position: relative;
   border-top-left-radius: var(--border-radius);
   border-top-right-radius: var(--border-radius);
-  height: 80px;
+  height: 60px;
   background-color: var(--border-color);
 }
 
 .community-section .title > span {
   position: absolute;
   bottom: 10px;
-  left: 15px;
+  left: 10px;
   color: white;
   font-weight: 600;
 }
@@ -24,7 +24,8 @@ community-section {
   display: flex;
   align-items: center;
   padding: 8px 0px;
-  padding-left: 25px;
+  padding-left: 15px;
+  padding-right: 15px;
   border-top: 1px solid rgb(240, 240, 240);
   border-bottom: 1px solid #e8e8e8;
 }
@@ -45,19 +46,4 @@ community-section {
   font-weight: 600;
 }
 
-.community-section .action-buttons {
-  padding: 0px 15px;
-  text-align: center;
-}
 
-.community-section .action-buttons > .primary-button {
-  margin-top: 15px;
-  text-align: center;
-}
-
-.community-section .action-buttons .secondary-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin: 15px 0px;
-}

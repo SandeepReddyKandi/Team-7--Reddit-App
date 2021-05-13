@@ -245,6 +245,7 @@ class Invitations extends React.Component {
                     label="Type to search community..."
                     variant="outlined"
                     onKeyUp={this.getCommunities}
+                    required
                   />
                 )}
               />
@@ -265,6 +266,7 @@ class Invitations extends React.Component {
                     label="Recepient(s)"
                     placeholder="Type to search user..."
                     onKeyUp={this.getUsers}
+                    required
                   />
                 )}
               />

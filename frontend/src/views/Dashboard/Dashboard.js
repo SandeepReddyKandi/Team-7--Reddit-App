@@ -2,13 +2,14 @@
 /* eslint-disable  dot-notation */
 /* eslint-disable prefer-template */
 /* eslint-disable react/self-closing-comp */
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import axios from 'axios';
 import Header from '../Header/Header';
-import CommunityAppBar from '../ToolBar/CommunityAppBar';
+import DashboardAppBar from '../ToolBar/DashboardAppBar';
 import TextDisplayCard from '../Cards/TextDisplayCard';
 import SideBar from './Sidebar/Sidebar';
 import TopBar from '../ToolBar/TopBar';
@@ -22,7 +23,6 @@ class Dashboard extends React.Component {
       errormessage: '',
       posts: [],
     };
-    this.getPost();
   }
 
   componentDidMount() {
@@ -33,8 +33,7 @@ class Dashboard extends React.Component {
     const userId = localStorage.getItem('user');
     axios.defaults.headers.common["authorization"] = 'Bearer ' + localStorage.getItem('token')
     axios.defaults.withCredentials = true;
-    axios
-      .get(`${constants.baseUrl}/post/?user=${userId}`)
+    axios.get(`${constants.baseUrl}/post/?user=${userId}`)
       .then((response, error) => {
         if (error) {
           this.setState({ errormessage: error.msg });
@@ -55,43 +54,22 @@ class Dashboard extends React.Component {
       <div>
         <Header />
         <Container>
-          <Row>
-            {' '}
-            {errormessage !== '' ? (
-              <div className="alert alert-danger" role="alert">
-                {errormessage}
-              </div>
-            ) : null}
-          </Row>
-          <Row>
-            <Col md={2}>
-            <br></br>
-              <h4>Arrange Posts</h4>
-              <Row>
-                <h6>Sort by:</h6>
-                <select>
-                  <option value="upvotes" key="dfds">Upvotes</option>
-                  <option value="users" key="dfds">Users</option>
-                  <option value="comments" key="dfds">Comments</option>
-                </select>
-              </Row>
-              <Row>
-                <h6>Order by:</h6>
-                <select>
-                  <option value="ascending" key="dfds">Ascending</option>
-                  <option value="descending" key="dfds">Descending</option>
-                </select>
-              </Row>
-            </Col>
-            <Col md={7}>
+          {errormessage ? (
+            <div className="alert alert-danger" role="alert">
+              {errormessage}
+            </div>
+          ) : null
+          }          
+          <Row>            
+            <Col md={8}>
               <br />
-              <CommunityAppBar />
+              <DashboardAppBar />
               <TopBar />
               {posts.map((p) => (
                 <TextDisplayCard post={p} />
               ))}
             </Col>
-            <Col md={3}>
+            <Col md={4}>
               <br />
               <Row>
                 <div

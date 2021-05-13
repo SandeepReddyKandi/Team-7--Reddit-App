@@ -2,7 +2,7 @@
 import React from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import {ListGroup, DropdownButton, Dropdown} from 'react-bootstrap';
+import { ListGroup, DropdownButton, Dropdown } from 'react-bootstrap';
 import Chip from '@material-ui/core/Chip';
 import CardContent from '@material-ui/core/CardContent';
 import TextField from '@material-ui/core/TextField';
@@ -15,67 +15,67 @@ import constants from '../../constants/constants';
 import axios from 'axios';
 
 class PostCard extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state={
-      title:'',
-      text:'',
-      community:'Choose a Community',
-      communityList:[],
-      data:[]
-    }
+    this.state = {
+      title: '',
+      text: '',
+      community: 'Choose a Community',
+      communityList: [],
+      data: [],
+    };
   }
 
-  componentDidMount(){
-    this.getCommunityList()
+  componentDidMount() {
+    this.getCommunityList();
   }
 
   handleSelect = (evtKey) => {
     this.setState({
-      community:evtKey
+      community: evtKey,
     });
-}
+  };
 
-  onChangeCommunity=(e)=>{
+  onChangeCommunity = (e) => {
     this.setState({
-      [e.target.name]:e.target.value
+      [e.target.name]: e.target.value,
     });
-  }
+  };
   onChangeText = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
     });
-  }
+  };
   onChangeTitle = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
     });
-  }
+  };
 
-  getCommunityList= async()=>{
-    const communities=[];
-    axios.defaults.headers.common["authorization"] = 'Bearer ' + localStorage.getItem('token')
+  getCommunityList = async () => {
+    const communities = [];
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
-    const data= await axios.get(`${constants.baseUrl}/community/communities`);
-    if(data.data.data){
-      (data.data.data).map((d)=>communities.push(d.community_name))
-      this.setState({communityList:communities});
+    const data = await axios.get(`${constants.baseUrl}/community/communities`);
+    if (data.data.data) {
+      data.data.data.map((d) => communities.push(d.community_name));
+      this.setState({ communityList: communities });
     }
-  }
+  };
 
-  addPostText= async()=>{   
+  addPostText = async () => {
     const data = {
       title: this.state.title,
       text: this.state.text,
       community: this.state.community,
       UserID: localStorage.getItem("user")
     };
-    axios.defaults.headers.common["authorization"] = 'Bearer ' + localStorage.getItem('token')
-    axios.defaults.withCredentials = true; 
-    axios.post(`${constants.baseUrl}/post/text`,data);
-  }
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    axios.defaults.withCredentials = true;
+    axios.post(`${constants.baseUrl}/post/text`, data);
+  };
   render() {
-       return (
+    return (
       <>
         <div>
           <Card>
@@ -84,20 +84,24 @@ class PostCard extends React.Component {
                 <CardContent>
                   <Col md={12}>
                     <Row>
-                      <Col className="p-0" md={3.5} style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                      <Col
+                        className="p-0"
+                        md={3.5}
+                        style={{ display: 'flex', justifyContent: 'flex-end' }}
+                      >
                         <DropdownButton
-                        name="community"
-                        variant="light"
-                        menuAlign="right"
-                        title={this.state.community}
-                        id="dropdown-menu-align-right"
-                        onChange={this.onChangeCommunity}
-                        value={this.state.community}
-                        onSelect={this.handleSelect}
+                          name="community"
+                          variant="light"
+                          menuAlign="right"
+                          title={this.state.community}
+                          id="dropdown-menu-align-right"
+                          onChange={this.onChangeCommunity}
+                          value={this.state.community}
+                          onSelect={this.handleSelect}
                         >
-                        {this.state.communityList.map((p)=>
-                          <Dropdown.Item eventKey={p}>{p}</Dropdown.Item>
-                        )}
+                          {this.state.communityList.map((p) => (
+                            <Dropdown.Item eventKey={p}>{p}</Dropdown.Item>
+                          ))}
                         </DropdownButton>
                       </Col>
                     </Row>
