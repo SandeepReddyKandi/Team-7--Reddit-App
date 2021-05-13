@@ -15,4 +15,4 @@ const subCommentSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("SubComment", subCommentSchema);
+module.exports = mongoose.model("subcomments", subCommentSchema);

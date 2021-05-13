@@ -1,3 +1,5 @@
+/* eslint-disable  dot-notation */
+/* eslint-disable prefer-template */
 import React from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -16,8 +18,9 @@ class CommunitySearchPage extends React.Component {
   }
 
   getCommunities(e) {
-    axios.defaults.withCredentials = true;
     const communityNameFilter = e.target.value;
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    axios.defaults.withCredentials = true;
     axios
       .get(`${constants.baseUrl}/community/getCommunityByName?name=${communityNameFilter}`)
       .then((response, error) => {

@@ -52,22 +52,19 @@ class CommunityListCard extends React.Component {
                 <NavLink
                   to={{
                     pathname: `/communityhomepage`,
-                    state: { community },
+                    community,
                   }}
                   style={{ textDecoration: 'none', color: 'black' }}
                 >
                   <Row>
                     <div className="post-title">
                       <CardHeader avatar={<Avatar src={RedditICon} aria-label="recipe" alt="" />} />
+                      <span className="title">{community.community_name}</span>
                     </div>
                   </Row>
                   <Row>
                     <div className="post-body">
-                      <span className="title">{community.community_name}</span>
-                      <span>
-                        <br />
-                        {community.description}
-                      </span>
+                      <span>{community.description}</span>
                     </div>
                   </Row>
                 </NavLink>

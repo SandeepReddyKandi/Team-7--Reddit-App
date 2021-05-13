@@ -1,6 +1,8 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable react/prop-types */
-import React from 'react';
+import {useState} from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import IconButton from '@material-ui/core/IconButton';
@@ -14,11 +16,17 @@ import PeopleIcon from '@material-ui/icons/People';
 import NotesIcon from '@material-ui/icons/Notes';
 import './TextDisplayCard.css';
 
-const MyCommunityCard = ({communities}) => (
+const MyCommunityCard = ({community}) => {
+  const [color, setColor] = useState('Azure');
+  const onMouseOver = () => setColor('AliceBlue');
+  const onMouseOut = () => setColor('Azure')
+  return (
         <div>
-        {communities.map((community) => 
-        <Card>
-        <Row>
+        <Card
+        onMouseOver={onMouseOver}
+        onMouseOut={onMouseOut}
+        style={{backgroundColor: color}}>
+        <Row style={{marginTop: "1%"}}>
             <Col md={8}>
                 <Row>
                     <Col md={4}>
@@ -27,7 +35,6 @@ const MyCommunityCard = ({communities}) => (
                           style={{
                             maxWidth: '400px',
                             maxHeight: '200px',
-                            minHeight: '200px',
                             textAlign: 'center',
                           }}
                         >
@@ -39,9 +46,8 @@ const MyCommunityCard = ({communities}) => (
                               />
                             </Carousel.Item>
                           ))}
-                          ;
                         </Carousel>
-                        )};
+                        )}
                     </Col>
                     <Col md={8}>
                         <CardHeader
@@ -54,7 +60,7 @@ const MyCommunityCard = ({communities}) => (
                 <Row>
                     <CardContent >
                         <Typography variant="body2" color="textSecondary" component="p" style={{
-                            paddingLeft:30
+                            paddingLeft:60
                         }}>{community.description}
                         </Typography>
                     </CardContent>
@@ -66,19 +72,18 @@ const MyCommunityCard = ({communities}) => (
                         <IconButton aria-label="add to favorites" disabled >
                             <PeopleIcon />
                         </IconButton>
-                        <Typography>{`${community.members}`}</Typography>
+                        <Typography>{`${community.members.length}`}</Typography>
                         <IconButton aria-label="share" disabled >
                             <NotesIcon />
                         </IconButton>
-                        <Typography>{`${community.posts}`}</Typography>
+                        <Typography>{`${community.posts.length}`}</Typography>
                     </CardActions>
                 </Row>
             </Col>
         </Row>
       </Card>
-        )}
         
         </div>
     )
-
+}
 export default MyCommunityCard

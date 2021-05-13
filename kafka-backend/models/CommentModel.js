@@ -12,7 +12,9 @@ const commentSchema = new mongoose.Schema(
     downvote: {
       type: Array,
     },
-    sub_comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "SubComment" }],
+    sub_comments: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "subcomments" },
+    ],
     comment: {
       type: String,
       required: true,

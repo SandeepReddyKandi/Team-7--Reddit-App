@@ -1,5 +1,7 @@
 /* eslint no-underscore-dangle: ["error", { "allow": ["__place"] }] */
 /* eslint no-underscore-dangle: 0 */
+/* eslint-disable  dot-notation */
+/* eslint-disable prefer-template */
 import React from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -8,6 +10,7 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ModeCommentIcon from '@material-ui/icons/ModeComment';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import IconButton from '@material-ui/core/IconButton';
+
 import Card from '@material-ui/core/Card';
 import { Typography } from '@material-ui/core';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -30,15 +33,21 @@ import './TextDisplayCard.css';
 class TextDisplayCard extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { comment: '', expandComment: false, updatetree: false };
+    this.state = { comment: '', expandComment: false, panel: '' };
   }
 
-  handleExpandClick = () => {
+  handleExpandClick = (e, postId) => {
+    e.preventDefault();
     const { expandComment } = this.state;
     // const { post_id } = this.state;
     this.setState({
       expandComment: !expandComment,
+      panel: postId,
     });
+  };
+
+  handleCommentBox = async (id) => {
+    this.setState({ panel: id });
   };
 
   handleCommentText = (e) => {
@@ -49,17 +58,18 @@ class TextDisplayCard extends React.Component {
 
   handleAddComment = () => {
     const { comment } = this.state;
-    const { postId } = this.props;
+    const { post } = this.props;
     const userId = localStorage.getItem('user');
     axios.defaults.withCredentials = true;
-    const data = { postId, comment, userId };
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    const data = { postId: post._id, comment, userId };
     axios
       .post(`${constants.baseUrl}/comment/add`, data)
       .then((response, error) => {
         if (error) {
           console.log(error.msg);
         } else {
-          this.setState({ updatetree: true });
+          // this.setState({ updatetree: true });
         }
       })
       .catch((error) => {
@@ -70,7 +80,11 @@ class TextDisplayCard extends React.Component {
   handleUpVote = async () => {
     const { post } = this.props;
     const userId = localStorage.getItem('user');
+    if (post.upvote.includes(userId) || post.downvote.includes(userId)) {
+      return;
+    }
     axios.defaults.withCredentials = true;
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     const data = { id: post._id, user: userId };
     await axios
       .post(`${constants.baseUrl}/post/upvote`, data)
@@ -78,7 +92,7 @@ class TextDisplayCard extends React.Component {
         if (error) {
           console.log(response.msg);
         } else {
-          this.setState({ updatetree: true });
+          // this.setState({ updatetree: true });
         }
       })
       .catch((error) => {
@@ -89,7 +103,11 @@ class TextDisplayCard extends React.Component {
   handleDownVote = async () => {
     const { post } = this.props;
     const userId = localStorage.getItem('user');
+    if (post.upvote.includes(userId) || post.downvote.includes(userId)) {
+      return;
+    }
     axios.defaults.withCredentials = true;
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     const data = { id: post._id, user: userId };
     await axios
       .post(`${constants.baseUrl}/post/downvote`, data)
@@ -97,7 +115,7 @@ class TextDisplayCard extends React.Component {
         if (error) {
           console.log(response.msg);
         } else {
-          this.setState({ updatetree: true });
+          // this.setState({ updatetree: true });
         }
       })
       .catch((error) => {
@@ -106,7 +124,7 @@ class TextDisplayCard extends React.Component {
   };
 
   render() {
-    const { expandComment, updatetree } = this.state;
+    const { expandComment, panel } = this.state;
     const { post } = this.props;
     return (
       <div
@@ -131,7 +149,7 @@ class TextDisplayCard extends React.Component {
                   </IconButton>
                 </div>
               </Col>
-              <Col md={11}>
+              <Col md={10}>
                 <Row>
                   <div className="post-title">
                     <CardHeader
@@ -162,7 +180,10 @@ class TextDisplayCard extends React.Component {
                 </Row>
                 <Row>
                   <CardActions disableSpacing>
-                    <IconButton aria-label="show more" onClick={this.handleExpandClick}>
+                    <IconButton
+                      aria-label="show more"
+                      onClick={(event) => this.handleExpandClick(event, post._id)}
+                    >
                       <ModeCommentIcon fontSize="small" />
                       <span className="header-label">
                         <span className="card-action-label">525 Comments</span>
@@ -187,13 +208,13 @@ class TextDisplayCard extends React.Component {
                 </Row>
                 <Row>
                   <Col>
-                    <Collapse timeout="auto" in={expandComment}>
+                    <Collapse timeout="auto" in={expandComment && panel === post._id}>
                       <Row>
                         <CardContent style={{ 'min-width': '100%' }}>
                           <Row>
                             <Col>
                               <Typography className="header-label card-action-label">
-                                Comment as{' '}
+                                Comment as {localStorage.getItem('user')}
                               </Typography>
                             </Col>
                           </Row>
@@ -204,14 +225,14 @@ class TextDisplayCard extends React.Component {
                                 placeholder="Comment"
                                 size="large"
                                 defaultValue=""
-                                style={{ width: '130vh' }}
+                                style={{ 'min-width': '130vh' }}
                                 onChange={this.handleCommentText}
                               />
                             </Col>
                           </Row>
                           <Row>
-                            <Col />
-                            <Col>
+                            <Col md={9} />
+                            <Col ms={3}>
                               {' '}
                               <Button
                                 size="medium"
@@ -230,9 +251,9 @@ class TextDisplayCard extends React.Component {
                               </Button>
                             </Col>
                           </Row>
+                          {expandComment && panel === post._id && <Comment postId={post} />}
                         </CardContent>
                       </Row>
-                      {expandComment && <Comment postId={post.id} update={updatetree} />}
                     </Collapse>
                   </Col>
                 </Row>
@@ -247,7 +268,7 @@ class TextDisplayCard extends React.Component {
 
 TextDisplayCard.propTypes = {
   post: PropTypes.objectOf.isRequired,
-  postId: PropTypes.string.isRequired,
+  // postId: PropTypes.string.isRequired,
 };
 
 export default TextDisplayCard;

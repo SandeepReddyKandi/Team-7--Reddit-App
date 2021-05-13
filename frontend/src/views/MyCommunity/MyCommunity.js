@@ -23,8 +23,9 @@ import Badge from 'react-bootstrap/Badge';
 import { useSelector, useDispatch } from 'react-redux';
 import { Hint } from 'react-autocomplete-hint';
 import { FaTimes } from 'react-icons/fa';
+import TablePagination from '@material-ui/core/TablePagination';
 import MyCommunityTab from './MyCommunityTab';
-import { addCommunity, getRulesTopic } from '../../actions/MyCommunityActions';
+import { getMyCommunity, getRulesTopic } from '../../actions/MyCommunityActions';
 import Header from '../Header/Header';
 import logo from '../../side_bg.jpeg';
 import MyCommunityCard from './MyCommunityCard';
@@ -33,28 +34,13 @@ import MyCommunityCard from './MyCommunityCard';
 const MyCommunity = () => {
   const dispatch = useDispatch();
   const reduxData = useSelector((state) => state.addCommunity);
-  //   const myCommunities = [
-  //     {
-  //         "image_src": "assets/subreddit.jpg",
-  //         "name": "UpliftingNews"
-  //     },
-  //     {
-  //         "image_src": "assets/subreddit.jpg",
-  //         "name": "nottheonion"
-  //     },
-  //     {
-  //         "image_src": "assets/subreddit.jpg",
-  //         "name": "technews"
-  //     },
-  //     {
-  //         "image_src": "assets/subreddit.jpg",
-  //         "name": "gamernews"
-  //     },
-  //     {
-  //         "image_src": "assets/subreddit.jpg",
-  //         "name": "news"
-  //     }
-  // ];
+  const [page, setPage] = useState([]);
+  const [totalPage, setTotalPage] = useState(reduxData.community.length);
+  
+  useEffect(() => {
+    dispatch(getMyCommunity(localStorage.getItem('user')))
+  }, [dispatch])
+  
   const handleGetUsers = async (e) => {
     const response = await axios.get('http://localhost:3001/users/getUsers');
   };
@@ -77,7 +63,27 @@ const MyCommunity = () => {
           <p>Sample</p>
         </Col>
         <Col md={6}>
-          <MyCommunityCard communities={reduxData.community} />
+        <TablePagination
+                  component="div"
+                  count={20}
+                  page={page}
+                  onChangePage={null}
+                  rowsPerPage={5}
+                  onChangeRowsPerPage={null}
+                  rowsPerPageOptions={[2, 5, 10]}
+                />
+          {reduxData.community.length > 0 ? 
+            <div>{reduxData.community.map((community) => <MyCommunityCard community={community} />)}</div>
+          : null}
+          <TablePagination
+                  component="div"
+                  count={20}
+                  page={page}
+                  onChangePage={null}
+                  rowsPerPage={5}
+                  onChangeRowsPerPage={null}
+                  rowsPerPageOptions={[2, 5, 10]}
+                />
         </Col>
       </Row>
     </div>

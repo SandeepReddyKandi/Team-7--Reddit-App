@@ -10,8 +10,8 @@ const postSchema = new mongoose.Schema(
       type: String,
       // required: true,
     },
-    text:{
-      type: String
+    text: {
+      type: String,
     },
     images: {
       type: Array,
@@ -22,7 +22,7 @@ const postSchema = new mongoose.Schema(
     downvote: {
       type: Array,
     },
-    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
+    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "comments" }],
     post_body: {
       type: String,
       // required: true,

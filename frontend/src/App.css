@@ -72,8 +72,22 @@
   padding: 12px 28px;
   width: 80%;
 }
+
+.sort-post{
+  background: center !important;
+  border: none !important;
+  color: #0579d3 !important;
+}
 .sidecard-label{
   color: #fff;
+}
+
+.header-user,
+.btn-primary:hover,
+.show > .btn-primary.dropdown-toggle {
+  color:black !important;
+  background-color: transparent !important;
+  border: none !important;
 }
 
 .card-action-label{

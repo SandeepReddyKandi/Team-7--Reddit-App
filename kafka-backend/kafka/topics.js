@@ -1,7 +1,9 @@
 // User
 const USER_LOGIN = "userLogin";
 const USER_SIGNUP = "userSignup";
+const GET_USERS_BY_NAME = "getUsersByName";
 const GET_USERS = "getUsers";
+const GET_USER_BY_ID = "getUserById";
 
 //Community
 const ADD_COMMUNITY = "addCommunity";
@@ -26,6 +28,9 @@ const UPVOTE_POST = "upvotePost";
 //Comment
 const ADD_COMMENT = "addComment";
 const GET_COMMENT = "getComment";
+const UPVOTE_COMMENT = "upvoteComment";
+const DOWNVOTE_COMMENT = "downvoteComment";
+const ADD_SUB_COMMENT = "addSubComment";
 
 //Invitation
 const SEND_INVITE = "sendInvite";
@@ -33,15 +38,20 @@ const GET_STATUS = "getStatus";
 const GET_INVITATIONS = "getInvitations";
 
 //Post
-const ADD_POST_TEXT='addPostText';
-const ADD_POST_IMAGE='addPostImage';
-const ADD_POST_LINK='addPostLink';
-const GET_POST_COMMUNITY='getPostCommunity';
+const ADD_POST_TEXT = "addPostText";
+const ADD_POST_IMAGE = "addPostImage";
+const ADD_POST_LINK = "addPostLink";
+const GET_POST_COMMUNITY = "getPostCommunity";
+const SORT_POST_BY_UPVOTE = "sortPostByUpvote";
+const SORT_POST_BY_DOWNVOTE = "sortPostByDownvote";
+const SORT_POST_BY_DATE = "sortPostByDate";
 
 module.exports = {
   GET_USERS,
   USER_LOGIN,
   USER_SIGNUP,
+  GET_USERS_BY_NAME,
+  GET_USER_BY_ID,
   GET_USERS,
   ADD_COMMUNITY,
   GET_COMMUNITY,
@@ -51,6 +61,11 @@ module.exports = {
   ADD_POST_IMAGE,
   ADD_POST_LINK,
   DOWNVOTE_POST,
+  UPVOTE_COMMENT,
+  DOWNVOTE_COMMENT,
+  SORT_POST_BY_UPVOTE,
+  SORT_POST_BY_DOWNVOTE,
+  SORT_POST_BY_DATE,
   // GET_POST,
   // GET_POST_BY_ID
   GET_COMMUNITY_BY_NAME,
@@ -69,4 +84,5 @@ module.exports = {
   GET_RULES_TOPICS,
   GET_POST_COMMUNITY,
   UPVOTE_POST,
+  ADD_SUB_COMMENT,
 };
