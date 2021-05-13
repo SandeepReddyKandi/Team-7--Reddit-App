@@ -7,7 +7,6 @@
 /* eslint-disable prefer-template */
 
 import React, {useEffect} from 'react';
-import { useHistory } from "react-router-dom";
 import axios from 'axios';
 import './Header.css';
 import { Link } from 'react-router-dom';
@@ -71,7 +70,6 @@ export default function Header(props) {
   const [userName, setUserName] = React.useState('');
 
   const token = localStorage.getItem('token');
-  const history = useHistory();
   let loggedIn;
   if (token) {
     loggedIn = true;
