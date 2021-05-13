@@ -37,7 +37,7 @@ const handle_request = async (req, callback) => {
         if (!doc) {
           return callback(null, {
             msg: "Account Not Found",
-            success: true,
+            success: false,
           });
         }
         client.setex(key, 600, JSON.stringify(doc));

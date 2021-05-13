@@ -5,7 +5,7 @@ import AddIcon from '@material-ui/icons/Add';
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import Button from '@material-ui/core/Button';
 import Row from 'react-bootstrap/Row';
-import {ListGroup, DropdownButton, Dropdown, Form} from 'react-bootstrap';
+import { ListGroup, DropdownButton, Dropdown, Form } from 'react-bootstrap';
 import Col from 'react-bootstrap/Col';
 import CardContent from '@material-ui/core/CardContent';
 import TextField from '@material-ui/core/TextField';
@@ -18,66 +18,72 @@ class LinkCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      title:'',
-      URL:'',
-      community:'Choose a Community',
+      title: '',
+      URL: '',
+      community: 'Choose a Community',
       communityList: [],
     };
   }
 
-  componentDidMount(){
-    this.getCommunityList()
+  componentDidMount() {
+    this.getCommunityList();
   }
 
   handleSelect = (evtKey) => {
-    console.log("---evtkey----",evtKey);
+    console.log('---evtkey----', evtKey);
     this.setState({
-      community:evtKey
+      community: evtKey,
     });
-}
+  };
 
-  onChangeCommunity=(e)=>{
+  onChangeCommunity = (e) => {
     this.setState({
-      [e.target.name]:e.target.value
+      [e.target.name]: e.target.value,
     });
-  }
+  };
 
   onChangeURL = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
     });
-  }
+  };
   onChangeTitle = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
     });
-  }
+  };
 
-  getCommunityList= async()=>{
-    const communities=[];
+  getCommunityList = async () => {
+    const communities = [];
     // axios.defaults.withCredentials = true;
     // axios.defaults.headers.common.authorization = localStorage.getItem('id');
-    const data= await axios.get(`${constants.baseUrl}/community/communities`);
-    if(data.data.data){
-      (data.data.data).map((d)=>communities.push(d.community_name))
-      this.setState({communityList:communities});
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    axios.defaults.withCredentials = true;
+    const data = await axios.get(`${constants.baseUrl}/community/communities`);
+    if (data.data.data) {
+      data.data.data.map((d) => communities.push(d.community_name));
+      this.setState({ communityList: communities });
     }
-  }
+  };
 
-  addPostLink= async()=>{
+  addPostLink = async () => {
     const data = {
       title: this.state.title,
       URL: this.state.URL,
       community: this.state.community,
-    };    
+    };
 
-    axios.defaults.headers.common["authorization"] = localStorage.getItem('token')
+    axios.defaults.headers.common['authorization'] = localStorage.getItem('token');
     axios.defaults.withCredentials = true;
-    axios.post(`${constants.baseUrl}/post/link/`,data);
-  }
+    axios.post(`${constants.baseUrl}/post/link/`, data);
+  };
   render() {
-    const communitylist= new Set();
-    communitylist.add(<Dropdown.Item as="button" value="test5">test5</Dropdown.Item>)
+    const communitylist = new Set();
+    communitylist.add(
+      <Dropdown.Item as="button" value="test5">
+        test5
+      </Dropdown.Item>
+    );
     return (
       <>
         <div>
@@ -87,20 +93,24 @@ class LinkCard extends React.Component {
                 <CardContent>
                   <Col md={12}>
                     <Row>
-                      <Col className="p-0" md={3.5} style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                      <Col
+                        className="p-0"
+                        md={3.5}
+                        style={{ display: 'flex', justifyContent: 'flex-end' }}
+                      >
                         <DropdownButton
-                        name="community"                        
-                        variant="light"
-                        menuAlign="right"
-                        title={this.state.community}
-                        id="dropdown-menu-align-right"
-                        onChange={this.onChangeCommunity}
-                        value={this.state.community}
-                        onSelect={this.handleSelect}
+                          name="community"
+                          variant="light"
+                          menuAlign="right"
+                          title={this.state.community}
+                          id="dropdown-menu-align-right"
+                          onChange={this.onChangeCommunity}
+                          value={this.state.community}
+                          onSelect={this.handleSelect}
                         >
-                        {this.state.communityList.map((p)=>
-                          <Dropdown.Item eventKey={p}>{p}</Dropdown.Item>
-                        )}
+                          {this.state.communityList.map((p) => (
+                            <Dropdown.Item eventKey={p}>{p}</Dropdown.Item>
+                          ))}
                         </DropdownButton>
                       </Col>
                     </Row>
@@ -134,7 +144,7 @@ class LinkCard extends React.Component {
                         onChange={this.onChangeURL}
                         style={{ width: '100%' }}
                       />
-                   </Row>
+                    </Row>
                     <Row>&nbsp;</Row>
                     <Row>
                       <Col md={10}>

@@ -141,7 +141,9 @@ class TextDisplayCard extends React.Component {
                       <ArrowDropUpIcon fontSize="large" onClick={this.handleUpVote} />
                     </div>
                   </IconButton>
-                  <Typography style={{ textAlign: 'center' }}>0</Typography>
+                  <Typography style={{ textAlign: 'center' }}>
+                    {post.upvote.length - post.downvote.length}
+                  </Typography>
                   <IconButton>
                     <div className="downvote">
                       <ArrowDropDownIcon fontSize="large" onClick={this.handleDownVote} />
