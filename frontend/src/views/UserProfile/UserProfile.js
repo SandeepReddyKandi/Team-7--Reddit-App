@@ -1,12 +1,18 @@
 /* eslint-disable react/prefer-stateless-function */
 /* eslint-disable  dot-notation */
 /* eslint-disable prefer-template */
+/* eslint-disable react/self-closing-comp */
 import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Avatar from '@material-ui/core/Avatar';
 import { Typography } from '@material-ui/core';
+import { Redirect } from 'react-router-dom';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import axios from 'axios';
 import Header from '../Header/Header';
 import constants from '../../constants/constants';
@@ -32,11 +38,11 @@ class UserProfile extends React.Component {
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
     await axios
-      .get(`${constants.baseUrl}/users/getCommunityByMember/?id=${userId}`)
+      .get(`${constants.baseUrl}/community/getCommunityByMember/?id=${userId}`)
       .then((response, error) => {
         if (!error) {
           this.setState({
-            communities: response.data.data[0],
+            communities: response.data.msg,
           });
         }
         if (response.success) {
@@ -47,6 +53,8 @@ class UserProfile extends React.Component {
         console.log(error);
       });
   };
+
+  redirectToCommunity = () => <Redirect to="/communityhomepage"></Redirect>; // community object as well
 
   getUserById = async () => {
     const userId = localStorage.getItem('user');
@@ -59,6 +67,7 @@ class UserProfile extends React.Component {
           this.setState({
             user: response.data.data[0],
           });
+          this.getCommunitites();
         }
         if (response.success) {
           this.checkStatus();
@@ -77,8 +86,28 @@ class UserProfile extends React.Component {
         <Container>
           <Row>
             <Col md={8}>
-              <br />
               <TopBar />
+              <List>
+                {communities.length > 0 &&
+                  communities.map((m) => (
+                    <ListItem
+                      style={{ 'background-color': '#ffffff', height: '20%' }}
+                      onClick={() => this.redirectToCommunity(m)}
+                    >
+                      <ListItemAvatar>
+                        <Avatar src={m.images[0]} />
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={m.community_name}
+                        secondary={
+                          <Typography className="header-label">
+                            Created on:{m.createdAt}{' '}
+                          </Typography>
+                        }
+                      />
+                    </ListItem>
+                  ))}
+              </List>
             </Col>
             <Col md={4}>
               <br />
@@ -131,10 +160,6 @@ class UserProfile extends React.Component {
                       {' '}
                       <Typography variant="dense">Communities</Typography>
                     </Col>
-                  </Row>
-                  <Row>
-                    {communities.length > 0 &&
-                      communities.map((m) => <Typography>{m.community_name}</Typography>)}
                   </Row>
                   <Row style={{ 'background-color': '#ffffff', height: '20%' }}>
                     <Col md={4}>

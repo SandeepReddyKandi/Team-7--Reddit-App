@@ -3,7 +3,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Router, Switch, Route } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { createBrowserHistory } from 'history';
@@ -29,7 +29,7 @@ function App() {
           <Route exact path="/" component={Home} />
           <Route exact path="/home" component={Home} />
           <ProtectedRoutes exact path="/dashboard" component={Dashboard} />
-          <ProtectedRoutes exact path="/user/:uid" component={UserProfile} />
+          <ProtectedRoutes exact path="/user" component={UserProfile} />
           <ProtectedRoutes exact path="/communityhomepage" component={CommunityHomePage} />
           <ProtectedRoutes exact path="/communitysearchpage" component={CommunitySearchPage} />
           <ProtectedRoutes exact path="/createpost" component={CreatePost} />

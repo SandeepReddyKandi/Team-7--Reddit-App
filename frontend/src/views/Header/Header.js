@@ -9,7 +9,7 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
 import './Header.css';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -19,13 +19,6 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import ChatIcon from '@material-ui/icons/Chat';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import PostAddIcon from '@material-ui/icons/PostAdd';
-import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
-import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 
 import Chip from '@material-ui/core/Chip';
 import Row from 'react-bootstrap/Row';
@@ -105,7 +98,7 @@ export default function Header(props) {
     axios
       .get(`${constants.baseUrl}/users/getUserById?id=${localStorage.getItem('user')}`)
       .then((res) => {
-        console.log("response:", res)
+        console.log('response:', res);
         const currentUser = res.data.data[0];
         setUserName(currentUser.name);
       });
@@ -117,12 +110,12 @@ export default function Header(props) {
 
   const handleNotificationClick = (e) => {
     e.preventDefault();
-    window.location.replace("/invitations");
+    window.location.replace('/invitations');
   };
 
   const handleChatClick = (e) => {
     e.preventDefault();
-    window.location.replace("/chat");
+    window.location.replace('/chat');
   };
 
   const handleMyCommunityClick = (e) => {
@@ -130,7 +123,7 @@ export default function Header(props) {
     history.push(`/myCommunity`);
   };
 
-  const handleLogout = (e) => { };
+  const handleLogout = (e) => {};
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -157,10 +150,16 @@ export default function Header(props) {
                   {loggedIn ? (
                     <>
                       <Col md={2}>
-                        <ChatIcon onClick={handleChatClick} style={{marginTop:'35%', cursor: 'pointer', color: 'black' }} />
+                        <ChatIcon
+                          onClick={handleChatClick}
+                          style={{ marginTop: '35%', cursor: 'pointer', color: 'black' }}
+                        />
                       </Col>
                       <Col md={2}>
-                        <NotificationsIcon onClick={handleNotificationClick} style={{marginTop:'35%', cursor: 'pointer', color: 'black' }} />
+                        <NotificationsIcon
+                          onClick={handleNotificationClick}
+                          style={{ marginTop: '35%', cursor: 'pointer', color: 'black' }}
+                        />
                       </Col>
                       <Col md={1.5}>
                         <Dropdown>
@@ -168,14 +167,22 @@ export default function Header(props) {
                             {userName}
                           </Dropdown.Toggle>
                           <Dropdown.Menu>
-                            <Dropdown.Item>My Profile</Dropdown.Item>
+                            <Dropdown.Item>
+                              {' '}
+                              <Link to="/user" style={{ cursor: 'pointer', color: 'black' }}>
+                                My Profile
+                              </Link>
+                            </Dropdown.Item>
                             <Dropdown.Item>
                               <Link to="/createpost" style={{ cursor: 'pointer', color: 'black' }}>
                                 Create Post
                               </Link>
                             </Dropdown.Item>
                             <Dropdown.Item>
-                              <Link to="/createCommunity" style={{ cursor: 'pointer', color: 'black' }}>
+                              <Link
+                                to="/createCommunity"
+                                style={{ cursor: 'pointer', color: 'black' }}
+                              >
                                 Create Community
                               </Link>
                             </Dropdown.Item>
