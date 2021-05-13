@@ -33,7 +33,12 @@ import './TextDisplayCard.css';
 class TextDisplayCard extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { comment: '', expandComment: false, panel: '' };
+    this.state = {
+      comment: '',
+      expandComment: false,
+      panel: '',
+      post: this.props,
+    };
   }
 
   handleExpandClick = (e, postId) => {
@@ -44,6 +49,29 @@ class TextDisplayCard extends React.Component {
       expandComment: !expandComment,
       panel: postId,
     });
+  };
+
+  getPost = async () => {
+    // const { page, rows } = this.state;
+    const { post } = this.state;
+    const postId = post._id;
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    axios.defaults.withCredentials = true;
+    await axios
+      .get(`${constants.baseUrl}/post/post/id/?id=${postId}`)
+      .then((response, error) => {
+        if (!error) {
+          this.setState({
+            post: response.data.data,
+          });
+        }
+        if (response.success) {
+          this.checkStatus();
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   handleCommentBox = async (id) => {
@@ -57,8 +85,8 @@ class TextDisplayCard extends React.Component {
   };
 
   handleAddComment = () => {
-    const { comment } = this.state;
-    const { post } = this.props;
+    const { comment, post } = this.state;
+    // const { post } = this.props;
     const userId = localStorage.getItem('user');
     axios.defaults.withCredentials = true;
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');

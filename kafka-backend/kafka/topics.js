@@ -24,6 +24,7 @@ const ADD_POST = "addPost";
 const GET_POST = "getPost";
 const GET_POST_BY_PAGE = "getPostByPage";
 const UPVOTE_POST = "upvotePost";
+const GET_POST_BY_ID = "getPostById";
 
 //Comment
 const ADD_COMMENT = "addComment";
@@ -85,4 +86,5 @@ module.exports = {
   GET_POST_COMMUNITY,
   UPVOTE_POST,
   ADD_SUB_COMMENT,
+  GET_POST_BY_ID,
 };

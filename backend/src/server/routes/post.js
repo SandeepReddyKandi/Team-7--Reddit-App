@@ -13,12 +13,14 @@ const {
   sortPostByUpvote,
   sortPostByDownvote,
   sortPostByDate,
+  getPostById,
 } = require('../controllers/post');
 
 // keep adding end-points here
 router.post('/add', checkAuth, addPost);
 router.get('/', checkAuth, getPost);
 router.get('/post', getPostByPage);
+router.get('/post/id', getPostById);
 router.post('/upvote', updatePostUpvote);
 router.post('/upvote/sort', sortPostByUpvote);
 router.post('/downvote', updatePostDownvote);
