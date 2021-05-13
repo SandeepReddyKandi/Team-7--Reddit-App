@@ -38,6 +38,11 @@ class CommunityAppBar extends React.Component {
     date();
   };
 
+  handleImageModal = () => {
+    const { show } = this.props;
+    show(true);
+  };
+
   render() {
     const { post } = this.state;
     if (post) {
@@ -45,7 +50,7 @@ class CommunityAppBar extends React.Component {
     }
 
     return (
-      <AppBar position="static" color="white" style={{ marginBottom: '10px' }}>
+      <AppBar position="relative" color="white" style={{ marginBottom: '10px', 'z-index': '999' }}>
         <Toolbar variant="dense">
           <Col md={0.5}>
             <Avatar src={RedditICon} aria-label="recipe" alt="" />
@@ -61,7 +66,7 @@ class CommunityAppBar extends React.Component {
             />
           </Col>
           <Col md={1}>
-            <IconButton style={{ padding: 'revert' }}>
+            <IconButton style={{ padding: 'revert' }} onClick={this.handleImageModal}>
               <ImageIcon color="primary" fontSize="medium" />
             </IconButton>
           </Col>
@@ -93,6 +98,7 @@ CommunityAppBar.propTypes = {
   upvote: PropTypes.func.isRequired,
   downvote: PropTypes.func.isRequired,
   date: PropTypes.func.isRequired,
+  show: PropTypes.string.isRequired,
 };
 
 export default CommunityAppBar;

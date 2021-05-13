@@ -6,7 +6,6 @@ auth();
 const {
   addPost,
   getPost,
-  getPostByUserId,
   getPostByPage,
   updatePostUpvote,
   updatePostDownvote,
@@ -14,6 +13,10 @@ const {
   sortPostByDownvote,
   sortPostByDate,
   getPostById,
+  addPostText,
+  addPostImage,
+  addPostLink,
+  getPostCommunity,
 } = require('../controllers/post');
 
 // keep adding end-points here
@@ -26,4 +29,10 @@ router.post('/upvote/sort', sortPostByUpvote);
 router.post('/downvote', updatePostDownvote);
 router.post('/downvote/sort', sortPostByDownvote);
 router.post('/date/sort', sortPostByDate);
+
+router.post('/link', checkAuth, addPostLink);
+router.post('/text', checkAuth, addPostText);
+router.post('/image', checkAuth, addPostImage);
+router.get('/community', checkAuth, getPostCommunity);
+
 module.exports = router;

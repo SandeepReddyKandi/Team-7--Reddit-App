@@ -23,7 +23,7 @@ import ApplIcon from '../../apple.png';
 // import TextField from '@material-ui/core/TextField';
 // eslint-disable-next-line react/prefer-stateless-function
 
-class Login extends React.Component { 
+class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -55,27 +55,26 @@ class Login extends React.Component {
       email: this.state.email,
       password: this.state.password,
     };
-    axios.defaults.headers.common["authorization"] = 'Bearer ' + localStorage.getItem('token')
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
-    const response = await axios
+    await axios
       .post(`${constants.baseUrl}/users/login/`, data)
-    if (response) {
-      // if (error) {
-      //   this.setState({ errormessage: error.msg });
-      // } else {
-      // await this.delay(1000);
-      localStorage.setItem('token', response.data.token);
-      console.log("response is: ", response);
-      localStorage.setItem('user', response.data.userId);
-      if (response.data.success === true) {
-        this.setState({
-          redirect: true,
-        });
-      }
-    }
-    else {
-      this.setState({ errormessage: "Login Unsuccessful" });
-    }
+      .then((response, error) => {
+        if (error) {
+          this.setState({ errormessage: error.msg });
+        } else {
+          localStorage.setItem('token', response.data.token);
+          localStorage.setItem('user', response.data.userId);
+          if (response.data.success === true) {
+            this.setState({
+              redirect: true,
+            });
+          }
+        }
+      })
+      .catch((error) => {
+        this.setState({ errormessage: error.response.data.msg });
+      });
   };
 
   handleClose = () => {
@@ -83,7 +82,7 @@ class Login extends React.Component {
   };
 
   delay(delayInms) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       setTimeout(() => {
         resolve(2);
       }, delayInms);
