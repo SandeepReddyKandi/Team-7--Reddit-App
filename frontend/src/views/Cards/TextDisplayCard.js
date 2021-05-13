@@ -33,16 +33,21 @@ import './TextDisplayCard.css';
 class TextDisplayCard extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { comment: '', expandComment: false };
+    this.state = { comment: '', expandComment: false, panel: '' };
   }
 
-  handleExpandClick = (e) => {
+  handleExpandClick = (e, postId) => {
     e.preventDefault();
     const { expandComment } = this.state;
     // const { post_id } = this.state;
     this.setState({
       expandComment: !expandComment,
+      panel: postId,
     });
+  };
+
+  handleCommentBox = async (id) => {
+    this.setState({ panel: id });
   };
 
   handleCommentText = (e) => {
@@ -119,7 +124,7 @@ class TextDisplayCard extends React.Component {
   };
 
   render() {
-    const { expandComment } = this.state;
+    const { expandComment, panel } = this.state;
     const { post } = this.props;
     return (
       <div
@@ -203,7 +208,7 @@ class TextDisplayCard extends React.Component {
                 </Row>
                 <Row>
                   <Col>
-                    <Collapse timeout="auto" in={expandComment}>
+                    <Collapse timeout="auto" in={expandComment && panel === post._id}>
                       <Row>
                         <CardContent style={{ 'min-width': '100%' }}>
                           <Row>
@@ -220,13 +225,13 @@ class TextDisplayCard extends React.Component {
                                 placeholder="Comment"
                                 size="large"
                                 defaultValue=""
-                                style={{ 'min-width': '80vh' }}
+                                style={{ 'min-width': '130vh' }}
                                 onChange={this.handleCommentText}
                               />
                             </Col>
                           </Row>
                           <Row>
-                            <Col md={6} />
+                            <Col md={9} />
                             <Col ms={3}>
                               {' '}
                               <Button
@@ -246,7 +251,7 @@ class TextDisplayCard extends React.Component {
                               </Button>
                             </Col>
                           </Row>
-                          {expandComment && <Comment postId={post} />}
+                          {expandComment && panel === post._id && <Comment postId={post} />}
                         </CardContent>
                       </Row>
                     </Collapse>

@@ -3,6 +3,7 @@
 /* eslint no-underscore-dangle: 0 */
 
 import React from 'react';
+import Row from 'react-bootstrap/Row';
 import { Typography } from '@material-ui/core';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -22,9 +23,6 @@ import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import Button from '@material-ui/core/Button';
-// import FavoriteIcon from '@material-ui/icons/Favorite';
-// import ShareIcon from '@material-ui/icons/Share';
-// import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import axios from 'axios';
 import constants from '../../constants/constants';
@@ -33,16 +31,20 @@ import ConvertDate from '../../constants/CommonService';
 class Comment extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { comments: [], expanded: false };
+    this.state = { comments: [], expanded: false, panel: '', subComment: '' };
   }
 
   componentDidMount = async () => {
     await this.getComments();
   };
 
-  handleExpandClick = () => {
+  handleExpandClick = (e) => {
     const { expanded } = this.state;
-    this.setState({ expanded: !expanded });
+    this.setState({ expanded: !expanded, panel: e });
+  };
+
+  handleSubaComment = (e) => {
+    this.setState({ subComment: e.target.value });
   };
 
   handleUpVote = async (id) => {
@@ -89,6 +91,26 @@ class Comment extends React.Component {
       });
   };
 
+  handleSubComment = async (id) => {
+    const userId = localStorage.getItem('user');
+    const { subComment } = this.state;
+    axios.defaults.withCredentials = true;
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    const data = { id, user: userId, comment: subComment };
+    await axios
+      .post(`${constants.baseUrl}/comment/downvote`, data)
+      .then((response, error) => {
+        if (error) {
+          console.log(response.msg);
+        } else {
+          // this.setState({ updatetree: true });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   getComments = async () => {
     axios.defaults.withCredentials = true;
     // const { postId } = this.props;
@@ -109,7 +131,7 @@ class Comment extends React.Component {
   };
 
   render() {
-    const { comments, expanded } = this.state;
+    const { comments, expanded, panel } = this.state;
     // const { postId } = this.props;
     return (
       <>
@@ -137,60 +159,66 @@ class Comment extends React.Component {
                     <ArrowDropUpIcon fontSize="large" onClick={() => this.handleUpVote(c)} />
                   </div>
                 </IconButton>
-                <Typography style={{ textAlign: 'center' }}>0</Typography>
+                <Typography style={{ textAlign: 'center' }}>
+                  {c.upvote.length - c.downvote.length}
+                </Typography>
                 <IconButton>
                   <div className="downvote">
                     <ArrowDropDownIcon fontSize="large" onClick={() => this.handleDownVote(c)} />
                   </div>
                 </IconButton>
                 <IconButton
-                  onClick={this.handleExpandClick}
+                  onClick={() => this.handleExpandClick(c._id)}
                   aria-expanded={expanded}
                   aria-label="show more"
                 >
                   <Typography>Reply</Typography>
                 </IconButton>
               </CardActions>
-              <Collapse in={expanded} timeout="auto" unmountOnExit>
+              <Collapse in={expanded && panel === c._id} timeout="auto" unmountOnExit>
                 <CardContent>
-                  {' '}
-                  <List>
-                    {c.sub_comment !== undefined &&
-                      c.sub_comment.length > 0 &&
-                      c.sub_comment.map((s) => (
-                        <ListItem className="border">
-                          <ListItemAvatar>
-                            <Avatar>
-                              <ImageIcon />
-                            </Avatar>
-                          </ListItemAvatar>
-                          <ListItemText primary={s.author_id} secondary={s.createdAt} />
-                        </ListItem>
-                      ))}
-                  </List>
-                  <TextareaAutosize
-                    rowsMin={1}
-                    placeholder="Reply"
-                    size="medium"
-                    defaultValue=""
-                    style={{ 'max-width': '100vh' }}
-                    onChange={this.handleCommentText}
-                  />
-                  <Button
-                    size="medium"
-                    className="btn-primary"
-                    type="button"
-                    style={{
-                      'background-color': '#da907e',
-                      color: '#ffffff',
-                      'border-radius': '9999px',
-                      height: '30px',
-                    }}
-                    onClick={this.handleAddComment}
-                    default
-                  >
-                    Reply
-                  </Button>
+                  <Row>
+                    {' '}
+                    <List>
+                      {c.sub_comments !== undefined &&
+                        c.sub_comments.length > 0 &&
+                        c.sub_comments.map((s) => (
+                          <ListItem className="border">
+                            <ListItemAvatar>
+                              <Avatar>
+                                <ImageIcon />
+                              </Avatar>
+                            </ListItemAvatar>
+                            <ListItemText primary={s.author_id} secondary={s.comment} />
+                          </ListItem>
+                        ))}
+                    </List>
+                  </Row>
+                  <Row>
+                    <TextareaAutosize
+                      rowsMin={1}
+                      placeholder="Reply"
+                      size="medium"
+                      defaultValue=""
+                      style={{ 'max-width': '100vh' }}
+                      onChange={this.handleCommentText}
+                    />
+                    <Button
+                      size="medium"
+                      className="btn-primary"
+                      type="button"
+                      style={{
+                        'background-color': '#da907e',
+                        color: '#ffffff',
+                        'border-radius': '9999px',
+                        height: '30px',
+                      }}
+                      onClick={() => this.handleSubComment(c._id)}
+                      default
+                    >
+                      Reply
+                    </Button>
+                  </Row>
                 </CardContent>
               </Collapse>
             </Card>

@@ -5,6 +5,7 @@ import './App.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { createBrowserHistory } from 'history';
 import Home from './views/Home/Home';
 import Dashboard from './views/Dashboard/Dashboard';
 import CommunityHomePage from './views/CommunityHomePage/CommunitiyHomePage';
@@ -18,9 +19,10 @@ import MyCommunityCreate from './views/MyCommunity/MyCommunityCreate';
 import ProtectedRoutes from './views/ProtectedRoutes/ProtectedRoutes';
 
 function App() {
+  const history = createBrowserHistory();
   return (
     <Container fluid style={{ 'background-color': '#eeeeee' }}>
-      <Router>
+      <Router history={history}>
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/home" component={Home} />
