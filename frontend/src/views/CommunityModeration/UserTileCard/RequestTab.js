@@ -11,11 +11,12 @@ import './UserTile.css';
 export default function RequestTab({communityId}) {
     const dispatch = useDispatch();
     const reduxData = useSelector((state) => state.communitymoderation);
-    const approveInvite = (userId, inviteId) => {
-        console.log(userId, ".......", inviteId )
-        const data = {invite_id: inviteId, invitee: userId, community_id:communityId}
+    const approveInvite = (userId, inviteId, communityid) => {
+        console.log(userId, ".......", communityid )
+        const data = {invite_id: inviteId, invitee: userId, community_id: communityid}
         dispatch(approveInvitataion(data))
     }
+    console.log(communityId)
     return (
         <div className="community-section">
             <div className="title">
@@ -27,7 +28,7 @@ export default function RequestTab({communityId}) {
                         <span>{index + 1}</span>
                         <span className="name">. {invite.sender.name}</span>
                         <IconButton aria-label="add to favorites">
-                        <CheckIcon onClick={() => approveInvite(invite.sender._id, invite._id)}/>
+                        <CheckIcon onClick={() => approveInvite(invite.sender._id, invite._id, invite.community_id)}/>
                         </IconButton>
                     </div>
                 ))}</div>:null)}

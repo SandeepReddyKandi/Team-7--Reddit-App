@@ -30,7 +30,7 @@ export const approveInvitataion = createAsyncThunk('community/moderation/approve
   axios.defaults.withCredentials = true;
   const response = await axios.post(`${constants.baseUrl}/community/approveInvite`, pckg);
   if (response.status === 200) {
-    return { auth: true, response: response.data.msg };
+    return { auth: true, response: response.data.msg, exitElement: pckg.invite_id };
   }
   return { auth: false, message: 'Server issue' };
 });

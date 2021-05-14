@@ -1,6 +1,9 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-continue */
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
-import { getMyCommunity, getMyInvitations, clearError, approveInvitataion } from '../actions/CommunityModerationAction';
+import { getMyCommunity, getMyInvitations, clearError, approveInvitataion, removeMemberFromCommunity } from '../actions/CommunityModerationAction';
 
 export const CommunityModerationReducer = createSlice({
     name: 'group',
@@ -40,6 +43,14 @@ export const CommunityModerationReducer = createSlice({
       [approveInvitataion.fulfilled]: (state, action) => {
         if (action.payload.auth) {
           state.message = "Successfully approved";
+          const newList = []
+          for (const i in state.invitations){
+            if(state.invitations[i]._id === action.payload.exitElement){
+              continue;
+            }
+            newList.push(state.invitations[i])
+          }
+          state.invitations= newList;
         }
         else{
           state.error = "User Not Approved";
@@ -49,6 +60,11 @@ export const CommunityModerationReducer = createSlice({
       [clearError.fulfilled]: (state) => {
           state.message = null;
           state.error = null;
+      },
+      [removeMemberFromCommunity.fulfilled]: (state,action) => {
+        if (action.payload.auth) {
+          state.message = "Successfully approved";
+        }
       }
     },
   });
