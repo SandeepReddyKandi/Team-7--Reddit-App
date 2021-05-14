@@ -223,32 +223,36 @@ export default function Header(props) {
 const [CommunityName, setCommunityName] = React.useState(null);
 const handleGetCommunityInvite=async(e)=>{
   console.log("inside get community");
-  e.preventDefault();
   // const userId= localStorage.getItem("user");
   const data={
-    userId: localStorage.getItem("user")
+    userId: localStorage.getItem("userId")
   }
   axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
   axios.defaults.withCredentials = true;
   const test = await axios.get(`${constants.baseUrl}/community/getcommunityinvite`,data);
   console.log("------testcheckget----", test.data.data.invitations);
   const inviteList= test.data.data.invitations;
+  var finalArray = inviteList.map(function (obj) {
+    return getcommunityname(obj.community_id);
+  });
+  setCommunityName([...finalArray]);
+  console.log("checking123", CommunityName);
+}
 
+// const handleGetCommunityInvite = async (e) => {
+//     e.preventDefault();
+//     const data = { userId: localStorage.getItem("user") }
 
-  const handleGetCommunityInvite = async (e) => {
-    e.preventDefault();
-    const data = { userId: localStorage.getItem("user") }
+//     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+//     axios.defaults.withCredentials = true;
+//     const test = await axios.get(`${constants.baseUrl}/community/getcommunityinvite`, data);
+//     const inviteList = test.data.data.invitations;
 
-    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
-    axios.defaults.withCredentials = true;
-    const test = await axios.get(`${constants.baseUrl}/community/getcommunityinvite`, data);
-    const inviteList = test.data.data.invitations;
-
-    var finalArray = inviteList.map(function (obj) {
-      return obj.community_id;
-    });
-    setCommunityName([...finalArray]);
-  }
+//     var finalArray = inviteList.map(function (obj) {
+//       return obj.community_id;
+//     });
+//     setCommunityName([...finalArray]);
+//   }
 
   const onAcceptInvite = (e) => {
     e.preventDefault();
@@ -258,6 +262,19 @@ const handleGetCommunityInvite=async(e)=>{
   const onRejectInvite = (e) => {
     e.preventDefault();
   }
+
+const getcommunityname=async(e)=>{
+  // e.preventDefault();
+  console.log("testingcheck",e);
+  axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+  axios.defaults.withCredentials = true;
+  const res= await axios.get(`${constants.baseUrl}/community/getCommunityNameById?id=${e}`)
+  console.log(res)
+  // .then((res)=>{
+  //   console.log("comunity name",test);
+  //   console.log("comunity name check",res.data.data);
+  // })
+}
 
   const handleChatClick = (e) => {
     e.preventDefault();
@@ -386,9 +403,9 @@ const handleGetCommunityInvite=async(e)=>{
         <Dropdown.Menu>
         {CommunityName && typeof CommunityName === 'object'?<div>
         {CommunityName.map((p) => (
-                            <Dropdown.Item eventKey={p}>{p}
-                              <Button onClick={onAcceptInvite} value={p} variant="outline-secondary">+</Button>{'   '}
-                              <Button onClick={onRejectInvite} value={p} variant="outline-secondary">-</Button>
+                            <Dropdown.Item eventKey={p} value={p} onChange={getcommunityname}>{'   '}
+                              <Button onClick={onAcceptInvite} value={p} variant="outline-secondary">Accept</Button>{'   '}
+                              <Button onClick={onRejectInvite} value={p} variant="outline-secondary">Decline</Button>
                             </Dropdown.Item>
                           ))}
                           </div>:<Dropdown.Item>
