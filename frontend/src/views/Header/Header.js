@@ -109,8 +109,6 @@ export default function Header(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-  // const [searchText, setSearchText] = React.useState('');
-  // const [searchResult, setSearchResult] = React.useState([]);
 
   const handleMobileMenuOpen = (e) => {
     setMobileMoreAnchorEl(e.currentTarget);

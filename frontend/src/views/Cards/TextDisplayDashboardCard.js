@@ -6,6 +6,7 @@
 import React from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { Link } from 'react-router-dom';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ModeCommentIcon from '@material-ui/icons/ModeComment';
@@ -231,7 +232,12 @@ class TextDisplayCard extends React.Component {
                     />
                     <div className="subreddit-name">{post.community_id}</div>
                     <div className="post-user">posted by</div>
-                    <span className="post-user underline">{post.author_id[0].name}</span>
+                    <span className="post-user underline">
+                      <Link to ={{pathname: "/users/", search: `${post.author_id[0].name}`} }
+                        style={{ cursor: 'pointer', color: 'black' }}>
+                        {post.author_id[0].name}
+                      </Link>
+                    </span>
                     <span className="post-user underline">{convertDate(post.createdAt)}</span>
                   </div>
                 </Row>
