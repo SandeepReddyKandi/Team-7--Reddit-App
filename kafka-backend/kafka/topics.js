@@ -1,6 +1,8 @@
 // User
 const USER_LOGIN = "userLogin";
 const USER_SIGNUP = "userSignup";
+const GET_USER_BY_USER_NAME = 'getUserByUserName';
+const UPDATE_USER_PROFILE = 'updateUserProfile';
 const GET_USERS_BY_NAME = "getUsersByName";
 const GET_USERS = "getUsers";
 const GET_USER_BY_ID = "getUserById";
@@ -14,6 +16,7 @@ const GET_COMMUNITY_BY_PAGE = "getCommunityByPage";
 const GET_COMMUNITY_BY_NAME = "getCommunityByName";
 const GET_COMMUNITY_BY_MEMBER = "getCommunityByMember";
 const GET_COMMUNITY_BY_ADMIN = "getCommunityByAdmin";
+const GET_COMMUNITY_ANALYTICS = "getCommunityAnalytics";
 const RATE_COMMUNITY = "voteCommunity";
 const GET_COMMUNITY_VOTE_COUNT = "getCommunityVoteCount";
 const JOIN_COMMUNITY = "joinCommunity";
@@ -52,6 +55,8 @@ module.exports = {
   GET_USERS,
   USER_LOGIN,
   USER_SIGNUP,
+  GET_USER_BY_USER_NAME,
+  UPDATE_USER_PROFILE,
   GET_USERS_BY_NAME,
   GET_USER_BY_ID,
   GET_USERS,
@@ -74,6 +79,7 @@ module.exports = {
   GET_COMMUNITY_BY_PAGE,
   GET_COMMUNITY_BY_MEMBER,
   GET_COMMUNITY_BY_ADMIN,
+  GET_COMMUNITY_ANALYTICS,
   RATE_COMMUNITY,
   GET_COMMUNITY_VOTE_COUNT,
   ADD_POST,

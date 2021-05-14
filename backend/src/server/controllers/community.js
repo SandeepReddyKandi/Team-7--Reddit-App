@@ -11,6 +11,7 @@ const {
   GET_STATUS,
   GET_COMMUNITY_BY_NAME,
   GET_COMMUNITY_BY_ADMIN,
+  GET_COMMUNITY_ANALYTICS,
   GET_COMMUNITY_BY_MEMBER,
   GET_RULES_TOPICS,
   GET_INVITATIONS,
@@ -112,9 +113,23 @@ exports.getCommunityByAdmin = async (req, res) => {
   });
 };
 
+exports.getCommunityAnalytics = async (req, res) => {
+  const payload = { adminId: req.body.adminId, jwtAuthData: req.user };
+  kafka.make_request(GET_COMMUNITY_ANALYTICS, payload, (error, results) => {
+    if (!results.success) {
+      res.status(400).send(results);
+    } else {
+      console.log(results);
+      res.status(200).json({
+        success: true,
+        data: results.data,
+      });
+    }
+  });
+};
+
 exports.getCommunityByMember = async (req, res) => {
   const payload = { memberId: req.query.id };
-  console.log(payload, '..........', req.query.id);
   kafka.make_request(GET_COMMUNITY_BY_MEMBER, payload, (error, results) => {
     if (!results.success) {
       res.status(400).send(results);

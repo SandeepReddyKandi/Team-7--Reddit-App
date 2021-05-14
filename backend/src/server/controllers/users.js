@@ -10,12 +10,19 @@ const {
   GET_USERS,
   GET_USERS_BY_NAME,
   GET_USER_BY_ID,
+  UPDATE_USER_PROFILE,
+  GET_USER_BY_USER_NAME,
 } = require('../kafka/topics');
 const kafka = require('../kafka/client');
 const { client } = require('../db');
 const util = require('util');
+const AWS = require("aws-sdk");
 const validator = new Validator();
 var { auth, checkAuth } = require('../utils/passport');
+const s3 = new AWS.S3({
+  accessKeyId: "AKIARGSBJRNBLKLYG7UH",
+  secretAccessKey: "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",
+});
 auth();
 
 //registeration input schema
@@ -44,10 +51,11 @@ exports.register = async (req, res) => {
         token: results.token,
         msg: results.msg,
         userId: results.userId,
+        userName: results.userName,
         success: true,
       });
     }
-  });  
+  });
 };
 
 //api to login existing user account
@@ -57,16 +65,15 @@ exports.login = async (req, res) => {
     if (!results.success) {
       res.status(400).send(results);
     } else {
-      console.log(results);
       res.cookie('authtkn', results.token, {
         maxAge: 1000 * 60 * 60 * 4,
         httpOnly: true,
       });
-
       res.status(200).json({
         token: results.token,
         msg: results.msg,
         userId: results.userId,
+        userName: results.userName,
         success: true,
       });
     }
@@ -81,30 +88,26 @@ exports.autoLogin = (req, res) => {
     res.json({ loggedIn: false, role: '' });
   }
 };
-//api to build user profile
+
+// API to update user profile
 exports.profile = async (req, res) => {
-  try {
-    const user = await UserModel.findById(req.user.userId);
-    await UserModel.updateOne(
-      { _id: req.user.userId },
-      {
-        $set: {
-          name: req.body.name,
-          email: req.body.email,
-          gender: req.body.gender,
-          location: req.body.location,
-          description: req.body.description,
-          photo: req.body.photo ? req.body.photo : '',
-          //add topics also
-        },
-      },
-      () => {
-        res.json({ user: { ...user.toObject(), password: '' } });
+    kafka.make_request(UPDATE_USER_PROFILE, {
+      ...req.body,
+      jwtAuthData: req.user
+    }, (error, results) => {
+      if (!results.success) {
+        res.status(400).send(results);
+      } else {
+        res.cookie('authtkn', results.token, {
+          maxAge: 1000 * 60 * 60 * 4,
+          httpOnly: true,
+        });
+        res.status(200).json({
+          success: true,
+          userId: results.userId, // TODO check if profile is returned or not
+        });
       }
-    );
-  } catch (error) {
-    return res.status(500).json({ msg: error.message });
-  }
+    });
 };
 
 exports.getUsersByName = async (req, res) => {
@@ -136,6 +139,20 @@ exports.getUserById = async (req, res) => {
   });
 };
 
+exports.getUserByUserName = async (req, res) => {
+  const payload = { userName: req.params.userName };
+  kafka.make_request(GET_USER_BY_USER_NAME, payload, (error, results) => {
+    if (!results.success) {
+      res.status(400).send(results);
+    } else {
+      res.status(200).json({
+        msg: results.msg,
+        data: results.data,
+      });
+    }
+  });
+};
+
 exports.getUsers = async (req, res) => {
   try {
     const payload = { body: req.body };
@@ -154,3 +171,44 @@ exports.getUsers = async (req, res) => {
     console.log(err);
   }
 };
+
+exports.uploadUserProfile = async (req, res) => {
+  // Check if the userName is valid or not
+  const user = await UserModel.findOne({ userName: req.params.userName});
+  console.log('User is ', user);
+  if (!user) {
+    res.status(400).send({
+      success: false,
+      msg: 'Invalid Username passed',
+    });
+  }
+
+  // Check if user is allowed to update the profile image for this username
+  if (`${user._id}` !== `${req.user._id}`) {
+    console.log('USER IS', user._id, req.user._id)
+    return res.status(400).send({
+      success: false,
+      msg: 'You cannot update profile image of other users!',
+    });
+  }
+
+  const params = {
+    Bucket: "redditapp",
+    Key: `${req.file.originalname}`,
+    Body: req.file.buffer,
+  };
+
+  s3.upload(params, async (error, data) => {
+    if (error) {
+      return res.status(400).send({
+        success: false,
+        msg: 'Could not upload the profile image!',
+      });
+    }
+    await user.update({ photo: data.Location });
+    return res.status(200).send({
+      success: true,
+      msg: 'Uploaded image successfully!',
+    });
+  });
+}

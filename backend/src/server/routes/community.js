@@ -16,6 +16,7 @@ const {
   getCommunityByPage,
   getCommunityByAdmin,
   getCommunityByMember,
+  getCommunityAnalytics,
   getRulesTopics,
   getInvitations,
   getInvitationsByPage,
@@ -29,12 +30,13 @@ router.post('/rate', checkAuth, rateCommunity);
 router.get('/getVoteCount', checkAuth, getCommunityVoteCount);
 router.post('/add', checkAuth, addCommunity);
 router.get('/communities', checkAuth, getCommunity);
-router.get('/communities', checkAuth, getCommunityById);
+router.get('/communities/:id', checkAuth, getCommunityById);
 router.post('/status', checkAuth, getStatus);
 router.get('/gettr', checkAuth, getRulesTopics);
 router.get('/getCommunityByName', checkAuth, getCommunityByName);
 router.post('/getCommunityByPage', checkAuth, getCommunityByPage);
 router.get('/getCommunityByAdmin', checkAuth, getCommunityByAdmin);
+router.post('/get-community-analytics', checkAuth, getCommunityAnalytics);
 router.get('/getCommunityByMember', checkAuth, getCommunityByMember);
 router.get('/deletecommunitybyid', checkAuth, deleteCommunityById);
 
