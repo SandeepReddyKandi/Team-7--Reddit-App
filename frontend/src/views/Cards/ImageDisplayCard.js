@@ -19,6 +19,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Collapse from '@material-ui/core/Collapse';
 import Button from '@material-ui/core/Button';
 import ShareIcon from '@material-ui/icons/Share';
+import { Carousel } from 'react-bootstrap';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import CardActions from '@material-ui/core/CardActions';
 import PropTypes from 'prop-types';
@@ -32,7 +33,7 @@ import Comment from '../Comment/Comment';
 import constants from '../../constants/constants';
 import './TextDisplayCard.css';
 
-class TextDisplayCard extends React.Component {
+class ImageDisplayCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -249,6 +250,24 @@ class TextDisplayCard extends React.Component {
                     <Row>
                       <span> {post.description}</span>
                     </Row>
+                    <Row>
+                      {' '}
+                      {post.images.length === 0 ? null : (
+                        <Carousel
+                          style={{
+                            minWidth: '100px',
+                            minHeight: '100px',
+                            textAlign: 'center',
+                          }}
+                        >
+                          {post.images.map((image) => (
+                            <Carousel.Item>
+                              <img src={image} alt="" className="d-block w-100" />
+                            </Carousel.Item>
+                          ))}
+                        </Carousel>
+                      )}
+                    </Row>
                   </CardContent>
                 </Row>
                 <Row>
@@ -343,9 +362,9 @@ class TextDisplayCard extends React.Component {
   }
 }
 
-TextDisplayCard.propTypes = {
+ImageDisplayCard.propTypes = {
   post: PropTypes.objectOf.isRequired,
   community: PropTypes.objectOf.isRequired,
 };
 
-export default TextDisplayCard;
+export default ImageDisplayCard;

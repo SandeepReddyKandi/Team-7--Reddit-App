@@ -15,6 +15,7 @@ import Card from '@material-ui/core/Card';
 import { Typography } from '@material-ui/core';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
+import Link from '@material-ui/core/Link';
 import Avatar from '@material-ui/core/Avatar';
 import Collapse from '@material-ui/core/Collapse';
 import Button from '@material-ui/core/Button';
@@ -248,6 +249,11 @@ class TextDisplayCard extends React.Component {
                     </Row>
                     <Row>
                       <span> {post.description}</span>
+                    </Row>
+                    <Row>
+                      <Link href={post.url} color="inherit">
+                        {post.url}
+                      </Link>
                     </Row>
                   </CardContent>
                 </Row>

@@ -5,7 +5,6 @@
 /* eslint-disable camelcase */
 /* eslint-disable arrow-body-style */
 /* eslint-disable react/destructuring-assignment */
-/* eslint-disable no-nested-ternary */
 
 import React from 'react';
 import Row from 'react-bootstrap/Row';
@@ -21,8 +20,6 @@ import { connect } from 'react-redux';
 import Header from '../Header/Header';
 import RedditICon from '../../community.png';
 import TextDisplayCard from '../Cards/TextDisplayCard';
-import ImageDisplayCard from '../Cards/ImageDisplayCard';
-import UrlDisplayCard from '../Cards/UrlDisplayCard';
 import AboutCommunityCard from '../Cards/AboutCommunityCard';
 import CommunityRulesCard from '../Cards/CommunityRulesCard';
 import CommunityAppBar from '../ToolBar/CommunityAppBar';
@@ -85,7 +82,7 @@ class CommunityHomePage extends React.Component {
   checkStatus = async () => {
     const { community } = this.state;
     const data = {
-      userId: localStorage.getItem('userId'), // localStorage.getItem('user'),
+      userId: localStorage.getItem('user'), // localStorage.getItem('user'),
       community_id: community._id,
     };
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
@@ -109,7 +106,7 @@ class CommunityHomePage extends React.Component {
   sortPostByUpvote = async () => {
     const { community, page, rows } = this.state;
     const data = {
-      userId: localStorage.getItem('userId'),
+      userId: localStorage.getItem('user'),
       id: community._id,
       page,
       rows,
@@ -135,7 +132,7 @@ class CommunityHomePage extends React.Component {
   sortPostByDownvote = async () => {
     const { community, page, rows } = this.state;
     const data = {
-      userId: localStorage.getItem('userId'),
+      userId: localStorage.getItem('user'),
       id: community._id,
       page,
       rows,
@@ -161,7 +158,7 @@ class CommunityHomePage extends React.Component {
   sortPostByDate = async () => {
     const { community, page, rows } = this.state;
     const data = {
-      userId: localStorage.getItem('userId'),
+      userId: localStorage.getItem('user'),
       id: community._id,
       page,
       rows,
@@ -209,7 +206,7 @@ class CommunityHomePage extends React.Component {
   handleJoin = async () => {
     const { community } = this.props.location;
     const data = {
-      sender: localStorage.getItem('userId'),
+      sender: localStorage.getItem('user'),
       recepient: community.admin_id,
       community_id: community._id,
     };
@@ -322,7 +319,7 @@ class CommunityHomePage extends React.Component {
                     </div>
                   </Col>
                   <Col md={3}>
-                    {status.status === '' && (
+                    {status.status === '' && localStorage.getItem('user') !== community.admin_id && (
                       <Button
                         data-testid="Signup"
                         size="small"
@@ -340,24 +337,25 @@ class CommunityHomePage extends React.Component {
                         Join
                       </Button>
                     )}
-                    {status.status === 'pending' && (
-                      <Button
-                        data-testid="Signup"
-                        size="small"
-                        className="btn-primary"
-                        type="button"
-                        style={{
-                          'background-color': '#da907e',
-                          color: '#ffffff',
-                          'border-radius': '9999px',
-                          height: '30px',
-                        }}
-                        disabled
-                        default
-                      >
-                        Waiting for Approval
-                      </Button>
-                    )}
+                    {status.status === 'pending' &&
+                      localStorage.getItem('user') !== community.admin_id && (
+                        <Button
+                          data-testid="Signup"
+                          size="small"
+                          className="btn-primary"
+                          type="button"
+                          style={{
+                            'background-color': '#da907e',
+                            color: '#ffffff',
+                            'border-radius': '9999px',
+                            height: '30px',
+                          }}
+                          disabled
+                          default
+                        >
+                          Waiting for Approval
+                        </Button>
+                      )}
                     {status.status === 'active' && (
                       <Button
                         data-testid="Signup"
@@ -396,13 +394,7 @@ class CommunityHomePage extends React.Component {
                 {posts.length > 0 ? (
                   posts.map((p) => (
                     <Row>
-                      {p.url === '' && p.images.length === 0 ? (
-                        <TextDisplayCard community={community} post={p} />
-                      ) : p.images.length > 0 ? (
-                        <ImageDisplayCard community={community} post={p} />
-                      ) : (
-                        <UrlDisplayCard community={community} post={p} />
-                      )}
+                      <TextDisplayCard community={community} post={p} />
                     </Row>
                   ))
                 ) : (
