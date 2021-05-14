@@ -27,7 +27,7 @@ class Home extends React.Component {
     return (
       <>
         <Header showSignup={this.showParentSignup} showLogin={this.showParentLogin} />
-        <img src={image} alt="background" className="img-fluid" width="100%" height="700px"/>
+        <img style={{marginTop:'1%'}} src={image} alt="background" className="img-fluid" width="100%" height="700px"/>
         {showSignup && <SignUp showSignup={this.showParentSignup} />}
         {showLogin && <Login showLogin={this.showParentLogin} />}
       </>

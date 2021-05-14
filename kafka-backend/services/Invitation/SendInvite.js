@@ -1,7 +1,10 @@
 const InvitationModel = require("../../models/InvitationModel");
+const mongoose = require("mongoose");
 
 const handle_request = async (req, callback) => {
   try {
+    req.body.sender = mongoose.Types.ObjectId(req.body.sender);
+    req.body.recepient = mongoose.Types.ObjectId(req.body.recepient);
     var invitation = new InvitationModel(req.body);
     invitation.save().then(() => {
       callback(null, {

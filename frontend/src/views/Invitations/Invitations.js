@@ -168,7 +168,9 @@ class Invitations extends React.Component {
         .post(`${constants.baseUrl}/community/invite`, formData)
         .then((response, error) => {
           if (!error) {
-            this.getInvitations();
+            this.setState({ selectedNames: [] }, async () => {
+              this.getInvitations();
+            });
           }
         })
         .catch((error) => {

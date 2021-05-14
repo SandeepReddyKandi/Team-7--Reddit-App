@@ -85,7 +85,7 @@ class Dashboard extends React.Component {
   sortPostByUpvote = async () => {
     //const { community, page, rows } = this.state;
     const data = {
-      userId: localStorage.getItem('userId'),
+      userId: localStorage.getItem('userId')
     };
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;

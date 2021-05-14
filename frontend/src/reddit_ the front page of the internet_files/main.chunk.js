@@ -6958,6 +6958,7 @@ class CommunityHomePage extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Com
       const data = {
         userId: localStorage.getItem('userId'),
         // localStorage.getItem('user'),
+        // localStorage.getItem('userId'),
         community_id: community._id
       };
       axios__WEBPACK_IMPORTED_MODULE_8___default.a.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');

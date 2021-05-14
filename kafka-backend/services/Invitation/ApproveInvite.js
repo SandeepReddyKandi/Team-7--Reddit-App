@@ -4,7 +4,7 @@ const Community = require("../../models/CommunityModel");
 const handle_request = async (req, callback) => {
   try {
     const invite_id = req.body.invite_id;
-    const invitee = req.body.user_id;
+    const invitee = req.body.invitee;
     const community_id = req.body.community_id;
     const invitation = await Invitations.findById(invite_id)
     if (!Invitations){
