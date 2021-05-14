@@ -13,6 +13,7 @@ import AddIcon from '@material-ui/icons/Add';
 import Card from '@material-ui/core/Card';
 import constants from '../../constants/constants';
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 class PostCard extends React.Component {
   constructor(props) {
@@ -23,6 +24,7 @@ class PostCard extends React.Component {
       community: 'Choose a Community',
       communityList: [],
       data: [],
+      redirect:false,
     };
   }
 
@@ -72,9 +74,19 @@ class PostCard extends React.Component {
     };
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
-    axios.post(`${constants.baseUrl}/post/text`, data);
+    axios.post(`${constants.baseUrl}/post/text`, data)
+    .then(res=>{
+      if(res.data.msg==="POST_ADDED"){
+        this.setState({
+          redirect: true,
+        });
+      }
+    })
   };
   render() {
+    if (this.state.redirect) {
+      return <Redirect to="/dashboard" />;
+    }
     return (
       <>
         <div>

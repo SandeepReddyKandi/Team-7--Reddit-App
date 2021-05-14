@@ -13,6 +13,7 @@ import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import Card from '@material-ui/core/Card';
 import constants from '../../constants/constants';
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 class LinkCard extends React.Component {
   constructor(props) {
@@ -22,6 +23,7 @@ class LinkCard extends React.Component {
       URL: '',
       community: 'Choose a Community',
       communityList: [],
+      redirect:false,
     };
   }
 
@@ -72,7 +74,14 @@ class LinkCard extends React.Component {
     };
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
-    axios.post(`${constants.baseUrl}/post/link/`, data);
+    axios.post(`${constants.baseUrl}/post/link/`, data)
+    .then(res=>{
+      if(res.data.msg==="POST_ADDED"){
+        this.setState({
+          redirect: true,
+        });
+      }
+    })
   };
   render() {
     const communitylist = new Set();
@@ -81,6 +90,9 @@ class LinkCard extends React.Component {
         test5
       </Dropdown.Item>
     );
+    if (this.state.redirect) {
+      return <Redirect to="/dashboard" />;
+    }
     return (
       <>
         <div>
