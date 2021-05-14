@@ -26,6 +26,7 @@ const GET_COMMUNITY_INVITE = "getcommunityinvite";
 const ACCEPT_COMMUNITY_INVITE = "acceptcommunityinvite";
 const REJECT_COMMUNITY_INVITE = "rejectcommunityinvite";
 const GET_COMMUNITY_NAME_BY_ID = "getCommunityNameById";
+const REMOVE_USER_COMMUNITY = "removeUserCommunity";
 
 //Post
 const ADD_POST = "addPost";
@@ -83,6 +84,7 @@ module.exports = {
   SORT_POST_BY_DOWNVOTE,
   SORT_POST_BY_DATE,
   GET_INVITATIONS_FOR_COMMUNITY,
+  REMOVE_USER_COMMUNITY,
   // GET_POST,
   // GET_POST_BY_ID
   GET_COMMUNITY_BY_NAME,

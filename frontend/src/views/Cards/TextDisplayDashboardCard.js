@@ -285,7 +285,7 @@ class TextDisplayCard extends React.Component {
                             <Row>
                               <Col>
                                 <Typography className="header-label card-action-label">
-                                  Comment as {localStorage.getItem('user')}
+                                  Comment as {localStorage.getItem('userId')}
                                 </Typography>
                               </Col>
                             </Row>

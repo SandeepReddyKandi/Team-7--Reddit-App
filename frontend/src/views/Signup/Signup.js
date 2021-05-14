@@ -87,6 +87,7 @@ class Signup extends React.Component {
         } else if (response.data.success === true) {
           localStorage.setItem('token', response.data.token);
           localStorage.setItem('userId', response.data.userId);
+          localStorage.setItem('user', response.data.userId);  // REQUIRED DO NOT REMOVE THIS LINE
           localStorage.setItem('userName', response.data.userName);
           this.setState({
             redirect: true,

@@ -28,8 +28,10 @@ const {
   leaveCommunity,
   getCommunityNameById,
   approveInvite,
+  removeUserCommunity,
 } = require('../controllers/community');
 
+router.post('/removeUserCommunity', checkAuth, removeUserCommunity);
 router.post('/approveInvite', checkAuth, approveInvite);
 router.get('/getInvitations', checkAuth, getInvitations);
 router.post('/getInvitationsByPage', checkAuth, getInvitationsByPage);
@@ -39,7 +41,7 @@ router.post('/rate', checkAuth, rateCommunity);
 router.get('/getVoteCount', checkAuth, getCommunityVoteCount);
 router.post('/add', checkAuth, addCommunity);
 router.get('/communities', checkAuth, getCommunity);
-router.get('/communities/:id', checkAuth, getCommunityById);
+router.get('/communities/:community_id', checkAuth, getCommunityById);
 router.post('/status', checkAuth, getStatus);
 router.get('/gettr', checkAuth, getRulesTopics);
 router.get('/getCommunityByName', checkAuth, getCommunityByName);

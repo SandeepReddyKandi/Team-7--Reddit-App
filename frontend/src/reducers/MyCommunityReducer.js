@@ -18,7 +18,10 @@ export const MyCommunityReducer = createSlice({
       createdAt: "2021-04-30T04:09:41.307+00:00",
       rules: [],
       topics: ["topic1", "topic2"],
-    }]
+    }],
+    error: false,
+    feed: '',
+    success: false,
   },
   extraReducers: {
     [clearError.fulfilled]: (state) => {
@@ -26,10 +29,15 @@ export const MyCommunityReducer = createSlice({
       state.feed = '';
       state.success = false;
     },
-    [addCommunity.fulfilled]: (state) => {
-      state.error = false;
-      state.feed = '';
-      state.success = false;
+    [addCommunity.fulfilled]: (state, action) => {
+      if (action.payload.auth){
+        state.success = true
+        state.feed = "Community created successfully";
+      }
+      else{
+        state.error = false;
+        state.feed = 'database issue, please use with other community name';
+      }
     },
     [getRulesTopic.fulfilled]: (state, action) => {
       if (action.payload.auth) {

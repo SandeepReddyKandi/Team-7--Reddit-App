@@ -36,7 +36,7 @@ class CommunityListCard extends React.Component {
 
   componentDidMount() {
     const { community } = this.props;
-    const userId = localStorage.getItem('user');
+    const userId = localStorage.getItem('userId');
     if (community.upvote.includes(userId) || community.downvote.includes(userId)) {
       this.setState({ disableVoting: true });
     }
@@ -63,7 +63,7 @@ class CommunityListCard extends React.Component {
 
   handleUpVote = async () => {
     const { community } = this.props;
-    const userId = localStorage.getItem('user');
+    const userId = localStorage.getItem('userId');
     if (community.upvote.includes(userId) || community.downvote.includes(userId)) {
       return;
     }
@@ -87,7 +87,7 @@ class CommunityListCard extends React.Component {
 
   handleDownVote = async () => {
     const { community } = this.props;
-    const userId = localStorage.getItem('user');
+    const userId = localStorage.getItem('userId');
     if (community.upvote.includes(userId) || community.downvote.includes(userId)) {
       return;
     }

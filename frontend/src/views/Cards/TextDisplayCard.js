@@ -46,7 +46,7 @@ class TextDisplayCard extends React.Component {
   }
 
   componentDidMount() {
-    const userId = localStorage.getItem('user');
+    const userId = localStorage.getItem('userId');
     const { community } = this.props;
     const isMember = community.members.filter((d) => d._id === userId);
     if (isMember === 0) {

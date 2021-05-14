@@ -27,8 +27,8 @@ class Invitations extends React.Component {
       communities: [],
       selectedCommunity: '',
       page: 0,
-      rows: 2,
-      totalRows: 10,
+      rows: 5,
+      totalRows: 0,
     };
     this.getInvitations = this.getInvitations.bind(this);
     this.getUsers = this.getUsers.bind(this);
@@ -168,7 +168,9 @@ class Invitations extends React.Component {
         .post(`${constants.baseUrl}/community/invite`, formData)
         .then((response, error) => {
           if (!error) {
-            this.getInvitations();
+            this.setState({ selectedNames: [] }, async () => {
+              this.getInvitations();
+            });
           }
         })
         .catch((error) => {

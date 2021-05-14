@@ -85,7 +85,7 @@ class Dashboard extends React.Component {
   sortPostByUpvote = async () => {
     //const { community, page, rows } = this.state;
     const data = {
-      userId: localStorage.getItem('user'),
+      userId: localStorage.getItem('userId')
     };
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
@@ -113,7 +113,7 @@ class Dashboard extends React.Component {
   sortPostByUser = async () => {
     const { community, page, rows } = this.state;
     const data = {
-      userId: localStorage.getItem('user'),
+      userId: localStorage.getItem('userId'),
       id: community._id,
       page,
       rows,
@@ -139,7 +139,7 @@ class Dashboard extends React.Component {
   sortPostByComment = async () => {
     const { community, page, rows } = this.state;
     const data = {
-      userId: localStorage.getItem('user'),
+      userId: localStorage.getItem('userId'),
       id: community._id,
       page,
       rows,

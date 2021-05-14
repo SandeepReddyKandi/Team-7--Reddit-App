@@ -64,7 +64,7 @@ class Comment extends React.Component {
   };
 
   /* getSubComments=(e)=>{
-    const userId = localStorage.getItem('user');
+    const userId = localStorage.getItem('userId');
     const { subComment } = this.state;
     axios.defaults.withCredentials = true;
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
@@ -92,7 +92,7 @@ class Comment extends React.Component {
   };
 
   handleUpVote = async (id) => {
-    const userId = localStorage.getItem('user');
+    const userId = localStorage.getItem('userId');
     // if (id.upvote.includes(userId) || id.downvote.includes(userId)) {
     //  return;
     // }
@@ -114,7 +114,7 @@ class Comment extends React.Component {
   };
 
   handleDownVote = async (id) => {
-    const userId = localStorage.getItem('user');
+    const userId = localStorage.getItem('userId');
     if (id.upvote.includes(userId) || id.downvote.includes(userId)) {
       return;
     }
@@ -136,7 +136,7 @@ class Comment extends React.Component {
   };
 
   handleSubComment = async (id) => {
-    const userId = localStorage.getItem('user');
+    const userId = localStorage.getItem('userId');
     const { subComment } = this.state;
     axios.defaults.withCredentials = true;
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');

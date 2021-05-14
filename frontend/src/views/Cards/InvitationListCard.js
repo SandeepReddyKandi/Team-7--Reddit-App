@@ -94,7 +94,7 @@ class InvitationListCard extends React.Component {
                     Status: {invitation.status}
                     &nbsp;&nbsp;
                     {invitation.status === 'pending' && <AccessTimeIcon fontSize="large" />}
-                    {invitation.status === 'accepted' && <ThumbUpRoundedIcon fontSize="large" />}
+                    {invitation.status === 'approved' && <ThumbUpRoundedIcon fontSize="large" />}
                   </Typography>
                 </Col>
               </Row>

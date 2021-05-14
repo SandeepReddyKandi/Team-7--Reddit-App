@@ -1,3 +1,5 @@
+/* eslint-disable guard-for-in */
+/* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-restricted-syntax */
@@ -15,6 +17,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import UserTile from './UserTileCard/UserTile';
 import {removeMemberFromCommunity} from '../../actions/CommunityModerationAction';
 
+const customStyles = {
+    content : {
+      top                   : '50%',
+      left                  : '50%',
+      right                 : 'auto',
+      bottom                : 'auto',
+      marginRight           : '-50%',
+      transform             : 'translate(-50%, -50%)'
+    }
+  };
 const CommunityModal = ({userList,community, isOpen, exitModal}) => {
     const dispatch = useDispatch();
     const [list, selectList] = useState([]);
@@ -25,7 +37,7 @@ const CommunityModal = ({userList,community, isOpen, exitModal}) => {
         else {
             const newList = []
             for (const i in userList){
-                if (userList[i].name.includes(event.target.value)){
+                if (userList[i].name.toLowerCase().includes(event.target.value.toLowerCase())){
                     newList.push(userList[i])
                 }
             }
@@ -35,19 +47,17 @@ const CommunityModal = ({userList,community, isOpen, exitModal}) => {
     useEffect(() => {
         selectList(userList)
     }, [userList])
+    
     const removeMember = (userId) => {
-        const data = { community_id: community._id, user_id: userId}
+        const data = { community_id: community, user_id: userId}
+        console.log(data);
         dispatch(removeMemberFromCommunity(data));
     }
-    console.log(list);
     return (
-        <Modal isOpen={isOpen}>
+        <Modal isOpen={isOpen} style={customStyles}>
             <Row>
             <Col md={{offset:2}}>
-            <SearchIcon
-            className="icon"
-            style={{ color: 'darkgray', position: 'absolute', marginLeft: 10 }}
-          />
+            
           <input id="searchbar" placeholder="Search" onChange={filterSearch}/>
             </Col>
             <Col>
