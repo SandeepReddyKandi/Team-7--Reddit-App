@@ -31,9 +31,8 @@ function App() {
           <Route exact path="/" component={Home} />
           <Route exact path="/home" component={Home} />
           <ProtectedRoutes exact path="/dashboard" component={Dashboard} />
-          <ProtectedRoutes exact path="/users/:uid" component={UserProfile} />
+          <ProtectedRoutes exact path="/users/" component={UserProfile} />
           <ProtectedRoutes exact path="/my-profile/:userName" component={MyProfile} />
-
           <ProtectedRoutes exact path="/communityhomepage" component={CommunityHomePage} />
           <ProtectedRoutes exact path="/communitysearchpage" component={CommunitySearchPage} />
           <ProtectedRoutes exact path="/community-analytics" component={CommunityAnalytics} />

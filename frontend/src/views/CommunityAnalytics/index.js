@@ -202,7 +202,7 @@ class CommunityAnalytics extends React.Component {
                                         <>
                                             <div className='comm-card'>
                                                 <div className='comm-card-head'>Community Name:- <b>{analyticsData[comm].communityName}</b></div>
-                                                <TextDisplayCard post={analyticsData[comm].mostUpVotedPost} />
+                                                <TextDisplayCard community={analyticsData[comm]} post={analyticsData[comm].mostUpVotedPost} />
                                             </div>
                                         </>
                                     )

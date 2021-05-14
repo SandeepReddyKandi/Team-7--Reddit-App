@@ -3,7 +3,7 @@
 /* eslint-disable constructor-super */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-unused-vars */
-/* eslint-disable  dot-notation */
+/* eslint-disable */
 /* eslint-disable prefer-template */
 
 import React, { useEffect } from 'react';
@@ -402,7 +402,6 @@ const handleGetCommunityInvite=async(e)=>{
             </Badge>
             </IconButton>
         </Dropdown.Toggle>
-        
         {console.log("name",CommunityName)}
         {(CommunityName && (typeof CommunityName==='object')) ? 
         (<div>
@@ -424,7 +423,6 @@ const handleGetCommunityInvite=async(e)=>{
           </Dropdown.Menu> 
         )          
         }
-       
       </Dropdown>
 
                   <IconButton aria-label="show new notifications" color="inherit">

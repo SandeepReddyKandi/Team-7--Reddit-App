@@ -54,7 +54,6 @@ class UserProfile extends React.Component {
 
     render() {
         const { user, isMyProfile } = this.state;
-
         return (
             <>
                 <Header showLogin={false} showSignup={false}/>
@@ -115,5 +114,4 @@ class UserProfile extends React.Component {
         );
     }
 }
-
 export default UserProfile;

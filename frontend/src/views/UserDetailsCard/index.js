@@ -31,8 +31,6 @@ const UserDetailsCard = ({ user, isMyProfile }) => {
         });
     }, [user.userName])
 
-
-
     const handleChange = (e) => {
         console.log( formData);
         setFormData({
@@ -71,9 +69,13 @@ const UserDetailsCard = ({ user, isMyProfile }) => {
             });
     }
 
-    const handleChipDelete = () => {
+    const handleChipDelete = (topicName) => {
         // eslint-disable-next-line no-console
         console.log('Handle Chip Delete');
+        setFormData(prevform => ({
+                ...prevform,
+                topics: prevform.topics.filter(topic => topic !== topicName)
+        }))
     }
 
     const handleAddTopic = () => {
@@ -121,7 +123,6 @@ const UserDetailsCard = ({ user, isMyProfile }) => {
                     </div>
                 </div>
                 <div className='edit-btns-container'>
-
                     {
                         !showEditForm && isMyProfile && (
                             <button className='round-btn red-btn' type='button' onClick={() => setShowEditForm(true)}>
@@ -152,7 +153,6 @@ const UserDetailsCard = ({ user, isMyProfile }) => {
         </div>
     )
 }
-
 
 UserDetailsCard.propTypes = {
     user: PropTypes.shape({
