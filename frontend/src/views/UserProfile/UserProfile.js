@@ -61,11 +61,9 @@ class UserProfile extends React.Component {
       .get(`${constants.baseUrl}/community/getCommunityByMember/?id=${userId}`)
       .then((response, error) => {
         if (!error) {
-          console.log("**********inside not error*******")
           this.setState({
             communities: response.data.msg,
           });
-          console.log("**********inside not error*******", response)
 
         }
         if (response.success) {
@@ -81,7 +79,6 @@ class UserProfile extends React.Component {
 
   render() {
     const { user, communities } = this.state;
-    console.log("comuuniteefe", communities);
     return (
       <div>
         <Header />
@@ -90,7 +87,6 @@ class UserProfile extends React.Component {
             <Col md={8}>
               <br />
               <List>
-
                 {communities.length > 0 &&
                   communities.map((m) => (
                     <MyCommunityCard community={m} />

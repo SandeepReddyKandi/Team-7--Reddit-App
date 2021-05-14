@@ -3,13 +3,13 @@
 /* eslint-disable constructor-super */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-unused-vars */
-/* eslint-disable  dot-notation */
+/* eslint-disable */
 /* eslint-disable prefer-template */
 
 import React, { useEffect } from 'react';
 import axios from 'axios';
 import './Header.css';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Talk from 'talkjs';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { fade, makeStyles } from '@material-ui/core/styles';
@@ -109,6 +109,8 @@ export default function Header(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  // const [searchText, setSearchText] = React.useState('');
+  // const [searchResult, setSearchResult] = React.useState([]);
 
   const handleMobileMenuOpen = (e) => {
     setMobileMoreAnchorEl(e.currentTarget);
@@ -217,36 +219,41 @@ export default function Header(props) {
     window.location.replace('/invitations');
   };
 
-/*eslint-disable*/
-const [CommunityName, setCommunityName] = React.useState(null);
+/eslint-disable/
+const [CommunityName, setCommunityName] = React.useState([]);
 const handleGetCommunityInvite=async(e)=>{
-  console.log("inside get community");
-  e.preventDefault();
   // const userId= localStorage.getItem("user");
   const data={
-    userId: localStorage.getItem("user")
+    userId: localStorage.getItem("userId")
   }
   axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
   axios.defaults.withCredentials = true;
   const test = await axios.get(`${constants.baseUrl}/community/getcommunityinvite`,data);
   console.log("------testcheckget----", test.data.data.invitations);
   const inviteList= test.data.data.invitations;
+  inviteList.map(async(obj)=> {
+     await getcommunityname(obj.community_id);
+  });
+  // console.log("checking123", CommunityName);
+  console.log("list community",communitynamelist);
+  setCommunityName(communitynamelist)
+  // console.log("community name",CommunityName);
+}
 
+// const handleGetCommunityInvite = async (e) => {
+//     e.preventDefault();
+//     const data = { userId: localStorage.getItem("user") }
 
-  const handleGetCommunityInvite = async (e) => {
-    e.preventDefault();
-    const data = { userId: localStorage.getItem("user") }
+//     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+//     axios.defaults.withCredentials = true;
+//     const test = await axios.get(`${constants.baseUrl}/community/getcommunityinvite`, data);
+//     const inviteList = test.data.data.invitations;
 
-    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
-    axios.defaults.withCredentials = true;
-    const test = await axios.get(`${constants.baseUrl}/community/getcommunityinvite`, data);
-    const inviteList = test.data.data.invitations;
-
-    var finalArray = inviteList.map(function (obj) {
-      return obj.community_id;
-    });
-    setCommunityName([...finalArray]);
-  }
+//     var finalArray = inviteList.map(function (obj) {
+//       return obj.community_id;
+//     });
+//     setCommunityName([...finalArray]);
+//   }
 
   const onAcceptInvite = (e) => {
     e.preventDefault();
@@ -256,6 +263,23 @@ const handleGetCommunityInvite=async(e)=>{
   const onRejectInvite = (e) => {
     e.preventDefault();
   }
+var communitynamelist=[];
+const getcommunityname=async(e)=>{
+  // e.preventDefault();
+  console.log("testingcheck",e);
+  axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+  axios.defaults.withCredentials = true;
+  await axios.get(`${constants.baseUrl}/community/getCommunityNameById?id=${e}`)
+  // console.log("checking communityname",res);
+  .then((res)=>{
+    // console.log("comunity name",test);
+    console.log("comunity name check",res.data.data);
+    // var communitynamelist = []
+    communitynamelist.push(res.data.data); 
+    console.log("list",communitynamelist); 
+    // setCommunityName([...CommunityName,res.data.data]);
+  })
+}
 
   const handleChatClick = (e) => {
     e.preventDefault();
@@ -362,7 +386,7 @@ const handleGetCommunityInvite=async(e)=>{
               <Logo />
             </IconButton>
             <div className={classes.grow} />
-            <Searchbar style={{ alignItems: 'left', width: '60%' }} />
+            <Link to='/communitysearchpage' style={{width: '60%' }}><Searchbar style={{ alignItems: 'left', width:'100%'}}/></Link>
             {loggedIn ? (
               <>
                 <div className={classes.grow} />
@@ -382,15 +406,18 @@ const handleGetCommunityInvite=async(e)=>{
             </IconButton>
         </Dropdown.Toggle>
         <Dropdown.Menu>
-        {CommunityName && typeof CommunityName === 'object'?<div>
-        {CommunityName.map((p) => (
-                            <Dropdown.Item eventKey={p}>{p}
-                              <Button onClick={onAcceptInvite} value={p} variant="outline-secondary">+</Button>{'   '}
-                              <Button onClick={onRejectInvite} value={p} variant="outline-secondary">-</Button>
+        {console.log("name",CommunityName)}
+        {CommunityName && CommunityName.length>0 ? <div>
+        {console.log("inside yes")}
+        {CommunityName.map((p) => 
+                            <Dropdown.Item eventKey={p} value={p}>{p}{'   '}
+                              <Button onClick={onAcceptInvite} value={p} variant="outline-success">Accept</Button>{'   '}
+                              <Button onClick={onRejectInvite} value={p} variant="outline-danger">Decline</Button>
                             </Dropdown.Item>
-                          ))}
-                          </div>:<Dropdown.Item>
+                          )}
+                          </div> :<Dropdown.Item>
         {' '}
+        {console.log("inside no")}
         </Dropdown.Item> }
         </Dropdown.Menu>
       </Dropdown>
