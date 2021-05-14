@@ -16,7 +16,7 @@ class Messaging extends Component {
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
     axios
-      .get(`${constants.baseUrl}/users/getUserById?id=${localStorage.getItem('user')}`)
+      .get(`${constants.baseUrl}/users/getUserById?id=${localStorage.getItem('userId')}`)
       .then((response) => {
         const currentUser = response.data.data[0];
         // eslint-disable-next-line no-underscore-dangle

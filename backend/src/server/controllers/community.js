@@ -21,6 +21,7 @@ const {
   ACCEPT_COMMUNITY_INVITE,
   REJECT_COMMUNITY_INVITE,
   GET_COMMUNITY_VOTE_COUNT,
+  GET_COMMUNITY_NAME_BY_ID,
   LEAVE_COMMUNITY,
 } = require('../kafka/topics');
 
@@ -285,7 +286,7 @@ exports.leaveCommunity = async (req, res) => {
 exports.acceptcommunityinvite = async (req, res) => {
   const data = {
     userId: req.user._id,
-    community_id: req.body.community_id
+    community_id: req.body.community_id,
   };
   const payload = data;
   kafka.make_request(ACCEPT_COMMUNITY_INVITE, payload, (error, results) => {
