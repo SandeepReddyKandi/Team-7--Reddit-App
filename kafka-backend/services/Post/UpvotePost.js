@@ -3,17 +3,17 @@ const mongoose = require("mongoose");
 
 const handle_request = async (req, callback) => {
   try {
-    const post = await PostModel.findById(mongoose.Types.ObjectId(req.id));
-    post.upvote.push(req.user);
-    var postModel = new PostModel(post);
-    postModel.save().then(() => {
-      callback(null, {
-        msg: "Post Updated successfully!",
-        success: true,
-      });
+    await PostModel.findOneAndUpdate(
+      { _id: req.id },
+      { $push: { upvote: req.user } }
+    );
+
+    return callback(null, {
+      msg: "Post Updated successfully!",
+      success: true,
     });
   } catch (error) {
-    callback(null, {
+    return callback(null, {
       msg: error.message,
       success: false,
     });
