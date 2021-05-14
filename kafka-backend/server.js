@@ -26,6 +26,7 @@ const {
   DOWNVOTE_COMMENT,
   SORT_POST_BY_UPVOTE,
   SORT_POST_BY_DOWNVOTE,
+  GET_INVITATIONS_FOR_COMMUNITY,
   // GET_POST,
   // GET_POST_BY_ID
   GET_COMMUNITY_BY_NAME,
@@ -93,6 +94,7 @@ const sendInvite = require("./services/Invitation/SendInvite");
 const getStatus = require("./services/Invitation/GetStatus");
 const getInvitations = require("./services/Invitation/GetInvitations");
 const getInvitationsByPage = require("./services/Invitation/GetInvitationsByPage");
+const getInvitationsForCommunity = require("./services/Invitation/GetInvitationsForCommunity");
 
 //Post
 const addPostText = require("./services/Post/AddPostText");
@@ -209,3 +211,4 @@ handleTopicRequest(GET_INVITATIONS, getInvitations);
 handleTopicRequest(GET_INVITATIONS_BY_PAGE, getInvitationsByPage);
 handleTopicRequest(SEND_INVITE, sendInvite);
 handleTopicRequest(GET_STATUS, getStatus);
+handleTopicRequest(GET_INVITATIONS_FOR_COMMUNITY, getInvitationsForCommunity);
