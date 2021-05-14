@@ -138,6 +138,7 @@ class LinkCard extends React.Component {
                         // onClick={this.createPost}
                       />
                     </Row>
+                    <br/>
                     <Row>&nbsp;</Row>
                     <Row>
                       <TextareaAutosize
@@ -154,6 +155,8 @@ class LinkCard extends React.Component {
                         style={{ width: '100%' }}
                       />
                     </Row>
+                    <br/>
+                    <br/>
                     <Row>&nbsp;</Row>
                     <Row>
                       <Col md={10}>
