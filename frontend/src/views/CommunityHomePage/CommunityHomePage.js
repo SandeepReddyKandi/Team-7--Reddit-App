@@ -184,7 +184,7 @@ class CommunityHomePage extends React.Component {
   handleLeave = async () => {
     const { community } = this.props.location;
     const data = {
-      user_id: localStorage.getItem('user'),
+      user_id: localStorage.getItem('userId'),
       community_id: community._id,
     };
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');

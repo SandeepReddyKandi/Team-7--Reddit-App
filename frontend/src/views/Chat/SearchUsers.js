@@ -28,7 +28,7 @@ class SearchUsers extends Component {
   }
 
   componentDidMount() {
-    this.getUserById(localStorage.getItem('user'));
+    this.getUserById(localStorage.getItem('userId'));
   }
 
   handleClick(userId) {

@@ -122,7 +122,7 @@ onImageSubmit= async(e)=> {
     const data = {
       title: this.state.title,
       community: this.state.community,
-      UserID: localStorage.getItem("user"),
+      UserID: localStorage.getItem("userId"),
       imageList: this.state.imageList
     };
     console.log("imagelist----", this.state.imageList)
