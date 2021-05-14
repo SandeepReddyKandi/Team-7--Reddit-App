@@ -10,63 +10,113 @@ import React, { useEffect } from 'react';
 import axios from 'axios';
 import './Header.css';
 import { Link } from 'react-router-dom';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import { fade, makeStyles } from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
+import Badge from '@material-ui/core/Badge'
+import SearchIcon from '@material-ui/icons/Search';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import MoreIcon from '@material-ui/icons/MoreVert';
+import TextField from '@material-ui/core/TextField';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Dropdown from 'react-bootstrap/Dropdown';
-import { withStyles } from '@material-ui/core/styles';
+import ChatIcon from '@material-ui/icons/Chat';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import ChatIcon from '@material-ui/icons/Chat';
-
 import Chip from '@material-ui/core/Chip';
-import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import PropTypes from 'prop-types';
+// import SearchBar from "material-ui-search-bar";
 import constants from '../../constants/constants';
-import history from '../../history';
 import Logo from './Logo/Logo';
 import Searchbar from './Searchbar/Searchbar';
 import logout from '../../utils/logout';
 
-// import { authContext } from "../../context/AuthContext";
-const StyledMenu = withStyles({
-  paper: {
-    border: '1px solid #d3d4d5',
-    width: '190px',
+const useStyles = makeStyles((theme) => ({
+  grow: {
+    flexGrow: 1,
   },
-})((props) => (
-  <Menu
-    elevation={0}
-    getContentAnchorEl={null}
-    anchorOrigin={{
-      vertical: 'bottom',
-      horizontal: 'center',
-    }}
-    transformOrigin={{
-      vertical: 'top',
-      horizontal: 'center',
-    }}
-    {...props}
-  />
-));
-
-const StyledMenuItem = withStyles((theme) => ({
-  root: {
-    marginBottom: '2px',
-    paddingLeft: '5px',
-    '&:focus': {
-      backgroundColor: theme.palette.primary.main,
-      '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-        color: theme.palette.common.white,
-        minWidth: '30px',
-      },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    display: 'none',
+    [theme.breakpoints.up('sm')]: {
+      display: 'block',
     },
   },
-}))(MenuItem);
+  search: {
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 1),
+    border: '1px solid #C8C8C8',
+    '&:hover': {
+      backgroundColor: fade(theme.palette.common.white, 1),
+      border: '1px solid #696969'
+    },
+    marginRight: theme.spacing(2),
+    marginLeft: 10,
+    width: '10',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(3),
+      width: 'auto',
+    },
+  },
+  searchIcon: {
+    padding: theme.spacing(0, 2),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  inputRoot: {
+    color: 'inherit',
+  },
+  inputInput: {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: '20ch',
+    },
+  },
+  sectionDesktop: {
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'flex',
+    },
+  },
+  sectionMobile: {
+    display: 'flex',
+    [theme.breakpoints.up('md')]: {
+      display: 'none',
+    },
+  },
+}));
 
 export default function Header(props) {
+  const classes = useStyles();
+
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  // const [searchText, setSearchText] = React.useState('');
+  // const [searchResult, setSearchResult] = React.useState([]);
+
+  const handleMobileMenuOpen = (e) => {
+    setMobileMoreAnchorEl(e.currentTarget);
+  };
+
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null);
+  };
+
   const [userName, setUserName] = React.useState('');
 
   const token = localStorage.getItem('token');
@@ -77,6 +127,11 @@ export default function Header(props) {
     loggedIn = false;
   }
 
+  Header.propTypes = {
+    showLogin: PropTypes.func.isRequired,
+    showSignup: PropTypes.func.isRequired,
+  };
+
   const handleLogIn = (e) => {
     e.preventDefault();
     props.showLogin(true);
@@ -85,11 +140,6 @@ export default function Header(props) {
   const handleSignup = (e) => {
     e.preventDefault();
     props.showSignup(true);
-  };
-
-  Header.propTypes = {
-    showLogin: PropTypes.func.isRequired,
-    showSignup: PropTypes.func.isRequired,
   };
 
   const getUserName = () => {
@@ -103,11 +153,32 @@ export default function Header(props) {
       });
   };
 
-  useEffect(() => {
-    getUserName();
-  }, []);
+  // const handleSearchChange = (e) => {
+  //   console.log("handleSearchChange: ", e);
+  //   setSearchText(e);
+  // }
 
-  const handleNotificationClick = (e) => {
+  // const handleSearchRequest = async (e) => {
+  //   console.log("handleSearchRequest: ", e);
+  //   axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+  //   axios.defaults.withCredentials = true;
+  //   setTimeout(async () => {
+  //     await axios
+  //       .get(`${constants.baseUrl}/posts/searchPostsCriteria?searchText=${searchText}`)
+  //       .then((response, error) => {
+  //         if (!error) {
+  //           console.log("Response: ", response);
+  //           setSearchResult(response.data.data);
+  //         }
+  //         else {
+  //           console.log("Error: ", error);
+  //         }
+  //       })
+  //   }, 10)
+
+  // }
+
+  const handleNotificationsClick = (e) => {
     e.preventDefault();
     window.location.replace('/invitations');
   };
@@ -117,104 +188,169 @@ export default function Header(props) {
     window.location.replace('/chat');
   };
 
-  const handleMyCommunityClick = (e) => {
-    e.preventDefault();
-    history.push(`/myCommunity`);
-  };
+  useEffect(() => {
+    getUserName();
+  }, []);
 
-  // const handleLogout = (e) => {};
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const mobileMenuId = 'primary-search-account-menu-mobile';
+  const renderMobileMenu = (
+    <Menu
+      anchorEl={mobileMoreAnchorEl}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      id={mobileMenuId}
+      keepMounted
+      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      open={isMobileMenuOpen}
+      onClose={handleMobileMenuClose}
+    >
+      <MenuItem>
+        <IconButton aria-label="show 4 new messages" color="inherit">
+          <Badge badgeContent={4} color="secondary">
+            <ChatIcon onClick={handleChatClick} />
+          </Badge>
+        </IconButton>
+        <p>Messages</p>
+      </MenuItem>
+      <MenuItem>
+        <IconButton aria-label="show 17 new notifications" color="inherit">
+          <Badge badgeContent={17} color="secondary">
+            <NotificationsIcon onClick={handleNotificationsClick} />
+          </Badge>
+        </IconButton>
+        <p>Notifications</p>
+      </MenuItem>
+      <Dropdown>
+        <Dropdown.Toggle className="header-user" id="dropdown-basic">
+          <AccountCircle />
+          {userName}
+        </Dropdown.Toggle>
+        <Dropdown.Menu>
+          <Dropdown.Item>
+            {' '}
+            <Link to="/user" style={{ cursor: 'pointer', color: 'black' }}>
+              My Profile
+                            </Link>
+          </Dropdown.Item>
+          <Dropdown.Item>
+            <Link to="/createpost" style={{ cursor: 'pointer', color: 'black' }}>
+              Create Post
+                            </Link>
+          </Dropdown.Item>
+          <Dropdown.Item>
+            <Link
+              to="/createCommunity"
+              style={{ cursor: 'pointer', color: 'black' }}
+            >
+              Create Community
+                            </Link>
+          </Dropdown.Item>
+          <Dropdown.Item>
+            <Link to="/myCommunity" style={{ cursor: 'pointer', color: 'black' }}>
+              My Communities
+                            </Link>
+          </Dropdown.Item>
+          <Dropdown.Item onClick={logout}>
+            <Link to="/" style={{ cursor: 'pointer', color: 'black' }}>
+              Logout
+                          </Link>
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+    </Menu>
+  );
 
   return (
     <header>
-      <Row>
-        <Col>
-          <AppBar position="static" color="default" width="100%">
-            <Toolbar variant="dense">
-              <Col md={3} alignContent>
-                <Logo />
-              </Col>
-              <Col md={7}>
-                <div>
-                  <Searchbar />
-                </div>
-              </Col>
-              <Col md={2}>
-                <Row>
-                  {loggedIn ? (
-                    <>
-                      <Col md={2}>
-                        <ChatIcon
-                          onClick={handleChatClick}
-                          style={{ marginTop: '35%', cursor: 'pointer', color: 'black' }}
-                        />
-                      </Col>
-                      <Col md={2}>
-                        <NotificationsIcon
-                          onClick={handleNotificationClick}
-                          style={{ marginTop: '35%', cursor: 'pointer', color: 'black' }}
-                        />
-                      </Col>
-                      <Col md={1.5}>
-                        <Dropdown>
-                          <Dropdown.Toggle className="header-user" id="dropdown-basic">
-                            {userName}
-                          </Dropdown.Toggle>
-                          <Dropdown.Menu>
-                            <Dropdown.Item>
-                              {' '}
-                              <Link to="/user" style={{ cursor: 'pointer', color: 'black' }}>
-                                My Profile
-                              </Link>
-                            </Dropdown.Item>
-                            <Dropdown.Item>
-                              <Link to="/createpost" style={{ cursor: 'pointer', color: 'black' }}>
-                                Create Post
-                              </Link>
-                            </Dropdown.Item>
-                            <Dropdown.Item>
-                              <Link
-                                to="/createCommunity"
-                                style={{ cursor: 'pointer', color: 'black' }}
-                              >
-                                Create Community
-                              </Link>
-                            </Dropdown.Item>
-                            <Dropdown.Item>
-                              <Link to="/myCommunity" style={{ cursor: 'pointer', color: 'black' }}>
-                                My Communities
-                              </Link>
-                            </Dropdown.Item>
-                            <Dropdown.Item onClick={logout}>
-                              <Link to="/" style={{ cursor: 'pointer', color: 'black' }}>
-                                Logout
+      <div className={classes.grow} style={{ marginLeft: '1%' }}>
+        <AppBar position="static" color="default" width="100%">
+          <Toolbar>
+            <IconButton style={{ width: "10%", marginLeft: '5%' }}
+              edge="start"
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="open drawer"
+            >
+              <Logo />
+            </IconButton>
+            <div className={classes.grow} />
+            <Searchbar style={{ alignItems: 'left', width: '60%' }} />
+            {loggedIn ? (
+              <>
+                <div className={classes.grow} />
+                <div className={classes.sectionDesktop}>
+                  <IconButton aria-label="show 4 new messages" color="inherit">
+                    <Badge badgeContent={4} color="secondary">
+                      <ChatIcon onClick={handleChatClick} />
+                    </Badge>
+                  </IconButton>
+                  <IconButton aria-label="show 17 new notifications" color="inherit">
+                    <Badge badgeContent={17} color="secondary">
+                      <NotificationsIcon onClick={handleNotificationsClick} />
+                    </Badge>
+                  </IconButton>
+                  <Dropdown>
+                    <Dropdown.Toggle className="header-user" id="dropdown-basic">
+                      <AccountCircle />
+                      {userName}
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                      <Dropdown.Item>
+                        {' '}
+                        <Link to="/user" style={{ cursor: 'pointer', color: 'black' }}>
+                          My Profile
                             </Link>
-                            </Dropdown.Item>
-                          </Dropdown.Menu>
-                        </Dropdown>
-                      </Col>
-                    </>
-                  ) : (
-                    <>
-                      <Col md={1.5}>
-                        <Chip label="LOG IN" onClick={handleLogIn} />
-                      </Col>
-                      <Col>
-                        <Chip label="SIGN UP" onClick={handleSignup} />
-                      </Col>
-                    </>
-                  )}
-                </Row>
-              </Col>
-            </Toolbar>
-          </AppBar>
-        </Col>
-      </Row>
+                      </Dropdown.Item>
+                      <Dropdown.Item>
+                        <Link to="/createpost" style={{ cursor: 'pointer', color: 'black' }}>
+                          Create Post
+                            </Link>
+                      </Dropdown.Item>
+                      <Dropdown.Item>
+                        <Link
+                          to="/createCommunity"
+                          style={{ cursor: 'pointer', color: 'black' }}
+                        >
+                          Create Community
+                            </Link>
+                      </Dropdown.Item>
+                      <Dropdown.Item>
+                        <Link to="/myCommunity" style={{ cursor: 'pointer', color: 'black' }}>
+                          My Communities
+                            </Link>
+                      </Dropdown.Item>
+                      <Dropdown.Item onClick={logout}>
+                        <Link to="/" style={{ cursor: 'pointer', color: 'black' }}>
+                          Logout
+                          </Link>
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </div>
+                <div className={classes.sectionMobile}>
+                  <IconButton
+                    aria-label="show more"
+                    aria-haspopup="true"
+                    color="inherit"
+                    onClick={handleMobileMenuOpen}
+                  >
+                    <MoreIcon />
+                  </IconButton>
+                </div>
+              </>
+            ) : (
+              <>
+                <Col md={1.5} style={{ marginLeft: '10%' }}>
+                  <Chip label="LOG IN" onClick={handleLogIn} />
+                </Col>
+                <Col md={1.5} >
+                  <Chip label="SIGN UP" onClick={handleSignup} />
+                </Col>
+              </>
+            )}
+          </Toolbar>
+        </AppBar>
+        {renderMobileMenu}
+      </div>
     </header>
   );
 }

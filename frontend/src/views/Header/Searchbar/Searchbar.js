@@ -7,8 +7,8 @@ import SearchIcon from '@material-ui/icons/Search';
 
 export default function Searchbar() {
   return (
-    <div className="searchbar">
-      <label htmlFor="searchbar" style={{ minWidth: '100%' }}>
+    <div className="searchbar"  style={{display:'contents' }}>
+      <label htmlFor="searchbar" style={{width: '50%' }}>
         <div style={{ display: 'flex', height: '100%', width: '100%', alignItems: 'center' }}>
           <SearchIcon
             className="icon"

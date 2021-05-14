@@ -25,6 +25,14 @@ const GET_POST = "getPost";
 const GET_POST_BY_PAGE = "getPostByPage";
 const UPVOTE_POST = "upvotePost";
 const GET_POST_BY_ID = "getPostById";
+const ADD_POST_TEXT = "addPostText";
+const ADD_POST_IMAGE = "addPostImage";
+const ADD_POST_LINK = "addPostLink";
+const GET_POST_COMMUNITY = "getPostCommunity";
+const SORT_POST_BY_UPVOTE = "sortPostByUpvote";
+const SORT_POST_BY_DOWNVOTE = "sortPostByDownvote";
+const SORT_POST_BY_DATE = "sortPostByDate";
+const SEARCH_POST_BY_CRITERIA = 'searchPostByCriteria';
 
 //Comment
 const ADD_COMMENT = "addComment";
@@ -37,15 +45,6 @@ const ADD_SUB_COMMENT = "addSubComment";
 const SEND_INVITE = "sendInvite";
 const GET_STATUS = "getStatus";
 const GET_INVITATIONS = "getInvitations";
-
-//Post
-const ADD_POST_TEXT = "addPostText";
-const ADD_POST_IMAGE = "addPostImage";
-const ADD_POST_LINK = "addPostLink";
-const GET_POST_COMMUNITY = "getPostCommunity";
-const SORT_POST_BY_UPVOTE = "sortPostByUpvote";
-const SORT_POST_BY_DOWNVOTE = "sortPostByDownvote";
-const SORT_POST_BY_DATE = "sortPostByDate";
 
 module.exports = {
   GET_USERS,
@@ -88,4 +87,5 @@ module.exports = {
   UPVOTE_POST,
   ADD_SUB_COMMENT,
   GET_POST_BY_ID,
+  SEARCH_POST_BY_CRITERIA
 };
