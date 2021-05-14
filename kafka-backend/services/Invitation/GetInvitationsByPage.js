@@ -1,9 +1,13 @@
 const InvitationModel = require("../../models/InvitationModel");
+const mongoose = require("mongoose");
 
 const handle_request = async (req, callback) => {
   try {
     const criteria = {
-      $or: [{ sender: req.userId }, { recepient: req.userId }],
+      $or: [
+        { sender: mongoose.Types.ObjectId(req.userId) },
+        { recepient: mongoose.Types.ObjectId(req.userId) },
+      ],
     };
     let invitations = await InvitationModel.aggregate([
       { $match: criteria },

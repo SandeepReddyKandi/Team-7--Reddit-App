@@ -21,6 +21,7 @@ const RATE_COMMUNITY = 'voteCommunity';
 const GET_COMMUNITY_VOTE_COUNT = 'getCommunityVoteCount';
 const JOIN_COMMUNITY = 'joinCommunity';
 const GET_RULES_TOPICS = 'getRulesTopics';
+const GET_COMMUNITY_NAME_BY_ID = 'getCommunityNameById';
 
 //Post
 const ADD_POST = 'addPost';
@@ -52,7 +53,7 @@ const GET_STATUS = 'getStatus';
 const GET_INVITATIONS = 'getInvitations';
 const GET_INVITATIONS_BY_PAGE = 'getinvitationsByPage';
 const GET_INVITATIONS_FOR_COMMUNITY = 'getInvitationsForCommunity';
-const APPROVE_INVITE = "approveInvite";
+const APPROVE_INVITE = 'approveInvite';
 
 // const GET_POST_BY_ID='getPostbyID';
 
@@ -88,6 +89,7 @@ module.exports = {
   GET_COMMUNITY_ANALYTICS,
   RATE_COMMUNITY,
   GET_COMMUNITY_VOTE_COUNT,
+  GET_COMMUNITY_NAME_BY_ID,
   ADD_POST,
   GET_POST,
   ADD_COMMENT,
@@ -104,5 +106,5 @@ module.exports = {
   GET_POST_COMMUNITY,
   ADD_SUB_COMMENT,
   SEARCH_POST_BY_CRITERIA,
-  SORT_DASHPOSTS_BY_UPVOTES
+  SORT_DASHPOSTS_BY_UPVOTES,
 };
