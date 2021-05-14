@@ -9,7 +9,7 @@ const handle_request = async (req, callback) => {
     }
     let comments = await CommentModel.find(criteria)
       .populate("author_id")
-      .populate({ path: "sub_comments" });
+      .populate({ path: "sub_comments", populate: { path: "author_id" } });
     return callback(null, {
       msg: "",
       success: true,

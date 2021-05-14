@@ -298,23 +298,17 @@ class TextDisplayCard extends React.Component {
                                 style={{ 'min-width': '80vh' }}
                                 onChange={this.handleCommentText}
                               />
-                            </Col>
-                          </Row>
-                          <Row>
-                            <Col md={9} />
-                            <Col ms={3}>
-                              {' '}
                               <Button
                                 size="medium"
-                                type="button"
-                                onClick={this.handleAddComment}
                                 className="btn-primary"
+                                type="button"
                                 style={{
                                   'background-color': '#da907e',
                                   color: '#ffffff',
                                   'border-radius': '9999px',
                                   height: '30px',
                                 }}
+                                onClick={this.handleAddComment}
                                 default
                               >
                                 Comment

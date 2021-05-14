@@ -33,7 +33,7 @@ import Comment from '../Comment/Comment';
 import constants from '../../constants/constants';
 import './TextDisplayCard.css';
 
-class TextDisplayCard extends React.Component {
+class UrlDisplayCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -116,6 +116,7 @@ class TextDisplayCard extends React.Component {
         if (error) {
           console.log(error.msg);
         } else if (response.data.msg === 'Comment Added successfully!') {
+          this.setState({ comment: '' });
           this.getPost();
         }
       })
@@ -156,6 +157,7 @@ class TextDisplayCard extends React.Component {
       .then((response, error) => {
         if (!error) {
           this.setState({
+            comment: '',
             comments: response.data.data,
           });
         }
@@ -293,48 +295,40 @@ class TextDisplayCard extends React.Component {
                       ) : null}
                       <Row>
                         <CardContent style={{ 'min-width': '100%' }}>
-                          <form className="form-signin" onSubmit={this.handleAddComment}>
-                            <Row>
-                              <Col>
-                                <Typography className="header-label card-action-label">
-                                  Comment as {localStorage.getItem('user')}
-                                </Typography>
-                              </Col>
-                            </Row>
-                            <Row>
-                              <Col md={6}>
-                                <TextareaAutosize
-                                  rowsMin={4}
-                                  placeholder="Comment"
-                                  size="large"
-                                  defaultValue=""
-                                  style={{ 'min-width': '80vh' }}
-                                  onChange={this.handleCommentText}
-                                />
-                              </Col>
-                            </Row>
-                            <Row>
-                              <Col md={9} />
-                              <Col ms={3}>
-                                {' '}
-                                <Button
-                                  id="comment"
-                                  size="medium"
-                                  type="submit"
-                                  className="btn-primary"
-                                  style={{
-                                    'background-color': '#da907e',
-                                    color: '#ffffff',
-                                    'border-radius': '9999px',
-                                    height: '30px',
-                                  }}
-                                  default
-                                >
-                                  Comment
-                                </Button>
-                              </Col>
-                            </Row>
-                          </form>
+                          <Row>
+                            <Col md={6}>
+                              <TextareaAutosize
+                                rowsMin={4}
+                                placeholder="Comment"
+                                size="large"
+                                defaultValue=""
+                                style={{ 'min-width': '80vh' }}
+                                onChange={this.handleCommentText}
+                              />
+                            </Col>
+                          </Row>
+                          <Row>
+                            <Col md={9} />
+                            <Col ms={3}>
+                              {' '}
+                              <Button
+                                id="comment"
+                                size="medium"
+                                type="submit"
+                                className="btn-primary"
+                                style={{
+                                  'background-color': '#da907e',
+                                  color: '#ffffff',
+                                  'border-radius': '9999px',
+                                  height: '30px',
+                                }}
+                                onClick={this.handleAddComment}
+                                default
+                              >
+                                Comment
+                              </Button>
+                            </Col>
+                          </Row>
                         </CardContent>
                       </Row>
                     </Collapse>
@@ -349,9 +343,9 @@ class TextDisplayCard extends React.Component {
   }
 }
 
-TextDisplayCard.propTypes = {
+UrlDisplayCard.propTypes = {
   post: PropTypes.objectOf.isRequired,
   community: PropTypes.objectOf.isRequired,
 };
 
-export default TextDisplayCard;
+export default UrlDisplayCard;

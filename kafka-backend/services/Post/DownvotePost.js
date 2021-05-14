@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const handle_request = async (req, callback) => {
   try {
     await PostModel.findOneAndUpdate(
-      { _id: req.post_id },
+      { _id: req.id },
       { $push: { upvote: req.user } }
     );
 

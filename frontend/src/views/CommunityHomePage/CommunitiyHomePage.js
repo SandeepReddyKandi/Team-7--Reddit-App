@@ -20,6 +20,8 @@ import { connect } from 'react-redux';
 import Header from '../Header/Header';
 import RedditICon from '../../community.png';
 import TextDisplayCard from '../Cards/TextDisplayCard';
+import UrlDisplayCard from '../Cards/UrlDisplayCard';
+import ImageDisplayCard from '../Cards/ImageDisplayCard';
 import AboutCommunityCard from '../Cards/AboutCommunityCard';
 import CommunityRulesCard from '../Cards/CommunityRulesCard';
 import CommunityAppBar from '../ToolBar/CommunityAppBar';
@@ -50,11 +52,10 @@ class CommunityHomePage extends React.Component {
 
   async componentDidMount() {
     const { location } = this.props;
-    await this.setState({ community: location.community, redirect: false });
-    await this.checkStatus();
-
-    await this.getCommunity();
-    await this.getPost();
+    this.setState({ community: location.community, redirect: false });
+    this.checkStatus();
+    this.getCommunity();
+    this.getPost();
   }
 
   createPost = () => {
@@ -259,7 +260,8 @@ class CommunityHomePage extends React.Component {
     axios.defaults.withCredentials = true;
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
-    await axios
+    this.props.getCommunity(community_id);
+    /* await axios
       .get(`${constants.baseUrl}/community/communities/?id=${community_id}`)
       .then((response) => {
         if (response.status === 200) {
@@ -273,7 +275,7 @@ class CommunityHomePage extends React.Component {
         } else {
           console.log('something went wrong');
         }
-      });
+      }); */
   };
 
   render() {
@@ -435,7 +437,7 @@ class CommunityHomePage extends React.Component {
 CommunityHomePage.propTypes = {
   community: PropTypes.objectOf.isRequired,
   location: PropTypes.objectOf.isRequired,
-  // getCommunity: PropTypes.func.isRequired,
+  getCommunity: PropTypes.func.isRequired,
 };
 
 const mapStatetoProps = (state) => {
