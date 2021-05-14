@@ -1,37 +1,27 @@
 const CommunityModel = require("../../models/CommunityModel");
+const mongoose = require("mongoose");
 
 const handle_request = async (req, callback) => {
   try {
-    //const comm = await CommunityModel.find({
-    //  community_name: req.body.community_name,
-    //});
-    //console.log("Community:" + comm[0].community_name);
-    const vote = {};
-    if (req.body.upvote_user_id) {
-      vote.upvote = req.body.upvote_user_id;
-    } else if (req.body.downvote_user_id) {
-      vote.downvote = req.body.downvote_user_id;
+    const criteria = {};
+    if (req.body.id) {
+      criteria._id = mongoose.Types.ObjectId(req.body.id);
     }
-
-    CommunityModel.updateOne(
-      { community_name: req.body.community_name },
-      { $push: vote },
-      (err) => {
-        if (err) {
-          callback(null, {
-            msg: err,
-            success: false,
-          });
-        } else {
-          callback(null, {
-            msg: "Up/Down vote successful",
-            success: true,
-          });
-        }
-      }
-    );
+    const communityList = await CommunityModel.find(criteria);
+    const community = communityList[0];
+    if (req.body.upvote_user_id) {
+      community.upvote.push(req.body.upvote_user_id);
+    } else if (req.body.downvote_user_id) {
+      community.downvote.push(req.body.downvote_user_id);
+    }
+    var commToSave = new CommunityModel(community);
+    commToSave.save().then(() => {
+      callback(null, {
+        msg: "Community Up/Down vote successful",
+        success: true,
+      });
+    });
   } catch (error) {
-    //res.status(400).json({ msg: error.message });
     callback(null, {
       msg: error.message,
       success: false,

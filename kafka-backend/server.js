@@ -29,6 +29,7 @@ const {
   GET_COMMUNITY_BY_PAGE,
   GET_RULES_TOPICS,
   RATE_COMMUNITY,
+  GET_COMMUNITY_VOTE_COUNT,
   ADD_POST,
   GET_POST_BY_PAGE,
   ADD_COMMENT,
@@ -62,6 +63,7 @@ const deleteCommunityById = require("./services/Community/DeleteCommunityById");
 const getCommunityByPage = require("./services/Community/GetCommunityByPage");
 const getCommunityByName = require("./services/Community/GetCommunityByName");
 const rateCommunity = require("./services/Community/RateCommunity");
+const getCommunityVoteCount = require("./services/Community/GetCommunityVoteCount");
 const getRulesTopics = require("./services/Community/GetRulesTopics");
 
 //Post
@@ -171,6 +173,7 @@ handleTopicRequest(GET_POST_COMMUNITY, getPostCommunity);
 // handleTopicRequest(GET_POST_BY_ID, getPostbyID);
 handleTopicRequest(GET_COMMUNITY_BY_NAME, getCommunityByName);
 handleTopicRequest(RATE_COMMUNITY, rateCommunity);
+handleTopicRequest(GET_COMMUNITY_VOTE_COUNT, getCommunityVoteCount);
 
 //Post
 handleTopicRequest(ADD_POST, addPost);
