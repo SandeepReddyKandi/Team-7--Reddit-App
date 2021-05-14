@@ -37,6 +37,7 @@ const GET_POST_COMMUNITY = 'getPostCommunity';
 const SORT_POST_BY_UPVOTE = 'sortPostByUpvote';
 const SORT_POST_BY_DATE = 'sortPostByDate';
 const SEARCH_POST_BY_CRITERIA = 'searchPostByCriteria';
+const SORT_DASHPOSTS_BY_UPVOTES = 'sortDashPostsByUpvotes';
 
 //Comment
 const ADD_COMMENT = 'addComment';
@@ -100,5 +101,6 @@ module.exports = {
   GET_RULES_TOPICS,
   GET_POST_COMMUNITY,
   ADD_SUB_COMMENT,
-  SEARCH_POST_BY_CRITERIA
+  SEARCH_POST_BY_CRITERIA,
+  SORT_DASHPOSTS_BY_UPVOTES
 };
