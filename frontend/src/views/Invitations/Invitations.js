@@ -27,8 +27,8 @@ class Invitations extends React.Component {
       communities: [],
       selectedCommunity: '',
       page: 0,
-      rows: 2,
-      totalRows: 10,
+      rows: 5,
+      totalRows: 0,
     };
     this.getInvitations = this.getInvitations.bind(this);
     this.getUsers = this.getUsers.bind(this);
