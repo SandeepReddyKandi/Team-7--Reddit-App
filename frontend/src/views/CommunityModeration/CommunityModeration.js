@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable react/no-string-refs */
 /* eslint-disable react/jsx-no-duplicate-props */
@@ -14,8 +15,6 @@ import Button from '@material-ui/core/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Typography } from '@material-ui/core';
-import Container from 'react-bootstrap/Container';
-import { Form, Carousel } from 'react-bootstrap';
 import axios from 'axios';
 import Dropdown from 'react-bootstrap/Dropdown';
 import TablePagination from '@material-ui/core/TablePagination';
@@ -24,26 +23,27 @@ import Badge from 'react-bootstrap/Badge';
 import { useSelector, useDispatch } from 'react-redux';
 import { Hint } from 'react-autocomplete-hint';
 import { FaTimes } from 'react-icons/fa';
-import { getMyCommunity, getRulesTopic } from '../../actions/MyCommunityActions';
+import { getMyCommunity } from '../../actions/CommunityModerationAction';
 import Header from '../Header/Header';
 import logo from '../../side_bg.jpeg';
 import CommunityModerationCard from './CommunityModerationCard';
+import RequestTab from './UserTileCard/RequestTab';
+import CommunityModal from './CommunityModal'
 
 // eslint-disable-next-line arrow-body-style
 const CommunityModeration = () => {
   const dispatch = useDispatch();
   const reduxData = useSelector((state) => state.communitymoderation);
-
+  const [requestCommunity, toggleRequest] = useState(reduxData.community[0]._id)
   const [page, setPage] = useState([]);
+  const [userListModal, setUserListModal] = useState([])
+  const [communityIdModal, setIdModal] = useState('')
   const [totalPage, setTotalPage] = useState(reduxData.community.length);
-//   useEffect(() => {
-//     dispatch(getMyCommunity({member_id: localStorage.getItem('user')}))
-//   }, [dispatch])
-  
-  const handleGetUsers = async (e) => {
-    const response = await axios.get('http://localhost:3001/users/getUsers');
-  };
-
+  const [modalToggle, setModalToggle] = useState(false);
+  const [communityModal, setCommunityModal] = useState(null);
+useEffect(() => {
+ dispatch(getMyCommunity(localStorage.getItem('user')))
+}, [dispatch])
   const input = document.querySelector('topic');
   if (input !== null) {
     input.addEventListener('keyup', (e) => {
@@ -51,19 +51,25 @@ const CommunityModeration = () => {
       if (!e) event = window.event;
     });
   }
-
+  const showModal = (userList, communityId) => {
+    setUserListModal(userList);
+    setIdModal(communityId);
+    setModalToggle(true);
+  }
+  const exitModal = () => {
+    setModalToggle(false);
+  }
   return (
     <div>
+    <CommunityModal isOpen={modalToggle} userList={userListModal} community={communityIdModal} exitModal={exitModal} />
     <Header />
-
-    <Button onClick={handleGetUsers}>Get Users</Button>
-    <Row>
+    <Row style={{marginTop: "2%"}}>
       <Col sm={3}>
-        <p>Sample</p>
+    <RequestTab communityId={requestCommunity}/>
       </Col>
       <Col md={6}>
         {reduxData.community.length > 0 ? 
-          <div>{reduxData.community.map((community) => <CommunityModerationCard community={community} />)}</div>
+          <div>{reduxData.community.map((community) => <CommunityModerationCard community={community} requestToggle={toggleRequest} showModal={showModal} />)}</div>
         : null}
         <TablePagination
                 component="div"

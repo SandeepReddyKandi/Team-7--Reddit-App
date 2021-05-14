@@ -13,10 +13,10 @@ const handle_request = async (req, callback) => {
         .then((community) => {
           PostModel.create(
             {
-              community_id: community._id,
+              community_id: community.community_id,
               text: msg.text,
               title: msg.title,
-              author_id: mongoose.Types.ObjectId(user._id),
+              author_id: user._id,
             },
             (err, post) => {
               if (post) {
@@ -58,11 +58,11 @@ const handle_request = async (req, callback) => {
         });
     })
     .catch((e) => {
-      //   console.log(e);
+      //  console.log(e);
       res.status = 500;
       res.data = e;
       callback(null, {
-        msg: "USER_NOT_FOUND",
+        msg: "COMMUNITY_NOT_FOUND",
         success: false,
         data: res.data,
         status: res.status,

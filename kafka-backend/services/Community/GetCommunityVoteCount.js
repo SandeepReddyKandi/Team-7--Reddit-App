@@ -1,16 +1,19 @@
 const Community = require("../../models/CommunityModel");
+const mongoose = require("mongoose");
 
 const handle_request = async (req, callback) => {
   try {
     const criteria = {};
-    if (req.communityName) {
-      criteria.community_name = { $regex: req.communityName, $options: "i" };
+    if (req.id) {
+      criteria._id = mongoose.Types.ObjectId(req.id);
     }
-    const response = await Community.find(criteria).populate("members");
+    const communityList = await Community.find(criteria);
+    const community = communityList[0];
+    const voteCount = community.upvote.length - community.downvote.length;
     callback(null, {
       msg: "",
       success: true,
-      data: response,
+      data: voteCount,
     });
   } catch (error) {
     return callback(null, {

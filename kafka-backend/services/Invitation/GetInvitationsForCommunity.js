@@ -1,26 +1,28 @@
-const Community = require("../../models/CommunityModel");
+const InvitationModel = require("../../models/InvitationModel");
 
 const handle_request = async (req, callback) => {
   try {
+    console.log(req.communityId);
     const criteria = {};
-    if (req.adminId) {
-      criteria.admin_id = req.adminId;
+    if (req.communityId) {
+      criteria.community_id = req.communityId;
+      criteria.status = "pending";
     }
-    console.log("......", criteria)
-    const response = await Community.find(criteria).populate('members');
-      if (typeof response !== 'object') {
+    console.log(criteria);
+    InvitationModel.find(criteria, (err, response) => {
+      if (err) {
         return callback(null, {
-          msg: "Database issue",
+          msg: err.message,
           success: false,
         });
-      } 
-      else {
+      } else {
         return callback(null, {
           msg: "",
           success: true,
           data: response,
         });
-      };
+      }
+    }).populate('users');
   } catch (error) {
     return callback(null, {
       msg: error.message,

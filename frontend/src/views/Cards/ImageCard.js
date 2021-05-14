@@ -15,6 +15,7 @@ import Card from '@material-ui/core/Card';
 import constants from '../../constants/constants';
 import axios from 'axios';
 import {ListGroup, DropdownButton, Dropdown} from 'react-bootstrap';
+import { Redirect } from 'react-router-dom';
 
 class ImageCard extends React.Component {
   constructor(props) {
@@ -25,8 +26,12 @@ class ImageCard extends React.Component {
       community:'Choose a Community',
       communityList:[],
       data:[],
-      filename:''
+      filename:'',
+      imgCollection: '',
+      redirect:false,
     };
+    this.onFileChange = this.onFileChange.bind(this);
+    this.onImageSubmit = this.onImageSubmit.bind(this);
   }
 
   handleSelect = (evtKey) => {
@@ -62,52 +67,57 @@ class ImageCard extends React.Component {
     }
   }
 
-  onFileUpload = (file) => {
-    const formData = new FormData();
-    formData.append('userprofile', file);
-    // axios.defaults.headers.common["authorization"] = 'Bearer ' + localStorage.getItem('token')
-    // axios.defaults.withCredentials = true;
-    axios
-      .put(
-        `${constants.baseUrl}/users/uploadfile`,
-        formData,
-        {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        },
-        { responseType: 'blob' }
-      )
-      .then((res) => {
-        // this.setState({ image_path: res.data.Location });
-        // addImage([...imageList, res.data.Location])
-        this.state.imageList.push(res.data.Location)
-      })
-      .catch((error) => {
-        // addImage(null)
-      });
-  };
+  onFileChange(e) {
+    this.setState({ imgCollection: e.target.files })
+}
 
-  ImageTake = async (event) => {
-    await this.onFileUpload(event.target.files[0])
-    console.log("----image----",this.state.imageList);
-  };
-
-  addPostLink= async()=>{
-    // axios.defaults.withCredentials = true;
-    // axios.defaults.headers.common.authorization = localStorage.getItem('id');
-    axios.defaults.headers.common["authorization"] = localStorage.getItem('token')
+onImageSubmit= async(e)=> {
+    e.preventDefault()
+    console.log("check",this.state.imgCollection);
+    for (const key of Object.keys(this.state.imgCollection)) {
+        var formData = new FormData();
+        console.log(this.state.imgCollection[key])
+        formData.append('userprofile', this.state.imgCollection[key])
+        await axios.put(
+          `${constants.baseUrl}/post/uploadfile`,
+          formData,
+          {
+            headers: { 'Content-Type': 'multipart/form-data' },
+          },
+          { responseType: 'blob' }
+        ).then(res => {
+              this.state.imageList.push(res.data.Location);
+              console.log(res.data)
+          })
+    }
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
-    axios.post(`${constants.baseUrl}/post/image/`)
+}
+
+  addPostImage= async()=>{
+    const data = {
+      title: this.state.title,
+      community: this.state.community,
+      UserID: localStorage.getItem("user"),
+      imageList: this.state.imageList
+    };
+    console.log("imagelist----", this.state.imageList)
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    axios.defaults.withCredentials = true;
+    axios.post(`${constants.baseUrl}/posts/image/`,data)
+    .then(res=>{
+      if(res.data.msg==="POST_ADDED"){
+        this.setState({
+          redirect: true,
+        });
+      }
+    })
   }
   render() {
-    let image = null;
-    let filename = this.state.filename || 'Select image file';
-    // if (this.props.user.message === 'ADD_POST_IMAGE_SUCCESS') {
-    //   filename = 'Select image file';
-    // }
-    if (this.state.imageList.length>0) {
-      image = this.state.imageList[0];
-    }    const communitylist= new Set();
-    communitylist.add(<Dropdown.Item as="button" value="1">1</Dropdown.Item>)
+    const communitylist= new Set();
+    if (this.state.redirect) {
+      return <Redirect to="/dashboard" />;
+    }
     return (
       <>
         <div>
@@ -138,49 +148,29 @@ class ImageCard extends React.Component {
                     <Row>
                       {' '}
                       <TextField
+                        name="title"
                         id="outlined-size-small"
                         placeholder="Title"
                         variant="outlined"
                         size="small"
                         fullWidth="true"
-                        // onClick={this.createPost}
+                        value={this.state.title}
+                        onChange={this.onChangeTitle}
                       />
                     </Row>
                     <Row>&nbsp;</Row>
-                    <Row>
-                    <Col md={{ span: 3, offset: 1 }}>
-              <Form noValidate validated={this.state.validated} onSubmit={this.onFileUpload}>
-                <Form.Row>
-                  <Form.Group as={Col} md={{ span: 3, offset: 1 }}>
-                    <Image style={{ width: '12rem' }} src={this.state.imageList[0]} />
-                  </Form.Group>
-                </Form.Row>
-                <Form.Row>
-                  <Form.Group as={Col} md={3}>
-                    <Form.File
-                      className="mt-3"
-                      name="image"
-                      id="image"
-                      style={{ width: '15rem' }}
-                      accept="image/*"
-                      label={filename}
-                      onChange={this.ImageTake}
-                      custom
-                      required
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      Please upload valid picture.
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                </Form.Row>
-                <Form.Row>
-                  <Form.Group as={Col} md={3} className="d-flex" style={{ justifyContent: 'flex-end' }}>
-                    <Button type="submit">Upload</Button>
-                  </Form.Group>
-                </Form.Row>
-              </Form>
-            </Col>
-                    </Row>
+                    <div className="container">
+                <div className="row">
+                    <form onSubmit={this.onImageSubmit}>
+                        <div className="form-group">
+                            <input type="file" name="imgCollection" onChange={this.onFileChange} multiple />
+                        </div>
+                        <div className="form-group">
+                            <button className="btn btn-primary" type="submit">Upload</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
                     <Row>&nbsp;</Row>
                     <Row>
                       <Col md={10}>
@@ -219,7 +209,7 @@ class ImageCard extends React.Component {
                             color: '#ffffff',
                             'border-radius': '9999px',
                           }}
-                          onClick={this.addPostLink}
+                          onClick={this.addPostImage}
                           default
                         >
                           Post
