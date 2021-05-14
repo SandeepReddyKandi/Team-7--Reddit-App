@@ -2,12 +2,10 @@ const Community = require("../../models/CommunityModel");
 
 const handle_request = async (req, callback) => {
   try {
-    console.log(req.memberId);
     const criteria = {};
     if (req.memberId) {
       criteria.members = req.memberId;
     }
-    console.log(criteria);
     Community.find(criteria, (err, response) => {
       if (err) {
         return callback(null, {

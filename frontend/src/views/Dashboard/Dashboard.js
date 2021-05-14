@@ -8,6 +8,8 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import axios from 'axios';
+import SearchBar from "material-ui-search-bar";
+import AppBar from '@material-ui/core/AppBar';
 import Header from '../Header/Header';
 import DashboardAppBar from '../ToolBar/DashboardAppBar';
 import TextDisplayCard from '../Cards/TextDisplayCard';
@@ -16,17 +18,47 @@ import TopBar from '../ToolBar/TopBar';
 import constants from '../../constants/constants';
 import AdvertisementCard from '../Cards/AdvertisementCard/AdvertisementCard';
 
+
 class Dashboard extends React.Component {
   constructor() {
     super();
     this.state = {
       errormessage: '',
       posts: [],
+      searchText: '',
+      searchResult: []
     };
   }
 
   componentDidMount() {
     this.getPost();
+  }
+
+  handleSearchChange = (e) => {
+    console.log("handleSearchChange: ", e);
+    this.state.searchText = e;
+    // setSearchText(e);
+  }
+
+  handleSearchRequest = async (e) => {
+    console.log("handleSearchRequest: ", e);
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    axios.defaults.withCredentials = true;
+    setTimeout(async () => {
+      await axios
+        .get(`${constants.baseUrl}/posts/searchPostsCriteria?searchText=${this.searchText}`)
+        .then((response, error) => {
+          if (!error) {
+            console.log("Response: ", response);
+            this.state.searchResult = response.data.data;
+            // setSearchResult(response.data.data);
+          }
+          else {
+            console.log("Error: ", error);
+          }
+        })
+    }, 10)
+
   }
 
   getPost = () => {
@@ -59,12 +91,20 @@ class Dashboard extends React.Component {
               {errormessage}
             </div>
           ) : null
-          }          
-          <Row>            
+          }
+          <Row>
             <Col md={8}>
               <br />
               <DashboardAppBar />
-              <TopBar />
+              <AppBar position="static" color="white" style={{ marginBottom: '10px' }}>
+                <SearchBar style={{ width: '100%' }}
+                  value="" placeholder="Search Posts..."
+                  onChange={this.handleSearchChange}
+                  onRequestSearch={this.handleSearchRequest}
+                />
+              </AppBar>
+
+              <TopBar style={{ marginTop: '2%' }} />
               {posts.map((p) => (
                 <TextDisplayCard post={p} />
               ))}
