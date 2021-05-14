@@ -77,7 +77,7 @@ useEffect(() => {
     <RequestTab communityId={requestCommunity} invitataions={invitationList}/>
       </Col>
       <Col md={6}>
-        {reduxData.community.length > 0 ? 
+        {reduxData.community.length > 0 ?
           <div>{reduxData.community.map((community) => <CommunityModerationCard community={community} requestToggle={getToggleInvitation} showModal={showModal} />)}</div>
         : null}
         <TablePagination

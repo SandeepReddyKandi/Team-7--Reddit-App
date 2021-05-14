@@ -13,7 +13,7 @@ class SearchUsers extends Component {
     // let currentUser;
     // const token = localStorage.getItem('token');
     // const currentTalkjsUser = jwtDecode(token);
-    // const currentTalkjsUser = await this.getUserById(localStorage.getItem('user'));
+    // const currentTalkjsUser = await this.getUserById(localStorage.getItem('userId'));
     // if (currentTalkjsUser) {
     //  currentUser = currentTalkjsUser;
     // eslint-disable-next-line no-underscore-dangle
@@ -28,7 +28,7 @@ class SearchUsers extends Component {
   }
 
   componentDidMount() {
-    this.getUserById(localStorage.getItem('user'));
+    this.getUserById(localStorage.getItem('userId'));
   }
 
   handleClick(userId) {
