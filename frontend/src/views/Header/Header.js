@@ -67,6 +67,7 @@ const StyledMenuItem = withStyles((theme) => ({
 
 export default function Header(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [name, setName] = React.useState('');
   const [userName, setUserName] = React.useState('');
 
   const token = localStorage.getItem('token');
@@ -96,16 +97,22 @@ export default function Header(props) {
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
     axios
-      .get(`${constants.baseUrl}/users/getUserById?id=${localStorage.getItem('user')}`)
+      .get(`${constants.baseUrl}/users/getUserById?id=${localStorage.getItem('userId')}`)
       .then((res) => {
         const currentUser = res.data.data[0];
-        setUserName(currentUser.name);
+        setName(currentUser.name);
+        setUserName(currentUser.userName);
       });
   };
 
   useEffect(() => {
     getUserName();
   }, []);
+
+  // useEffect(() => {
+  //
+  // }, [userName]);
+
 
   const handleNotificationClick = (e) => {
     e.preventDefault();
@@ -163,7 +170,7 @@ export default function Header(props) {
                       <Col md={1.5}>
                         <Dropdown>
                           <Dropdown.Toggle className="header-user" id="dropdown-basic">
-                            {userName}
+                            {name}
                           </Dropdown.Toggle>
                           <Dropdown.Menu>
                             <Dropdown.Item>
