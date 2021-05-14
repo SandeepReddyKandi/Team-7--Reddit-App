@@ -25,46 +25,50 @@ import Badge from 'react-bootstrap/Badge';
 import { useSelector, useDispatch } from 'react-redux';
 import { Hint } from 'react-autocomplete-hint';
 import { FaTimes } from 'react-icons/fa';
-import { getMyCommunity, getMyInvitations, clearError } from '../../actions/CommunityModerationAction';
+import {
+  getMyCommunity,
+  getMyInvitations,
+  clearError,
+} from '../../actions/CommunityModerationAction';
 import Header from '../Header/Header';
 import logo from '../../side_bg.jpeg';
 import CommunityModerationCard from './CommunityModerationCard';
 import RequestTab from './UserTileCard/RequestTab';
-import CommunityModal from './CommunityModal'
+import CommunityModal from './CommunityModal';
 
 // eslint-disable-next-line arrow-body-style
 const CommunityModeration = () => {
   const dispatch = useDispatch();
   const reduxData = useSelector((state) => state.communitymoderation);
-  const [requestCommunity, toggleRequest] = useState(reduxData.community[0]._id)
+  const [requestCommunity, toggleRequest] = useState(reduxData.community[0]._id);
   const [page, setPage] = useState([]);
-  const [userListModal, setUserListModal] = useState([])
-  const [invitationList, setInvitationList] = useState([])
-  const [communityIdModal, setIdModal] = useState('')
+  const [userListModal, setUserListModal] = useState([]);
+  const [invitationList, setInvitationList] = useState([]);
+  const [communityIdModal, setIdModal] = useState('');
   const [totalPage, setTotalPage] = useState(reduxData.community.length);
   const notify = (message) => toast(message);
   const [modalToggle, setModalToggle] = useState(false);
   const [communityModal, setCommunityModal] = useState(null);
-useEffect(() => {
- dispatch(getMyCommunity(localStorage.getItem('userId')))
-}, [dispatch])
-useEffect(() => {
-  if (reduxData.success){
-    notify(reduxData.feed);
-    dispatch(clearError());
-  }
-}, [reduxData.success])
+  useEffect(() => {
+    dispatch(getMyCommunity(localStorage.getItem('userId')));
+  }, [dispatch]);
+  useEffect(() => {
+    if (reduxData.success) {
+      notify(reduxData.feed);
+      dispatch(clearError());
+    }
+  }, [reduxData.success]);
 
-useEffect(() => {
-  if (reduxData.error){
-    notify(reduxData.feed);
-    dispatch(clearError());
-  }
-}, [reduxData.error])
+  useEffect(() => {
+    if (reduxData.error) {
+      notify(reduxData.feed);
+      dispatch(clearError());
+    }
+  }, [reduxData.error]);
 
-useEffect(() => {
-  setInvitationList(reduxData.invitataions)
-}, [reduxData.invitataions])
+  useEffect(() => {
+    setInvitationList(reduxData.invitataions);
+  }, [reduxData.invitataions]);
 
   const input = document.querySelector('topic');
   if (input !== null) {
@@ -74,41 +78,54 @@ useEffect(() => {
     });
   }
   const getToggleInvitation = (communityId) => {
-    dispatch(getMyInvitations(communityId))
-  }
+    dispatch(getMyInvitations(communityId));
+  };
   const showModal = (userList, communityId) => {
     setUserListModal(userList);
     setIdModal(communityId);
     setModalToggle(true);
-  }
+  };
   const exitModal = () => {
     setModalToggle(false);
-  }
+  };
   return (
     <div>
-    <ToastContainer/>
-    <CommunityModal isOpen={modalToggle} userList={userListModal} community={communityIdModal} exitModal={exitModal} />
-    <Header />
-    <Row style={{marginTop: "2%"}}>
-      <Col sm={3}>
-    <RequestTab communityId={requestCommunity} invitataions={invitationList}/>
-      </Col>
-      <Col md={6}>
-        {reduxData.community.length > 0 ?
-          <div>{reduxData.community.map((community) => <CommunityModerationCard community={community} requestToggle={getToggleInvitation} showModal={showModal} />)}</div>
-        : null}
-        <TablePagination
-                component="div"
-                count={20}
-                page={page}
-                onChangePage={null}
-                rowsPerPage={5}
-                onChangeRowsPerPage={null}
-                rowsPerPageOptions={[2, 5, 10]}
-              />
-      </Col>
-    </Row>
-  </div>
+      <ToastContainer />
+      <CommunityModal
+        isOpen={modalToggle}
+        userList={userListModal}
+        community={communityIdModal}
+        exitModal={exitModal}
+      />
+      <Header />
+      <Row style={{ marginTop: '2%' }}>
+        <Col sm={3}>
+          <RequestTab communityId={requestCommunity} invitataions={invitationList} />
+        </Col>
+        <Col md={6}>
+          {reduxData.community.length > 0 ? (
+            <div>
+              {reduxData.community.map((community) => (
+                <CommunityModerationCard
+                  community={community}
+                  requestToggle={getToggleInvitation}
+                  showModal={showModal}
+                />
+              ))}
+            </div>
+          ) : null}
+          <TablePagination
+            component="div"
+            count={20}
+            page={page}
+            onChangePage={null}
+            rowsPerPage={5}
+            onChangeRowsPerPage={null}
+            rowsPerPageOptions={[2, 5, 10]}
+          />
+        </Col>
+      </Row>
+    </div>
   );
 };
 

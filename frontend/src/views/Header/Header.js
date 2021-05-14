@@ -14,7 +14,7 @@ import Talk from 'talkjs';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge'
+import Badge from '@material-ui/core/Badge';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
@@ -28,7 +28,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Chip from '@material-ui/core/Chip';
 import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button'
+import Button from 'react-bootstrap/Button';
 import PropTypes from 'prop-types';
 import InsertInvitationIcon from '@material-ui/icons/InsertInvitation';
 // import SearchBar from "material-ui-search-bar";
@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
     border: '1px solid #C8C8C8',
     '&:hover': {
       backgroundColor: fade(theme.palette.common.white, 1),
-      border: '1px solid #696969'
+      border: '1px solid #696969',
     },
     marginRight: theme.spacing(2),
     marginLeft: 10,
@@ -214,69 +214,69 @@ export default function Header(props) {
   // }
 
   const handleNotificationsClick = (e) => {
-    console.log("notification click")
+    console.log('notification click');
     e.preventDefault();
     window.location.replace('/invitations');
   };
 
-/*eslint-disable*/
-const [CommunityName, setCommunityName] = React.useState();
-const handleGetCommunityInvite=async(e)=>{
-  // const userId= localStorage.getItem("user");
-  const data={
-    userId: localStorage.getItem("userId")
-  }
-  axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
-  axios.defaults.withCredentials = true;
-  const test = await axios.get(`${constants.baseUrl}/community/getcommunityinvite`,data);
-  console.log("------testcheckget----", test.data.data.communitylist);
-  const inviteList= test.data.data;
-  console.log("invite list", inviteList)
-  // console.log("checking123", CommunityName);
-  setCommunityName(inviteList)
-  console.log("community name",CommunityName);
-}
+  /*eslint-disable*/
+  const [CommunityName, setCommunityName] = React.useState();
+  const handleGetCommunityInvite = async (e) => {
+    // const userId= localStorage.getItem("user");
+    const data = {
+      userId: localStorage.getItem('userId'),
+    };
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    axios.defaults.withCredentials = true;
+    const test = await axios.get(`${constants.baseUrl}/community/getcommunityinvite`, data);
+    console.log('------testcheckget----', test.data.data.communitylist);
+    const inviteList = test.data.data;
+    console.log('invite list', inviteList);
+    // console.log("checking123", CommunityName);
+    setCommunityName(inviteList);
+    console.log('community name', CommunityName);
+  };
 
-// const handleGetCommunityInvite = async (e) => {
-//     e.preventDefault();
-//     const data = { userId: localStorage.getItem("user") }
+  // const handleGetCommunityInvite = async (e) => {
+  //     e.preventDefault();
+  //     const data = { userId: localStorage.getItem("user") }
 
-//     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
-//     axios.defaults.withCredentials = true;
-//     const test = await axios.get(`${constants.baseUrl}/community/getcommunityinvite`, data);
-//     const inviteList = test.data.data.invitations;
+  //     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+  //     axios.defaults.withCredentials = true;
+  //     const test = await axios.get(`${constants.baseUrl}/community/getcommunityinvite`, data);
+  //     const inviteList = test.data.data.invitations;
 
-//     var finalArray = inviteList.map(function (obj) {
-//       return obj.community_id;
-//     });
-//     setCommunityName([...finalArray]);
-//   }
+  //     var finalArray = inviteList.map(function (obj) {
+  //       return obj.community_id;
+  //     });
+  //     setCommunityName([...finalArray]);
+  //   }
 
   const onAcceptInvite = (e) => {
     e.preventDefault();
     const community = e.target.value;
-  }
+  };
 
   const onRejectInvite = (e) => {
     e.preventDefault();
-  }
-// var communitynamelist=[];
-// const getcommunityname=async(e)=>{
-//   // e.preventDefault();
-//   console.log("testingcheck",e);
-//   axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
-//   axios.defaults.withCredentials = true;
-//   await axios.get(`${constants.baseUrl}/community/getCommunityNameById?id=${e}`)
-//   // console.log("checking communityname",res);
-//   .then((res)=>{
-//     // console.log("comunity name",test);
-//     console.log("comunity name check",res.data.data);
-//     // var communitynamelist = []
-//     communitynamelist.push(res.data.data); 
-//     console.log("list",communitynamelist); 
-//     // setCommunityName([...CommunityName,res.data.data]);
-//   })
-// }
+  };
+  // var communitynamelist=[];
+  // const getcommunityname=async(e)=>{
+  //   // e.preventDefault();
+  //   console.log("testingcheck",e);
+  //   axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+  //   axios.defaults.withCredentials = true;
+  //   await axios.get(`${constants.baseUrl}/community/getCommunityNameById?id=${e}`)
+  //   // console.log("checking communityname",res);
+  //   .then((res)=>{
+  //     // console.log("comunity name",test);
+  //     console.log("comunity name check",res.data.data);
+  //     // var communitynamelist = []
+  //     communitynamelist.push(res.data.data);
+  //     console.log("list",communitynamelist);
+  //     // setCommunityName([...CommunityName,res.data.data]);
+  //   })
+  // }
 
   const handleChatClick = (e) => {
     e.preventDefault();
@@ -319,8 +319,7 @@ const handleGetCommunityInvite=async(e)=>{
             </Badge>
           </IconButton>
         </Dropdown.Toggle>
-        <Dropdown.Menu>
-        </Dropdown.Menu>
+        <Dropdown.Menu></Dropdown.Menu>
       </Dropdown>
       <MenuItem>
         <IconButton aria-label="show 17 new notifications" color="inherit">
@@ -340,30 +339,27 @@ const handleGetCommunityInvite=async(e)=>{
             {' '}
             <Link to="/user" style={{ cursor: 'pointer', color: 'black' }}>
               My Profile
-                            </Link>
+            </Link>
           </Dropdown.Item>
           <Dropdown.Item>
             <Link to="/createpost" style={{ cursor: 'pointer', color: 'black' }}>
               Create Post
-                            </Link>
+            </Link>
           </Dropdown.Item>
           <Dropdown.Item>
-            <Link
-              to="/createCommunity"
-              style={{ cursor: 'pointer', color: 'black' }}
-            >
+            <Link to="/createCommunity" style={{ cursor: 'pointer', color: 'black' }}>
               Create Community
-                            </Link>
+            </Link>
           </Dropdown.Item>
           <Dropdown.Item>
             <Link to="/myCommunity" style={{ cursor: 'pointer', color: 'black' }}>
               My Communities
-                            </Link>
+            </Link>
           </Dropdown.Item>
           <Dropdown.Item onClick={logout}>
             <Link to="/" style={{ cursor: 'pointer', color: 'black' }}>
               Logout
-                          </Link>
+            </Link>
           </Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
@@ -375,7 +371,8 @@ const handleGetCommunityInvite=async(e)=>{
       <div className={classes.grow} style={{ marginLeft: '1%' }}>
         <AppBar position="static" color="default" width="100%">
           <Toolbar>
-            <IconButton style={{ width: "10%", marginLeft: '5%' }}
+            <IconButton
+              style={{ width: '10%', marginLeft: '5%' }}
               edge="start"
               className={classes.menuButton}
               color="inherit"
@@ -384,7 +381,9 @@ const handleGetCommunityInvite=async(e)=>{
               <Logo />
             </IconButton>
             <div className={classes.grow} />
-            <Link to='/communitysearchpage' style={{width: '60%' }}><Searchbar style={{ alignItems: 'left', width:'100%'}}/></Link>
+            <Link to="/communitysearchpage" style={{ width: '60%' }}>
+              <Searchbar style={{ alignItems: 'left', width: '100%' }} />
+            </Link>
             {loggedIn ? (
               <>
                 <div className={classes.grow} />
@@ -395,35 +394,41 @@ const handleGetCommunityInvite=async(e)=>{
                     </Badge>
                   </IconButton>
                   <Dropdown>
-        <Dropdown.Toggle className="header-user" id="dropdown-basic">
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-            <Badge badgeContent={1} color="secondary">
-              <NotificationsIcon onClick={handleGetCommunityInvite}/>
-            </Badge>
-            </IconButton>
-        </Dropdown.Toggle>
-        {console.log("name",CommunityName)}
-        {(CommunityName && (typeof CommunityName==='object')) ? 
-        (<div>
-            {console.log("inside yes")}
-            {((CommunityName.communitylist)).map((p) => 
-              <Dropdown.Menu>
-                            <Dropdown.Item eventKey={p} value={p}>{p}{'   '}
-                              <Button onClick={onAcceptInvite} value={p} variant="outline-success">Accept</Button>{'   '}
-                              <Button onClick={onRejectInvite} value={p} variant="outline-danger">Decline</Button>
+                    <Dropdown.Toggle className="header-user" id="dropdown-basic">
+                      <IconButton aria-label="show 17 new notifications" color="inherit">
+                        <Badge badgeContent={1} color="secondary">
+                          <NotificationsIcon onClick={handleGetCommunityInvite} />
+                        </Badge>
+                      </IconButton>
+                    </Dropdown.Toggle>
+                    {console.log('name', CommunityName)}
+                    {CommunityName && typeof CommunityName === 'object' ? (
+                      <div>
+                        {console.log('inside yes')}
+                        {CommunityName.communitylist.map((p) => (
+                          <Dropdown.Menu>
+                            <Dropdown.Item eventKey={p} value={p}>
+                              {p}
+                              {'   '}
+                              <Button onClick={onAcceptInvite} value={p} variant="outline-success">
+                                Accept
+                              </Button>
+                              {'   '}
+                              <Button onClick={onRejectInvite} value={p} variant="outline-danger">
+                                Decline
+                              </Button>
                             </Dropdown.Item>
-                </Dropdown.Menu>
-                          )}                         
-          </div>
-        ) : (
-          <Dropdown.Menu>
-          <Dropdown.Item>
-            <p>temp</p>
-          </Dropdown.Item>
-          </Dropdown.Menu> 
-        )          
-        }
-      </Dropdown>
+                          </Dropdown.Menu>
+                        ))}
+                      </div>
+                    ) : (
+                      <Dropdown.Menu>
+                        <Dropdown.Item>
+                          <p>temp</p>
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                    )}
+                  </Dropdown>
 
                   <IconButton aria-label="show new notifications" color="inherit">
                     <Badge badgeContent={5} color="secondary">
@@ -438,38 +443,48 @@ const handleGetCommunityInvite=async(e)=>{
                     <Dropdown.Menu>
                       <Dropdown.Item>
                         {' '}
-                        <Link to={`/my-profile/${userName}`} style={{ cursor: 'pointer', color: 'black' }}>
+                        <Link
+                          to={`/my-profile/${userName}`}
+                          style={{ cursor: 'pointer', color: 'black' }}
+                        >
                           My Profile
                         </Link>
                       </Dropdown.Item>
                       <Dropdown.Item>
                         <Link to="/createpost" style={{ cursor: 'pointer', color: 'black' }}>
                           Create Post
-                            </Link>
+                        </Link>
                       </Dropdown.Item>
                       <Dropdown.Item>
                         <Link
-                          to="/createCommunity"
-                          style={{ cursor: 'pointer', color: 'black' }}>
+                          to="/communitymoderation"
+                          style={{ cursor: 'pointer', color: 'black' }}
+                        >
+                          Moderation
+                        </Link>
+                      </Dropdown.Item>
+                      <Dropdown.Item>
+                        <Link to="/createCommunity" style={{ cursor: 'pointer', color: 'black' }}>
                           Create Community
                         </Link>
                       </Dropdown.Item>
                       <Dropdown.Item>
                         <Link to="/myCommunity" style={{ cursor: 'pointer', color: 'black' }}>
                           My Communities
-                            </Link>
+                        </Link>
                       </Dropdown.Item>
                       <Dropdown.Item>
                         <Link
                           to="/communitysearchpage"
-                          style={{ cursor: 'pointer', color: 'black' }}>
+                          style={{ cursor: 'pointer', color: 'black' }}
+                        >
                           Search Community
                         </Link>
                       </Dropdown.Item>
                       <Dropdown.Item onClick={logout}>
                         <Link to="/" style={{ cursor: 'pointer', color: 'black' }}>
                           Logout
-                          </Link>
+                        </Link>
                       </Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
@@ -490,7 +505,7 @@ const handleGetCommunityInvite=async(e)=>{
                 <Col md={1.5} style={{ marginLeft: '10%' }}>
                   <Chip label="LOG IN" onClick={handleLogIn} />
                 </Col>
-                <Col md={1.5} >
+                <Col md={1.5}>
                   <Chip label="SIGN UP" onClick={handleSignup} />
                 </Col>
               </>

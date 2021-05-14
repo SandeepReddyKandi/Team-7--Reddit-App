@@ -248,7 +248,8 @@ class ImageDisplayCard extends React.Component {
                       <span> {post.title}</span>
                     </Row>
                     <Row>
-                      <span> {post.description}</span>
+                      <span> {post.text}</span>
+
                     </Row>
                     <Row>
                       {' '}
