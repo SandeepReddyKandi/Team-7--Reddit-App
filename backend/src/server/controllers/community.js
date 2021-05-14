@@ -17,6 +17,9 @@ const {
   DELETE_COMMUNITY_BY_ID,
   GET_COMMUNITY_BY_PAGE,
   GET_INVITATIONS_BY_PAGE,
+  GET_COMMUNITY_INVITE,
+  ACCEPT_COMMUNITY_INVITE,
+  REJECT_COMMUNITY_INVITE,
   GET_COMMUNITY_VOTE_COUNT,
   LEAVE_COMMUNITY,
 } = require('../kafka/topics');
@@ -247,6 +250,24 @@ exports.getCommunityVoteCount = async (req, res) => {
   });
 };
 
+exports.getcommunityinvite = async (req, res) => {
+  // console.log("---",req);
+  const data = {
+    userId: req.user._id,
+  };
+  const payload = data;
+  kafka.make_request(GET_COMMUNITY_INVITE, payload, (error, results) => {
+    if (!results.success) {
+      res.status(400).send(results);
+    } else {
+      res.status(200).json({
+        msg: results.msg,
+        data: results.data,
+      });
+    }
+  });
+};
+
 exports.leaveCommunity = async (req, res) => {
   const payload = { user_id: req.body.user_id, community_id };
   kafka.make_request(LEAVE_COMMUNITY, payload, (error, results) => {
@@ -261,9 +282,45 @@ exports.leaveCommunity = async (req, res) => {
   });
 };
 
+exports.acceptcommunityinvite = async (req, res) => {
+  const data = {
+    userId: req.user._id,
+    community_id: req.body.community_id
+  };
+  const payload = data;
+  kafka.make_request(ACCEPT_COMMUNITY_INVITE, payload, (error, results) => {
+    if (!results.success) {
+      res.status(400).send(results);
+    } else {
+      res.status(200).json({
+        msg: results.msg,
+        data: results.data,
+      });
+    }
+  });
+};
+
 exports.getCommunityNameById = async (req, res) => {
   const payload = { id: req.query.id };
   kafka.make_request(GET_COMMUNITY_NAME_BY_ID, payload, (error, results) => {
+    if (!results.success) {
+      res.status(400).send(results);
+    } else {
+      // console.log(results);
+      res.status(200).json({
+        msg: results.msg,
+        data: results.data,
+      });
+    }
+  });
+};
+
+exports.rejectcommunityinvite = async (req, res) => {
+  const data = {
+    userId: req.body.userId,
+  };
+  const payload = data;
+  kafka.make_request(REJECT_COMMUNITY_INVITE, payload, (error, results) => {
     if (!results.success) {
       res.status(400).send(results);
     } else {

@@ -22,6 +22,9 @@ const GET_COMMUNITY_VOTE_COUNT = "getCommunityVoteCount";
 const JOIN_COMMUNITY = "joinCommunity";
 const GET_RULES_TOPICS = "getRulesTopics";
 const DOWNVOTE_POST = "downvotePost";
+const GET_COMMUNITY_INVITE= 'getcommunityinvite';
+const ACCEPT_COMMUNITY_INVITE='acceptcommunityinvite';
+const REJECT_COMMUNITY_INVITE='rejectcommunityinvite'
 const GET_COMMUNITY_NAME_BY_ID = "getCommunityNameById";
 
 //Post
@@ -106,6 +109,9 @@ module.exports = {
   ADD_SUB_COMMENT,
   GET_POST_BY_ID,
   SEARCH_POST_BY_CRITERIA,
+  GET_COMMUNITY_INVITE,
+  ACCEPT_COMMUNITY_INVITE,
+  REJECT_COMMUNITY_INVITE,
   LEAVE_COMMUNITY,
   SORT_DASHPOSTS_BY_UPVOTES,
 };

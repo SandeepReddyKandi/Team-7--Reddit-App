@@ -21,6 +21,9 @@ const {
   getRulesTopics,
   getInvitations,
   getInvitationsByPage,
+  getcommunityinvite,
+  acceptcommunityinvite,
+  rejectcommunityinvite,
   getCommunityVoteCount,
   leaveCommunity,
   getCommunityNameById,
@@ -45,6 +48,9 @@ router.get('/getCommunityByAdmin', checkAuth, getCommunityByAdmin);
 router.post('/get-community-analytics', checkAuth, getCommunityAnalytics);
 router.get('/getCommunityByMember', checkAuth, getCommunityByMember);
 router.get('/deletecommunitybyid', checkAuth, deleteCommunityById);
+router.get('/getcommunityinvite', checkAuth, getcommunityinvite);
+router.post('/acceptcommunityinvite', checkAuth, acceptcommunityinvite);
+router.post('/rejectcommunityinvite', checkAuth, rejectcommunityinvite);
 router.get('/leavecommunity', checkAuth, leaveCommunity);
 router.get('/getCommunityNameById', checkAuth, getCommunityNameById);
 

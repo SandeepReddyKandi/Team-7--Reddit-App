@@ -27,7 +27,10 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Chip from '@material-ui/core/Chip';
 import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button'
 import PropTypes from 'prop-types';
+import InsertInvitationIcon from '@material-ui/icons/InsertInvitation';
+// import SearchBar from "material-ui-search-bar";
 import constants from '../../constants/constants';
 import Logo from './Logo/Logo';
 import Searchbar from './Searchbar/Searchbar';
@@ -180,9 +183,45 @@ export default function Header(props) {
   // }
 
   const handleNotificationsClick = (e) => {
+    console.log("notification click")
     e.preventDefault();
     window.location.replace('/invitations');
   };
+/*eslint-disable*/
+const [CommunityName, setCommunityName] = React.useState(null);
+const handleGetCommunityInvite=async(e)=>{
+  console.log("inside get community");
+  e.preventDefault();
+  // const userId= localStorage.getItem("user");
+  const data={
+    userId: localStorage.getItem("user")
+  }
+  axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+  axios.defaults.withCredentials = true;
+  const test = await axios.get(`${constants.baseUrl}/community/getcommunityinvite`,data);
+  console.log("------testcheckget----", test.data.data.invitations);
+  const inviteList= test.data.data.invitations;
+  // for (const i in test.data.data.invitations){
+  //   inviteList.push(test.data.data.invitations[i])
+  // }
+  // console.log(inviteList[0])
+
+  var finalArray = inviteList.map(function (obj) {
+    return obj.community_id;
+  });
+  setCommunityName([...finalArray]);
+  console.log("checking123", CommunityName);
+}
+
+const onAcceptInvite=(e)=>{
+  e.preventDefault();
+  const community= e.target.value;
+}
+
+const onRejectInvite=(e)=>{
+  e.preventDefault();
+
+}
 
   const handleChatClick = (e) => {
     e.preventDefault();
@@ -212,10 +251,33 @@ export default function Header(props) {
         </IconButton>
         <p>Messages</p>
       </MenuItem>
-      <MenuItem>
+      <Dropdown>
+        <Dropdown.Toggle className="header-user" id="dropdown-basic">
+            <IconButton aria-label="show 17 new notifications" color="inherit">
+            <Badge badgeContent={17} color="secondary">
+              <NotificationsIcon onClick={handleGetCommunityInvite}/>
+            </Badge>
+            </IconButton>
+        </Dropdown.Toggle>
+        <Dropdown.Menu>
+        {/* {CommunityName && typeof CommunityName === 'object'? <div>
+        {(CommunityName.invitations).map((p) => (
+                            <Dropdown.Item eventKey={p}>{p}</Dropdown.Item>
+                          ))}
+        </div>: <Dropdown.Item>
+        {' '}
+        </Dropdown.Item> } */}
+       
+        {/* <Dropdown.Item>
+        {' '}
+        test
+        </Dropdown.Item> */}
+        </Dropdown.Menu>
+      </Dropdown>
+            <MenuItem>
         <IconButton aria-label="show 17 new notifications" color="inherit">
           <Badge badgeContent={17} color="secondary">
-            <NotificationsIcon onClick={handleNotificationsClick} />
+            <InsertInvitationIcon onClick={handleNotificationsClick} />
           </Badge>
         </IconButton>
         <p>Notifications</p>
@@ -284,9 +346,36 @@ export default function Header(props) {
                       <ChatIcon onClick={handleChatClick} />
                     </Badge>
                   </IconButton>
+                  <Dropdown>
+        <Dropdown.Toggle className="header-user" id="dropdown-basic">
+            <IconButton aria-label="show 17 new notifications" color="inherit">
+            <Badge badgeContent={17} color="secondary">
+              <NotificationsIcon onClick={handleGetCommunityInvite}/>
+            </Badge>
+            </IconButton>
+        </Dropdown.Toggle>
+        <Dropdown.Menu>
+        {CommunityName && typeof CommunityName === 'object'?<div>
+        {CommunityName.map((p) => (
+                            <Dropdown.Item eventKey={p}>{p}
+                              <Button onClick={onAcceptInvite} value={p} variant="outline-secondary">+</Button>{'   '}
+                              <Button onClick={onRejectInvite} value={p} variant="outline-secondary">-</Button>
+                            </Dropdown.Item>
+                          ))}
+                          </div>:<Dropdown.Item>
+        {' '}
+        </Dropdown.Item> }
+       
+        {/* <Dropdown.Item>
+        {' '}
+        test
+        </Dropdown.Item> */}
+        </Dropdown.Menu>
+      </Dropdown>
+
                   <IconButton aria-label="show 17 new notifications" color="inherit">
                     <Badge badgeContent={17} color="secondary">
-                      <NotificationsIcon onClick={handleNotificationsClick} />
+                      <InsertInvitationIcon onClick={handleNotificationsClick} />
                     </Badge>
                   </IconButton>
                   <Dropdown>

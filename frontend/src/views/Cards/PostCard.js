@@ -55,6 +55,7 @@ class PostCard extends React.Component {
   };
 
   getCommunityList = async () => {
+    console.log("test");
     const communities = [];
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
