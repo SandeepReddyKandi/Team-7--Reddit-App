@@ -9,12 +9,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { createBrowserHistory } from 'history';
 import Home from './views/Home/Home';
 import Dashboard from './views/Dashboard/Dashboard';
-import CommunityHomePage from './views/CommunityHomePage/CommunitiyHomePage';
+import CommunityHomePage from './views/CommunityHomePage/CommunityHomePage';
 import CommunitySearchPage from './views/CommunitySearchPage/CommunitySearchPage';
+import CommunityAnalytics from './views/CommunityAnalytics';
 import Chat from './views/Chat/Chat';
 import Invitations from './views/Invitations/Invitations';
 import CreatePost from './views/Post/CreatePost';
 import UserProfile from './views/UserProfile/UserProfile';
+import MyProfile from './views/MyProfile/index';
 import MyCommunity from './views/MyCommunity/MyCommunity';
 import MyCommunityCreate from './views/MyCommunity/MyCommunityCreate';
 import ProtectedRoutes from './views/ProtectedRoutes/ProtectedRoutes';
@@ -29,9 +31,12 @@ function App() {
           <Route exact path="/" component={Home} />
           <Route exact path="/home" component={Home} />
           <ProtectedRoutes exact path="/dashboard" component={Dashboard} />
-          <ProtectedRoutes exact path="/user" component={UserProfile} />
+          <ProtectedRoutes exact path="/users/:uid" component={UserProfile} />
+          <ProtectedRoutes exact path="/my-profile/:userName" component={MyProfile} />
+
           <ProtectedRoutes exact path="/communityhomepage" component={CommunityHomePage} />
           <ProtectedRoutes exact path="/communitysearchpage" component={CommunitySearchPage} />
+          <ProtectedRoutes exact path="/community-analytics" component={CommunityAnalytics} />
           <ProtectedRoutes exact path="/createpost" component={CreatePost} />
           <ProtectedRoutes exact path="/invitations" component={Invitations} />
           <ProtectedRoutes exact path="/chat" component={Chat} />

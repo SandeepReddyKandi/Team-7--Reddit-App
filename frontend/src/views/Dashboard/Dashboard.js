@@ -62,7 +62,7 @@ class Dashboard extends React.Component {
   }
 
   getPost = () => {
-    const userId = localStorage.getItem('user');
+    const userId = localStorage.getItem('userId');
     axios.defaults.headers.common["authorization"] = 'Bearer ' + localStorage.getItem('token')
     axios.defaults.withCredentials = true;
     axios.get(`${constants.baseUrl}/post/?user=${userId}`)
@@ -75,7 +75,8 @@ class Dashboard extends React.Component {
       })
       .catch((error) => {
         console.log(error);
-        this.setState({ errormessage: error.response.data.msg });
+        const errormessage = error.response && error.response.data ? error.response.data.msg : 'Something went wrong while getting posts'
+        this.setState({ errormessage });
       });
   };
 

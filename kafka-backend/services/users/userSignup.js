@@ -10,6 +10,7 @@ const secret = "CMPE_273_Splitwise_secret";
 const handle_request = async (req, callback) => {
   const registerSchema = {
     name: { type: "string", nullable: false },
+    userName: { type: "string", nullable: false },
     email: { type: "email", nullable: false },
     password: { type: "string", min: 6, nullable: false },
   };
@@ -34,8 +35,19 @@ const handle_request = async (req, callback) => {
       await UserModel.find({ email: req.body.email }, (err, docs) => {
         if (docs.length) {
           //return res.status(400).json({ msg: 'Email already registered!' });
-          callback(null, {
+          return callback(null, {
             msg: "Email already exists.",
+            success: false,
+          });
+        }
+      });
+
+      await UserModel.find({ userName: req.body.userName }, (err, docs) => {
+
+        if (docs.length) {
+          //return res.status(400).json({ msg: 'Email already registered!' });
+          return callback(null, {
+            msg: "Username already taken, please use something else.",
             success: false,
           });
         } else {
@@ -46,44 +58,46 @@ const handle_request = async (req, callback) => {
           //create new User instance
           const newUser = new UserModel({
             name: req.body.name,
+            userName: req.body.userName,
             email: req.body.email,
             password: req.body.password,
           });
 
           //register the new user
           newUser
-            .save()
-            .then(() => {
-              const token = jwt.sign(
-                { userId: newUser.id, email: newUser.email },
-                secret,
-                {
-                  expiresIn: "4h",
-                }
-              );
-              // res.cookie('authtkn', token, {
-              //     maxAge: 1000 * 60 * 60 * 4,
-              //     httpOnly: true,
-              // });
-              // res.status(200).json({
-              //     msg: 'Registered successfully',
-              //     userId: newUser.id,
-              // });
+              .save()
+              .then(() => {
+                const token = jwt.sign(
+                    {userId: newUser.id, email: newUser.email},
+                    secret,
+                    {
+                      expiresIn: "4h",
+                    }
+                );
+                // res.cookie('authtkn', token, {
+                //     maxAge: 1000 * 60 * 60 * 4,
+                //     httpOnly: true,
+                // });
+                // res.status(200).json({
+                //     msg: 'Registered successfully',
+                //     userId: newUser.id,
+                // });
 
-              callback(null, {
-                token,
-                msg: "Registered successfully",
-                userId: newUser.id,
-                success: true,
+                callback(null, {
+                  token,
+                  msg: "Registered successfully",
+                  userId: newUser.id,
+                  userName: newUser.userName,
+                  success: true,
+                });
+              })
+              .catch((err) => {
+                // res.status(400).json({ msg: err.message });
+                callback(null, {
+                  msg: err.message,
+                  success: false,
+                });
               });
-            })
-            .catch((err) => {
-              // res.status(400).json({ msg: err.message });
-              callback(null, {
-                msg: err.message,
-                success: false,
-              });
-            });
         }
       });
     } catch (error) {

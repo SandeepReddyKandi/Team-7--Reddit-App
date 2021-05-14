@@ -3,23 +3,24 @@ const Community = require("../../models/CommunityModel");
 const handle_request = async (req, callback) => {
   try {
     const criteria = {};
-    if (req.communityName) {
+    if (req.adminId) {
       criteria.admin_id = req.adminId;
     }
-    Community.find(criteria, (err, response) => {
-      if (err) {
+    console.log("......", criteria)
+    const response = await Community.find(criteria).populate('members');
+      if (typeof response !== 'object') {
         return callback(null, {
-          msg: error.message,
+          msg: "Database issue",
           success: false,
         });
-      } else {
+      } 
+      else {
         return callback(null, {
           msg: "",
           success: true,
           data: response,
         });
-      }
-    });
+      };
   } catch (error) {
     return callback(null, {
       msg: error.message,

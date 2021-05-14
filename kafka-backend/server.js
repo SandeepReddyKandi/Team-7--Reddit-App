@@ -5,11 +5,14 @@ const app = express();
 const {
   USER_LOGIN,
   USER_SIGNUP,
+  GET_USER_BY_USER_NAME,
+  UPDATE_USER_PROFILE,
   GET_USERS_BY_NAME,
   GET_USER_BY_ID,
   GET_COMMUNITY,
   ADD_COMMUNITY,
   GET_COMMUNITY_BY_ID,
+  GET_COMMUNITY_ANALYTICS,
   DELETE_COMMUNITY_BY_ID,
   GET_COMMUNITY_BY_ADMIN,
   GET_COMMUNITY_BY_MEMBER,
@@ -49,8 +52,10 @@ const {
 
 //user
 const userLogin = require("./services/users/userLogin");
+const updateUserProfile = require("./services/users/updateUserProfile");
 const userSignup = require("./services/users/userSignup");
 const getUsersByName = require("./services/users/GetUsersByName");
+const getUserByUserName = require("./services/users/getUserByUserName");
 const getUserById = require("./services/users/GetUserById");
 const getUsers = require("./services/users/getUsers");
 
@@ -59,6 +64,7 @@ const addCommunity = require("./services/Community/AddCommunity");
 const getCommunity = require("./services/Community/GetCommunity");
 const getCommunityById = require("./services/Community/GetCommunityById");
 const getCommunityByAdmin = require("./services/Community/GetCommunityByAdmin");
+const getCommunityAnalytics = require("./services/Community/GetCommunityAnalytics");
 const getCommunityByMember = require("./services/Community/GetCommunityByMember");
 const deleteCommunityById = require("./services/Community/DeleteCommunityById");
 const getCommunityByPage = require("./services/Community/GetCommunityByPage");
@@ -152,7 +158,9 @@ function handleTopicRequest(topic_name, fname) {
 
 // User
 handleTopicRequest(USER_LOGIN, userLogin);
+handleTopicRequest(UPDATE_USER_PROFILE, updateUserProfile);
 handleTopicRequest(USER_SIGNUP, userSignup);
+handleTopicRequest(GET_USER_BY_USER_NAME, getUserByUserName);
 handleTopicRequest(GET_USERS_BY_NAME, getUsersByName);
 handleTopicRequest(GET_USER_BY_ID, getUserById);
 handleTopicRequest(GET_USERS, getUsers);
@@ -167,6 +175,7 @@ handleTopicRequest(GET_COMMUNITY_BY_MEMBER, getCommunityByMember);
 handleTopicRequest(GET_COMMUNITY_BY_ADMIN, getCommunityByAdmin);
 handleTopicRequest(GET_COMMUNITY_BY_PAGE, getCommunityByPage);
 handleTopicRequest(GET_COMMUNITY_NAME_BY_ID, getCommunityNameById);
+handleTopicRequest(GET_COMMUNITY_ANALYTICS, getCommunityAnalytics);
 
 //Post
 handleTopicRequest(ADD_POST_TEXT, addPostText);

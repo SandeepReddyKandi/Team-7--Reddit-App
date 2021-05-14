@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable jsx-a11y/alt-text */
@@ -14,10 +15,11 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import PeopleIcon from '@material-ui/icons/People';
+import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import NotesIcon from '@material-ui/icons/Notes';
 import './TextDisplayCard.css';
 
-const CommunityModerationCard = ({community}) => {
+const CommunityModerationCard = ({community, showModal, requestToggle}) => {
     const [color, setColor] = useState('Azure');
     const onMouseOver = () => setColor('AliceBlue');
     const onMouseOut = () => setColor('Azure')
@@ -72,13 +74,16 @@ const CommunityModerationCard = ({community}) => {
                           paddingLeft:30
                       }}>
                           <IconButton aria-label="add to favorites">
-                              <PeopleIcon />
+                              <PeopleIcon onClick={() => showModal(community.members, community._id)}/>
                           </IconButton>
                           <Typography>{`${community.members.length}`}</Typography>
                           <IconButton aria-label="share">
                               <NotesIcon />
                           </IconButton>
                           <Typography>{`${community.posts.length}`}</Typography>
+                          <IconButton aria-label="share">
+                              <GroupAddIcon onClick={() => requestToggle(community._id)} />
+                          </IconButton>
                       </CardActions>
                   </Row>
               </Col>
