@@ -1,32 +1,30 @@
 const InvitationModel = require("../../models/InvitationModel");
+const CommunityModel = require("../../models/CommunityModel");
+const UserModel = require("../../models/UserModel");
+
 const mongoose = require("mongoose");
 const handle_request = async (req, callback) => {
+  console.log('-----check--',req.userId);
   try {
     const criteria = {
-      $or: [{ sender: mongoose.Types.ObjectId(req.userId) }, { recepient: mongoose.Types.ObjectId(req.userId) }],
+      $and: [{ status: 'pending' }, { recepient: mongoose.Types.ObjectId(req.userId) }],
     };
     let invitations = await InvitationModel.aggregate([
       { $match: criteria },
       {
         $project: {
-          sender: 1,
-          recepient: 1,
           community_id: 1,
-          status: 1,
-          createdAt: 1,
-          updatedAt: 1,
         },
       },
       { $sort: { createdAt: -1 } },
     ])
-      .skip(parseInt(req.page * req.rows))
-      .limit(parseInt(req.rows));
+    //   .skip(parseInt(req.page * req.rows))
+    //   .limit(parseInt(req.rows));
 
-    const totalRows = await InvitationModel.countDocuments(criteria);
-
+    // const totalRows = await InvitationModel.countDocuments(criteria);
+    console.log("check invitations----",invitations);
     let json = {
       invitations,
-      totalRows,
     };
 
     callback(null, {

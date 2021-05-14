@@ -17,6 +17,9 @@ const GET_COMMUNITY_BY_ADMIN = 'getCommunityByAdmin';
 const RATE_COMMUNITY = 'rateCommunity';
 const JOIN_COMMUNITY = 'joinCommunity';
 const GET_RULES_TOPICS = 'getRulesTopics';
+const GET_COMMUNITY_INVITE= 'getcommunityinvite';
+const ACCEPT_COMMUNITY_INVITE='acceptcommunityinvite';
+const REJECT_COMMUNITY_INVITE='rejectcommunityinvite'
 
 //Post
 const ADD_POST = 'addPost';
@@ -90,5 +93,8 @@ module.exports = {
   GET_RULES_TOPICS,
   GET_POST_COMMUNITY,
   ADD_SUB_COMMENT,
-  SEARCH_POST_BY_CRITERIA
+  SEARCH_POST_BY_CRITERIA,
+  GET_COMMUNITY_INVITE,
+  ACCEPT_COMMUNITY_INVITE,
+  REJECT_COMMUNITY_INVITE,
 };

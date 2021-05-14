@@ -16,6 +16,7 @@ import constants from '../../constants/constants';
 import axios from 'axios';
 import {ListGroup, DropdownButton, Dropdown} from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
+import { Carousel } from 'react-bootstrap';
 
 class ImageCard extends React.Component {
   constructor(props) {
@@ -70,6 +71,28 @@ class ImageCard extends React.Component {
   onFileChange(e) {
     this.setState({ imgCollection: e.target.files })
 }
+showimage=(e)=>{
+  console.log("inside show imgae");
+  const imagel= this.state.imageList;
+    <Carousel
+    style={{
+      maxWidth: '400px',
+      maxHeight: '200px',
+      minHeight: '200px',
+      textAlign: 'center',
+    }}
+  >
+    {imagel.map((image) => (
+      <Carousel.Item>
+        <img
+          style={{ maxWidth: '400px', maxHeight: '200px', minHeight: '200px' }}
+          src={image}
+          className="d-block w-100"
+        />
+      </Carousel.Item>
+    ))}
+  </Carousel>
+}
 
 onImageSubmit= async(e)=> {
     e.preventDefault()
@@ -90,6 +113,7 @@ onImageSubmit= async(e)=> {
               console.log(res.data)
           })
     }
+    console.log(this.state.imageList);
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
 }
@@ -161,6 +185,7 @@ onImageSubmit= async(e)=> {
                     <Row>&nbsp;</Row>
                     <div className="container">
                 <div className="row">
+                
                     <form onSubmit={this.onImageSubmit}>
                         <div className="form-group">
                             <input type="file" name="imgCollection" onChange={this.onFileChange} multiple />
@@ -171,6 +196,28 @@ onImageSubmit= async(e)=> {
                     </form>
                 </div>
             </div>
+            <div className="form-group">
+                        <button className="btn btn-primary" type="submit" onClick={this.showimage}>Show Images</button>
+                        <Carousel
+    style={{
+      maxWidth: '400px',
+      maxHeight: '200px',
+      minHeight: '200px',
+      textAlign: 'center',
+    }}
+  >
+    {this.state.imageList.map((image) => (
+      <Carousel.Item>
+        <img
+          style={{ maxWidth: '400px', maxHeight: '200px', minHeight: '200px' }}
+          src={image}
+          className="d-block w-100"
+        />
+      </Carousel.Item>
+    ))}
+  </Carousel>
+                        </div>
+                    <Row>&nbsp;</Row>
                     <Row>&nbsp;</Row>
                     <Row>
                       <Col md={10}>

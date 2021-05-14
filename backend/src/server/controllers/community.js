@@ -17,6 +17,9 @@ const {
   DELETE_COMMUNITY_BY_ID,
   GET_COMMUNITY_BY_PAGE,
   GET_INVITATIONS_BY_PAGE,
+  GET_COMMUNITY_INVITE,
+  ACCEPT_COMMUNITY_INVITE,
+  REJECT_COMMUNITY_INVITE,
 } = require('../kafka/topics');
 
 exports.addCommunity = async (req, res) => {
@@ -220,6 +223,59 @@ exports.getInvitationsByPage = async (req, res) => {
   };
   const payload = data;
   kafka.make_request(GET_INVITATIONS_BY_PAGE, payload, (error, results) => {
+    if (!results.success) {
+      res.status(400).send(results);
+    } else {
+      res.status(200).json({
+        msg: results.msg,
+        data: results.data,
+      });
+    }
+  });
+};
+
+exports.getcommunityinvite = async (req, res) => {
+  // console.log("---",req);
+  const data = {
+    userId: req.user._id,
+  };
+  const payload = data;
+  kafka.make_request(GET_COMMUNITY_INVITE, payload, (error, results) => {
+    if (!results.success) {
+      res.status(400).send(results);
+    } else {
+      res.status(200).json({
+        msg: results.msg,
+        data: results.data,
+      });
+    }
+  });
+};
+
+exports.acceptcommunityinvite = async (req, res) => {
+  const data = {
+    userId: req.user._id,
+    community_id: req.body.community_id
+  };
+  const payload = data;
+  kafka.make_request(ACCEPT_COMMUNITY_INVITE, payload, (error, results) => {
+    if (!results.success) {
+      res.status(400).send(results);
+    } else {
+      res.status(200).json({
+        msg: results.msg,
+        data: results.data,
+      });
+    }
+  });
+};
+
+exports.rejectcommunityinvite = async (req, res) => {
+  const data = {
+    userId: req.body.userId,
+  };
+  const payload = data;
+  kafka.make_request(REJECT_COMMUNITY_INVITE, payload, (error, results) => {
     if (!results.success) {
       res.status(400).send(results);
     } else {

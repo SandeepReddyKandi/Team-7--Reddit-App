@@ -43,6 +43,9 @@ const {
   SORT_POST_BY_DATE,
   ADD_SUB_COMMENT,
   SEARCH_POST_BY_CRITERIA,
+  GET_COMMUNITY_INVITE,
+  ACCEPT_COMMUNITY_INVITE,
+  REJECT_COMMUNITY_INVITE,
 } = require("./kafka/topics");
 
 //user
@@ -85,6 +88,9 @@ const sendInvite = require("./services/Invitation/SendInvite");
 const getStatus = require("./services/Invitation/GetStatus");
 const getInvitations = require("./services/Invitation/GetInvitations");
 const getInvitationsByPage = require("./services/Invitation/GetInvitationsByPage");
+const getcommunityinvite= require('./services/Invitation/GetCommunityInvite');
+const acceptcommunityinvite = require('./services/Invitation/AcceptCommunityInvite');
+const rejectcommunityinvite = require('./services/Invitation/RejectCommunityInvite')
 
 //Post
 const addPostText = require("./services/Post/AddPostText");
@@ -197,3 +203,6 @@ handleTopicRequest(GET_INVITATIONS, getInvitations);
 handleTopicRequest(GET_INVITATIONS_BY_PAGE, getInvitationsByPage);
 handleTopicRequest(SEND_INVITE, sendInvite);
 handleTopicRequest(GET_STATUS, getStatus);
+handleTopicRequest(GET_COMMUNITY_INVITE, getcommunityinvite);
+handleTopicRequest(ACCEPT_COMMUNITY_INVITE, acceptcommunityinvite);
+handleTopicRequest(REJECT_COMMUNITY_INVITE, rejectcommunityinvite);
