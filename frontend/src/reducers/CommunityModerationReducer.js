@@ -63,7 +63,7 @@ export const CommunityModerationReducer = createSlice({
       },
       [removeMemberFromCommunity.fulfilled]: (state,action) => {
         if (action.payload.auth) {
-          state.message = "Successfully approved";
+          state.message = "Successfully removed";
         }
       }
     },

@@ -38,7 +38,7 @@ export const approveInvitataion = createAsyncThunk('community/moderation/approve
 export const removeMemberFromCommunity = createAsyncThunk('community/moderation/removeMember', async (pckg) => {
   axios.defaults.headers.common["authorization"] = 'Bearer ' + localStorage.getItem('token')
   axios.defaults.withCredentials = true;
-  const response = await axios.post(`${constants.baseUrl}/community/approveInvite`, pckg);
+  const response = await axios.post(`${constants.baseUrl}/community/removeUserCommunity`, pckg);
   if (response.status === 200) {
     return { auth: true, response: response.data.msg };
   }

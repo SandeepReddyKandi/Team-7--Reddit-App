@@ -47,8 +47,10 @@ const CommunityModal = ({userList,community, isOpen, exitModal}) => {
     useEffect(() => {
         selectList(userList)
     }, [userList])
+    
     const removeMember = (userId) => {
-        const data = { community_id: community._id, user_id: userId}
+        const data = { community_id: community, user_id: userId}
+        console.log(data);
         dispatch(removeMemberFromCommunity(data));
     }
     return (

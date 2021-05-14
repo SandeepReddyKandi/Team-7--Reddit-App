@@ -28,8 +28,10 @@ const {
   leaveCommunity,
   getCommunityNameById,
   approveInvite,
+  removeUserCommunity,
 } = require('../controllers/community');
 
+router.post('/removeUserCommunity', checkAuth, removeUserCommunity);
 router.post('/approveInvite', checkAuth, approveInvite);
 router.get('/getInvitations', checkAuth, getInvitations);
 router.post('/getInvitationsByPage', checkAuth, getInvitationsByPage);

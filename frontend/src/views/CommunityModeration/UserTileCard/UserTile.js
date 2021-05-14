@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/prefer-stateless-function */
 import React from 'react';
@@ -6,7 +7,7 @@ import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
 import IconButton from '@material-ui/core/IconButton';
 import './UserTile.css';
 
-export default function UserTile({users}) {
+export default function UserTile({users, removeMember}) {
     return (
         <div className="community-section">
             <div className="communities-wrapper">
@@ -24,7 +25,7 @@ export default function UserTile({users}) {
                         </Col>
                         <Col md={{offset:2}}>
                         <IconButton aria-label="share">
-                              <RemoveCircleOutlineIcon onClick={null} />
+                              <RemoveCircleOutlineIcon onClick={() => removeMember(user._id)} />
                           </IconButton>
                         </Col>
                         </Row>

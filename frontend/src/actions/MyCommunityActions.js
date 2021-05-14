@@ -36,4 +36,4 @@ export const getMyCommunity = createAsyncThunk('community/getMyCommunity', async
 });
 
 
-export const clearError = createAsyncThunk('community/addCommunity', async () => ({ auth: true }));
+export const clearError = createAsyncThunk('community/clearError', async () => ({ auth: true }));
