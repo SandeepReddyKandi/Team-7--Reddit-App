@@ -42,6 +42,7 @@ const {
   GET_INVITATIONS_BY_PAGE,
   SORT_POST_BY_DATE,
   ADD_SUB_COMMENT,
+  SEARCH_POST_BY_CRITERIA,
 } = require("./kafka/topics");
 
 //user
@@ -92,6 +93,7 @@ const addPostLink = require("./services/Post/AddPostLink");
 const getPostCommunity = require("./services/Post/GetPostCommunity");
 const downvotePost = require("./services/Post/DownvotePost");
 const sortPostByDATE = require("./services/Post/SortPostByDate");
+const searchPostsByCriteria = require("./services/Post/SearchPostsByCriteria");
 // const getPost = require("./services/Post/GetPost");
 // const getPostbyID = require("./services/Post/GetPostbyID");
 
@@ -137,7 +139,7 @@ function handleTopicRequest(topic_name, fname) {
         },
       ];
       producer.send(payloads, function (err, data) {
-        console.log(data);
+        console.log("Data:",data);
       });
       return;
     });
@@ -180,6 +182,8 @@ handleTopicRequest(DOWNVOTE_POST, downvotePost);
 handleTopicRequest(SORT_POST_BY_UPVOTE, sortPostByUpvote);
 handleTopicRequest(SORT_POST_BY_DOWNVOTE, sortPostByDownvote);
 handleTopicRequest(SORT_POST_BY_DATE, sortPostByDATE);
+handleTopicRequest(SORT_POST_BY_DATE, sortPostByDATE);
+handleTopicRequest(SEARCH_POST_BY_CRITERIA, searchPostsByCriteria);
 
 //Comment
 handleTopicRequest(ADD_COMMENT, addComment);
