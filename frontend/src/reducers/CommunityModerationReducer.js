@@ -31,7 +31,7 @@ export const CommunityModerationReducer = createSlice({
       },
       [getMyInvitations.fulfilled]: (state, action) => {
         if (action.payload.auth) {
-          state.community = action.payload.response;
+          state.invitations = action.payload.response;
         }
         else{
           state.error = "No data found";

@@ -26,6 +26,8 @@ const {
   DOWNVOTE_COMMENT,
   SORT_POST_BY_UPVOTE,
   SORT_POST_BY_DOWNVOTE,
+  GET_INVITATIONS_FOR_COMMUNITY,
+  APPROVE_INVITE,
   // GET_POST,
   // GET_POST_BY_ID
   GET_COMMUNITY_BY_NAME,
@@ -33,6 +35,7 @@ const {
   GET_RULES_TOPICS,
   RATE_COMMUNITY,
   GET_COMMUNITY_VOTE_COUNT,
+  GET_COMMUNITY_NAME_BY_ID,
   ADD_POST,
   GET_POST_BY_PAGE,
   ADD_COMMENT,
@@ -47,6 +50,11 @@ const {
   SORT_POST_BY_DATE,
   ADD_SUB_COMMENT,
   SEARCH_POST_BY_CRITERIA,
+  GET_COMMUNITY_INVITE,
+  ACCEPT_COMMUNITY_INVITE,
+  REJECT_COMMUNITY_INVITE,
+  LEAVE_COMMUNITY,
+  SORT_DASHPOSTS_BY_UPVOTES,
 } = require("./kafka/topics");
 
 //user
@@ -71,6 +79,8 @@ const getCommunityByName = require("./services/Community/GetCommunityByName");
 const rateCommunity = require("./services/Community/RateCommunity");
 const getCommunityVoteCount = require("./services/Community/GetCommunityVoteCount");
 const getRulesTopics = require("./services/Community/GetRulesTopics");
+const leaveCommunity = require("./services/Community/LeaveCommunity");
+const getCommunityNameById = require("./services/Community/GetCommunityNameById");
 
 //Post
 const addPost = require("./services/Post/AddPost");
@@ -93,6 +103,11 @@ const sendInvite = require("./services/Invitation/SendInvite");
 const getStatus = require("./services/Invitation/GetStatus");
 const getInvitations = require("./services/Invitation/GetInvitations");
 const getInvitationsByPage = require("./services/Invitation/GetInvitationsByPage");
+const getcommunityinvite= require('./services/Invitation/GetCommunityInvite');
+const acceptcommunityinvite = require('./services/Invitation/AcceptCommunityInvite');
+const rejectcommunityinvite = require('./services/Invitation/RejectCommunityInvite')
+const getInvitationsForCommunity = require("./services/Invitation/GetInvitationsForCommunity");
+const approveInvite = require("./services/Invitation/ApproveInvite");
 
 //Post
 const addPostText = require("./services/Post/AddPostText");
@@ -102,6 +117,7 @@ const getPostCommunity = require("./services/Post/GetPostCommunity");
 const downvotePost = require("./services/Post/DownvotePost");
 const sortPostByDATE = require("./services/Post/SortPostByDate");
 const searchPostsByCriteria = require("./services/Post/SearchPostsByCriteria");
+const sortDashPostsByUpvotes = require("./services/Post/SortDashPostsByUpvotes");
 // const getPost = require("./services/Post/GetPost");
 // const getPostbyID = require("./services/Post/GetPostbyID");
 
@@ -147,7 +163,7 @@ function handleTopicRequest(topic_name, fname) {
         },
       ];
       producer.send(payloads, function (err, data) {
-        console.log("Data:",data);
+        console.log("Data:", data);
       });
       return;
     });
@@ -172,6 +188,7 @@ handleTopicRequest(DELETE_COMMUNITY_BY_ID, deleteCommunityById);
 handleTopicRequest(GET_COMMUNITY_BY_MEMBER, getCommunityByMember);
 handleTopicRequest(GET_COMMUNITY_BY_ADMIN, getCommunityByAdmin);
 handleTopicRequest(GET_COMMUNITY_BY_PAGE, getCommunityByPage);
+handleTopicRequest(GET_COMMUNITY_NAME_BY_ID, getCommunityNameById);
 handleTopicRequest(GET_COMMUNITY_ANALYTICS, getCommunityAnalytics);
 
 //Post
@@ -196,6 +213,7 @@ handleTopicRequest(SORT_POST_BY_DOWNVOTE, sortPostByDownvote);
 handleTopicRequest(SORT_POST_BY_DATE, sortPostByDATE);
 handleTopicRequest(SORT_POST_BY_DATE, sortPostByDATE);
 handleTopicRequest(SEARCH_POST_BY_CRITERIA, searchPostsByCriteria);
+handleTopicRequest(SORT_DASHPOSTS_BY_UPVOTES, sortDashPostsByUpvotes);
 
 //Comment
 handleTopicRequest(ADD_COMMENT, addComment);
@@ -209,3 +227,9 @@ handleTopicRequest(GET_INVITATIONS, getInvitations);
 handleTopicRequest(GET_INVITATIONS_BY_PAGE, getInvitationsByPage);
 handleTopicRequest(SEND_INVITE, sendInvite);
 handleTopicRequest(GET_STATUS, getStatus);
+handleTopicRequest(GET_COMMUNITY_INVITE, getcommunityinvite);
+handleTopicRequest(ACCEPT_COMMUNITY_INVITE, acceptcommunityinvite);
+handleTopicRequest(REJECT_COMMUNITY_INVITE, rejectcommunityinvite);
+handleTopicRequest(LEAVE_COMMUNITY, leaveCommunity);
+handleTopicRequest(GET_INVITATIONS_FOR_COMMUNITY, getInvitationsForCommunity);
+handleTopicRequest(APPROVE_INVITE, approveInvite);

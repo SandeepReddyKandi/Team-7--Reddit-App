@@ -28,7 +28,7 @@ const CommunityModerationCard = ({community, showModal, requestToggle}) => {
           <Card
           onMouseOver={onMouseOver}
           onMouseOut={onMouseOut}
-          style={{backgroundColor: color}}>
+          style={{backgroundColor: color, maxHeight: "300px"}}>
           <Row style={{marginTop: "1%"}}>
               <Col md={8}>
                   <Row>
@@ -62,7 +62,7 @@ const CommunityModerationCard = ({community, showModal, requestToggle}) => {
                       </Col>
                   </Row>
                   <Row>
-                      <CardContent >
+                      <CardContent style={{maxHeight: "20px"}}>
                           <Typography variant="body2" color="textSecondary" component="p" style={{
                               paddingLeft:60
                           }}>{community.description}
@@ -90,6 +90,9 @@ const CommunityModerationCard = ({community, showModal, requestToggle}) => {
           </Row>
         </Card>
           </div>
-      )
+    )
+}
+CommunityModerationCard.defaultProps = {
+    community: {members: [], posts: []}
 }
 export default CommunityModerationCard

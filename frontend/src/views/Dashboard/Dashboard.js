@@ -2,22 +2,21 @@
 /* eslint-disable  dot-notation */
 /* eslint-disable prefer-template */
 /* eslint-disable react/self-closing-comp */
-/* eslint-disable no-unused-vars */
+/* eslint-disable */
 import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import axios from 'axios';
-import SearchBar from "material-ui-search-bar";
+import SearchBar from 'material-ui-search-bar';
 import AppBar from '@material-ui/core/AppBar';
 import Header from '../Header/Header';
 import DashboardAppBar from '../ToolBar/DashboardAppBar';
-import TextDisplayCard from '../Cards/TextDisplayCard';
+import TextDisplayDashboardCard from '../Cards/TextDisplayDashboardCard';
 import SideBar from './Sidebar/Sidebar';
 import TopBar from '../ToolBar/TopBar';
 import constants from '../../constants/constants';
 import AdvertisementCard from '../Cards/AdvertisementCard/AdvertisementCard';
-
 
 class Dashboard extends React.Component {
   constructor() {
@@ -26,7 +25,7 @@ class Dashboard extends React.Component {
       errormessage: '',
       posts: [],
       searchText: '',
-      searchResult: []
+      searchResult: [],
     };
   }
 
@@ -35,37 +34,37 @@ class Dashboard extends React.Component {
   }
 
   handleSearchChange = (e) => {
-    console.log("handleSearchChange: ", e);
-    this.state.searchText = e;
-    // setSearchText(e);
-  }
+    this.setState({ searchText: e });
+  };
 
   handleSearchRequest = async (e) => {
-    console.log("handleSearchRequest: ", e);
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
     setTimeout(async () => {
       await axios
-        .get(`${constants.baseUrl}/posts/searchPostsCriteria?searchText=${this.searchText}`)
+        .get(`${constants.baseUrl}/posts/searchPostsCriteria?searchText=${this.state.searchText}`)
         .then((response, error) => {
           if (!error) {
-            console.log("Response: ", response);
-            this.state.searchResult = response.data.data;
-            // setSearchResult(response.data.data);
+            this.setState({ searchResult: response.data.data });
+            this.getFilteredPost();
+          } else {
+            console.log('Error: ', error);
           }
-          else {
-            console.log("Error: ", error);
-          }
-        })
-    }, 10)
+        });
+    }, 10);
+  };
 
-  }
+  getFilteredPost = () => {
+    if (this.state.searchResult.length > 0) this.setState({ posts: this.state.searchResult });
+    else this.getPost();
+  };
 
   getPost = () => {
     const userId = localStorage.getItem('userId');
-    axios.defaults.headers.common["authorization"] = 'Bearer ' + localStorage.getItem('token')
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
-    axios.get(`${constants.baseUrl}/post/?user=${userId}`)
+    axios
+      .get(`${constants.baseUrl}/post/?user=${userId}`)
       .then((response, error) => {
         if (error) {
           this.setState({ errormessage: error.msg });
@@ -75,14 +74,96 @@ class Dashboard extends React.Component {
       })
       .catch((error) => {
         console.log(error);
-        const errormessage = error.response && error.response.data ? error.response.data.msg : 'Something went wrong while getting posts'
+        const errormessage =
+          error.response && error.response.data
+            ? error.response.data.msg
+            : 'Something went wrong while getting posts';
         this.setState({ errormessage });
+      });
+  };
+
+  sortPostByUpvote = async () => {
+    //const { community, page, rows } = this.state;
+    const data = {
+      userId: localStorage.getItem('user'),
+    };
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    axios.defaults.withCredentials = true;
+    await axios
+      .post(`${constants.baseUrl}/posts/sortDashPostsByUpvotes`, data)
+      .then((response, error) => {
+        if (!error) {
+          //if (this.state.searchResult.length > 0){
+          this.state.searchResult.forEach((element) => {
+            console.log('element', element);
+          });
+          //} else {
+          // this.setState({
+          //   posts: response.data.data,
+          // });
+          // }
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        // this.setState({ errormessage: error.response.data.msg });
+      });
+  };
+
+  sortPostByUser = async () => {
+    const { community, page, rows } = this.state;
+    const data = {
+      userId: localStorage.getItem('user'),
+      id: community._id,
+      page,
+      rows,
+    };
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    axios.defaults.withCredentials = true;
+    await axios
+      .post(`${constants.baseUrl}/post/downvote/sort`, data)
+      .then((response, error) => {
+        if (!error) {
+          this.setState({
+            posts: response.data.data,
+            totalRows: response.data.data.length,
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        // this.setState({ errormessage: error.response.data.msg });
+      });
+  };
+
+  sortPostByComment = async () => {
+    const { community, page, rows } = this.state;
+    const data = {
+      userId: localStorage.getItem('user'),
+      id: community._id,
+      page,
+      rows,
+    };
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    axios.defaults.withCredentials = true;
+    await axios
+      .post(`${constants.baseUrl}/post/date/sort`, data)
+      .then((response, error) => {
+        if (!error) {
+          this.setState({
+            posts: response.data.data,
+            totalRows: response.data.data.length,
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        // this.setState({ errormessage: error.response.data.msg });
       });
   };
 
   render() {
     const { errormessage, posts } = this.state;
-
     return (
       <div>
         <Header />
@@ -91,23 +172,30 @@ class Dashboard extends React.Component {
             <div className="alert alert-danger" role="alert">
               {errormessage}
             </div>
-          ) : null
-          }
+          ) : null}
           <Row>
             <Col md={8}>
               <br />
-              <DashboardAppBar />
+              <DashboardAppBar
+                upvote={this.sortPostByUpvote}
+                user={this.sortPostByUser}
+                comment={this.sortPostByComment}
+                show={this.handleModal}
+              ></DashboardAppBar>
               <AppBar position="static" color="white" style={{ marginBottom: '10px' }}>
-                <SearchBar style={{ width: '100%' }}
-                  value="" placeholder="Search Posts..."
+                <SearchBar
+                  style={{ width: '100%' }}
+                  value=""
+                  placeholder="Search Posts..."
                   onChange={this.handleSearchChange}
                   onRequestSearch={this.handleSearchRequest}
                 />
               </AppBar>
 
               <TopBar style={{ marginTop: '2%' }} />
+              {!posts.length && <div>Nothing to show</div>}
               {posts.map((p) => (
-                <TextDisplayCard post={p} />
+                <TextDisplayDashboardCard post={p} />
               ))}
             </Col>
             <Col md={4}>
@@ -118,7 +206,8 @@ class Dashboard extends React.Component {
                     borderRadius: 'var(--border-radius)',
                     border: '1px solid darkgray',
                     backgroundColor: 'white',
-                  }}>
+                  }}
+                >
                   <SideBar />
                 </div>
               </Row>

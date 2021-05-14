@@ -1,70 +1,74 @@
 import React from 'react';
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import axios from "axios";
-import {Line} from "react-chartjs-2/dist";
-import Header from "../Header/Header";
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import axios from 'axios';
+import { Line } from 'react-chartjs-2/dist';
+import Header from '../Header/Header';
 import './community-analytics.css';
-import UserCard from "../UserCard";
-import CommunityCard from "../CommunityCard";
-import constants from "../../constants/constants";
-import TextDisplayCard from "../Cards/TextDisplayCard";
-
+import UserCard from '../UserCard';
+import CommunityCard from '../CommunityCard';
+import constants from '../../constants/constants';
+import TextDisplayCard from '../Cards/TextDisplayCard';
 
 const options = {
-    scales: {
-        yAxes: [{
-            ticks: {
-                beginAtZero: true,
-            },
-        }],
-    },
+  scales: {
+    yAxes: [
+      {
+        ticks: {
+          beginAtZero: true,
+        },
+      },
+    ],
+  },
 };
 
 class CommunityAnalytics extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            activeUserChart: {
-                data: {
-                    label: [],
-                    datasets: [],
-                },
-                options: {}
-            },
-            postsChart: {
-                data: {
-                    label: [],
-                    datasets: [],
-                },
-                options: {}
-            },
-            mostActiveCommunity: {
-                avatar: 'https://picsum.photos/200/300/?blur',
-                name: 'Hello SJSU!',
-                id: 'r/hello-sjsu',
-                about: 'All the cool discussion going on in our SJSU University!'
-            },
-            analyticsData: {}
-        }
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeUserChart: {
+        data: {
+          label: [],
+          datasets: [],
+        },
+        options: {},
+      },
+      postsChart: {
+        data: {
+          label: [],
+          datasets: [],
+        },
+        options: {},
+      },
+      mostActiveCommunity: {
+        avatar: 'https://picsum.photos/200/300/?blur',
+        name: 'Hello SJSU!',
+        id: 'r/hello-sjsu',
+        about: 'All the cool discussion going on in our SJSU University!',
+      },
+      analyticsData: {},
+    };
+  }
 
-    componentDidMount() {
-        // Call API to get the community analytics community/get-community-analytics
-        axios.post(`${constants.baseUrl}/community/get-community-analytics`, {
-            adminId: localStorage.getItem('userId'),
-            headers: { authorization: `Bearer ${localStorage.getItem('token')}` },
-        }).then((response, error) => {
-            if (error) {
-                console.log(response);
-            } else {
-                this.transformAnalyticsData(response.data);
-            }
-        }).catch((error) => {
-            console.log(error);
-        });
-    }
+  componentDidMount() {
+    // Call API to get the community analytics community/get-community-analytics
+    axios
+      .post(`${constants.baseUrl}/community/get-community-analytics`, {
+        adminId: localStorage.getItem('userId'),
+        headers: { authorization: `Bearer ${localStorage.getItem('token')}` },
+      })
+      .then((response, error) => {
+        if (error) {
+          console.log(response);
+        } else {
+          this.transformAnalyticsData(response.data);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
     getMostActiveCommunityDetails(maxUpvotesCommId) {
         // get the community details by comm-ID
@@ -86,7 +90,6 @@ class CommunityAnalytics extends React.Component {
     transformAnalyticsData = async (param) => {
 
         const data = param ? param.data : {};
-        console.log('data is', data);
         const memberData = {
             labels: [], // Ids of group
             datasets: [
@@ -114,11 +117,11 @@ class CommunityAnalytics extends React.Component {
             ],
         };
 
-        const commNameLabels = []
-        const postPerComm = []
-        const memPerComm = []
-        let maxUpvotes = 0;
-        let maxUpvotesCommId = '';
+    const commNameLabels = [];
+    const postPerComm = [];
+    const memPerComm = [];
+    let maxUpvotes = 0;
+    let maxUpvotesCommId = '';
 
         Object.keys(data).forEach((commId) => {
             commNameLabels.push(data[commId].communityName);
@@ -135,20 +138,20 @@ class CommunityAnalytics extends React.Component {
         memberData.labels = commNameLabels;
         memberData.datasets[0].data = memPerComm;
 
-        this.setState({
-            activeUserChart: {
-                data: memberData,
-                options,
-            },
-            postsChart : {
-                data: postData,
-                options,
-            },
-            analyticsData: data || {},
-        });
+    this.setState({
+      activeUserChart: {
+        data: memberData,
+        options,
+      },
+      postsChart: {
+        data: postData,
+        options,
+      },
+      analyticsData: data || {},
+    });
 
-        this.getMostActiveCommunityDetails(maxUpvotesCommId);
-    }
+    this.getMostActiveCommunityDetails(maxUpvotesCommId);
+  };
 
     render() {
         const { analyticsData, activeUserChart, postsChart, mostActiveCommunity } = this.state;
@@ -180,13 +183,13 @@ class CommunityAnalytics extends React.Component {
                                 <div className='comm-card-head'>Active User Info For Each Community</div>
                             </div>
 
-                            <div className='comm-card'>
-                                <Line data={activeUserChart.data} options={activeUserChart.options} />
-                            </div>
+              <div className="comm-card">
+                <Line data={activeUserChart.data} options={activeUserChart.options} />
+              </div>
 
-                            <div className='comm-card'>
-                                <div className='comm-card-head'>Posts Info For Each Community</div>
-                            </div>
+              <div className="comm-card">
+                <div className="comm-card-head">Posts Info For Each Community</div>
+              </div>
 
                             <div className='comm-card'>
                                 <Line data={postsChart.data} options={postsChart.options} />

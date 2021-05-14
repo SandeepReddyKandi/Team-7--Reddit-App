@@ -1,17 +1,15 @@
-const PostModel = require("../../models/PostModel");
+const Community = require("../../models/CommunityModel");
 
 const handle_request = async (req, callback) => {
   try {
-    let posts = await PostModel.find({ _id: req.post_id }).populate(
-      "author_id"
-    );
+    const response = await Community.findById(req.id, { community_name: 1 });
     callback(null, {
       msg: "",
-      data: posts,
       success: true,
+      data: response.community_name,
     });
   } catch (error) {
-    callback(null, {
+    return callback(null, {
       msg: error.message,
       success: false,
     });

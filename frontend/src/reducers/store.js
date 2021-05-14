@@ -4,6 +4,8 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import MyCommunityReducer from './MyCommunityReducer';
 import CommunityHomePageReducer from './CommunityHomePageReducer';
 import CommunityModerationReducer from './CommunityModerationReducer';
+import UserReducer from './UserReducer';
+import PostReducer from './PostReducer';
 
 export default configureStore(
   {
@@ -11,6 +13,8 @@ export default configureStore(
       addCommunity: MyCommunityReducer,
       communityHome: CommunityHomePageReducer,
       communitymoderation: CommunityModerationReducer,
+      user: UserReducer,
+      post: PostReducer,
     },
   },
   composeWithDevTools()
