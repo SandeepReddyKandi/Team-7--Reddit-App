@@ -19,13 +19,14 @@ import constants from '../../constants/constants';
 import AdvertisementCard from '../Cards/AdvertisementCard/AdvertisementCard';
 
 class Dashboard extends React.Component {
+
   constructor() {
     super();
     this.state = {
       errormessage: '',
       posts: [],
       searchText: '',
-      searchResult: [],
+      searchResult: []
     };
   }
 

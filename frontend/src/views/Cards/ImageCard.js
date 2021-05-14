@@ -62,6 +62,7 @@ class ImageCard extends React.Component {
     axios.defaults.headers.common["authorization"] = 'Bearer ' + localStorage.getItem('token')
     axios.defaults.withCredentials = true;
     const data= await axios.get(`${constants.baseUrl}/community/communities`);
+    console.log(data)
     if(data.data.data){
       (data.data.data).map((d)=>communities.push(d.community_name))
       this.setState({communityList:communities});
@@ -219,6 +220,8 @@ onImageSubmit= async(e)=> {
                         </div> */}
                     <Row>&nbsp;</Row>
                     <Row>&nbsp;</Row>
+                    <br/>
+                    <br/>
                     <Row>
                       <Col md={10}>
                         {' '}

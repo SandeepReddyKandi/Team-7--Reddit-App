@@ -31,8 +31,6 @@ const UserDetailsCard = ({ user, isMyProfile }) => {
         });
     }, [user.userName])
 
-
-
     const handleChange = (e) => {
         console.log( formData);
         setFormData({
@@ -125,7 +123,6 @@ const UserDetailsCard = ({ user, isMyProfile }) => {
                     </div>
                 </div>
                 <div className='edit-btns-container'>
-
                     {
                         !showEditForm && isMyProfile && (
                             <button className='round-btn red-btn' type='button' onClick={() => setShowEditForm(true)}>
@@ -156,7 +153,6 @@ const UserDetailsCard = ({ user, isMyProfile }) => {
         </div>
     )
 }
-
 
 UserDetailsCard.propTypes = {
     user: PropTypes.shape({

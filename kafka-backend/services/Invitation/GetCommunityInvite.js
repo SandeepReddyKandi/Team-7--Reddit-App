@@ -4,7 +4,6 @@ const UserModel = require("../../models/UserModel");
 
 const mongoose = require("mongoose");
 const handle_request = async (req, callback) => {
-  console.log('-----check--',req.userId);
   try {
     const criteria = {
       $and: [{ status: 'pending' }, { recepient: mongoose.Types.ObjectId(req.userId) }],
@@ -22,9 +21,18 @@ const handle_request = async (req, callback) => {
     //   .limit(parseInt(req.rows));
 
     // const totalRows = await InvitationModel.countDocuments(criteria);
-    console.log("check invitations----",invitations);
+    const list=[]
+    for (let i in invitations){
+      list.push(invitations[i].community_id)
+    }
+    const community= await CommunityModel.find({_id:{$in: list}})
+    const communitylist=[]
+    for(let j in community){
+      communitylist.push(community[j].community_id)
+    }
+
     let json = {
-      invitations,
+      communitylist,
     };
 
     callback(null, {
