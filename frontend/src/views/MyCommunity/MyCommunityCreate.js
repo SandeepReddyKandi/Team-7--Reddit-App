@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable consistent-return */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable react/no-string-refs */
@@ -25,10 +26,12 @@ import Badge from 'react-bootstrap/Badge';
 import { useSelector, useDispatch } from 'react-redux';
 import { Hint } from 'react-autocomplete-hint';
 import { FaTimes } from 'react-icons/fa';
+import { ToastContainer, toast } from 'react-toastify';
 import { addCommunity, getRulesTopic, clearError } from '../../actions/MyCommunityActions';
 import Header from '../Header/Header';
 import logo from '../../side_bg.jpeg';
-import constants from "../../constants/constants"
+import constants from "../../constants/constants";
+import 'react-toastify/dist/ReactToastify.css';
 
 // eslint-disable-next-line arrow-body-style
 const MyCommunityCreate = () => {
@@ -41,6 +44,7 @@ const MyCommunityCreate = () => {
   const [halfRule, addHalf] = useState('');
   const [imageURL, addImageURL] = useState(null);
   const [showDesc, changeShow] = useState(false);
+  const notify = (message) => toast(message);
   const inputrules = React.useRef();
   const dispatch = useDispatch();
   const [textState, setTextState] = useState();
@@ -57,6 +61,14 @@ const MyCommunityCreate = () => {
       setSuccess(true)
     }
   }, [reduxData.success])
+
+  useEffect(() => {
+    if (reduxData.error){
+      notify(reduxData.feed);
+      dispatch(clearError())
+    }
+  }, [reduxData.error])
+
 
   const onFileUpload = (file) => {
     const formData = new FormData();
@@ -160,6 +172,7 @@ const MyCommunityCreate = () => {
   };
   return (
     <>
+      <ToastContainer/>
       {success ? <Redirect to="/dashboard" /> : null}
       <Header />
       <Row>
