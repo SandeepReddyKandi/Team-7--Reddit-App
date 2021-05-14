@@ -1,6 +1,6 @@
 const kafka = require('../kafka/client');
 const { ADD_POST_TEXT, ADD_POST_IMAGE, ADD_POST_LINK, GET_POST, GET_POST_COMMUNITY, GET_POST_BY_ID,
-  SEARCH_POST_BY_CRITERIA } = require('../kafka/topics');
+  SEARCH_POST_BY_CRITERIA, SORT_DASHPOSTS_BY_UPVOTES } = require('../kafka/topics');
 var { auth, checkAuth } = require('../utils/passport')
 auth();
 
@@ -118,7 +118,26 @@ exports.searchPostsCriteria = async (req, res) => {
       console.log("error:", results);
       res.status(400).send(results);
     } else {
-       console.log("results:", results);
+      console.log("results:", results);
+      res.status(200).json({
+        msg: results.msg,
+        data: results.data,
+      });
+    }
+  });
+};
+
+exports.sortDashPostsByUpvotes = async (req, res) => {
+  const payload = {
+    userId: req.body.userId
+  };
+  console.log("payload is:", payload);
+  kafka.make_request(SORT_DASHPOSTS_BY_UPVOTES, payload, (error, results) => {
+    if (!results.success) {
+      console.log("error:", results);
+      res.status(400).send(results);
+    } else {
+      console.log("results:", results);
       res.status(200).json({
         msg: results.msg,
         data: results.data,

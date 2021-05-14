@@ -1,6 +1,8 @@
 // User
 const USER_LOGIN = 'userLogin';
 const USER_SIGNUP = 'userSignup';
+const GET_USER_BY_USER_NAME = 'getUserByUserName';
+const UPDATE_USER_PROFILE = 'updateUserProfile';
 const GET_USERS_BY_NAME = 'getUsersByName';
 const GET_USERS = 'getUsers';
 const GET_USER_BY_ID = 'getUserById';
@@ -14,11 +16,16 @@ const GET_COMMUNITY_BY_PAGE = 'getCommunityByPage';
 const GET_COMMUNITY_BY_NAME = 'getCommunityByName';
 const GET_COMMUNITY_BY_MEMBER = 'getCommunityByMember';
 const GET_COMMUNITY_BY_ADMIN = 'getCommunityByAdmin';
+const GET_COMMUNITY_ANALYTICS = 'getCommunityAnalytics';
 const RATE_COMMUNITY = 'voteCommunity';
 const GET_COMMUNITY_VOTE_COUNT = 'getCommunityVoteCount';
 const JOIN_COMMUNITY = 'joinCommunity';
 const GET_RULES_TOPICS = 'getRulesTopics';
+<<<<<<< HEAD
 const LEAVE_COMMUNITY = 'leaveCommunity';
+=======
+const GET_COMMUNITY_NAME_BY_ID = 'getCommunityNameById';
+>>>>>>> d1d0d71a96dd812b07ec1a4964c3d1ae52d4ed82
 
 //Post
 const ADD_POST = 'addPost';
@@ -35,6 +42,7 @@ const GET_POST_COMMUNITY = 'getPostCommunity';
 const SORT_POST_BY_UPVOTE = 'sortPostByUpvote';
 const SORT_POST_BY_DATE = 'sortPostByDate';
 const SEARCH_POST_BY_CRITERIA = 'searchPostByCriteria';
+const SORT_DASHPOSTS_BY_UPVOTES = 'sortDashPostsByUpvotes';
 
 //Comment
 const ADD_COMMENT = 'addComments';
@@ -48,12 +56,16 @@ const SEND_INVITE = 'sendInvite';
 const GET_STATUS = 'getStatus';
 const GET_INVITATIONS = 'getInvitations';
 const GET_INVITATIONS_BY_PAGE = 'getinvitationsByPage';
+const GET_INVITATIONS_FOR_COMMUNITY = 'getInvitationsForCommunity';
+const APPROVE_INVITE = 'approveInvite';
 
 // const GET_POST_BY_ID='getPostbyID';
 
 module.exports = {
   USER_LOGIN,
   USER_SIGNUP,
+  GET_USER_BY_USER_NAME,
+  UPDATE_USER_PROFILE,
   GET_USERS_BY_NAME,
   GET_USER_BY_ID,
   GET_USERS,
@@ -71,14 +83,17 @@ module.exports = {
   SORT_POST_BY_UPVOTE,
   SORT_POST_BY_DOWNVOTE,
   SORT_POST_BY_DATE,
+  APPROVE_INVITE,
   // GET_POST,
   // GET_POST_BY_ID
   GET_COMMUNITY_BY_NAME,
   GET_COMMUNITY_BY_PAGE,
   GET_COMMUNITY_BY_MEMBER,
   GET_COMMUNITY_BY_ADMIN,
+  GET_COMMUNITY_ANALYTICS,
   RATE_COMMUNITY,
   GET_COMMUNITY_VOTE_COUNT,
+  GET_COMMUNITY_NAME_BY_ID,
   ADD_POST,
   GET_POST,
   ADD_COMMENT,
@@ -88,11 +103,16 @@ module.exports = {
   JOIN_COMMUNITY,
   GET_INVITATIONS,
   GET_INVITATIONS_BY_PAGE,
+  GET_INVITATIONS_FOR_COMMUNITY,
   GET_STATUS,
   GET_POST_BY_ID,
   GET_RULES_TOPICS,
   GET_POST_COMMUNITY,
   ADD_SUB_COMMENT,
   SEARCH_POST_BY_CRITERIA,
+<<<<<<< HEAD
   LEAVE_COMMUNITY,
+=======
+  SORT_DASHPOSTS_BY_UPVOTES,
+>>>>>>> d1d0d71a96dd812b07ec1a4964c3d1ae52d4ed82
 };

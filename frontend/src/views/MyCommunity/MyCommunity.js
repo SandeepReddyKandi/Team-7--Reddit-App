@@ -36,9 +36,9 @@ const MyCommunity = () => {
   const reduxData = useSelector((state) => state.addCommunity);
   const [page, setPage] = useState([]);
   const [totalPage, setTotalPage] = useState(reduxData.community.length);
-  
+
   useEffect(() => {
-    dispatch(getMyCommunity(localStorage.getItem('user')))
+    dispatch(getMyCommunity(localStorage.getItem('userId')))
   }, [dispatch])
 
   const input = document.querySelector('topic');
@@ -91,7 +91,7 @@ const MyCommunity = () => {
                   onChangeRowsPerPage={null}
                   rowsPerPageOptions={[2, 5, 10]}
                 />
-          {reduxData.community.length > 0 ? 
+          {reduxData.community.length > 0 ?
             <div>{reduxData.community.map((community) => <MyCommunityCard community={community} />)}</div>
           : null}
           <TablePagination

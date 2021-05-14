@@ -5,11 +5,14 @@ const app = express();
 const {
   USER_LOGIN,
   USER_SIGNUP,
+  GET_USER_BY_USER_NAME,
+  UPDATE_USER_PROFILE,
   GET_USERS_BY_NAME,
   GET_USER_BY_ID,
   GET_COMMUNITY,
   ADD_COMMUNITY,
   GET_COMMUNITY_BY_ID,
+  GET_COMMUNITY_ANALYTICS,
   DELETE_COMMUNITY_BY_ID,
   GET_COMMUNITY_BY_ADMIN,
   GET_COMMUNITY_BY_MEMBER,
@@ -23,6 +26,8 @@ const {
   DOWNVOTE_COMMENT,
   SORT_POST_BY_UPVOTE,
   SORT_POST_BY_DOWNVOTE,
+  GET_INVITATIONS_FOR_COMMUNITY,
+  APPROVE_INVITE,
   // GET_POST,
   // GET_POST_BY_ID
   GET_COMMUNITY_BY_NAME,
@@ -30,6 +35,7 @@ const {
   GET_RULES_TOPICS,
   RATE_COMMUNITY,
   GET_COMMUNITY_VOTE_COUNT,
+  GET_COMMUNITY_NAME_BY_ID,
   ADD_POST,
   GET_POST_BY_PAGE,
   ADD_COMMENT,
@@ -45,12 +51,15 @@ const {
   ADD_SUB_COMMENT,
   SEARCH_POST_BY_CRITERIA,
   LEAVE_COMMUNITY,
+  SORT_DASHPOSTS_BY_UPVOTES
 } = require("./kafka/topics");
 
 //user
 const userLogin = require("./services/users/userLogin");
+const updateUserProfile = require("./services/users/updateUserProfile");
 const userSignup = require("./services/users/userSignup");
 const getUsersByName = require("./services/users/GetUsersByName");
+const getUserByUserName = require("./services/users/getUserByUserName");
 const getUserById = require("./services/users/GetUserById");
 const getUsers = require("./services/users/getUsers");
 
@@ -59,6 +68,7 @@ const addCommunity = require("./services/Community/AddCommunity");
 const getCommunity = require("./services/Community/GetCommunity");
 const getCommunityById = require("./services/Community/GetCommunityById");
 const getCommunityByAdmin = require("./services/Community/GetCommunityByAdmin");
+const getCommunityAnalytics = require("./services/Community/GetCommunityAnalytics");
 const getCommunityByMember = require("./services/Community/GetCommunityByMember");
 const deleteCommunityById = require("./services/Community/DeleteCommunityById");
 const getCommunityByPage = require("./services/Community/GetCommunityByPage");
@@ -66,7 +76,11 @@ const getCommunityByName = require("./services/Community/GetCommunityByName");
 const rateCommunity = require("./services/Community/RateCommunity");
 const getCommunityVoteCount = require("./services/Community/GetCommunityVoteCount");
 const getRulesTopics = require("./services/Community/GetRulesTopics");
+<<<<<<< HEAD
 const leaveCommunity = require("./services/Community/LeaveCommunity");
+=======
+const getCommunityNameById = require("./services/Community/GetCommunityNameById");
+>>>>>>> d1d0d71a96dd812b07ec1a4964c3d1ae52d4ed82
 
 //Post
 const addPost = require("./services/Post/AddPost");
@@ -89,6 +103,8 @@ const sendInvite = require("./services/Invitation/SendInvite");
 const getStatus = require("./services/Invitation/GetStatus");
 const getInvitations = require("./services/Invitation/GetInvitations");
 const getInvitationsByPage = require("./services/Invitation/GetInvitationsByPage");
+const getInvitationsForCommunity = require("./services/Invitation/GetInvitationsForCommunity");
+const approveInvite = require("./services/Invitation/ApproveInvite");
 
 //Post
 const addPostText = require("./services/Post/AddPostText");
@@ -98,6 +114,7 @@ const getPostCommunity = require("./services/Post/GetPostCommunity");
 const downvotePost = require("./services/Post/DownvotePost");
 const sortPostByDATE = require("./services/Post/SortPostByDate");
 const searchPostsByCriteria = require("./services/Post/SearchPostsByCriteria");
+const sortDashPostsByUpvotes = require("./services/Post/SortDashPostsByUpvotes");
 // const getPost = require("./services/Post/GetPost");
 // const getPostbyID = require("./services/Post/GetPostbyID");
 
@@ -152,7 +169,9 @@ function handleTopicRequest(topic_name, fname) {
 
 // User
 handleTopicRequest(USER_LOGIN, userLogin);
+handleTopicRequest(UPDATE_USER_PROFILE, updateUserProfile);
 handleTopicRequest(USER_SIGNUP, userSignup);
+handleTopicRequest(GET_USER_BY_USER_NAME, getUserByUserName);
 handleTopicRequest(GET_USERS_BY_NAME, getUsersByName);
 handleTopicRequest(GET_USER_BY_ID, getUserById);
 handleTopicRequest(GET_USERS, getUsers);
@@ -166,6 +185,8 @@ handleTopicRequest(DELETE_COMMUNITY_BY_ID, deleteCommunityById);
 handleTopicRequest(GET_COMMUNITY_BY_MEMBER, getCommunityByMember);
 handleTopicRequest(GET_COMMUNITY_BY_ADMIN, getCommunityByAdmin);
 handleTopicRequest(GET_COMMUNITY_BY_PAGE, getCommunityByPage);
+handleTopicRequest(GET_COMMUNITY_NAME_BY_ID, getCommunityNameById);
+handleTopicRequest(GET_COMMUNITY_ANALYTICS, getCommunityAnalytics);
 
 //Post
 handleTopicRequest(ADD_POST_TEXT, addPostText);
@@ -189,6 +210,7 @@ handleTopicRequest(SORT_POST_BY_DOWNVOTE, sortPostByDownvote);
 handleTopicRequest(SORT_POST_BY_DATE, sortPostByDATE);
 handleTopicRequest(SORT_POST_BY_DATE, sortPostByDATE);
 handleTopicRequest(SEARCH_POST_BY_CRITERIA, searchPostsByCriteria);
+handleTopicRequest(SORT_DASHPOSTS_BY_UPVOTES, sortDashPostsByUpvotes);
 
 //Comment
 handleTopicRequest(ADD_COMMENT, addComment);
@@ -203,3 +225,5 @@ handleTopicRequest(GET_INVITATIONS_BY_PAGE, getInvitationsByPage);
 handleTopicRequest(SEND_INVITE, sendInvite);
 handleTopicRequest(GET_STATUS, getStatus);
 handleTopicRequest(LEAVE_COMMUNITY, leaveCommunity);
+handleTopicRequest(GET_INVITATIONS_FOR_COMMUNITY, getInvitationsForCommunity);
+handleTopicRequest(APPROVE_INVITE, approveInvite);

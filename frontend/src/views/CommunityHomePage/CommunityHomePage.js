@@ -82,7 +82,7 @@ class CommunityHomePage extends React.Component {
   checkStatus = async () => {
     const { community } = this.state;
     const data = {
-      userId: localStorage.getItem('user'), // localStorage.getItem('user'),
+      userId: localStorage.getItem('userId'), // localStorage.getItem('user'),
       community_id: community._id,
     };
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
@@ -106,7 +106,7 @@ class CommunityHomePage extends React.Component {
   sortPostByUpvote = async () => {
     const { community, page, rows } = this.state;
     const data = {
-      userId: localStorage.getItem('user'),
+      userId: localStorage.getItem('userId'),
       id: community._id,
       page,
       rows,
@@ -132,7 +132,7 @@ class CommunityHomePage extends React.Component {
   sortPostByDownvote = async () => {
     const { community, page, rows } = this.state;
     const data = {
-      userId: localStorage.getItem('user'),
+      userId: localStorage.getItem('userId'),
       id: community._id,
       page,
       rows,
@@ -158,7 +158,7 @@ class CommunityHomePage extends React.Component {
   sortPostByDate = async () => {
     const { community, page, rows } = this.state;
     const data = {
-      userId: localStorage.getItem('user'),
+      userId: localStorage.getItem('userId'),
       id: community._id,
       page,
       rows,
@@ -206,7 +206,7 @@ class CommunityHomePage extends React.Component {
   handleJoin = async () => {
     const { community } = this.props.location;
     const data = {
-      sender: localStorage.getItem('user'),
+      sender: localStorage.getItem('userId'),
       recepient: community.admin_id,
       community_id: community._id,
     };

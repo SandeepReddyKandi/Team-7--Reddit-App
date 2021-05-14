@@ -105,7 +105,7 @@ class TextDisplayCard extends React.Component {
   handleAddComment = () => {
     const { comment, post } = this.state;
     // const { post } = this.props;
-    const userId = localStorage.getItem('user');
+    const userId = localStorage.getItem('userId');
     axios.defaults.withCredentials = true;
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     const data = { post_id: post._id, comment, author_id: userId };
@@ -125,7 +125,7 @@ class TextDisplayCard extends React.Component {
 
   handleUpVote = async () => {
     const { post } = this.props;
-    const userId = localStorage.getItem('user');
+    const userId = localStorage.getItem('userId');
     if (post.upvote.includes(userId) || post.downvote.includes(userId)) {
       return;
     }
@@ -167,7 +167,7 @@ class TextDisplayCard extends React.Component {
 
   handleDownVote = async () => {
     const { post } = this.props;
-    const userId = localStorage.getItem('user');
+    const userId = localStorage.getItem('userId');
     if (post.upvote.includes(userId) || post.downvote.includes(userId)) {
       return;
     }
