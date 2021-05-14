@@ -31,7 +31,7 @@ class CommunitySearchPage extends React.Component {
   }
 
   handleCommunityNameChange(e) {
-    this.setState({ communityNameFilter: e.target.value }, async () => {
+    this.setState({ communityNameFilter: e.target.value, communities: [] }, async () => {
       this.getCommunities();
     });
   }
