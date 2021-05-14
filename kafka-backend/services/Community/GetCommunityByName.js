@@ -6,19 +6,11 @@ const handle_request = async (req, callback) => {
     if (req.communityName) {
       criteria.community_name = { $regex: req.communityName, $options: "i" };
     }
-    Community.find(criteria, (err, response) => {
-      if (err) {
-        return callback(null, {
-          msg: error.message,
-          success: false,
-        });
-      } else {
-        return callback(null, {
-          msg: "",
-          success: true,
-          data: response,
-        });
-      }
+    const response = await Community.find(criteria).populate("members");
+    callback(null, {
+      msg: "",
+      success: true,
+      data: response,
     });
   } catch (error) {
     return callback(null, {
