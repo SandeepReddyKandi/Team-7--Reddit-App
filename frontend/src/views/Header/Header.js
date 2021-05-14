@@ -6,10 +6,11 @@
 /* eslint-disable  dot-notation */
 /* eslint-disable prefer-template */
 
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import './Header.css';
 import { Link } from 'react-router-dom';
+import Talk from 'talkjs';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
@@ -121,6 +122,7 @@ export default function Header(props) {
 
   const [name, setName] = React.useState('');
   const [userName, setUserName] = React.useState('');
+  const [unreadCount, setUnreadCount] = React.useState(0);
 
   const token = localStorage.getItem('token');
   let loggedIn;
@@ -157,6 +159,36 @@ export default function Header(props) {
       });
   };
 
+  const getUnreadCount = () => {
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    axios.defaults.withCredentials = true;
+    axios
+      .get(`${constants.baseUrl}/users/getUserById?id=${localStorage.getItem('userId')}`)
+      .then((response) => {
+        const currentUser = response.data.data[0];
+        // eslint-disable-next-line no-underscore-dangle
+        currentUser.id = currentUser._id;
+        Talk.ready
+          .then(() => {
+            const me = new Talk.User(currentUser);
+            if (!window.talkSession) {
+              window.talkSession = new Talk.Session({
+                appId: 'tdR0ruWV',
+                me,
+              });
+            }
+            window.talkSession.unreads.on('change', (conversationIds) => {
+              setUnreadCount(conversationIds.length);
+            });
+          })
+          .catch((e) => console.error(e));
+      })
+      .catch((error) => {
+        // eslint-disable-next-line no-alert
+        alert(error);
+      });
+  };
+
   // const handleSearchChange = (e) => {
   //   console.log("handleSearchChange: ", e);
   //   setSearchText(e);
@@ -179,7 +211,6 @@ export default function Header(props) {
   //         }
   //       })
   //   }, 10)
-
   // }
 
   const handleNotificationsClick = (e) => {
@@ -187,6 +218,7 @@ export default function Header(props) {
     e.preventDefault();
     window.location.replace('/invitations');
   };
+
 /*eslint-disable*/
 const [CommunityName, setCommunityName] = React.useState(null);
 const handleGetCommunityInvite=async(e)=>{
@@ -201,27 +233,31 @@ const handleGetCommunityInvite=async(e)=>{
   const test = await axios.get(`${constants.baseUrl}/community/getcommunityinvite`,data);
   console.log("------testcheckget----", test.data.data.invitations);
   const inviteList= test.data.data.invitations;
-  // for (const i in test.data.data.invitations){
-  //   inviteList.push(test.data.data.invitations[i])
-  // }
-  // console.log(inviteList[0])
 
-  var finalArray = inviteList.map(function (obj) {
-    return obj.community_id;
-  });
-  setCommunityName([...finalArray]);
-  console.log("checking123", CommunityName);
-}
 
-const onAcceptInvite=(e)=>{
-  e.preventDefault();
-  const community= e.target.value;
-}
+  const handleGetCommunityInvite = async (e) => {
+    e.preventDefault();
+    const data = { userId: localStorage.getItem("user") }
 
-const onRejectInvite=(e)=>{
-  e.preventDefault();
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    axios.defaults.withCredentials = true;
+    const test = await axios.get(`${constants.baseUrl}/community/getcommunityinvite`, data);
+    const inviteList = test.data.data.invitations;
 
-}
+    var finalArray = inviteList.map(function (obj) {
+      return obj.community_id;
+    });
+    setCommunityName([...finalArray]);
+  }
+
+  const onAcceptInvite = (e) => {
+    e.preventDefault();
+    const community = e.target.value;
+  }
+
+  const onRejectInvite = (e) => {
+    e.preventDefault();
+  }
 
   const handleChatClick = (e) => {
     e.preventDefault();
@@ -229,7 +265,11 @@ const onRejectInvite=(e)=>{
   };
 
   useEffect(() => {
-    getUserName();
+    const token = localStorage.getItem('token');
+    if (token) {
+      getUserName();
+      getUnreadCount();
+    }
   }, []);
 
   const mobileMenuId = 'primary-search-account-menu-mobile';
@@ -244,8 +284,8 @@ const onRejectInvite=(e)=>{
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton aria-label="show 4 new messages" color="inherit">
-          <Badge badgeContent={4} color="secondary">
+        <IconButton aria-label="show new messages" color="inherit">
+          <Badge badgeContent={unreadCount} color="secondary">
             <ChatIcon onClick={handleChatClick} />
           </Badge>
         </IconButton>
@@ -253,28 +293,16 @@ const onRejectInvite=(e)=>{
       </MenuItem>
       <Dropdown>
         <Dropdown.Toggle className="header-user" id="dropdown-basic">
-            <IconButton aria-label="show 17 new notifications" color="inherit">
+          <IconButton aria-label="show 17 new notifications" color="inherit">
             <Badge badgeContent={17} color="secondary">
-              <NotificationsIcon onClick={handleGetCommunityInvite}/>
+              <NotificationsIcon onClick={handleGetCommunityInvite} />
             </Badge>
-            </IconButton>
+          </IconButton>
         </Dropdown.Toggle>
         <Dropdown.Menu>
-        {/* {CommunityName && typeof CommunityName === 'object'? <div>
-        {(CommunityName.invitations).map((p) => (
-                            <Dropdown.Item eventKey={p}>{p}</Dropdown.Item>
-                          ))}
-        </div>: <Dropdown.Item>
-        {' '}
-        </Dropdown.Item> } */}
-       
-        {/* <Dropdown.Item>
-        {' '}
-        test
-        </Dropdown.Item> */}
         </Dropdown.Menu>
       </Dropdown>
-            <MenuItem>
+      <MenuItem>
         <IconButton aria-label="show 17 new notifications" color="inherit">
           <Badge badgeContent={17} color="secondary">
             <InsertInvitationIcon onClick={handleNotificationsClick} />
@@ -282,7 +310,7 @@ const onRejectInvite=(e)=>{
         </IconButton>
         <p>Notifications</p>
       </MenuItem>
-      <Dropdown style={{marginLeft:'10%'}}>
+      <Dropdown style={{ marginLeft: '10%' }}>
         <Dropdown.Toggle className="header-user" id="dropdown-basic">
           <AccountCircle />
           {name}
@@ -322,7 +350,7 @@ const onRejectInvite=(e)=>{
     </Menu>
   );
 
-  return (  
+  return (
     <header>
       <div className={classes.grow} style={{ marginLeft: '1%' }}>
         <AppBar position="static" color="default" width="100%">
@@ -341,12 +369,13 @@ const onRejectInvite=(e)=>{
               <>
                 <div className={classes.grow} />
                 <div className={classes.sectionDesktop}>
-                  <IconButton aria-label="show 4 new messages" color="inherit">
-                    <Badge badgeContent={4} color="secondary">
+                  <IconButton aria-label="show new messages" color="inherit">
+                    <Badge badgeContent={unreadCount} color="secondary">
                       <ChatIcon onClick={handleChatClick} />
                     </Badge>
                   </IconButton>
                   <Dropdown>
+
         <Dropdown.Toggle className="header-user" id="dropdown-basic">
             <IconButton aria-label="show 17 new notifications" color="inherit">
             <Badge badgeContent={17} color="secondary">
@@ -365,11 +394,6 @@ const onRejectInvite=(e)=>{
                           </div>:<Dropdown.Item>
         {' '}
         </Dropdown.Item> }
-       
-        {/* <Dropdown.Item>
-        {' '}
-        test
-        </Dropdown.Item> */}
         </Dropdown.Menu>
       </Dropdown>
 
