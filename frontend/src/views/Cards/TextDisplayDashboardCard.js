@@ -46,12 +46,6 @@ class TextDisplayCard extends React.Component {
   }
 
   componentDidMount() {
-    const userId = localStorage.getItem('user');
-    const { community } = this.props;
-    const isMember = community.members.filter((d) => d._id === userId);
-    if (isMember === 0) {
-      document.getElementById('comment').disabled = true;
-    }
     this.getComments();
     this.setState({
       // comments: this.props.post.comments,
@@ -124,7 +118,7 @@ class TextDisplayCard extends React.Component {
   };
 
   handleUpVote = async () => {
-    const { post } = this.state;
+    const { post } = this.props;
     const userId = localStorage.getItem('userId');
     if (post.upvote.includes(userId) || post.downvote.includes(userId)) {
       return;
@@ -166,7 +160,7 @@ class TextDisplayCard extends React.Component {
   };
 
   handleDownVote = async () => {
-    const { post } = this.state;
+    const { post } = this.props;
     const userId = localStorage.getItem('userId');
     if (post.upvote.includes(userId) || post.downvote.includes(userId)) {
       return;
@@ -345,7 +339,6 @@ class TextDisplayCard extends React.Component {
 
 TextDisplayCard.propTypes = {
   post: PropTypes.objectOf.isRequired,
-  community: PropTypes.objectOf.isRequired,
 };
 
 export default TextDisplayCard;

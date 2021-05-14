@@ -12,7 +12,7 @@ import SearchBar from 'material-ui-search-bar';
 import AppBar from '@material-ui/core/AppBar';
 import Header from '../Header/Header';
 import DashboardAppBar from '../ToolBar/DashboardAppBar';
-import TextDisplayCard from '../Cards/TextDisplayCard';
+import TextDisplayDashboardCard from '../Cards/TextDisplayDashboardCard';
 import SideBar from './Sidebar/Sidebar';
 import TopBar from '../ToolBar/TopBar';
 import constants from '../../constants/constants';
@@ -195,7 +195,7 @@ class Dashboard extends React.Component {
               <TopBar style={{ marginTop: '2%' }} />
               {!posts.length && <div>Nothing to show</div>}
               {posts.map((p) => (
-                <TextDisplayCard post={p} />
+                <TextDisplayDashboardCard post={p} />
               ))}
             </Col>
             <Col md={4}>
