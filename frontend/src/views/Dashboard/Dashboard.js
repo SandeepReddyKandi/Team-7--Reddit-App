@@ -2,7 +2,7 @@
 /* eslint-disable  dot-notation */
 /* eslint-disable prefer-template */
 /* eslint-disable react/self-closing-comp */
-/* eslint-disable no-unused-vars */
+/* eslint-disable */
 import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -36,21 +36,23 @@ class Dashboard extends React.Component {
 
   handleSearchChange = (e) => {
     console.log("handleSearchChange: ", e);
-    this.state.searchText = e;
-    // setSearchText(e);
+    this.setState({ searchText: e });
   }
 
   handleSearchRequest = async (e) => {
+    console.log("searchText: ", this.state.searchText);
+
     console.log("handleSearchRequest: ", e);
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
     setTimeout(async () => {
       await axios
-        .get(`${constants.baseUrl}/posts/searchPostsCriteria?searchText=${this.searchText}`)
+        .get(`${constants.baseUrl}/posts/searchPostsCriteria?searchText=${this.state.searchText}`)
         .then((response, error) => {
           if (!error) {
             console.log("Response: ", response);
-            this.state.searchResult = response.data.data;
+            this.setState({ searchResult: response.data.data });
+            this.getFilteredPost();
             // setSearchResult(response.data.data);
           }
           else {
@@ -58,8 +60,14 @@ class Dashboard extends React.Component {
           }
         })
     }, 10)
-
   }
+
+  getFilteredPost = () => {
+    if (this.state.searchResult.length > 0)
+      this.setState({ posts: this.state.searchResult });
+    else
+      this.getPost();
+  };
 
   getPost = () => {
     const userId = localStorage.getItem('user');
@@ -80,6 +88,9 @@ class Dashboard extends React.Component {
   };
 
   render() {
+    console.log("searchResult: ", this.state.searchResult)
+    console.log("posts: ", this.state.posts)
+
     const { errormessage, posts } = this.state;
 
     return (
@@ -105,8 +116,11 @@ class Dashboard extends React.Component {
               </AppBar>
 
               <TopBar style={{ marginTop: '2%' }} />
+              {!posts.length && (
+                <div>Nothing to show</div>
+              )}
               {posts.map((p) => (
-                <TextDisplayCard post={p} />
+                <TextDisplayCard post={p}/>
               ))}
             </Col>
             <Col md={4}>

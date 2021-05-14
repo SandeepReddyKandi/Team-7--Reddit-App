@@ -6,8 +6,8 @@ const handle_request = async (req, callback) => {
         if (req) {
             const criteria = {
                 $or: [
-                    { "text": req.searchPostsCriteria },
-                    { "title": req.searchPostsCriteria }
+                    { text:  { '$regex': req.searchPostsCriteria , '$options': 'i'} },
+                    { title:  { '$regex': req.searchPostsCriteria , '$options': 'i'} }
                 ]
             }
             // criteria.searchPostsCriteria = { $regex: req.searchPostsCriteria, $options: "i" };
