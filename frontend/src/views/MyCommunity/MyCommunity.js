@@ -36,14 +36,10 @@ const MyCommunity = () => {
   const reduxData = useSelector((state) => state.addCommunity);
   const [page, setPage] = useState([]);
   const [totalPage, setTotalPage] = useState(reduxData.community.length);
-  
+
   useEffect(() => {
     dispatch(getMyCommunity(localStorage.getItem('userId')))
   }, [dispatch])
-
-  const handleGetUsers = async (e) => {
-    const response = await axios.get('http://localhost:3001/users/getUsers');
-  };
 
   const input = document.querySelector('topic');
   if (input !== null) {
@@ -56,8 +52,31 @@ const MyCommunity = () => {
   return (
     <div>
       <Header />
+      <Row style={{ height: '100px', 'background-color': '#0579d3' }}>
+            <Col md={12}> &nbsp;</Col>
+          </Row>
+          <Row style={{ 'background-color': '#ffffff', height: '20%' }}>
+            <Col md={2}>&nbsp;</Col>
 
-      <Button onClick={handleGetUsers}>Get Users</Button>
+            <Col md={11}>
+              <Row>
+                <Col md={3}>&nbsp;</Col>
+                <Col md={5}>
+                  <Typography
+                    variant="h5"
+                    component="h5"
+                    style={{
+                      paddingLeft: '5%',
+                      marginBottom: '10px',
+                    }}
+                  >
+                    My CommunityPage
+                  </Typography>
+                </Col>
+                <Col md={3}>&nbsp;</Col>
+              </Row>
+            </Col>
+          </Row>
       <Row>
         <Col sm={3}>
           <p>Sample</p>
@@ -72,7 +91,7 @@ const MyCommunity = () => {
                   onChangeRowsPerPage={null}
                   rowsPerPageOptions={[2, 5, 10]}
                 />
-          {reduxData.community.length > 0 ? 
+          {reduxData.community.length > 0 ?
             <div>{reduxData.community.map((community) => <MyCommunityCard community={community} />)}</div>
           : null}
           <TablePagination

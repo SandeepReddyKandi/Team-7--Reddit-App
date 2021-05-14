@@ -26,16 +26,22 @@ const handle_request = async (req, callback) => {
           }
           commentList.push(comments[i]._id)
       }
-      const subComments = await SubComment.find({subComments})
-      SubComment.deleteMany({comment_id: {$in: commentList}})
-      Comment.deleteMany({post_id: { $in: postList } })
-      Post.deleteMany({community_id: community_id})
+      const subComments = await SubComment.find({comment_id: { $in: commentList }})
+      const deleteSubcommentList = []
+      for (let i in subComments){
+        if (user_id === subComments[i].author_id) {
+          deleteCommentList.push(subComments[i]._id)
+        }
+      }
+      SubComment.deleteMany({_id: {$in: deleteSubcommentList}})
+      Comment.deleteMany({_id: { $in: deleteCommentList } })
+      Post.deleteMany({_id: deletePostList})
       Invitation.deleteMany({community_id: community_id})
-      Community.delete({_id: community_id}, (err, docs) => {
+      Community.updateMany({_id: community_id},{$pop: {members: user_id}}, (err, docs) => {
           if (!err){
             callback(null, {
-                msg: "Community deleted successfully",
-                success: false,
+                msg: "Community member removed successfully",
+                success: true,
             });
           }
       })
