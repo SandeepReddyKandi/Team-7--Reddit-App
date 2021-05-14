@@ -9,6 +9,7 @@ import './community-analytics.css';
 import UserCard from "../UserCard";
 import CommunityCard from "../CommunityCard";
 import constants from "../../constants/constants";
+import TextDisplayCard from "../Cards/TextDisplayCard";
 
 
 const options = {
@@ -132,7 +133,7 @@ class CommunityAnalytics extends React.Component {
         postData.labels = commNameLabels;
         postData.datasets[0].data = postPerComm;
         memberData.labels = commNameLabels;
-        memberData.datasets[0].data = postPerComm;
+        memberData.datasets[0].data = memPerComm;
 
         this.setState({
             activeUserChart: {
@@ -190,12 +191,15 @@ class CommunityAnalytics extends React.Component {
                             <div className='comm-card'>
                                 <Line data={postsChart.data} options={postsChart.options} />
                             </div>
+                            <div className='comm-card'>
+                                <div className='comm-card-head'>Most Upvoted Post In Each Community</div>
+                            </div>
                             {
-                                Object.keys(analyticsData).map(comm => (
+                                Object.keys(analyticsData).filter(comm => analyticsData[comm].mostUpVotedPost.community_id).map(comm => (
                                         <>
                                             <div className='comm-card'>
-                                                <div className='comm-card-head'>Most upvoted post In <b>{analyticsData[comm].communityName}</b></div>
-                                                {/*    TODO Show the post in here */}
+                                                <div className='comm-card-head'>Community Name:- <b>{analyticsData[comm].communityName}</b></div>
+                                                <TextDisplayCard post={analyticsData[comm].mostUpVotedPost} />
                                             </div>
                                         </>
                                     )
@@ -203,11 +207,14 @@ class CommunityAnalytics extends React.Component {
                             }
                         </Col>
                         <Col style={{ width: '312px', marginLeft: '24px', flexBasis: 'auto' }}>
+                            <div className='comm-card'>
+                                <div className='comm-card-head'>Most Active Users In Each Community</div>
+                            </div>
                             {
                                 analyticsData && Object.keys(analyticsData).filter(comm => analyticsData[comm].mostActiveUser.userId).map(comm => (
                                         <div style={{ marginBottom: '24px'}}>
                                             <div className='comm-card'>
-                                                <div className='comm-card-head no-mar'>Most Active User In <b>{analyticsData[comm].communityName}</b></div>
+                                                <div className='comm-card-head no-mar'>Community Name:- <b>{analyticsData[comm].communityName}</b></div>
                                                 <div className='comm-card-small-text no-mar'>Created most number of posts in <b>{analyticsData[comm].communityName}</b></div>
                                             </div>
                                             <UserCard user={analyticsData[comm].mostActiveUser} showEdit={false}/>
