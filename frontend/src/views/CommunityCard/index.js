@@ -3,12 +3,10 @@ import EditIcon from "@material-ui/icons/Edit";
 import SettingsIcon from "@material-ui/icons/Settings";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import PropTypes from "prop-types";
-import '../UserProfileComponent/index.css';
 
 const CommunityCard = ({community, showEdit}) => {
     const [showMoreOption, setShowMoreOption] = useState(false);
     const toggleShowMoreOption = () => {
-        console.log('Toggle Show More Options')
         setShowMoreOption(!showMoreOption);
     }
     return (

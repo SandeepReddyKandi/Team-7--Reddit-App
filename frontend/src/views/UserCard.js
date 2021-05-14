@@ -110,15 +110,6 @@ const UserCard = ({user, isMyProfile}) => {
                         </span>
                     </div>
                 </div>
-                {
-                    isMyProfile && (
-                        <button className='round-btn blue-btn' type='button'>
-                            <span>&nbsp;</span>
-                            <span>New Post</span>
-                            <span>&nbsp;</span>
-                        </button>
-                    )
-                }
                 <div className='option-toggle'>
                     <span onClick={toggleShowMoreOption}
                           onKeyDown={toggleShowMoreOption}

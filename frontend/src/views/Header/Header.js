@@ -28,7 +28,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Chip from '@material-ui/core/Chip';
 import Col from 'react-bootstrap/Col';
 import PropTypes from 'prop-types';
-// import SearchBar from "material-ui-search-bar";
 import constants from '../../constants/constants';
 import Logo from './Logo/Logo';
 import Searchbar from './Searchbar/Searchbar';

@@ -86,7 +86,7 @@
 
 .comm-card-head {
     font-weight: 600;
-    margin-bottom: 12px;
+    padding: 6px 0;
 }
 
 .comm-card-small-text {
@@ -99,9 +99,6 @@
     margin: 0;
 }
 
-.m-top-24 {
-    margin-top: 24px;
-}
 
 .info-card {
     display: flex;
