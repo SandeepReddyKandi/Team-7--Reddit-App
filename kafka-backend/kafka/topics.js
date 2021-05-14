@@ -106,9 +106,6 @@ module.exports = {
   ADD_SUB_COMMENT,
   GET_POST_BY_ID,
   SEARCH_POST_BY_CRITERIA,
-<<<<<<< HEAD
   LEAVE_COMMUNITY,
-=======
   SORT_DASHPOSTS_BY_UPVOTES,
->>>>>>> d1d0d71a96dd812b07ec1a4964c3d1ae52d4ed82
 };

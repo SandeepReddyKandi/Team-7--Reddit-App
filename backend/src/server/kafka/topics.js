@@ -21,11 +21,8 @@ const RATE_COMMUNITY = 'voteCommunity';
 const GET_COMMUNITY_VOTE_COUNT = 'getCommunityVoteCount';
 const JOIN_COMMUNITY = 'joinCommunity';
 const GET_RULES_TOPICS = 'getRulesTopics';
-<<<<<<< HEAD
 const LEAVE_COMMUNITY = 'leaveCommunity';
-=======
 const GET_COMMUNITY_NAME_BY_ID = 'getCommunityNameById';
->>>>>>> d1d0d71a96dd812b07ec1a4964c3d1ae52d4ed82
 
 //Post
 const ADD_POST = 'addPost';
@@ -110,9 +107,6 @@ module.exports = {
   GET_POST_COMMUNITY,
   ADD_SUB_COMMENT,
   SEARCH_POST_BY_CRITERIA,
-<<<<<<< HEAD
   LEAVE_COMMUNITY,
-=======
   SORT_DASHPOSTS_BY_UPVOTES,
->>>>>>> d1d0d71a96dd812b07ec1a4964c3d1ae52d4ed82
 };

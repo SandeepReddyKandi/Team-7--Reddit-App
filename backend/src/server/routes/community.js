@@ -22,12 +22,9 @@ const {
   getInvitations,
   getInvitationsByPage,
   getCommunityVoteCount,
-<<<<<<< HEAD
   leaveCommunity,
-=======
   getCommunityNameById,
   approveInvite,
->>>>>>> d1d0d71a96dd812b07ec1a4964c3d1ae52d4ed82
 } = require('../controllers/community');
 
 router.post('/approveInvite', checkAuth, approveInvite);
@@ -48,10 +45,7 @@ router.get('/getCommunityByAdmin', checkAuth, getCommunityByAdmin);
 router.post('/get-community-analytics', checkAuth, getCommunityAnalytics);
 router.get('/getCommunityByMember', checkAuth, getCommunityByMember);
 router.get('/deletecommunitybyid', checkAuth, deleteCommunityById);
-<<<<<<< HEAD
 router.get('/leavecommunity', checkAuth, leaveCommunity);
-=======
 router.get('/getCommunityNameById', checkAuth, getCommunityNameById);
->>>>>>> d1d0d71a96dd812b07ec1a4964c3d1ae52d4ed82
 
 module.exports = router;

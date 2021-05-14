@@ -10,9 +10,7 @@ const {
   SEND_INVITE,
   GET_STATUS,
   GET_COMMUNITY_BY_NAME,
-  APPROVE_INVITE,
   GET_COMMUNITY_BY_ADMIN,
-  GET_COMMUNITY_ANALYTICS,
   GET_COMMUNITY_BY_MEMBER,
   GET_RULES_TOPICS,
   GET_INVITATIONS,
@@ -20,12 +18,7 @@ const {
   GET_COMMUNITY_BY_PAGE,
   GET_INVITATIONS_BY_PAGE,
   GET_COMMUNITY_VOTE_COUNT,
-<<<<<<< HEAD
   LEAVE_COMMUNITY,
-=======
-  GET_COMMUNITY_NAME_BY_ID,
-  GET_INVITATIONS_FOR_COMMUNITY,
->>>>>>> d1d0d71a96dd812b07ec1a4964c3d1ae52d4ed82
 } = require('../kafka/topics');
 
 exports.addCommunity = async (req, res) => {
@@ -52,20 +45,6 @@ exports.getRulesTopics = async (req, res) => {
       res.status(200).json({
         msg: results.data,
         //role: results.role,
-      });
-    }
-  });
-};
-
-exports.approveInvite = async (req, res) => {
-  const payload = { body: req.body };
-  kafka.make_request(APPROVE_INVITE, payload, (error, results) => {
-    if (!results.success) {
-      res.status(400).send(results);
-    } else {
-      console.log(results);
-      res.status(200).json({
-        msg: results.msg,
       });
     }
   });
@@ -134,39 +113,10 @@ exports.getCommunityByAdmin = async (req, res) => {
   });
 };
 
-exports.getCommunityAnalytics = async (req, res) => {
-  const payload = { adminId: req.body.adminId, jwtAuthData: req.user };
-  kafka.make_request(GET_COMMUNITY_ANALYTICS, payload, (error, results) => {
-    if (!results.success) {
-      res.status(400).send(results);
-    } else {
-      console.log(results);
-      res.status(200).json({
-        success: true,
-        data: results.data,
-      });
-    }
-  });
-};
-
 exports.getCommunityByMember = async (req, res) => {
   const payload = { memberId: req.query.id };
+  console.log(payload, '..........', req.query.id);
   kafka.make_request(GET_COMMUNITY_BY_MEMBER, payload, (error, results) => {
-    if (!results.success) {
-      res.status(400).send(results);
-    } else {
-      console.log(results);
-      res.status(200).json({
-        msg: results.data,
-        //role: results.role,
-      });
-    }
-  });
-};
-
-exports.getInvitationsForCommunity = async (req, res) => {
-  const payload = { communityId: req.query.id };
-  kafka.make_request(GET_INVITATIONS_FOR_COMMUNITY, payload, (error, results) => {
     if (!results.success) {
       res.status(400).send(results);
     } else {
@@ -297,14 +247,20 @@ exports.getCommunityVoteCount = async (req, res) => {
   });
 };
 
-<<<<<<< HEAD
 exports.leaveCommunity = async (req, res) => {
-  const payload = { user_id: req.body.user_id, community_id: req.body.community_id };
+  const payload = { user_id: req.body.user_id, community_id };
   kafka.make_request(LEAVE_COMMUNITY, payload, (error, results) => {
     if (!results.success) {
       res.status(400).send(results);
     } else {
-=======
+      res.status(200).json({
+        msg: results.msg,
+        data: results.data,
+      });
+    }
+  });
+};
+
 exports.getCommunityNameById = async (req, res) => {
   const payload = { id: req.query.id };
   kafka.make_request(GET_COMMUNITY_NAME_BY_ID, payload, (error, results) => {
@@ -312,9 +268,52 @@ exports.getCommunityNameById = async (req, res) => {
       res.status(400).send(results);
     } else {
       // console.log(results);
->>>>>>> d1d0d71a96dd812b07ec1a4964c3d1ae52d4ed82
       res.status(200).json({
         msg: results.msg,
+        data: results.data,
+      });
+    }
+  });
+};
+
+exports.approveInvite = async (req, res) => {
+  const payload = { body: req.body };
+  kafka.make_request(APPROVE_INVITE, payload, (error, results) => {
+    if (!results.success) {
+      res.status(400).send(results);
+    } else {
+      console.log(results);
+      res.status(200).json({
+        msg: results.msg,
+      });
+    }
+  });
+};
+
+exports.getInvitationsForCommunity = async (req, res) => {
+  const payload = { communityId: req.query.id };
+  kafka.make_request(GET_INVITATIONS_FOR_COMMUNITY, payload, (error, results) => {
+    if (!results.success) {
+      res.status(400).send(results);
+    } else {
+      console.log(results);
+      res.status(200).json({
+        msg: results.data,
+        //role: results.role,
+      });
+    }
+  });
+};
+
+exports.getCommunityAnalytics = async (req, res) => {
+  const payload = { adminId: req.body.adminId, jwtAuthData: req.user };
+  kafka.make_request(GET_COMMUNITY_ANALYTICS, payload, (error, results) => {
+    if (!results.success) {
+      res.status(400).send(results);
+    } else {
+      console.log(results);
+      res.status(200).json({
+        success: true,
         data: results.data,
       });
     }
