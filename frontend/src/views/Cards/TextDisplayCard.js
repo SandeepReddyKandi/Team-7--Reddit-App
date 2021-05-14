@@ -46,7 +46,7 @@ class TextDisplayCard extends React.Component {
   }
 
   componentDidMount() {
-    const userId = localStorage.getItem('user');
+    const userId = localStorage.getItem('userId');
     const { community } = this.props;
     const isMember = community.members.filter((d) => d._id === userId);
     if (isMember === 0) {
@@ -291,7 +291,7 @@ class TextDisplayCard extends React.Component {
                             <Row>
                               <Col>
                                 <Typography className="header-label card-action-label">
-                                  Comment as {localStorage.getItem('user')}
+                                  Comment as {localStorage.getItem('userId')}
                                 </Typography>
                               </Col>
                             </Row>

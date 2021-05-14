@@ -18,12 +18,14 @@ import { Typography } from '@material-ui/core';
 import axios from 'axios';
 import Dropdown from 'react-bootstrap/Dropdown';
 import TablePagination from '@material-ui/core/TablePagination';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // eslint-disable-next-line import/no-named-as-default-member
 import Badge from 'react-bootstrap/Badge';
 import { useSelector, useDispatch } from 'react-redux';
 import { Hint } from 'react-autocomplete-hint';
 import { FaTimes } from 'react-icons/fa';
-import { getMyCommunity, getMyInvitations } from '../../actions/CommunityModerationAction';
+import { getMyCommunity, getMyInvitations, clearError } from '../../actions/CommunityModerationAction';
 import Header from '../Header/Header';
 import logo from '../../side_bg.jpeg';
 import CommunityModerationCard from './CommunityModerationCard';
@@ -40,11 +42,25 @@ const CommunityModeration = () => {
   const [invitationList, setInvitationList] = useState([])
   const [communityIdModal, setIdModal] = useState('')
   const [totalPage, setTotalPage] = useState(reduxData.community.length);
+  const notify = (message) => toast(message);
   const [modalToggle, setModalToggle] = useState(false);
   const [communityModal, setCommunityModal] = useState(null);
 useEffect(() => {
  dispatch(getMyCommunity(localStorage.getItem('userId')))
 }, [dispatch])
+useEffect(() => {
+  if (reduxData.success){
+    notify(reduxData.feed);
+    dispatch(clearError());
+  }
+}, [reduxData.success])
+
+useEffect(() => {
+  if (reduxData.error){
+    notify(reduxData.feed);
+    dispatch(clearError());
+  }
+}, [reduxData.error])
 
 useEffect(() => {
   setInvitationList(reduxData.invitataions)
@@ -70,6 +86,7 @@ useEffect(() => {
   }
   return (
     <div>
+    <ToastContainer/>
     <CommunityModal isOpen={modalToggle} userList={userListModal} community={communityIdModal} exitModal={exitModal} />
     <Header />
     <Row style={{marginTop: "2%"}}>

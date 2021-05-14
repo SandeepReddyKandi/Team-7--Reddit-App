@@ -24,7 +24,9 @@ const {
   ACCEPT_COMMUNITY_INVITE,
   REJECT_COMMUNITY_INVITE,
   GET_COMMUNITY_VOTE_COUNT,
+  GET_COMMUNITY_NAME_BY_ID,
   LEAVE_COMMUNITY,
+  REMOVE_USER_COMMUNITY,
 } = require('../kafka/topics');
 
 exports.addCommunity = async (req, res) => {
@@ -286,7 +288,7 @@ exports.leaveCommunity = async (req, res) => {
 exports.acceptcommunityinvite = async (req, res) => {
   const data = {
     userId: req.user._id,
-    community_id: req.body.community_id
+    community_id: req.body.community_id,
   };
   const payload = data;
   kafka.make_request(ACCEPT_COMMUNITY_INVITE, payload, (error, results) => {
@@ -348,6 +350,19 @@ exports.approveInvite = async (req, res) => {
   });
 };
 
+exports.removeUserCommunity = async (req, res) => {
+  const payload = { body: req.body };
+  kafka.make_request(REMOVE_USER_COMMUNITY, payload, (error, results) => {
+    if (!results.success) {
+      res.status(400).send(results);
+    } else {
+      console.log(results);
+      res.status(200).json({
+        msg: results.msg,
+      });
+    }
+  });
+};
 exports.getInvitationsForCommunity = async (req, res) => {
   const payload = { communityId: req.query.id };
   kafka.make_request(GET_INVITATIONS_FOR_COMMUNITY, payload, (error, results) => {

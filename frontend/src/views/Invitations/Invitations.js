@@ -28,7 +28,7 @@ class Invitations extends React.Component {
       selectedCommunity: '',
       page: 0,
       rows: 2,
-      totalRows: 10,
+      totalRows: 0,
     };
     this.getInvitations = this.getInvitations.bind(this);
     this.getUsers = this.getUsers.bind(this);
@@ -41,13 +41,13 @@ class Invitations extends React.Component {
   }
 
   handleChangeRowsPerPage = async (event) => {
-    await this.setState({ rows: parseInt(event.target.value, 10), page: 0 });
+    await this.setState({ rows: parseInt(event.target.value, 10), page: 0, invitations: [] });
     this.getInvitations();
   };
 
   handleChangePage = (e, newpage) => {
     e.preventDefault();
-    this.setState({ page: newpage }, async () => {
+    this.setState({ page: newpage, invitations: [] }, async () => {
       this.getInvitations();
     });
   };
@@ -168,7 +168,9 @@ class Invitations extends React.Component {
         .post(`${constants.baseUrl}/community/invite`, formData)
         .then((response, error) => {
           if (!error) {
-            this.getInvitations();
+            this.setState({ selectedNames: [], invitations: [] }, async () => {
+              this.getInvitations();
+            });
           }
         })
         .catch((error) => {
@@ -261,6 +263,13 @@ class Invitations extends React.Component {
             rowsPerPage={rows}
             onChangeRowsPerPage={this.handleChangeRowsPerPage}
             rowsPerPageOptions={[2, 5, 10]}
+            style={{
+              marginBottom: '5px',
+              marginRight: '5px',
+              bottom: 0,
+              right: 0,
+              position: 'fixed',
+            }}
           />
         </div>
 

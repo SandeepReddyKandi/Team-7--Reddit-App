@@ -93,7 +93,7 @@ class Comment extends React.Component {
   };
 
   handleUpVote = async (id) => {
-    const userId = localStorage.getItem('user');
+    const userId = localStorage.getItem('userId');
     if (id.upvote.includes(userId) || id.downvote.includes(userId)) {
       return;
     }

@@ -18,10 +18,10 @@ export const CommunityModerationReducer = createSlice({
         rules: [],
         topics: [],
       }],
-      error: null,
-      message: null,
+      error: false,
+      feed: '',
+      success: false,
       invitations: []
-
     },
     extraReducers: {
       [getMyCommunity.fulfilled]: (state, action) => {
@@ -42,7 +42,8 @@ export const CommunityModerationReducer = createSlice({
       },
       [approveInvitataion.fulfilled]: (state, action) => {
         if (action.payload.auth) {
-          state.message = "Successfully approved";
+          state.feed = "Successfully approved";
+          state.success = true;
           const newList = []
           for (const i in state.invitations){
             if(state.invitations[i]._id === action.payload.exitElement){
@@ -55,15 +56,26 @@ export const CommunityModerationReducer = createSlice({
         else{
           state.error = "User Not Approved";
         }
-
+      },
+      [approveInvitataion.rejected]: (state) => {
+          state.feed = "Request Rejected By DB";
+          state.error = true;
       },
       [clearError.fulfilled]: (state) => {
-          state.message = null;
+          state.feed = false;
           state.error = null;
+          state.success = false
       },
       [removeMemberFromCommunity.fulfilled]: (state,action) => {
         if (action.payload.auth) {
-          state.message = "Successfully approved";
+          state.feed = "Successfully removed";
+          state.success = true;
+        }
+      },
+      [removeMemberFromCommunity.rejected]: (state,action) => {
+        if (action.payload.auth) {
+          state.feed = "unsuceessful operation";
+          state.error = true;
         }
       }
     },

@@ -20,7 +20,7 @@ class CommunitySearchPage extends React.Component {
       communityNameFilter: '/*',
       page: 0,
       rows: 2,
-      totalRows: 10,
+      totalRows: 0,
     };
     this.getCommunities = this.getCommunities.bind(this);
     this.handleCommunityNameChange = this.handleCommunityNameChange.bind(this);
@@ -37,13 +37,13 @@ class CommunitySearchPage extends React.Component {
   }
 
   handleChangeRowsPerPage = async (event) => {
-    await this.setState({ rows: parseInt(event.target.value, 10), page: 0 });
+    await this.setState({ rows: parseInt(event.target.value, 10), page: 0, communities: [] });
     this.getCommunities();
   };
 
   handleChangePage = (e, newpage) => {
     e.preventDefault();
-    this.setState({ page: newpage }, async () => {
+    this.setState({ page: newpage, communities: [] }, async () => {
       this.getCommunities();
     });
   };
@@ -113,7 +113,7 @@ class CommunitySearchPage extends React.Component {
               <TextField
                 fullWidth
                 id="standard-search"
-                label="Search community"
+                label="Search community by name..."
                 type="search"
                 onChange={this.handleCommunityNameChange}
               />
@@ -127,13 +127,11 @@ class CommunitySearchPage extends React.Component {
               <Col md={3}>&nbsp;</Col>
               <Col md={6}>
                 <Row>&nbsp;</Row>
-                <Row>&nbsp;</Row>
                 <Row>
                   <CommunityListCard community={community} />
                 </Row>
               </Col>
               <Col md={3}>
-                <Row>&nbsp;</Row>
                 <Row>&nbsp;</Row>
               </Col>
             </Row>
@@ -146,6 +144,13 @@ class CommunitySearchPage extends React.Component {
             rowsPerPage={rows}
             onChangeRowsPerPage={this.handleChangeRowsPerPage}
             rowsPerPageOptions={[2, 5, 10]}
+            style={{
+              marginBottom: '5px',
+              marginRight: '5px',
+              bottom: 0,
+              right: 0,
+              position: 'fixed',
+            }}
           />
         </div>
       </>
