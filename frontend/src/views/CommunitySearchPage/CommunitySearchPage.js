@@ -19,8 +19,8 @@ class CommunitySearchPage extends React.Component {
       error: '',
       communityNameFilter: '/*',
       page: 0,
-      rows: 2,
-      totalRows: 10,
+      rows: 10,
+      totalRows: 0,
     };
     this.getCommunities = this.getCommunities.bind(this);
     this.handleCommunityNameChange = this.handleCommunityNameChange.bind(this);
@@ -113,7 +113,7 @@ class CommunitySearchPage extends React.Component {
               <TextField
                 fullWidth
                 id="standard-search"
-                label="Search community"
+                label="Search community by name..."
                 type="search"
                 onChange={this.handleCommunityNameChange}
               />
@@ -127,13 +127,11 @@ class CommunitySearchPage extends React.Component {
               <Col md={3}>&nbsp;</Col>
               <Col md={6}>
                 <Row>&nbsp;</Row>
-                <Row>&nbsp;</Row>
                 <Row>
                   <CommunityListCard community={community} />
                 </Row>
               </Col>
               <Col md={3}>
-                <Row>&nbsp;</Row>
                 <Row>&nbsp;</Row>
               </Col>
             </Row>
