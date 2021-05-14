@@ -10,20 +10,31 @@ const handle_request = async (req, callback) => {
   client.get(key, async (err, response) => {
     if (err) throw err;
     if (response) {
-      if (bcrypt.compareSync(req.body.password, JSON.parse(response).password)) {
+      if (
+        bcrypt.compareSync(req.body.password, JSON.parse(response).password)
+      ) {
         const token = jwt.sign(
-          { userId: response._id, email: response.email },
+          { userId: JSON.parse(response)._id, email: response.email },
           secret,
           {
             expiresIn: "4h",
           }
         );
-        return callback(null, {
-          token,
-          msg: "Loggeed in successfully",
-          userId: response._id,
-          success: true
-        });
+        try {
+          response = JSON.parse(response);
+          return callback(null, {
+            success: true,
+            msg: "Logged in successfully!",
+            token,
+            userId: response._id,
+            userName: response.userName,
+          });
+        } catch (e) {
+          return callback(null, {
+            msg: "Something went wrong while parsing the Redis Response",
+            success: false,
+          });
+        }
       } else {
         return callback(null, {
           msg: "Invalid Credentials Entered",
@@ -41,13 +52,18 @@ const handle_request = async (req, callback) => {
         client.setex(key, 600, JSON.stringify(doc));
         //check if password entered matches with the one in DB
         if (bcrypt.compareSync(req.body.password, doc.password)) {
-          const token = jwt.sign({ userId: doc._id, email: doc.email }, secret, {
-            expiresIn: "4h",
-          });
+          const token = jwt.sign(
+            { userId: doc._id, email: doc.email },
+            secret,
+            {
+              expiresIn: "4h",
+            }
+          );
           return callback(null, {
             token,
             msg: "Logged in successfully",
             userId: doc.id,
+            userName: doc.userName,
             success: true,
           });
         } else {

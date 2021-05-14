@@ -12,13 +12,15 @@ const handle_request = async (req, callback) => {
       criteria.author_id = req.post_id;
     }
     // console.log("*********criteria**********", criteria);
-    let posts = await PostModel.find(criteria);
+    let posts = await PostModel.find(criteria).populate("author_id");
+    //.populate({ path: "comments", populate: { path: "author_id" } })
+    //.populate({ path: "sub_comments", populate: { path: "author_id" } });
     // console.log("*********posts**********", posts);
 
     callback(null, {
       msg: "",
       data: posts,
-      success: true,      
+      success: true,
     });
   } catch (error) {
     callback(null, {

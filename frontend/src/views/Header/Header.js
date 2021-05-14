@@ -6,7 +6,7 @@
 /* eslint-disable  dot-notation */
 /* eslint-disable prefer-template */
 
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import axios from 'axios';
 import './Header.css';
 import { Link } from 'react-router-dom';
@@ -119,6 +119,7 @@ export default function Header(props) {
     setMobileMoreAnchorEl(null);
   };
 
+  const [name, setName] = React.useState('');
   const [userName, setUserName] = React.useState('');
 
   const token = localStorage.getItem('token');
@@ -148,10 +149,11 @@ export default function Header(props) {
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
     axios
-      .get(`${constants.baseUrl}/users/getUserById?id=${localStorage.getItem('user')}`)
+      .get(`${constants.baseUrl}/users/getUserById?id=${localStorage.getItem('userId')}`)
       .then((res) => {
         const currentUser = res.data.data[0];
-        setUserName(currentUser.name);
+        setName(currentUser.name);
+        setUserName(currentUser.userName);
       });
   };
 
@@ -280,10 +282,10 @@ const onRejectInvite=(e)=>{
         </IconButton>
         <p>Notifications</p>
       </MenuItem>
-      <Dropdown>
+      <Dropdown style={{marginLeft:'10%'}}>
         <Dropdown.Toggle className="header-user" id="dropdown-basic">
           <AccountCircle />
-          {userName}
+          {name}
         </Dropdown.Toggle>
         <Dropdown.Menu>
           <Dropdown.Item>
@@ -320,7 +322,7 @@ const onRejectInvite=(e)=>{
     </Menu>
   );
 
-  return (
+  return (  
     <header>
       <div className={classes.grow} style={{ marginLeft: '1%' }}>
         <AppBar position="static" color="default" width="100%">
@@ -379,14 +381,14 @@ const onRejectInvite=(e)=>{
                   <Dropdown>
                     <Dropdown.Toggle className="header-user" id="dropdown-basic">
                       <AccountCircle />
-                      {userName}
+                      {name}
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                       <Dropdown.Item>
                         {' '}
-                        <Link to="/user" style={{ cursor: 'pointer', color: 'black' }}>
+                        <Link to={`/my-profile/${userName}`} style={{ cursor: 'pointer', color: 'black' }}>
                           My Profile
-                            </Link>
+                        </Link>
                       </Dropdown.Item>
                       <Dropdown.Item>
                         <Link to="/createpost" style={{ cursor: 'pointer', color: 'black' }}>
@@ -396,15 +398,21 @@ const onRejectInvite=(e)=>{
                       <Dropdown.Item>
                         <Link
                           to="/createCommunity"
-                          style={{ cursor: 'pointer', color: 'black' }}
-                        >
+                          style={{ cursor: 'pointer', color: 'black' }}>
                           Create Community
-                            </Link>
+                        </Link>
                       </Dropdown.Item>
                       <Dropdown.Item>
                         <Link to="/myCommunity" style={{ cursor: 'pointer', color: 'black' }}>
                           My Communities
                             </Link>
+                      </Dropdown.Item>
+                      <Dropdown.Item>
+                        <Link
+                          to="/communitysearchpage"
+                          style={{ cursor: 'pointer', color: 'black' }}>
+                          Search Community
+                        </Link>
                       </Dropdown.Item>
                       <Dropdown.Item onClick={logout}>
                         <Link to="/" style={{ cursor: 'pointer', color: 'black' }}>

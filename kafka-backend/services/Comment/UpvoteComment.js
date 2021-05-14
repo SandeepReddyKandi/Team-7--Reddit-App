@@ -6,9 +6,9 @@ const mongoose = require("mongoose");
 const handle_request = async (req, callback) => {
   try {
     await CommentsModel.findOneAndUpdate(
-      { _id: mongoose.Types.ObjectId(req.id) },
+      { _id: req.id },
       { $push: { upvote: req.user } }
-    ).then(() => {
+    ).then((response, error) => {
       return callback(null, {
         msg: "Upvote Updated successfully!",
         success: true,

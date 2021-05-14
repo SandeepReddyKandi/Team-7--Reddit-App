@@ -24,12 +24,17 @@ const handle_request = async (req, callback) => {
       },
       { $sort: { length: -1 } },
     ])
-      .skip(parseInt(req.page))
+      .skip(parseInt(req.page * req.rows))
       .limit(parseInt(req.rows));
 
+    let totalRows = await PostModel.countDocuments({ community_id: req.id });
+    let json = {
+      totalRows,
+      data: posts,
+    };
     return callback(null, {
       msg: "",
-      data: posts,
+      data: json,
       success: true,
     });
   } catch (error) {

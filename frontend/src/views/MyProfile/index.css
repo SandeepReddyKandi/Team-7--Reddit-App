@@ -1,0 +1,347 @@
+.tabs-container {
+    background: #fff;
+    border-bottom: 1px solid #edeff1;
+    display: flex;
+    height: 48px;
+    text-transform: uppercase;
+    width: 100%;
+}
+
+.tabs-content {
+    height: 100%;
+    padding: 0 20px;
+}
+
+.tabs-items-cont {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.tab-item.active {
+    box-shadow: inset 0 -2px 0 0 #0079d3;
+    color: #0079d3;
+}
+
+.tab-item {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 18px;
+    -ms-flex-align: center;
+    align-items: center;
+    color: #1a1a1b;
+    cursor: pointer;
+    display: flex;
+    height: 100%;
+    margin: 0 5px;
+    padding: 0 8px;
+    white-space: nowrap;
+}
+
+.profile-container {
+    border: 1px solid #ccc;
+    border-radius: 5px 5px 4px 4px;
+}
+
+.profile-container .top-background {
+    height: 100px;
+    background: #34a7fc;
+    position: relative;
+}
+
+.profile-container .edit-cont {
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #0079d3;
+    cursor: pointer;
+}
+
+.profile-container .edit-cont-upload {
+    white-space: nowrap;
+    border-radius: 0;
+    width: auto;
+    display: flex;
+    padding: 0 12px;
+    align-items: center;
+}
+
+.profile-container .edit-cont-upload p {
+    margin-bottom: 0;
+}
+
+.profile-container .avatar-cont {
+    position: absolute;
+    width: 86px;
+    height: 86px;
+    bottom: -14px;
+    border: 4px solid white;
+    border-radius: 5px;
+    left: 18px;
+    z-index: 99;
+}
+
+.profile-container .top-background .edit-cont {
+    bottom: 12px;
+    right: 12px;
+}
+
+.profile-container .avatar-cont .edit-cont {
+    bottom: -10px;
+    right: -14px;
+}
+
+
+.profile-container .edit-cont-upload .edit-cont  {
+    bottom: 15px;
+    right: 50px;
+}
+
+.profile-container img {
+    width: 100%;
+    height: 100%;
+}
+
+.profile-container .setting-cont {
+    position: absolute;
+    right: 16px;
+    top: 8px;
+    cursor: pointer;
+}
+
+.profile-container .name-container h4 {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20px;
+    margin-bottom: 0;
+}
+
+.profile-container .name-container span {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 16px;
+}
+
+.profile-container .main-container {
+    padding: 28px 14px 14px;
+    background: white;
+    position: relative;
+}
+
+.profile-container .round-btn {
+    margin-top: 8px;
+    display: flex;
+    min-height: 32px;
+    min-width: 32px;
+    align-items: center;
+    justify-content: space-between;
+    color: #fff;
+    border-radius: 999px;
+    width: 100%;
+    padding: 3px 16px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: unset;
+    line-height: 17px;
+    border: none;
+}
+
+.profile-container .round-btn svg {
+    height: 15px;
+}
+
+.profile-container .red-btn {
+    background: linear-gradient(90deg, #ec0623, #ff8717);
+}
+
+.profile-container .green-btn {
+    background: linear-gradient(90deg, #157604, #42b5ff);
+}
+
+/* USER DETAIL COMPONENT CHANGES */
+
+.edit-btns-container .round-btn {
+    font-size: 18px;
+    font-weight: 400;
+    padding: 12px;
+}
+
+.profile-container .blue-btn {
+    background: #0079d3;
+}
+
+.profile-container .description-cont p {
+    font-family: Noto Sans,Arial,sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+    color: #1c1c1c;
+    margin-bottom: 8px;
+    margin-top: 8px;
+}
+
+.profile-container .repo-cont {
+    display: flex;
+    gap: 12px;
+    margin-top: 32px;
+}
+
+.profile-container .karma, .profile-container .cake {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 12px;
+}
+
+.repo-cont span {
+    color: #7c7c7c;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.repo-cont span.label {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 18px;
+    color: #222222;
+}
+
+.option-toggle {
+    font-family: Noto Sans,Arial,sans-serif;
+    letter-spacing: unset;
+    line-height: 17px;
+    text-transform: unset;
+    min-height: 32px;
+    min-width: 32px;
+    padding: 4px 0;
+    color: #0079d3;
+    margin-top: 12px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.option-toggle span {
+    padding: 12px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.option-toggle span:hover {
+    background: #ededed;
+}
+
+.trophy-container, .help-container {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 32px;
+    padding: 12px 14px;
+}
+
+.trophy-container .header-container {
+    margin-bottom: 24px;
+}
+
+.trophy-container .header-container h2 {
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 700;
+}
+
+.trophy-main-content {
+    display: flex;
+    gap: 8px;
+}
+
+.trophy-main-content .img-cont {
+    width: 42px;
+    height: 42px;
+}
+
+.trophy-container .text-cont h5 {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 25px;
+    margin: 0;
+    color: #1c1c1c;
+}
+
+.trophy-container .text-cont p {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 16px;
+    color: #1c1c1c;
+}
+
+.help-container .help-content {
+    display: flex;
+    gap: 16px;
+}
+
+.help-container .help-content .help-item {
+    font-family: Noto Sans,Arial,sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    color: rgb(26, 26, 27);
+    margin: 3px 0;
+}
+
+.help-col {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    text-transform: capitalize;
+}
+
+.right-reserved-cont {
+    font-family: Noto Sans,Arial,sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    margin-top: 24px;
+}
+
+/* USER DETAILS CARD CSS */
+.MuiFormControl-root {
+    margin: 20px 0!important;
+    width: 100%;
+}
+#gender {
+    display: flex;
+    flex-direction: row;
+}
+
+.user-data .MuiFormLabel-root {
+    /*font-size: 12px;*/
+}
+
+.topics-input-cont {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.topics-input-cont .MuiFormControl-root {
+    flex: 2;
+}
+.topics-input-cont button {
+    padding: 4px 6px;
+    font-size: 12px;
+    background: #ec0623;
+    color: white;
+    flex: 1;
+}
+
+.topics-list-cont > div {
+    margin: 4px 8px 6px 0;
+}
+

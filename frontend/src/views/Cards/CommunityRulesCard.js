@@ -30,7 +30,7 @@ class CommunityRulesCard extends React.Component {
                 <Typography variant="body2" component="p">
                   {r.description}
                 </Typography>
-                <div className="dropdown-divider" />;
+                <div className="dropdown-divider" />
               </>
             ))
           ) : (

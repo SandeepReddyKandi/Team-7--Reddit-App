@@ -13,6 +13,7 @@ const {
   ADD_POST_IMAGE,
   ADD_POST_LINK,
   GET_POST_COMMUNITY,
+  GET_POST_BY_ID,
 } = require('../kafka/topics');
 auth();
 
@@ -173,7 +174,7 @@ exports.sortPostByDate = async (req, res) => {
 
 exports.getPostById = async (req, res) => {
   const data = {
-    post_id: req.body.post_id,
+    post_id: req.query.id,
   };
   const payload = data;
   kafka.make_request(GET_POST_BY_ID, payload, (error, results) => {

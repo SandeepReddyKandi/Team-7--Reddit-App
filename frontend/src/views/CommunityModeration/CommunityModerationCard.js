@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/react-in-jsx-scope */
 /* eslint-disable jsx-a11y/alt-text */
@@ -14,10 +15,11 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import PeopleIcon from '@material-ui/icons/People';
+import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import NotesIcon from '@material-ui/icons/Notes';
 import './TextDisplayCard.css';
 
-const CommunityModerationCard = ({community}) => {
+const CommunityModerationCard = ({community, showModal, requestToggle}) => {
     const [color, setColor] = useState('Azure');
     const onMouseOver = () => setColor('AliceBlue');
     const onMouseOut = () => setColor('Azure')
@@ -26,7 +28,7 @@ const CommunityModerationCard = ({community}) => {
           <Card
           onMouseOver={onMouseOver}
           onMouseOut={onMouseOut}
-          style={{backgroundColor: color}}>
+          style={{backgroundColor: color, maxHeight: "300px"}}>
           <Row style={{marginTop: "1%"}}>
               <Col md={8}>
                   <Row>
@@ -60,7 +62,7 @@ const CommunityModerationCard = ({community}) => {
                       </Col>
                   </Row>
                   <Row>
-                      <CardContent >
+                      <CardContent style={{maxHeight: "20px"}}>
                           <Typography variant="body2" color="textSecondary" component="p" style={{
                               paddingLeft:60
                           }}>{community.description}
@@ -72,19 +74,25 @@ const CommunityModerationCard = ({community}) => {
                           paddingLeft:30
                       }}>
                           <IconButton aria-label="add to favorites">
-                              <PeopleIcon />
+                              <PeopleIcon onClick={() => showModal(community.members, community._id)}/>
                           </IconButton>
                           <Typography>{`${community.members.length}`}</Typography>
                           <IconButton aria-label="share">
                               <NotesIcon />
                           </IconButton>
                           <Typography>{`${community.posts.length}`}</Typography>
+                          <IconButton aria-label="share">
+                              <GroupAddIcon onClick={() => requestToggle(community._id)} />
+                          </IconButton>
                       </CardActions>
                   </Row>
               </Col>
           </Row>
         </Card>
           </div>
-      )
+    )
+}
+CommunityModerationCard.defaultProps = {
+    community: {members: [], posts: []}
 }
 export default CommunityModerationCard
