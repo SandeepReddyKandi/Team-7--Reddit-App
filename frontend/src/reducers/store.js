@@ -6,6 +6,7 @@ import CommunityHomePageReducer from './CommunityHomePageReducer';
 import CommunityModerationReducer from './CommunityModerationReducer';
 import UserReducer from './UserReducer';
 import PostReducer from './PostReducer';
+import DashboardReducer from './DashboardReducer';
 
 export default configureStore(
   {
@@ -15,6 +16,7 @@ export default configureStore(
       communitymoderation: CommunityModerationReducer,
       user: UserReducer,
       post: PostReducer,
+      dashboard: DashboardReducer,
     },
   },
   composeWithDevTools()
