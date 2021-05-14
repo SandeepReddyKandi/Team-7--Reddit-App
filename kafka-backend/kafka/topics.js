@@ -34,6 +34,7 @@ const SORT_POST_BY_UPVOTE = "sortPostByUpvote";
 const SORT_POST_BY_DOWNVOTE = "sortPostByDownvote";
 const SORT_POST_BY_DATE = "sortPostByDate";
 const SEARCH_POST_BY_CRITERIA = 'searchPostByCriteria';
+const SORT_DASHPOSTS_BY_UPVOTES = 'sortDashPostsByUpvotes';
 
 //Comment
 const ADD_COMMENT = "addComment";
@@ -91,5 +92,6 @@ module.exports = {
   UPVOTE_POST,
   ADD_SUB_COMMENT,
   GET_POST_BY_ID,
-  SEARCH_POST_BY_CRITERIA
+  SEARCH_POST_BY_CRITERIA,
+  SORT_DASHPOSTS_BY_UPVOTES
 };
