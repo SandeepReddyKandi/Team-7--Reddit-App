@@ -16,16 +16,20 @@ const {
   getCommunityByPage,
   getCommunityByAdmin,
   getCommunityByMember,
+  getInvitationsForCommunity,
   getCommunityAnalytics,
   getRulesTopics,
   getInvitations,
   getInvitationsByPage,
   getCommunityVoteCount,
   getCommunityNameById,
+  approveInvite,
 } = require('../controllers/community');
 
+router.post('/approveInvite', checkAuth, approveInvite);
 router.get('/getInvitations', checkAuth, getInvitations);
 router.post('/getInvitationsByPage', checkAuth, getInvitationsByPage);
+router.get('/getInvitationByCommunity', checkAuth, getInvitationsForCommunity);
 router.post('/invite', checkAuth, sendInvite);
 router.post('/rate', checkAuth, rateCommunity);
 router.get('/getVoteCount', checkAuth, getCommunityVoteCount);

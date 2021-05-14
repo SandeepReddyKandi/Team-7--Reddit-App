@@ -220,7 +220,7 @@ export default function Header(props) {
         </IconButton>
         <p>Notifications</p>
       </MenuItem>
-      <Dropdown>
+      <Dropdown style={{marginLeft:'10%'}}>
         <Dropdown.Toggle className="header-user" id="dropdown-basic">
           <AccountCircle />
           {name}
@@ -260,7 +260,7 @@ export default function Header(props) {
     </Menu>
   );
 
-  return (
+  return (  
     <header>
       <div className={classes.grow} style={{ marginLeft: '1%' }}>
         <AppBar position="static" color="default" width="100%">
@@ -309,15 +309,21 @@ export default function Header(props) {
                       <Dropdown.Item>
                         <Link
                           to="/createCommunity"
-                          style={{ cursor: 'pointer', color: 'black' }}
-                        >
+                          style={{ cursor: 'pointer', color: 'black' }}>
                           Create Community
-                            </Link>
+                        </Link>
                       </Dropdown.Item>
                       <Dropdown.Item>
                         <Link to="/myCommunity" style={{ cursor: 'pointer', color: 'black' }}>
                           My Communities
                             </Link>
+                      </Dropdown.Item>
+                      <Dropdown.Item>
+                        <Link
+                          to="/communitysearchpage"
+                          style={{ cursor: 'pointer', color: 'black' }}>
+                          Search Community
+                        </Link>
                       </Dropdown.Item>
                       <Dropdown.Item onClick={logout}>
                         <Link to="/" style={{ cursor: 'pointer', color: 'black' }}>

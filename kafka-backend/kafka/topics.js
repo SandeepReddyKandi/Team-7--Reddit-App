@@ -1,8 +1,8 @@
 // User
 const USER_LOGIN = "userLogin";
 const USER_SIGNUP = "userSignup";
-const GET_USER_BY_USER_NAME = 'getUserByUserName';
-const UPDATE_USER_PROFILE = 'updateUserProfile';
+const GET_USER_BY_USER_NAME = "getUserByUserName";
+const UPDATE_USER_PROFILE = "updateUserProfile";
 const GET_USERS_BY_NAME = "getUsersByName";
 const GET_USERS = "getUsers";
 const GET_USER_BY_ID = "getUserById";
@@ -38,6 +38,7 @@ const SORT_POST_BY_UPVOTE = "sortPostByUpvote";
 const SORT_POST_BY_DOWNVOTE = "sortPostByDownvote";
 const SORT_POST_BY_DATE = "sortPostByDate";
 const SEARCH_POST_BY_CRITERIA = "searchPostByCriteria";
+const SORT_DASHPOSTS_BY_UPVOTES = "sortDashPostsByUpvotes";
 
 //Comment
 const ADD_COMMENT = "addComment";
@@ -51,6 +52,8 @@ const SEND_INVITE = "sendInvite";
 const GET_STATUS = "getStatus";
 const GET_INVITATIONS = "getInvitations";
 const GET_INVITATIONS_BY_PAGE = "getinvitationsByPage";
+const GET_INVITATIONS_FOR_COMMUNITY = "getInvitationsForCommunity";
+const APPROVE_INVITE = "approveInvite";
 
 module.exports = {
   GET_USERS,
@@ -74,6 +77,7 @@ module.exports = {
   SORT_POST_BY_UPVOTE,
   SORT_POST_BY_DOWNVOTE,
   SORT_POST_BY_DATE,
+  GET_INVITATIONS_FOR_COMMUNITY,
   // GET_POST,
   // GET_POST_BY_ID
   GET_COMMUNITY_BY_NAME,
@@ -90,6 +94,7 @@ module.exports = {
   GET_POST_BY_PAGE,
   GET_COMMENT,
   SEND_INVITE,
+  APPROVE_INVITE,
   GET_INVITATIONS,
   GET_INVITATIONS_BY_PAGE,
   JOIN_COMMUNITY,
@@ -100,4 +105,5 @@ module.exports = {
   ADD_SUB_COMMENT,
   GET_POST_BY_ID,
   SEARCH_POST_BY_CRITERIA,
+  SORT_DASHPOSTS_BY_UPVOTES,
 };

@@ -6,12 +6,10 @@ const handle_request = async (req, callback) => {
         if (req) {
             const criteria = {
                 $or: [
-                    { "text": req.searchPostsCriteria },
-                    { "title": req.searchPostsCriteria }
+                    { text:  { '$regex': req.searchPostsCriteria , '$options': 'i'} },
+                    { title:  { '$regex': req.searchPostsCriteria , '$options': 'i'} }
                 ]
             }
-            // criteria.searchPostsCriteria = { $regex: req.searchPostsCriteria, $options: "i" };
-            console.log("***********", criteria);
             const data = await Post.find(criteria)
             if (data) {
                 console.log("no error");
@@ -29,25 +27,6 @@ const handle_request = async (req, callback) => {
                     success: false,
                 });
             }
-
-
-            //         , (err, doc) => {
-            // if (err) {
-            //     console.log("Error")
-            //     return callback(null, {
-            //         msg: error.message,
-            //         success: false,
-            //     });
-            // }
-            // else {
-            //     console.log("no error")
-            //     return callback(null, {
-            //         msg: "Posts found",
-            //         success: true,
-            //         data: doc,
-            //     });
-            // }
-            // });
         }
     }
     catch (error) {

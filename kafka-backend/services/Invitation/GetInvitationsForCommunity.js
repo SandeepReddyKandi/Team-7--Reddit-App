@@ -22,7 +22,7 @@ const handle_request = async (req, callback) => {
           data: response,
         });
       }
-    }).populate('users');
+    }).populate('sender');
   } catch (error) {
     return callback(null, {
       msg: error.message,

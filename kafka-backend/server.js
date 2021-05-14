@@ -26,6 +26,8 @@ const {
   DOWNVOTE_COMMENT,
   SORT_POST_BY_UPVOTE,
   SORT_POST_BY_DOWNVOTE,
+  GET_INVITATIONS_FOR_COMMUNITY,
+  APPROVE_INVITE,
   // GET_POST,
   // GET_POST_BY_ID
   GET_COMMUNITY_BY_NAME,
@@ -48,6 +50,7 @@ const {
   SORT_POST_BY_DATE,
   ADD_SUB_COMMENT,
   SEARCH_POST_BY_CRITERIA,
+  SORT_DASHPOSTS_BY_UPVOTES
 } = require("./kafka/topics");
 
 //user
@@ -95,6 +98,8 @@ const sendInvite = require("./services/Invitation/SendInvite");
 const getStatus = require("./services/Invitation/GetStatus");
 const getInvitations = require("./services/Invitation/GetInvitations");
 const getInvitationsByPage = require("./services/Invitation/GetInvitationsByPage");
+const getInvitationsForCommunity = require("./services/Invitation/GetInvitationsForCommunity");
+const approveInvite = require("./services/Invitation/ApproveInvite");
 
 //Post
 const addPostText = require("./services/Post/AddPostText");
@@ -104,6 +109,7 @@ const getPostCommunity = require("./services/Post/GetPostCommunity");
 const downvotePost = require("./services/Post/DownvotePost");
 const sortPostByDATE = require("./services/Post/SortPostByDate");
 const searchPostsByCriteria = require("./services/Post/SearchPostsByCriteria");
+const sortDashPostsByUpvotes = require("./services/Post/SortDashPostsByUpvotes");
 // const getPost = require("./services/Post/GetPost");
 // const getPostbyID = require("./services/Post/GetPostbyID");
 
@@ -199,6 +205,7 @@ handleTopicRequest(SORT_POST_BY_DOWNVOTE, sortPostByDownvote);
 handleTopicRequest(SORT_POST_BY_DATE, sortPostByDATE);
 handleTopicRequest(SORT_POST_BY_DATE, sortPostByDATE);
 handleTopicRequest(SEARCH_POST_BY_CRITERIA, searchPostsByCriteria);
+handleTopicRequest(SORT_DASHPOSTS_BY_UPVOTES, sortDashPostsByUpvotes);
 
 //Comment
 handleTopicRequest(ADD_COMMENT, addComment);
@@ -212,3 +219,5 @@ handleTopicRequest(GET_INVITATIONS, getInvitations);
 handleTopicRequest(GET_INVITATIONS_BY_PAGE, getInvitationsByPage);
 handleTopicRequest(SEND_INVITE, sendInvite);
 handleTopicRequest(GET_STATUS, getStatus);
+handleTopicRequest(GET_INVITATIONS_FOR_COMMUNITY, getInvitationsForCommunity);
+handleTopicRequest(APPROVE_INVITE, approveInvite);
