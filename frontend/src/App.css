@@ -52,7 +52,7 @@
   border-radius: 4px;
   text-align: center;
   background: #0079d3;
-  text-transform: uppercase;
+  /*text-transform: uppercase;*/
   cursor: pointer;
   line-height: unset;
   height: 40px;

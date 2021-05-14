@@ -43,7 +43,7 @@ const MyCommunityCreate = () => {
   const [textState, setTextState] = useState();
   const [textState2, setTextState2] = useState();
   const reduxData = useSelector((state) => state.addCommunity);
-  
+
   useEffect(() => {
     dispatch(getRulesTopic());
   }, [dispatch]);
@@ -107,7 +107,7 @@ const MyCommunityCreate = () => {
       }
     }
   };
-  
+
   const removeFromRules = (rules) => {
     rulesList.splice(rulesList.indexOf(rules), 1);
     addRules([...rulesList]);
@@ -129,13 +129,13 @@ const MyCommunityCreate = () => {
   }
   const submit = () => {
     const data = {
-      admin_id: localStorage.getItem('user'),
+      admin_id: localStorage.getItem('userId'),
       community_name: document.getElementById('name').value,
       community_id: `r1/${document.getElementById('name').value.replace(' ','').toLowerCase()}`,
       description: document.getElementById('description').value,
       rules: rulesList,
       topic: topicList,
-      members: [localStorage.getItem('user')],
+      members: [localStorage.getItem('userId')],
       images: imageList,
     };
     const  newTopic=[];
@@ -238,7 +238,7 @@ const MyCommunityCreate = () => {
                         data-testid="rulestitle"
                       />
                     </Hint>
-                    
+
                     {showDesc ? <div className="form-label-group">
                     <h6>Rule Description</h6>
                     <input

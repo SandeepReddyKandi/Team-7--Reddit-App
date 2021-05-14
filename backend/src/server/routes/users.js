@@ -11,6 +11,8 @@ const {
   profile,
   autoLogin,
   getUsers,
+  getUserByUserName,
+  uploadUserProfile,
   getUsersByName,
   getUserById,
 } = require('../controllers/users');
@@ -48,6 +50,8 @@ router.get('/getUsersByName', checkAuth, getUsersByName);
 router.get('/getUserById', checkAuth, getUserById);
 router.get('/autoLogin', checkAuth, autoLogin);
 router.post('/profile', checkAuth, profile);
+router.post('/profile/:userName', checkAuth, getUserByUserName);
+router.post("/upload-profile-picture/:userName", checkAuth, upload, uploadUserProfile);
 router.get('/getUsers', checkAuth, getUsers);
 router.post('/logout', (req, res) => {
   res.clearCookie('authtkn');
