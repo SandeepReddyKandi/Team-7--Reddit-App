@@ -1,6 +1,7 @@
 const Community = require("../../models/CommunityModel");
 const Post = require("../../models/PostModel");
 const User = require("../../models/UserModel");
+const mongoose = require("mongoose");
 
 const handle_request = async (req, callback) => {
     try {
@@ -21,7 +22,7 @@ const handle_request = async (req, callback) => {
             criteria.admin_id = req.adminId;
         }
 
-        const agg = Community.aggregate([{$match: {admin_id: req.adminId}}, {
+        const agg = Community.aggregate([{$match: {admin_id: mongoose.Types.ObjectId(req.adminId)}}, {
             $project: {
                 membersCount: {$size: '$members'},
                 postsCount: {$size: '$posts'},
@@ -53,7 +54,7 @@ const handle_request = async (req, callback) => {
                                     $match: {_id: post}
                                 },
                                 {
-                                    $project: {upvoteCount: {$size: '$upvote'}, title: 1, author_id: 1,}
+                                    $project: {upvoteCount: {$size: '$upvote'}, title: 1, author_id: 1, community_id: 1}
                                 }
                             ])
                     )
@@ -76,9 +77,10 @@ const handle_request = async (req, callback) => {
             const mostActiveUser = { userId: '', postsCounts: 0}
             const authorPostCountMap = {}
             res.map(resItem => {
-                const {upvoteCount,author_id, _id, title } = resItem[0];
+                const {upvoteCount,author_id, _id, title, community_id } = resItem[0];
                 if (upvoteCount > mostUpVoteObj.upvoteCount) {
                     mostUpVoteObj.postId = _id;
+                    mostUpVoteObj.community_id = community_id;
                     mostUpVoteObj.postTitle = title;
                     mostUpVoteObj.upvoteCount = upvoteCount;
                 }
@@ -93,26 +95,24 @@ const handle_request = async (req, callback) => {
             // get Community details
             let communityDetails = {};
             if (mostUpVoteObj.postId) {
-                communityDetails = await Community.findById( mostUpVoteObj.postId, {
+                communityDetails = await Post.findOne({_id: mostUpVoteObj.postId}, {
                     images: 1,
-                    rules: 1,
-                    posts: 1,
-                    members: 1,
                     upvote: 1,
                     downvote: 1,
                     community_id: 1,
-                    community_name: 1,
-                    description: 1,
-                    admin_id: 1,
+                    author_id: 1,
+                    text: 1,
+                    title: 1,
                     createdAt: 1,
                     topic: 1,
                 });
+                console.log('COMMUNITY DETAILS IS, ',mostUpVoteObj,  communityDetails)
             }
 
             // get Community details
             let userDetails = {};
             if (mostActiveUser.userId) {
-                userDetails = await User.findById( mostActiveUser.userId, {
+                userDetails = await User.findById(mostActiveUser.userId, {
                     userName: 1,
                     name: 1,
                     location: 1,
@@ -122,6 +122,8 @@ const handle_request = async (req, callback) => {
                     topics: 1,
                     createdAt: 1,
                 });
+                console.log('USER DETAILS IS, ', userDetails)
+
             }
             postDetailMap[comm] = {
                 ...rest,

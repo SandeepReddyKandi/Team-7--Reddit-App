@@ -82,7 +82,7 @@ class CommunityHomePage extends React.Component {
   checkStatus = async () => {
     const { community } = this.state;
     const data = {
-      userId: localStorage.getItem('userId'), // localStorage.getItem('user'),
+      userId: localStorage.getItem('userId'), // localStorage.getItem('userId'),
       community_id: community._id,
     };
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
