@@ -34,7 +34,7 @@ class UserProfile extends React.Component {
   };
 
   getCommunitites = async () => {
-    const userId = localStorage.getItem('user');
+    const userId = localStorage.getItem('userId');
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
     await axios
@@ -57,7 +57,7 @@ class UserProfile extends React.Component {
   redirectToCommunity = () => <Redirect to="/communityhomepage"></Redirect>; // community object as well
 
   getUserById = async () => {
-    const userId = localStorage.getItem('user');
+    const userId = localStorage.getItem('userId');
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
     await axios

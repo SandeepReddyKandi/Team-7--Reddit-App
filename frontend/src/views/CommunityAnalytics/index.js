@@ -70,7 +70,7 @@ class CommunityAnalytics extends React.Component {
         axios.get(`${constants.baseUrl}/community/communities/${maxUpvotesCommId}`, {
             headers: { authorization: `Bearer ${localStorage.getItem('token')}` },
         }).then((response, error) => {
-            if (error) {
+            if (error || !response.data) {
                 console.log(response);
             } else {
                 this.setState({
@@ -85,7 +85,7 @@ class CommunityAnalytics extends React.Component {
     transformAnalyticsData = async (param) => {
 
         const data = param ? param.data : {};
-
+        console.log('data is', data);
         const memberData = {
             labels: [], // Ids of group
             datasets: [
@@ -123,15 +123,16 @@ class CommunityAnalytics extends React.Component {
             commNameLabels.push(data[commId].communityName);
             postPerComm.push(data[commId].postsCount);
             memPerComm.push(data[commId].membersCount);
-            if (maxUpvotes < data[commId]) {
-                maxUpvotes = data[commId];
+            if (maxUpvotes < data[commId].postsCount) {
+                maxUpvotes = data[commId].postsCount;
                 maxUpvotesCommId = commId;
             }
         });
+
         postData.labels = commNameLabels;
-        postData.datasets = postPerComm;
+        postData.datasets[0].data = postPerComm;
         memberData.labels = commNameLabels;
-        memberData.datasets = postPerComm;
+        memberData.datasets[0].data = postPerComm;
 
         this.setState({
             activeUserChart: {
@@ -175,7 +176,7 @@ class CommunityAnalytics extends React.Component {
                     <Row style={{ padding: '20px 24px'}}>
                         <Col style={{ width: '640px', flexBasis: 'auto'  }} >
                             <div className='comm-card'>
-                                <div className='comm-card-head'>Active User Info</div>
+                                <div className='comm-card-head'>Active User Info For Each Community</div>
                             </div>
 
                             <div className='comm-card'>
@@ -183,7 +184,7 @@ class CommunityAnalytics extends React.Component {
                             </div>
 
                             <div className='comm-card'>
-                                <div className='comm-card-head'>Posts Info</div>
+                                <div className='comm-card-head'>Posts Info For Each Community</div>
                             </div>
 
                             <div className='comm-card'>
@@ -203,14 +204,14 @@ class CommunityAnalytics extends React.Component {
                         </Col>
                         <Col style={{ width: '312px', marginLeft: '24px', flexBasis: 'auto' }}>
                             {
-                                analyticsData && Object.keys(analyticsData).map(comm => (
-                                        <>
+                                analyticsData && Object.keys(analyticsData).filter(comm => analyticsData[comm].mostActiveUser.userId).map(comm => (
+                                        <div style={{ marginBottom: '24px'}}>
                                             <div className='comm-card'>
                                                 <div className='comm-card-head no-mar'>Most Active User In <b>{analyticsData[comm].communityName}</b></div>
                                                 <div className='comm-card-small-text no-mar'>Created most number of posts in <b>{analyticsData[comm].communityName}</b></div>
                                             </div>
                                             <UserCard user={analyticsData[comm].mostActiveUser} showEdit={false}/>
-                                        </>
+                                        </div>
                                     )
                                 )
                             }

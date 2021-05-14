@@ -84,15 +84,14 @@ exports.getCommunity = async (req, res) => {
   });
 };
 exports.getCommunityById = async (req, res) => {
-  const payload = { community_id: req.query.community_id };
+  const payload = { community_id: req.params.community_id };
   kafka.make_request(GET_COMMUNITY_BY_ID, payload, (error, results) => {
     if (!results.success) {
       res.status(400).send(results);
     } else {
-      // console.log(results);
       res.status(200).json({
         msg: results.msg,
-        //role: results.role,
+        data: results.data,
       });
     }
   });

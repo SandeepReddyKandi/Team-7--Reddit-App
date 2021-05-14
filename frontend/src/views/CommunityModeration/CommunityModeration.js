@@ -42,7 +42,7 @@ const CommunityModeration = () => {
   const [modalToggle, setModalToggle] = useState(false);
   const [communityModal, setCommunityModal] = useState(null);
 useEffect(() => {
- dispatch(getMyCommunity(localStorage.getItem('user')))
+ dispatch(getMyCommunity(localStorage.getItem('userId')))
 }, [dispatch])
   const input = document.querySelector('topic');
   if (input !== null) {
@@ -68,7 +68,7 @@ useEffect(() => {
     <RequestTab communityId={requestCommunity}/>
       </Col>
       <Col md={6}>
-        {reduxData.community.length > 0 ? 
+        {reduxData.community.length > 0 ?
           <div>{reduxData.community.map((community) => <CommunityModerationCard community={community} requestToggle={toggleRequest} showModal={showModal} />)}</div>
         : null}
         <TablePagination

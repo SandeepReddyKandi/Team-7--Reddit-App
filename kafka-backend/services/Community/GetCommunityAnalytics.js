@@ -1,6 +1,7 @@
 const Community = require("../../models/CommunityModel");
 const Post = require("../../models/PostModel");
 const User = require("../../models/UserModel");
+const mongoose = require("mongoose");
 
 const handle_request = async (req, callback) => {
     try {
@@ -21,7 +22,7 @@ const handle_request = async (req, callback) => {
             criteria.admin_id = req.adminId;
         }
 
-        const agg = Community.aggregate([{$match: {admin_id: req.adminId}}, {
+        const agg = Community.aggregate([{$match: {admin_id: mongoose.Types.ObjectId(req.adminId)}}, {
             $project: {
                 membersCount: {$size: '$members'},
                 postsCount: {$size: '$posts'},

@@ -30,7 +30,7 @@ router.post('/rate', checkAuth, rateCommunity);
 router.get('/getVoteCount', checkAuth, getCommunityVoteCount);
 router.post('/add', checkAuth, addCommunity);
 router.get('/communities', checkAuth, getCommunity);
-router.get('/communities/:id', checkAuth, getCommunityById);
+router.get('/communities/:community_id', checkAuth, getCommunityById);
 router.post('/status', checkAuth, getStatus);
 router.get('/gettr', checkAuth, getRulesTopics);
 router.get('/getCommunityByName', checkAuth, getCommunityByName);

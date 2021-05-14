@@ -70,7 +70,7 @@ class PostCard extends React.Component {
       title: this.state.title,
       text: this.state.text,
       community: this.state.community,
-      UserID: localStorage.getItem("user")
+      UserID: localStorage.getItem("userId")
     };
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
