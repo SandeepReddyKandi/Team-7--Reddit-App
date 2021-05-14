@@ -2,15 +2,16 @@ const Community = require("../../models/CommunityModel");
 const Post = require("../../models/PostModel");
 const Comment = require("../../models/CommentModel");
 const SubComment = require("../../models/SubCommentModel");
-const Invitation = require("../../models/InvitationModel");
 
 const handle_request = async (req, callback) => {
   try {
       const community_id = req.body.community_id;
       const user_id = req.body.user_id;
-      const posts = await Post.find({community_id: community_id});
+      const community = await Community.find({_id: community_id}).populate('posts');
+      const posts = community[0].posts;
+      community[0].members.splice(community[0].members.indexOf(user_id), 1);
       const postList = [];
-      const deletePostList = []; 
+      const deletePostList = [];
       for (let i in posts){
           if( user_id === posts[i].author_id) {
             deletePostList.push(posts[i]._id)
@@ -36,15 +37,12 @@ const handle_request = async (req, callback) => {
       SubComment.deleteMany({_id: {$in: deleteSubcommentList}})
       Comment.deleteMany({_id: { $in: deleteCommentList } })
       Post.deleteMany({_id: deletePostList})
-      Invitation.deleteMany({community_id: community_id})
-      Community.updateMany({_id: community_id},{$pop: {members: user_id}}, (err, docs) => {
-          if (!err){
-            callback(null, {
-                msg: "Community member removed successfully",
-                success: true,
-            });
-          }
-      })
+      community[0].save().then(() => {
+        return callback(null, {
+          msg: "Community created successfully",
+          success: true,
+        });
+      });
   } catch (error) {
     return callback(null, {
       msg: error.message,
