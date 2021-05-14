@@ -12,7 +12,6 @@ export default function RequestTab({communityId}) {
     const dispatch = useDispatch();
     const reduxData = useSelector((state) => state.communitymoderation);
     const approveInvite = (userId, inviteId, communityid) => {
-        console.log(userId, ".......", communityid )
         const data = {invite_id: inviteId, invitee: userId, community_id: communityid}
         dispatch(approveInvitataion(data))
     }

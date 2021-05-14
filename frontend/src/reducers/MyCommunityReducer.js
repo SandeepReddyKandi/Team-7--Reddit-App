@@ -39,6 +39,10 @@ export const MyCommunityReducer = createSlice({
         state.feed = 'database issue, please use with other community name';
       }
     },
+    [addCommunity.rejected]: (state) => {
+      state.error = true;
+      state.feed = 'database issue, please use with other community name';
+    },
     [getRulesTopic.fulfilled]: (state, action) => {
       if (action.payload.auth) {
         state.rules = action.payload.response.rules;
