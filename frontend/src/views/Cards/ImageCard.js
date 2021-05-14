@@ -196,7 +196,7 @@ onImageSubmit= async(e)=> {
                     </form>
                 </div>
             </div>
-            <div className="form-group">
+            {/* <div className="form-group">
                         <button className="btn btn-primary" type="submit" onClick={this.showimage}>Show Images</button>
                         <Carousel
     style={{
@@ -216,7 +216,7 @@ onImageSubmit= async(e)=> {
       </Carousel.Item>
     ))}
   </Carousel>
-                        </div>
+                        </div> */}
                     <Row>&nbsp;</Row>
                     <Row>&nbsp;</Row>
                     <Row>

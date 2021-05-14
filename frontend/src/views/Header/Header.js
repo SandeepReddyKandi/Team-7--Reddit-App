@@ -201,10 +201,6 @@ const handleGetCommunityInvite=async(e)=>{
   const test = await axios.get(`${constants.baseUrl}/community/getcommunityinvite`,data);
   console.log("------testcheckget----", test.data.data.invitations);
   const inviteList= test.data.data.invitations;
-  // for (const i in test.data.data.invitations){
-  //   inviteList.push(test.data.data.invitations[i])
-  // }
-  // console.log(inviteList[0])
 
   var finalArray = inviteList.map(function (obj) {
     return obj.community_id;
@@ -365,11 +361,6 @@ const onRejectInvite=(e)=>{
                           </div>:<Dropdown.Item>
         {' '}
         </Dropdown.Item> }
-       
-        {/* <Dropdown.Item>
-        {' '}
-        test
-        </Dropdown.Item> */}
         </Dropdown.Menu>
       </Dropdown>
 
