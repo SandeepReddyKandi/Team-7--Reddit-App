@@ -4922,7 +4922,7 @@ class TextDisplayCard extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compo
       const {
         post
       } = this.props;
-      const userId = localStorage.getItem('user');
+      const userId = localStorage.getItem('userId');
       axios__WEBPACK_IMPORTED_MODULE_20___default.a.defaults.withCredentials = true;
       axios__WEBPACK_IMPORTED_MODULE_20___default.a.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
       const data = {
@@ -4944,7 +4944,7 @@ class TextDisplayCard extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compo
       const {
         post
       } = this.props;
-      const userId = localStorage.getItem('user');
+      const userId = localStorage.getItem('userId');
       axios__WEBPACK_IMPORTED_MODULE_20___default.a.defaults.withCredentials = true;
       axios__WEBPACK_IMPORTED_MODULE_20___default.a.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
       const data = {
@@ -4965,7 +4965,7 @@ class TextDisplayCard extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Compo
       const {
         post
       } = this.props;
-      const userId = localStorage.getItem('user');
+      const userId = localStorage.getItem('userId');
       axios__WEBPACK_IMPORTED_MODULE_20___default.a.defaults.withCredentials = true;
       axios__WEBPACK_IMPORTED_MODULE_20___default.a.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
       const data = {
@@ -6425,7 +6425,7 @@ class Comment extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
     };
 
     this.handleUpVote = async id => {
-      const userId = localStorage.getItem('user');
+      const userId = localStorage.getItem('userId');
       axios__WEBPACK_IMPORTED_MODULE_21___default.a.defaults.withCredentials = true;
       axios__WEBPACK_IMPORTED_MODULE_21___default.a.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
       const data = {
@@ -6443,7 +6443,7 @@ class Comment extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
     };
 
     this.handleDownVote = async id => {
-      const userId = localStorage.getItem('user');
+      const userId = localStorage.getItem('userId');
       axios__WEBPACK_IMPORTED_MODULE_21___default.a.defaults.withCredentials = true;
       axios__WEBPACK_IMPORTED_MODULE_21___default.a.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
       const data = {
@@ -6956,8 +6956,8 @@ class CommunityHomePage extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Com
         community
       } = this.props;
       const data = {
-        userId: localStorage.getItem('user'),
-        // localStorage.getItem('user'),
+        userId: localStorage.getItem('userId'),
+        // localStorage.getItem('userId'),
         community_id: community._id
       };
       axios__WEBPACK_IMPORTED_MODULE_8___default.a.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
@@ -7866,7 +7866,7 @@ class Dashboard extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
     super();
 
     this.getPost = () => {
-      const userId = localStorage.getItem('user');
+      const userId = localStorage.getItem('userId');
       axios__WEBPACK_IMPORTED_MODULE_4___default.a.defaults.headers.common["authorization"] = 'Bearer ' + localStorage.getItem('token');
       axios__WEBPACK_IMPORTED_MODULE_4___default.a.defaults.withCredentials = true;
       axios__WEBPACK_IMPORTED_MODULE_4___default.a.get(`${_constants_constants__WEBPACK_IMPORTED_MODULE_10__["default"].baseUrl}/post/?user=${userId}`).then((response, error) => {

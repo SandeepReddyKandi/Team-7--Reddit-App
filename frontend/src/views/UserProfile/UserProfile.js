@@ -1,3 +1,4 @@
+
 /* eslint-disable react/prefer-stateless-function */
 /* eslint-disable  dot-notation */
 /* eslint-disable prefer-template */
@@ -89,10 +90,10 @@ class UserProfile extends React.Component {
             <Col md={8}>
               <br />
               <List>
-             
+
                 {communities.length > 0 &&
                   communities.map((m) => (
-                    <MyCommunityCard community={m} />                   
+                    <MyCommunityCard community={m} />
                   ))}
               </List>
             </Col>

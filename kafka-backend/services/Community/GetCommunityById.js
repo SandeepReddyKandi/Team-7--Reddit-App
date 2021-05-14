@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 
 const handle_request = async (req, callback) => {
   try {
-    await CommunityModel.find(
+    await CommunityModel.findOne(
       { _id: mongoose.Types.ObjectId(req.community_id) },
       (err, response) => {
         if (err) {

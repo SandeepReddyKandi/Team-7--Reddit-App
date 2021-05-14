@@ -70,7 +70,7 @@ class LinkCard extends React.Component {
       title: this.state.title,
       URL: this.state.URL,
       community: this.state.community,
-      UserID: localStorage.getItem("user")
+      UserID: localStorage.getItem("userId")
     };
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
