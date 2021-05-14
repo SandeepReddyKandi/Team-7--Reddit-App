@@ -3,11 +3,10 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable react/prefer-stateless-function */
 import React from 'react';
-import HomeDashboard from './HomeDashboard';
 import Header from '../Header/Header';
-import Footer from '../Footer/Footer';
 import SignUp from '../Signup/Signup';
 import Login from '../Login/Login';
+import image from '../../Landing.png';
 
 class Home extends React.Component {
   constructor() {
@@ -28,8 +27,7 @@ class Home extends React.Component {
     return (
       <>
         <Header showSignup={this.showParentSignup} showLogin={this.showParentLogin} />
-        <HomeDashboard />
-        <Footer />
+        <img src={image} alt="background" className="img-fluid" width="100%" height="700px"/>
         {showSignup && <SignUp showSignup={this.showParentSignup} />}
         {showLogin && <Login showLogin={this.showParentLogin} />}
       </>

@@ -11,7 +11,7 @@ const handle_request = async (req, callback) => {
                 .exec()
                 .then((community)=>{
                     PostModel.create({
-                        community_id: community._id,
+                        community_id: community.community_id,
                         url: msg.URL,
                         title: msg.title,
                         author_id: user._id
