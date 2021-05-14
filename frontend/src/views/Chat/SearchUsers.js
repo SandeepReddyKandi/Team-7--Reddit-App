@@ -10,15 +10,6 @@ import constants from '../../constants/constants';
 class SearchUsers extends Component {
   constructor(props) {
     super(props);
-    // let currentUser;
-    // const token = localStorage.getItem('token');
-    // const currentTalkjsUser = jwtDecode(token);
-    // const currentTalkjsUser = await this.getUserById(localStorage.getItem('userId'));
-    // if (currentTalkjsUser) {
-    //  currentUser = currentTalkjsUser;
-    // eslint-disable-next-line no-underscore-dangle
-    //  currentUser.id = currentUser._id;
-    // }
     this.state = {
       users: [],
       currentUser: '',
