@@ -1,27 +1,55 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
-import { getMyCommunity } from '../actions/CommunityModerationAction';
+import { getMyCommunity, getMyInvitations, clearError, approveInvitataion } from '../actions/CommunityModerationAction';
 
 export const CommunityModerationReducer = createSlice({
     name: 'group',
     initialState: {
       community: [{
-        community_name:"Test Com",
-        description:" This is a new community.",
+        community_name:"No Community available",
+        description:" This is a not a community.",
         images:[],
-        posts: 23,
-        members: 4,
-        createdAt: "2021-04-30T04:09:41.307+00:00",
+        posts: 0,
+        members: 0,
+        createdAt: "",
         rules: [],
-        topics: ["topic1", "topic2"],
-      }]
+        topics: [],
+      }],
+      error: null,
+      message: null,
+      invitations: []
+
     },
     extraReducers: {
       [getMyCommunity.fulfilled]: (state, action) => {
         if (action.payload.auth) {
           state.community = action.payload.response;
         }
+        else{
+          state.error = "No data found";
+        }
       },
+      [getMyInvitations.fulfilled]: (state, action) => {
+        if (action.payload.auth) {
+          state.community = action.payload.response;
+        }
+        else{
+          state.error = "No data found";
+        }
+      },
+      [approveInvitataion.fulfilled]: (state, action) => {
+        if (action.payload.auth) {
+          state.message = "Successfully approved";
+        }
+        else{
+          state.error = "User Not Approved";
+        }
+
+      },
+      [clearError.fulfilled]: (state) => {
+          state.message = null;
+          state.error = null;
+      }
     },
   });
   

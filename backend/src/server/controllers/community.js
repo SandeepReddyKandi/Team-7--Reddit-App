@@ -98,7 +98,7 @@ exports.getCommunityById = async (req, res) => {
 };
 
 exports.getCommunityByAdmin = async (req, res) => {
-  const payload = { adminId: req.body.admin_id };
+  const payload = { adminId: req.query.id };
   kafka.make_request(GET_COMMUNITY_BY_ADMIN, payload, (error, results) => {
     if (!results.success) {
       res.status(400).send(results);
