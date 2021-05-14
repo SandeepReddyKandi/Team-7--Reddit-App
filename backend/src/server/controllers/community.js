@@ -16,6 +16,7 @@ const {
   GET_INVITATIONS,
   DELETE_COMMUNITY_BY_ID,
   GET_COMMUNITY_BY_PAGE,
+  GET_INVITATIONS_BY_PAGE,
 } = require('../kafka/topics');
 
 exports.addCommunity = async (req, res) => {
@@ -200,6 +201,25 @@ exports.getStatus = async (req, res) => {
 exports.getInvitations = async (req, res) => {
   const payload = { userId: req.query.userId };
   kafka.make_request(GET_INVITATIONS, payload, (error, results) => {
+    if (!results.success) {
+      res.status(400).send(results);
+    } else {
+      res.status(200).json({
+        msg: results.msg,
+        data: results.data,
+      });
+    }
+  });
+};
+
+exports.getInvitationsByPage = async (req, res) => {
+  const data = {
+    userId: req.body.userId,
+    page: req.body.page,
+    rows: req.body.rows,
+  };
+  const payload = data;
+  kafka.make_request(GET_INVITATIONS_BY_PAGE, payload, (error, results) => {
     if (!results.success) {
       res.status(400).send(results);
     } else {

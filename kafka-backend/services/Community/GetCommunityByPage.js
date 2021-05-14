@@ -28,7 +28,7 @@ const handle_request = async (req, callback) => {
       },
       { $sort: { community_name: 1 } },
     ])
-      .skip(parseInt(req.page))
+      .skip(parseInt(req.page * req.rows))
       .limit(parseInt(req.rows));
 
     const totalRows = await Community.countDocuments(criteria);

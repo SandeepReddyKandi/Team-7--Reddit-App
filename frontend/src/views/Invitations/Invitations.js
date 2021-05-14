@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import { Typography } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
+import TablePagination from '@material-ui/core/TablePagination';
 import axios from 'axios';
 import { Modal } from 'react-bootstrap';
 import Header from '../Header/Header';
@@ -25,6 +26,9 @@ class Invitations extends React.Component {
       selectedNames: [],
       communities: [],
       selectedCommunity: '',
+      page: 0,
+      rows: 2,
+      totalRows: 10,
     };
     this.getInvitations = this.getInvitations.bind(this);
     this.getUsers = this.getUsers.bind(this);
@@ -36,16 +40,35 @@ class Invitations extends React.Component {
     this.getInvitations();
   }
 
+  handleChangeRowsPerPage = async (event) => {
+    await this.setState({ rows: parseInt(event.target.value, 10), page: 0 });
+    this.getInvitations();
+  };
+
+  handleChangePage = (e, newpage) => {
+    e.preventDefault();
+    this.setState({ page: newpage }, async () => {
+      this.getInvitations();
+    });
+  };
+
   getInvitations() {
+    const { page, rows } = this.state;
     const userId = localStorage.getItem('user');
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
+    const data = {
+      userId,
+      page,
+      rows,
+    };
     axios
-      .get(`${constants.baseUrl}/community/getinvitations?userId=${userId}`)
+      .post(`${constants.baseUrl}/community/getInvitationsByPage`, data)
       .then((response, error) => {
         if (!error) {
           this.setState({
-            invitations: response.data.data,
+            invitations: response.data.data.invitations,
+            totalRows: response.data.data.totalRows,
           });
         }
       })
@@ -160,8 +183,18 @@ class Invitations extends React.Component {
   }
 
   render() {
-    // eslint-disable-next-line no-unused-vars
-    const { invitations, showModal, personName, names, selectedNames, communities } = this.state;
+    const {
+      invitations,
+      showModal,
+      // eslint-disable-next-line no-unused-vars
+      personName,
+      names,
+      selectedNames,
+      communities,
+      page,
+      rows,
+      totalRows,
+    } = this.state;
 
     return (
       <>
@@ -220,6 +253,15 @@ class Invitations extends React.Component {
             <Col />
             <Col md={3}>&nbsp;</Col>
           </Row>
+          <TablePagination
+            component="div"
+            count={totalRows}
+            page={page}
+            onChangePage={this.handleChangePage}
+            rowsPerPage={rows}
+            onChangeRowsPerPage={this.handleChangeRowsPerPage}
+            rowsPerPageOptions={[2, 5, 10]}
+          />
         </div>
 
         <Modal show={showModal} onHide={this.handleClose}>
@@ -266,7 +308,7 @@ class Invitations extends React.Component {
                     label="Recepient(s)"
                     placeholder="Type to search user..."
                     onKeyUp={this.getUsers}
-                    required
+                    required={selectedNames.length === 0}
                   />
                 )}
               />
