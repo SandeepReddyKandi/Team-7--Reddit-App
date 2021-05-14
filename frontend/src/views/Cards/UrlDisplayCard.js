@@ -250,7 +250,7 @@ class UrlDisplayCard extends React.Component {
                       <span> {post.title}</span>
                     </Row>
                     <Row>
-                      <span> {post.description}</span>
+                      <span> {post.text}</span>
                     </Row>
                     <Row>
                       <Link href={post.url} color="inherit">

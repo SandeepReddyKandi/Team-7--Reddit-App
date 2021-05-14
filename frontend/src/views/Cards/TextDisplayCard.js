@@ -248,7 +248,7 @@ class TextDisplayCard extends React.Component {
                       <span> {post.title}</span>
                     </Row>
                     <Row>
-                      <span> {post.description}</span>
+                      <span> {post.text}</span>
                     </Row>
                   </CardContent>
                 </Row>

@@ -225,8 +225,10 @@ class TextDisplayCard extends React.Component {
                     <div className="subreddit-name">{post.community_id}</div>
                     <div className="post-user">posted by</div>
                     <span className="post-user underline">
-                      <Link to ={{pathname: "/users/", search: `${post.author_id[0].name}`} }
-                        style={{ cursor: 'pointer', color: 'black' }}>
+                      <Link
+                        to={{ pathname: '/users/', search: `${post.author_id[0].name}` }}
+                        style={{ cursor: 'pointer', color: 'black' }}
+                      >
                         {post.author_id[0].name}
                       </Link>
                     </span>
@@ -237,6 +239,9 @@ class TextDisplayCard extends React.Component {
                   <CardContent>
                     <Row>
                       <span> {post.title}</span>
+                    </Row>
+                    <Row>
+                      <span> {post.text}</span>
                     </Row>
                     <Row>
                       <img height="200px" src="assets/subreddit.jpg" alt="img" />
