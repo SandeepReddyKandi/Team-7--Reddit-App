@@ -207,6 +207,13 @@ class CommunityAnalytics extends React.Component {
                             }
                         </Col>
                         <Col style={{ width: '312px', marginLeft: '24px', flexBasis: 'auto' }}>
+                            <div  style={{ marginBottom: '24px'}}>
+                                <div className='comm-card'>
+                                    <div className='comm-card-head no-mar'>Most Active Community</div>
+                                    <div className='comm-card-small-text no-mar'>Community with most number of posts</div>
+                                </div>
+                                <CommunityCard community={mostActiveCommunity} showEdit={false}/>
+                            </div>
                             <div className='comm-card'>
                                 <div className='comm-card-head'>Most Active Users In Each Community</div>
                             </div>
@@ -222,12 +229,6 @@ class CommunityAnalytics extends React.Component {
                                     )
                                 )
                             }
-
-                            <div className='comm-card'>
-                                <div className='comm-card-head no-mar'>Most Active Community</div>
-                                <div className='comm-card-small-text no-mar'>Community with most number of posts</div>
-                            </div>
-                            <CommunityCard community={mostActiveCommunity} showEdit={false}/>
                         </Col>
                     </Row>
                 </Container>

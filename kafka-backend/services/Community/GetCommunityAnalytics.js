@@ -79,6 +79,7 @@ const handle_request = async (req, callback) => {
             res.map(resItem => {
                 const {upvoteCount,author_id, _id, title, community_id } = resItem[0];
                 if (upvoteCount > mostUpVoteObj.upvoteCount) {
+                    mostUpVoteObj.postId = _id;
                     mostUpVoteObj.community_id = community_id;
                     mostUpVoteObj.postTitle = title;
                     mostUpVoteObj.upvoteCount = upvoteCount;
@@ -93,18 +94,15 @@ const handle_request = async (req, callback) => {
             })
             // get Community details
             let communityDetails = {};
-            if (mostUpVoteObj.community_id) {
-                communityDetails = await Community.findOne({community_id: mostUpVoteObj.community_id}, {
+            if (mostUpVoteObj.postId) {
+                communityDetails = await Post.findOne({_id: mostUpVoteObj.postId}, {
                     images: 1,
-                    rules: 1,
-                    posts: 1,
-                    members: 1,
                     upvote: 1,
                     downvote: 1,
                     community_id: 1,
-                    community_name: 1,
-                    description: 1,
-                    admin_id: 1,
+                    author_id: 1,
+                    text: 1,
+                    title: 1,
                     createdAt: 1,
                     topic: 1,
                 });
