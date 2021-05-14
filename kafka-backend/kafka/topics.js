@@ -19,6 +19,7 @@ const GET_COMMUNITY_VOTE_COUNT = "getCommunityVoteCount";
 const JOIN_COMMUNITY = "joinCommunity";
 const GET_RULES_TOPICS = "getRulesTopics";
 const DOWNVOTE_POST = "downvotePost";
+const GET_COMMUNITY_NAME_BY_ID = "getCommunityNameById";
 
 //Post
 const ADD_POST = "addPost";
@@ -33,7 +34,7 @@ const GET_POST_COMMUNITY = "getPostCommunity";
 const SORT_POST_BY_UPVOTE = "sortPostByUpvote";
 const SORT_POST_BY_DOWNVOTE = "sortPostByDownvote";
 const SORT_POST_BY_DATE = "sortPostByDate";
-const SEARCH_POST_BY_CRITERIA = 'searchPostByCriteria';
+const SEARCH_POST_BY_CRITERIA = "searchPostByCriteria";
 
 //Comment
 const ADD_COMMENT = "addComment";
@@ -76,6 +77,7 @@ module.exports = {
   GET_COMMUNITY_BY_ADMIN,
   RATE_COMMUNITY,
   GET_COMMUNITY_VOTE_COUNT,
+  GET_COMMUNITY_NAME_BY_ID,
   ADD_POST,
   GET_POST,
   ADD_COMMENT,
@@ -91,5 +93,5 @@ module.exports = {
   UPVOTE_POST,
   ADD_SUB_COMMENT,
   GET_POST_BY_ID,
-  SEARCH_POST_BY_CRITERIA
+  SEARCH_POST_BY_CRITERIA,
 };

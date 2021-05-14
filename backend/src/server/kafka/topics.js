@@ -18,6 +18,7 @@ const RATE_COMMUNITY = 'voteCommunity';
 const GET_COMMUNITY_VOTE_COUNT = 'getCommunityVoteCount';
 const JOIN_COMMUNITY = 'joinCommunity';
 const GET_RULES_TOPICS = 'getRulesTopics';
+const GET_COMMUNITY_NAME_BY_ID = 'getCommunityNameById';
 
 //Post
 const ADD_POST = 'addPost';
@@ -78,6 +79,7 @@ module.exports = {
   GET_COMMUNITY_BY_ADMIN,
   RATE_COMMUNITY,
   GET_COMMUNITY_VOTE_COUNT,
+  GET_COMMUNITY_NAME_BY_ID,
   ADD_POST,
   GET_POST,
   ADD_COMMENT,
@@ -92,5 +94,5 @@ module.exports = {
   GET_RULES_TOPICS,
   GET_POST_COMMUNITY,
   ADD_SUB_COMMENT,
-  SEARCH_POST_BY_CRITERIA
+  SEARCH_POST_BY_CRITERIA,
 };

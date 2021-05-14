@@ -2,9 +2,13 @@
 /* eslint-disable prefer-template */
 /* eslint-disable no-underscore-dangle */
 import React from 'react';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+import { Row, Col } from 'react-bootstrap';
+import AccessTimeIcon from '@material-ui/icons/AccessTime';
+import ThumbUpRoundedIcon from '@material-ui/icons/ThumbUpRounded';
 import PropTypes from 'prop-types';
 import './TextDisplayCard.css';
 import axios from 'axios';
@@ -18,6 +22,7 @@ class InvitationListCard extends React.Component {
     this.state = {
       sender: '',
       recepient: '',
+      communityName: '',
     };
   }
 
@@ -25,6 +30,7 @@ class InvitationListCard extends React.Component {
     const { invitation } = this.props;
     this.getUserById(invitation.sender, true);
     this.getUserById(invitation.recepient, false);
+    this.getCommunityNameById(invitation.community_id);
   }
 
   getUserById(id, isSender) {
@@ -45,37 +51,57 @@ class InvitationListCard extends React.Component {
       });
   }
 
+  getCommunityNameById(communityId) {
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    axios.defaults.withCredentials = true;
+    axios
+      .get(`${constants.baseUrl}/community/getCommunityNameById?id=${communityId}`)
+      .then((response) => {
+        this.setState({ communityName: response.data.data });
+      })
+      .catch((error) => {
+        // eslint-disable-next-line no-alert
+        alert(error);
+      });
+  }
+
   render() {
     // eslint-disable-next-line react/prop-types
+    // eslint-disable-next-line no-unused-vars
     const { invitation } = this.props;
-    const { sender, recepient } = this.state;
+    const { sender, recepient, communityName } = this.state;
     return (
-      <div className="posts-wrapper">
-        <Card style={{ marginTop: '2em' }}>
-          <div className="post">
-            <Row style={{ minWidth: '50vw', height: '100%' }}>
-              <Col md={12} style={{ paddingLeft: '5%' }}>
-                <Row>
-                  <Col md={6}>
-                    <span className="title">Community: {invitation.community_id}</span>
-                    <span>
-                      <br />
-                      Sender: {sender.name}
-                    </span>
-                    <span>
-                      <br />
-                      Recepient: {recepient.name}
-                    </span>
-                  </Col>
-                  <Col md={6}>
-                    <span className="title">Status: {invitation.status}</span>
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
-          </div>
+      <>
+        <Card style={{ marginTop: '30px', width: '720px' }}>
+          <CardActionArea>
+            <CardContent>
+              <Row>
+                <Col md={6}>
+                  <Typography gutterBottom variant="h6" component="h2">
+                    Community: {communityName}
+                  </Typography>
+                  <Typography variant="body2" color="textPrimary" component="p">
+                    Sender: {sender.name}&nbsp;&nbsp;Recepient: {recepient.name}
+                  </Typography>
+                </Col>
+                <Col md={6}>
+                  <Typography
+                    gutterBottom
+                    variant="h6"
+                    component="h2"
+                    style={{ alignContent: 'center' }}
+                  >
+                    Status: {invitation.status}
+                    &nbsp;&nbsp;
+                    {invitation.status === 'pending' && <AccessTimeIcon fontSize="large" />}
+                    {invitation.status === 'accepted' && <ThumbUpRoundedIcon fontSize="large" />}
+                  </Typography>
+                </Col>
+              </Row>
+            </CardContent>
+          </CardActionArea>
         </Card>
-      </div>
+      </>
     );
   }
 }
