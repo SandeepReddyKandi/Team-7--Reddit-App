@@ -14,7 +14,8 @@ const GET_COMMUNITY_BY_PAGE = 'getCommunityByPage';
 const GET_COMMUNITY_BY_NAME = 'getCommunityByName';
 const GET_COMMUNITY_BY_MEMBER = 'getCommunityByMember';
 const GET_COMMUNITY_BY_ADMIN = 'getCommunityByAdmin';
-const RATE_COMMUNITY = 'rateCommunity';
+const RATE_COMMUNITY = 'voteCommunity';
+const GET_COMMUNITY_VOTE_COUNT = 'getCommunityVoteCount';
 const JOIN_COMMUNITY = 'joinCommunity';
 const GET_RULES_TOPICS = 'getRulesTopics';
 
@@ -78,6 +79,7 @@ module.exports = {
   GET_COMMUNITY_BY_MEMBER,
   GET_COMMUNITY_BY_ADMIN,
   RATE_COMMUNITY,
+  GET_COMMUNITY_VOTE_COUNT,
   ADD_POST,
   GET_POST,
   ADD_COMMENT,
