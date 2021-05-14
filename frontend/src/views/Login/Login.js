@@ -40,7 +40,7 @@ class Login extends React.Component {
   }
 
   componentWillUnmount() {
-    // this.props.getUser(localStorage.getItem('user'));
+    // this.props.getUser(localStorage.getItem('userId'));
   }
 
   emailChangeHandler = (e) => {
@@ -72,7 +72,8 @@ class Login extends React.Component {
           this.setState({ errormessage: error.msg });
         } else {
           localStorage.setItem('token', response.data.token);
-          localStorage.setItem('userId', response.data.userId);
+          localStorage.setItem('userId', response.data.userId); // REQUIRED DO NOT REMOVE THIS LINE
+          localStorage.setItem('user', response.data.userId);
           localStorage.setItem('userName', response.data.userName);
           if (response.data.success === true) {
             this.setState({

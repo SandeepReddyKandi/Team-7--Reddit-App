@@ -66,6 +66,7 @@ const handle_request = async (req, callback) => {
                 postsCount: doc.postsCount,
                 communityId: doc._id,
                 communityName: doc.community_name,
+                ...doc,
             };
         }
 
@@ -93,9 +94,9 @@ const handle_request = async (req, callback) => {
                 }
             })
             // get Community details
-            let communityDetails = {};
+            let postDetails = {};
             if (mostUpVoteObj.postId) {
-                communityDetails = await Post.findOne({_id: mostUpVoteObj.postId}, {
+                postDetails = await Post.findOne({_id: mostUpVoteObj.postId}, {
                     images: 1,
                     upvote: 1,
                     downvote: 1,
@@ -103,10 +104,10 @@ const handle_request = async (req, callback) => {
                     author_id: 1,
                     text: 1,
                     title: 1,
+                    comments: 1,
                     createdAt: 1,
                     topic: 1,
                 });
-                console.log('COMMUNITY DETAILS IS, ',mostUpVoteObj,  communityDetails)
             }
 
             // get Community details
@@ -127,7 +128,7 @@ const handle_request = async (req, callback) => {
             }
             postDetailMap[comm] = {
                 ...rest,
-                mostUpVotedPost: communityDetails ? { ...communityDetails._doc, ...mostUpVoteObj} : mostUpVoteObj,
+                mostUpVotedPost: postDetails ? { ...postDetails._doc, ...mostUpVoteObj} : mostUpVoteObj,
                 mostActiveUser: userDetails ? { ...userDetails._doc, ...mostActiveUser} : mostActiveUser,
             };
 

@@ -71,9 +71,13 @@ const UserDetailsCard = ({ user, isMyProfile }) => {
             });
     }
 
-    const handleChipDelete = () => {
+    const handleChipDelete = (topicName) => {
         // eslint-disable-next-line no-console
         console.log('Handle Chip Delete');
+        setFormData(prevform => ({
+                ...prevform,
+                topics: prevform.topics.filter(topic => topic !== topicName)
+        }))
     }
 
     const handleAddTopic = () => {
