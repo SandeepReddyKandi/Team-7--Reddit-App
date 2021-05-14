@@ -32,6 +32,7 @@ const {
   GET_COMMUNITY_BY_PAGE,
   GET_RULES_TOPICS,
   RATE_COMMUNITY,
+  GET_COMMUNITY_VOTE_COUNT,
   ADD_POST,
   GET_POST_BY_PAGE,
   ADD_COMMENT,
@@ -42,8 +43,10 @@ const {
   GET_POST_COMMUNITY,
   GET_USERS,
   GET_INVITATIONS,
+  GET_INVITATIONS_BY_PAGE,
   SORT_POST_BY_DATE,
   ADD_SUB_COMMENT,
+  SEARCH_POST_BY_CRITERIA,
 } = require("./kafka/topics");
 
 //user
@@ -66,6 +69,7 @@ const deleteCommunityById = require("./services/Community/DeleteCommunityById");
 const getCommunityByPage = require("./services/Community/GetCommunityByPage");
 const getCommunityByName = require("./services/Community/GetCommunityByName");
 const rateCommunity = require("./services/Community/RateCommunity");
+const getCommunityVoteCount = require("./services/Community/GetCommunityVoteCount");
 const getRulesTopics = require("./services/Community/GetRulesTopics");
 
 //Post
@@ -88,6 +92,7 @@ const addSubComment = require("./services/Comment/AddSubComment");
 const sendInvite = require("./services/Invitation/SendInvite");
 const getStatus = require("./services/Invitation/GetStatus");
 const getInvitations = require("./services/Invitation/GetInvitations");
+const getInvitationsByPage = require("./services/Invitation/GetInvitationsByPage");
 
 //Post
 const addPostText = require("./services/Post/AddPostText");
@@ -96,6 +101,7 @@ const addPostLink = require("./services/Post/AddPostLink");
 const getPostCommunity = require("./services/Post/GetPostCommunity");
 const downvotePost = require("./services/Post/DownvotePost");
 const sortPostByDATE = require("./services/Post/SortPostByDate");
+const searchPostsByCriteria = require("./services/Post/SearchPostsByCriteria");
 // const getPost = require("./services/Post/GetPost");
 // const getPostbyID = require("./services/Post/GetPostbyID");
 
@@ -141,7 +147,7 @@ function handleTopicRequest(topic_name, fname) {
         },
       ];
       producer.send(payloads, function (err, data) {
-        console.log(data);
+        console.log("Data:",data);
       });
       return;
     });
@@ -176,6 +182,7 @@ handleTopicRequest(GET_POST_COMMUNITY, getPostCommunity);
 // handleTopicRequest(GET_POST_BY_ID, getPostbyID);
 handleTopicRequest(GET_COMMUNITY_BY_NAME, getCommunityByName);
 handleTopicRequest(RATE_COMMUNITY, rateCommunity);
+handleTopicRequest(GET_COMMUNITY_VOTE_COUNT, getCommunityVoteCount);
 
 //Post
 handleTopicRequest(ADD_POST, addPost);
@@ -187,6 +194,8 @@ handleTopicRequest(DOWNVOTE_POST, downvotePost);
 handleTopicRequest(SORT_POST_BY_UPVOTE, sortPostByUpvote);
 handleTopicRequest(SORT_POST_BY_DOWNVOTE, sortPostByDownvote);
 handleTopicRequest(SORT_POST_BY_DATE, sortPostByDATE);
+handleTopicRequest(SORT_POST_BY_DATE, sortPostByDATE);
+handleTopicRequest(SEARCH_POST_BY_CRITERIA, searchPostsByCriteria);
 
 //Comment
 handleTopicRequest(ADD_COMMENT, addComment);
@@ -197,5 +206,6 @@ handleTopicRequest(ADD_SUB_COMMENT, addSubComment);
 
 //Invitation
 handleTopicRequest(GET_INVITATIONS, getInvitations);
+handleTopicRequest(GET_INVITATIONS_BY_PAGE, getInvitationsByPage);
 handleTopicRequest(SEND_INVITE, sendInvite);
 handleTopicRequest(GET_STATUS, getStatus);

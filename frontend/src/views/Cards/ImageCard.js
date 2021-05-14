@@ -6,6 +6,8 @@ import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import Button from '@material-ui/core/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form'
+import Image from 'react-bootstrap/Image'
 import CardContent from '@material-ui/core/CardContent';
 import TextField from '@material-ui/core/TextField';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
@@ -13,25 +15,109 @@ import Card from '@material-ui/core/Card';
 import constants from '../../constants/constants';
 import axios from 'axios';
 import {ListGroup, DropdownButton, Dropdown} from 'react-bootstrap';
+import { Redirect } from 'react-router-dom';
 
 class ImageCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      communityList: [],
+      imageList:[],
+      title:'',
+      community:'Choose a Community',
+      communityList:[],
+      data:[],
+      filename:'',
+      imgCollection: '',
+      redirect:false,
     };
+    this.onFileChange = this.onFileChange.bind(this);
+    this.onImageSubmit = this.onImageSubmit.bind(this);
   }
 
-  addPostLink= async()=>{
-    // axios.defaults.withCredentials = true;
-    // axios.defaults.headers.common.authorization = localStorage.getItem('id');
-    axios.defaults.headers.common["authorization"] = localStorage.getItem('token')
+  handleSelect = (evtKey) => {
+    this.setState({
+      community:evtKey
+    });
+}
+
+  componentDidMount(){
+    this.getCommunityList()
+  }
+
+  onChangeCommunity=(e)=>{
+    this.setState({
+      [e.target.name]:e.target.value
+    });
+  }
+
+  onChangeTitle = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  getCommunityList= async()=>{
+    const communities=[];
+    axios.defaults.headers.common["authorization"] = 'Bearer ' + localStorage.getItem('token')
     axios.defaults.withCredentials = true;
-    axios.post(`${constants.baseUrl}/post/image/`)
+    const data= await axios.get(`${constants.baseUrl}/community/communities`);
+    if(data.data.data){
+      (data.data.data).map((d)=>communities.push(d.community_name))
+      this.setState({communityList:communities});
+    }
+  }
+
+  onFileChange(e) {
+    this.setState({ imgCollection: e.target.files })
+}
+
+onImageSubmit= async(e)=> {
+    e.preventDefault()
+    console.log("check",this.state.imgCollection);
+    for (const key of Object.keys(this.state.imgCollection)) {
+        var formData = new FormData();
+        console.log(this.state.imgCollection[key])
+        formData.append('userprofile', this.state.imgCollection[key])
+        await axios.put(
+          `${constants.baseUrl}/post/uploadfile`,
+          formData,
+          {
+            headers: { 'Content-Type': 'multipart/form-data' },
+          },
+          { responseType: 'blob' }
+        ).then(res => {
+              this.state.imageList.push(res.data.Location);
+              console.log(res.data)
+          })
+    }
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    axios.defaults.withCredentials = true;
+}
+
+  addPostImage= async()=>{
+    const data = {
+      title: this.state.title,
+      community: this.state.community,
+      UserID: localStorage.getItem("user"),
+      imageList: this.state.imageList
+    };
+    console.log("imagelist----", this.state.imageList)
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    axios.defaults.withCredentials = true;
+    axios.post(`${constants.baseUrl}/posts/image/`,data)
+    .then(res=>{
+      if(res.data.msg==="POST_ADDED"){
+        this.setState({
+          redirect: true,
+        });
+      }
+    })
   }
   render() {
     const communitylist= new Set();
-    communitylist.add(<Dropdown.Item as="button" value="1">1</Dropdown.Item>)
+    if (this.state.redirect) {
+      return <Redirect to="/dashboard" />;
+    }
     return (
       <>
         <div>
@@ -42,13 +128,19 @@ class ImageCard extends React.Component {
                   <Col md={12}>
                   <Row>
                       <Col className="p-0" md={3.5} style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                        <DropdownButton
+                      <DropdownButton
+                        name="community"
                         variant="light"
                         menuAlign="right"
-                        title="Choose a Community"
+                        title={this.state.community}
                         id="dropdown-menu-align-right"
+                        onChange={this.onChangeCommunity}
+                        value={this.state.community}
+                        onSelect={this.handleSelect}
                         >
-                        {communitylist}
+                        {this.state.communityList.map((p)=>
+                          <Dropdown.Item eventKey={p}>{p}</Dropdown.Item>
+                        )}
                         </DropdownButton>
                       </Col>
                     </Row>
@@ -56,24 +148,29 @@ class ImageCard extends React.Component {
                     <Row>
                       {' '}
                       <TextField
+                        name="title"
                         id="outlined-size-small"
                         placeholder="Title"
                         variant="outlined"
                         size="small"
                         fullWidth="true"
-                        // onClick={this.createPost}
+                        value={this.state.title}
+                        onChange={this.onChangeTitle}
                       />
                     </Row>
                     <Row>&nbsp;</Row>
-                    <Row>
-                      <TextareaAutosize
-                        rowsMin={3}
-                        placeholder="URL"
-                        size="large"
-                        defaultValue=""
-                        style={{ width: '100%' }}
-                      />
-                    </Row>
+                    <div className="container">
+                <div className="row">
+                    <form onSubmit={this.onImageSubmit}>
+                        <div className="form-group">
+                            <input type="file" name="imgCollection" onChange={this.onFileChange} multiple />
+                        </div>
+                        <div className="form-group">
+                            <button className="btn btn-primary" type="submit">Upload</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
                     <Row>&nbsp;</Row>
                     <Row>
                       <Col md={10}>
@@ -112,7 +209,7 @@ class ImageCard extends React.Component {
                             color: '#ffffff',
                             'border-radius': '9999px',
                           }}
-                          onClick={this.addPostLink}
+                          onClick={this.addPostImage}
                           default
                         >
                           Post

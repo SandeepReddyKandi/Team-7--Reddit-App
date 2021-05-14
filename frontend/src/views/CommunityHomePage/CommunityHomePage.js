@@ -22,6 +22,7 @@ import TextDisplayCard from '../Cards/TextDisplayCard';
 import AboutCommunityCard from '../Cards/AboutCommunityCard';
 import CommunityRulesCard from '../Cards/CommunityRulesCard';
 import CommunityAppBar from '../ToolBar/CommunityAppBar';
+import ImageModal from './ImageModal';
 import constants from '../../constants/constants';
 import * as communityAction from '../../actions/CommunityHomePageActions';
 
@@ -38,6 +39,7 @@ class CommunityHomePage extends React.Component {
       post: false,
       posts: [],
       showPage: false,
+      show: false,
       status: {
         status: '',
       },
@@ -69,6 +71,10 @@ class CommunityHomePage extends React.Component {
         this.getPost();
       });
     }
+  };
+
+  handleModal = (e) => {
+    this.setState({ show: e });
   };
 
   checkStatus = async () => {
@@ -234,7 +240,7 @@ class CommunityHomePage extends React.Component {
   };
 
   render() {
-    const { post, posts, community, showPage, status, page, rows, totalRows } = this.state;
+    const { post, posts, show, community, showPage, status, page, rows, totalRows } = this.state;
     if (post) {
       return <Redirect to="/createpost" />;
     }
@@ -243,7 +249,7 @@ class CommunityHomePage extends React.Component {
         <Header />
         {showPage === true && (
           <div>
-            <Row style={{ height: '30vh', 'background-color': '#0579d3' }}>
+            <Row style={{ height: '15vh', 'background-color': '#0579d3' }}>
               <Col md={12}> &nbsp;</Col>
             </Row>
             <Row style={{ 'background-color': '#ffffff', height: '20%' }}>
@@ -254,7 +260,7 @@ class CommunityHomePage extends React.Component {
                   <Col md={2}>&nbsp;</Col>
                   <Col md={1}>
                     {community.img_url !== '' ? (
-                      <Avatar alt="Remy Sharp" src={RedditICon} className="card-img-top" />
+                      <Avatar alt="Remy Sharp" src={community.images[0]} className="card-img-top" />
                     ) : (
                       <Avatar alt="Remy Sharp" src={RedditICon} className="card-img-top" />
                     )}
@@ -326,6 +332,7 @@ class CommunityHomePage extends React.Component {
                     )}
                   </Col>
                 </Row>
+                {show && <ImageModal show={this.handleModal} images={community.images} />}
               </Col>
             </Row>
             <Row />
@@ -337,6 +344,7 @@ class CommunityHomePage extends React.Component {
                     upvote={this.sortPostByUpvote}
                     downvote={this.sortPostByDownvote}
                     date={this.sortPostByDate}
+                    show={this.handleModal}
                   />
                 </Row>
                 {posts.length > 0 ? (
@@ -348,17 +356,19 @@ class CommunityHomePage extends React.Component {
                 ) : (
                   <Typography>No Posts</Typography>
                 )}
-                <TablePagination
-                  component="div"
-                  count={totalRows}
-                  page={page}
-                  onChangePage={this.handleChangePage}
-                  rowsPerPage={rows}
-                  onChangeRowsPerPage={this.handleChangeRowsPerPage}
-                  rowsPerPageOptions={[2, 5, 10]}
-                />
-              </Col>
 
+                {totalRows > 0 && (
+                  <TablePagination
+                    component="div"
+                    count={totalRows}
+                    page={page}
+                    onChangePage={this.handleChangePage}
+                    rowsPerPage={rows}
+                    onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                    rowsPerPageOptions={[2, 5, 10]}
+                  />
+                )}
+              </Col>
               <Col md={3}>
                 <Row className="border">
                   <AboutCommunityCard community_info={community} status={status.status} />

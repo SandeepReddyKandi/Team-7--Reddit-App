@@ -8,13 +8,16 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import axios from 'axios';
+import SearchBar from "material-ui-search-bar";
+import AppBar from '@material-ui/core/AppBar';
 import Header from '../Header/Header';
-import CommunityAppBar from '../ToolBar/CommunityAppBar';
+import DashboardAppBar from '../ToolBar/DashboardAppBar';
 import TextDisplayCard from '../Cards/TextDisplayCard';
 import SideBar from './Sidebar/Sidebar';
 import TopBar from '../ToolBar/TopBar';
 import constants from '../../constants/constants';
 import AdvertisementCard from '../Cards/AdvertisementCard/AdvertisementCard';
+
 
 class Dashboard extends React.Component {
   constructor() {
@@ -22,6 +25,8 @@ class Dashboard extends React.Component {
     this.state = {
       errormessage: '',
       posts: [],
+      searchText: '',
+      searchResult: []
     };
   }
 
@@ -29,12 +34,38 @@ class Dashboard extends React.Component {
     this.getPost();
   }
 
+  handleSearchChange = (e) => {
+    console.log("handleSearchChange: ", e);
+    this.state.searchText = e;
+    // setSearchText(e);
+  }
+
+  handleSearchRequest = async (e) => {
+    console.log("handleSearchRequest: ", e);
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    axios.defaults.withCredentials = true;
+    setTimeout(async () => {
+      await axios
+        .get(`${constants.baseUrl}/posts/searchPostsCriteria?searchText=${this.searchText}`)
+        .then((response, error) => {
+          if (!error) {
+            console.log("Response: ", response);
+            this.state.searchResult = response.data.data;
+            // setSearchResult(response.data.data);
+          }
+          else {
+            console.log("Error: ", error);
+          }
+        })
+    }, 10)
+
+  }
+
   getPost = () => {
     const userId = localStorage.getItem('userId');
     axios.defaults.headers.common["authorization"] = 'Bearer ' + localStorage.getItem('token')
     axios.defaults.withCredentials = true;
-    axios
-      .get(`${constants.baseUrl}/post/?user=${userId}`)
+    axios.get(`${constants.baseUrl}/post/?user=${userId}`)
       .then((response, error) => {
         if (error) {
           this.setState({ errormessage: error.msg });
@@ -61,36 +92,25 @@ class Dashboard extends React.Component {
               {errormessage}
             </div>
           ) : null
-          }          
+          }
           <Row>
-            <Col md={2}>
-              <br></br>
-              <h4>Arrange Posts</h4>
-              <Row>
-                <h6>Sort by:</h6>
-                <select>
-                  <option value="upvotes" key="dfds">Upvotes</option>
-                  <option value="users" key="dfds">Users</option>
-                  <option value="comments" key="dfds">Comments</option>
-                </select>
-              </Row>
-              <Row>
-                <h6>Order by:</h6>
-                <select>
-                  <option value="ascending" key="dfds">Ascending</option>
-                  <option value="descending" key="dfds">Descending</option>
-                </select>
-              </Row>
-            </Col>
-            <Col md={7}>
+            <Col md={8}>
               <br />
-              <CommunityAppBar />
-              <TopBar />
+              <DashboardAppBar />
+              <AppBar position="static" color="white" style={{ marginBottom: '10px' }}>
+                <SearchBar style={{ width: '100%' }}
+                  value="" placeholder="Search Posts..."
+                  onChange={this.handleSearchChange}
+                  onRequestSearch={this.handleSearchRequest}
+                />
+              </AppBar>
+
+              <TopBar style={{ marginTop: '2%' }} />
               {posts.map((p) => (
                 <TextDisplayCard post={p} />
               ))}
             </Col>
-            <Col md={3}>
+            <Col md={4}>
               <br />
               <Row>
                 <div

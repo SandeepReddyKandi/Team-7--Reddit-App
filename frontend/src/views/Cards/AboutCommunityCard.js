@@ -27,7 +27,7 @@ class AboutCommunityCard extends React.Component {
     const { community } = this.state;
     const { status } = this.props;
     return (
-      <Card>
+      <Card style={{ width: '100%' }}>
         <CardHeader
           subheader={<Typography className="sidecard-labels">About Community</Typography>}
           className="right-side-card"

@@ -2,20 +2,19 @@ const UserModel = require("../../models/UserModel");
 const PostModel = require("../../models/PostModel");
 const CommunityModel = require("../../models/CommunityModel");
 
-const msg1= {UserID: "609022e68ca680977b4d0fa5"};
 const handle_request = async (req, callback) => {
     const msg= req.body;
     const res={};
-    UserModel.findById(msg1.UserID)
+    UserModel.findById(msg.UserID)
         .then((user)=>{
             CommunityModel.findOne({community_name: msg.community})
                 .exec()
                 .then((community)=>{
                     PostModel.create({
-                        community_id: community._id,
+                        community_id: community.community_id,
                         text: msg.text,
                         title: msg.title,
-                        author_id: msg1.UserID
+                        author_id: user._id
                     },(err,post)=>{
                         if(post){
                             community.posts.push(post._id);

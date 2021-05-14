@@ -2,6 +2,7 @@
 /* eslint-disable constructor-super */
 /* eslint-disable dot-notation */
 /* eslint-disable prefer-template */
+/* eslint-disable class-methods-use-this */
 
 import React from 'react';
 import Button from '@material-ui/core/Button';
@@ -54,7 +55,7 @@ class Login extends React.Component {
       email: this.state.email,
       password: this.state.password,
     };
-    axios.defaults.headers.common["authorization"] = 'Bearer ' + localStorage.getItem('token')
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
     await axios
       .post(`${constants.baseUrl}/users/login/`, data)
@@ -80,6 +81,14 @@ class Login extends React.Component {
   handleClose = () => {
     this.props.showLogin(false);
   };
+
+  delay(delayInms) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(2);
+      }, delayInms);
+    });
+  }
 
   render() {
     const { showLogin } = this.state;

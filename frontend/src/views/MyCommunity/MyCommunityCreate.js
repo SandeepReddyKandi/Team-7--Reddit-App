@@ -131,6 +131,7 @@ const MyCommunityCreate = () => {
     const data = {
       admin_id: localStorage.getItem('userId'),
       community_name: document.getElementById('name').value,
+      community_id: `r1/${document.getElementById('name').value.replace(' ','').toLowerCase()}`,
       description: document.getElementById('description').value,
       rules: rulesList,
       topic: topicList,
