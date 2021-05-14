@@ -29,7 +29,7 @@ const SORT_POST_BY_DOWNVOTE = 'sortPostByDownvote';
 const GET_POST_BY_ID = 'getPostById';
 
 //Comment
-const ADD_COMMENT = 'addComment';
+const ADD_COMMENT = 'addComments';
 const GET_COMMENT = 'getComment';
 const UPVOTE_COMMENT = 'upvoteComment';
 const DOWNVOTE_COMMENT = 'downvoteComment';
