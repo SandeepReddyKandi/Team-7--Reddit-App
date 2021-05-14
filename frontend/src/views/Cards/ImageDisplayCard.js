@@ -6,7 +6,6 @@
 import React from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { Link } from 'react-router-dom';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ModeCommentIcon from '@material-ui/icons/ModeComment';
@@ -20,6 +19,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Collapse from '@material-ui/core/Collapse';
 import Button from '@material-ui/core/Button';
 import ShareIcon from '@material-ui/icons/Share';
+import { Carousel } from 'react-bootstrap';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import CardActions from '@material-ui/core/CardActions';
 import PropTypes from 'prop-types';
@@ -33,7 +33,7 @@ import Comment from '../Comment/Comment';
 import constants from '../../constants/constants';
 import './TextDisplayCard.css';
 
-class TextDisplayCard extends React.Component {
+class ImageDisplayCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -43,9 +43,16 @@ class TextDisplayCard extends React.Component {
       post: this.props.post,
       comments: [],
     };
+    this.toggleChildMenu = this.toggleChildMenu.bind(this);
   }
 
   componentDidMount() {
+    const userId = localStorage.getItem('user');
+    const { community } = this.props;
+    const isMember = community.members.filter((d) => d._id === userId);
+    if (isMember === 0) {
+      document.getElementById('comment').disabled = true;
+    }
     this.getComments();
     this.setState({
       // comments: this.props.post.comments,
@@ -96,9 +103,9 @@ class TextDisplayCard extends React.Component {
     });
   };
 
-  handleAddComment = (e) => {
-    e.preventDefault();
+  handleAddComment = () => {
     const { comment, post } = this.state;
+    // const { post } = this.props;
     const userId = localStorage.getItem('userId');
     axios.defaults.withCredentials = true;
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
@@ -118,7 +125,7 @@ class TextDisplayCard extends React.Component {
   };
 
   handleUpVote = async () => {
-    const { post } = this.props;
+    const { post } = this.state;
     const userId = localStorage.getItem('userId');
     if (post.upvote.includes(userId) || post.downvote.includes(userId)) {
       return;
@@ -160,7 +167,7 @@ class TextDisplayCard extends React.Component {
   };
 
   handleDownVote = async () => {
-    const { post } = this.props;
+    const { post } = this.state;
     const userId = localStorage.getItem('userId');
     if (post.upvote.includes(userId) || post.downvote.includes(userId)) {
       return;
@@ -181,6 +188,13 @@ class TextDisplayCard extends React.Component {
         console.log(error);
       });
   };
+
+  toggleChildMenu() {
+    const { open } = this.state;
+    this.setState({
+      open: !open,
+    });
+  }
 
   render() {
     const { expandComment, panel, post, comments } = this.state;
@@ -224,12 +238,7 @@ class TextDisplayCard extends React.Component {
                     />
                     <div className="subreddit-name">{post.community_id}</div>
                     <div className="post-user">posted by</div>
-                    <span className="post-user underline">
-                      <Link to ={{pathname: "/users/", search: `${post.author_id[0].name}`} }
-                        style={{ cursor: 'pointer', color: 'black' }}>
-                        {post.author_id[0].name}
-                      </Link>
-                    </span>
+                    <span className="post-user underline">{post.author_id[0].name}</span>
                     <span className="post-user underline">{convertDate(post.createdAt)}</span>
                   </div>
                 </Row>
@@ -239,7 +248,25 @@ class TextDisplayCard extends React.Component {
                       <span> {post.title}</span>
                     </Row>
                     <Row>
-                      <img height="200px" src="assets/subreddit.jpg" alt="img" />
+                      <span> {post.description}</span>
+                    </Row>
+                    <Row>
+                      {' '}
+                      {post.images.length === 0 ? null : (
+                        <Carousel
+                          style={{
+                            minWidth: '100px',
+                            minHeight: '100px',
+                            textAlign: 'center',
+                          }}
+                        >
+                          {post.images.map((image) => (
+                            <Carousel.Item>
+                              <img src={image} alt="" className="d-block w-100" />
+                            </Carousel.Item>
+                          ))}
+                        </Carousel>
+                      )}
                     </Row>
                   </CardContent>
                 </Row>
@@ -294,10 +321,11 @@ class TextDisplayCard extends React.Component {
                           <Row>
                             <Col md={9} />
                             <Col ms={3}>
+                              {' '}
                               <Button
                                 id="comment"
                                 size="medium"
-                                type="button"
+                                type="submit"
                                 className="btn-primary"
                                 style={{
                                   'background-color': '#da907e',
@@ -305,6 +333,7 @@ class TextDisplayCard extends React.Component {
                                   'border-radius': '9999px',
                                   height: '30px',
                                 }}
+                                onClick={this.handleAddComment}
                                 default
                               >
                                 Comment
@@ -325,8 +354,9 @@ class TextDisplayCard extends React.Component {
   }
 }
 
-TextDisplayCard.propTypes = {
+ImageDisplayCard.propTypes = {
   post: PropTypes.objectOf.isRequired,
+  community: PropTypes.objectOf.isRequired,
 };
 
-export default TextDisplayCard;
+export default ImageDisplayCard;

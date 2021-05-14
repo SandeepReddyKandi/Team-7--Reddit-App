@@ -5,8 +5,6 @@
 /* eslint-disable camelcase */
 /* eslint-disable arrow-body-style */
 /* eslint-disable react/destructuring-assignment */
-/* eslint-disable no-nested-ternary */
-/* eslint-disable prefer-destructuring */
 
 import React from 'react';
 import Row from 'react-bootstrap/Row';
@@ -22,8 +20,8 @@ import { connect } from 'react-redux';
 import Header from '../Header/Header';
 import RedditICon from '../../community.png';
 import TextDisplayCard from '../Cards/TextDisplayCard';
-import ImageDisplayCard from '../Cards/ImageDisplayCard';
 import UrlDisplayCard from '../Cards/UrlDisplayCard';
+import ImageDisplayCard from '../Cards/ImageDisplayCard';
 import AboutCommunityCard from '../Cards/AboutCommunityCard';
 import CommunityRulesCard from '../Cards/CommunityRulesCard';
 import CommunityAppBar from '../ToolBar/CommunityAppBar';
@@ -54,11 +52,10 @@ class CommunityHomePage extends React.Component {
 
   async componentDidMount() {
     const { location } = this.props;
-    await this.setState({ community: location.community, redirect: false });
-    await this.checkStatus();
-
-    await this.getCommunity();
-    await this.getPost();
+    this.setState({ community: location.community, redirect: false });
+    this.checkStatus();
+    this.getCommunity();
+    this.getPost();
   }
 
   createPost = () => {
@@ -86,7 +83,7 @@ class CommunityHomePage extends React.Component {
   checkStatus = async () => {
     const { community } = this.state;
     const data = {
-      userId: localStorage.getItem('userId'), // localStorage.getItem('userId'),
+      userId: localStorage.getItem('userId'), // localStorage.getItem('user'),
       community_id: community._id,
     };
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
@@ -95,7 +92,7 @@ class CommunityHomePage extends React.Component {
       .post(`${constants.baseUrl}/community/status/`, data)
       .then((response, error) => {
         if (!error) {
-          if (response.data) {
+          if (response.data.length > 0) {
             this.setState({
               status: response.data.data.status,
             });
@@ -110,7 +107,7 @@ class CommunityHomePage extends React.Component {
   sortPostByUpvote = async () => {
     const { community, page, rows } = this.state;
     const data = {
-      userId: localStorage.getItem('userId'),
+      userId: localStorage.getItem('user'),
       id: community._id,
       page,
       rows,
@@ -136,7 +133,7 @@ class CommunityHomePage extends React.Component {
   sortPostByDownvote = async () => {
     const { community, page, rows } = this.state;
     const data = {
-      userId: localStorage.getItem('userId'),
+      userId: localStorage.getItem('user'),
       id: community._id,
       page,
       rows,
@@ -162,7 +159,7 @@ class CommunityHomePage extends React.Component {
   sortPostByDate = async () => {
     const { community, page, rows } = this.state;
     const data = {
-      userId: localStorage.getItem('userId'),
+      userId: localStorage.getItem('user'),
       id: community._id,
       page,
       rows,
@@ -181,13 +178,14 @@ class CommunityHomePage extends React.Component {
       })
       .catch((error) => {
         console.log(error);
+        // this.setState({ errormessage: error.response.data.msg });
       });
   };
 
   handleLeave = async () => {
     const { community } = this.props.location;
     const data = {
-      user_id: localStorage.getItem('userId'),
+      user_id: localStorage.getItem('user'),
       community_id: community._id,
     };
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
@@ -196,9 +194,7 @@ class CommunityHomePage extends React.Component {
       .post(`${constants.baseUrl}/community/leavecommunity/`, data)
       .then((response, error) => {
         if (response) {
-          if (response.data.msg === 'Community member removed successfully') {
-            this.setState({ redirect: true });
-          }
+          this.setState({ redirect: true });
         } else {
           console.log(error);
         }
@@ -211,7 +207,7 @@ class CommunityHomePage extends React.Component {
   handleJoin = async () => {
     const { community } = this.props.location;
     const data = {
-      sender: localStorage.getItem('userId'),
+      sender: localStorage.getItem('user'),
       recepient: community.admin_id,
       community_id: community._id,
     };
@@ -237,7 +233,7 @@ class CommunityHomePage extends React.Component {
   getPost = async () => {
     const { page, rows } = this.state;
     const { community } = this.state;
-    const community_id = community.community_id;
+    const community_id = community._id;
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
     await axios
@@ -264,7 +260,8 @@ class CommunityHomePage extends React.Component {
     axios.defaults.withCredentials = true;
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
-    await axios
+    this.props.getCommunity(community_id);
+    /* await axios
       .get(`${constants.baseUrl}/community/communities/?id=${community_id}`)
       .then((response) => {
         if (response.status === 200) {
@@ -278,7 +275,7 @@ class CommunityHomePage extends React.Component {
         } else {
           console.log('something went wrong');
         }
-      });
+      }); */
   };
 
   render() {
@@ -287,7 +284,7 @@ class CommunityHomePage extends React.Component {
       <Redirect to="/dashboard" />;
     }
     const { post, posts, show, community, showPage, status, page, rows, totalRows } = this.state;
-    if (post && status === 'approved') {
+    if (post) {
       return <Redirect to="/createpost" />;
     }
 
@@ -324,7 +321,7 @@ class CommunityHomePage extends React.Component {
                     </div>
                   </Col>
                   <Col md={3}>
-                    {status === '' && (
+                    {status.status === '' && localStorage.getItem('user') !== community.admin_id && (
                       <Button
                         data-testid="Signup"
                         size="small"
@@ -342,46 +339,42 @@ class CommunityHomePage extends React.Component {
                         Join
                       </Button>
                     )}
-                    <div>
-                      {status === 'pending' && (
-                        <Button
-                          data-testid="Signup"
-                          size="small"
-                          className="btn-primary"
-                          type="button"
-                          style={{
-                            'background-color': '#da907e',
-                            color: '#ffffff',
-                            'border-radius': '9999px',
-                            height: '30px',
-                          }}
-                          disabled
-                          default
-                        >
-                          Waiting for Approval
-                        </Button>
-                      )}
-                    </div>
-                    <div>
-                      {status === 'approved' && (
-                        <Button
-                          data-testid="Signup"
-                          size="small"
-                          className="btn-primary"
-                          type="button"
-                          style={{
-                            'background-color': '#da907e',
-                            color: '#ffffff',
-                            'border-radius': '9999px',
-                            height: '30px',
-                          }}
-                          onClick={this.handleLeave}
-                          default
-                        >
-                          LEAVE
-                        </Button>
-                      )}
-                    </div>
+                    {status.status === 'pending' && (
+                      <Button
+                        data-testid="Signup"
+                        size="small"
+                        className="btn-primary"
+                        type="button"
+                        style={{
+                          'background-color': '#da907e',
+                          color: '#ffffff',
+                          'border-radius': '9999px',
+                          height: '30px',
+                        }}
+                        disabled
+                        default
+                      >
+                        Waiting for Approval
+                      </Button>
+                    )}
+                    {status.status === 'active' && (
+                      <Button
+                        data-testid="Signup"
+                        size="small"
+                        className="btn-primary"
+                        type="button"
+                        style={{
+                          'background-color': '#da907e',
+                          color: '#ffffff',
+                          'border-radius': '9999px',
+                          height: '30px',
+                        }}
+                        onClick={this.handleLeave}
+                        default
+                      >
+                        LEAVE
+                      </Button>
+                    )}
                   </Col>
                 </Row>
                 {show && <ImageModal show={this.handleModal} images={community.images} />}
@@ -402,13 +395,7 @@ class CommunityHomePage extends React.Component {
                 {posts.length > 0 ? (
                   posts.map((p) => (
                     <Row>
-                      {p.url === '' && p.images.length === 0 ? (
-                        <TextDisplayCard community={community} post={p} />
-                      ) : p.images.length > 0 ? (
-                        <ImageDisplayCard community={community} post={p} />
-                      ) : (
-                        <UrlDisplayCard community={community} post={p} />
-                      )}
+                      <TextDisplayCard community={community} post={p} />
                     </Row>
                   ))
                 ) : (
@@ -450,7 +437,7 @@ class CommunityHomePage extends React.Component {
 CommunityHomePage.propTypes = {
   community: PropTypes.objectOf.isRequired,
   location: PropTypes.objectOf.isRequired,
-  // getCommunity: PropTypes.func.isRequired,
+  getCommunity: PropTypes.func.isRequired,
 };
 
 const mapStatetoProps = (state) => {

@@ -53,7 +53,7 @@ router.get('/deletecommunitybyid', checkAuth, deleteCommunityById);
 router.get('/getcommunityinvite', checkAuth, getcommunityinvite);
 router.post('/acceptcommunityinvite', checkAuth, acceptcommunityinvite);
 router.post('/rejectcommunityinvite', checkAuth, rejectcommunityinvite);
-router.get('/leavecommunity', checkAuth, leaveCommunity);
+router.post('/leavecommunity', checkAuth, leaveCommunity);
 router.get('/getCommunityNameById', checkAuth, getCommunityNameById);
 
 module.exports = router;

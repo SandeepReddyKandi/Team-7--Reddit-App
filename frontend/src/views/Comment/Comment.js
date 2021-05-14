@@ -188,7 +188,7 @@ class Comment extends React.Component {
           comments.map((c) => (
             <Card className="border">
               <CardHeader
-                avatar={<Avatar aria-label="recipe">R</Avatar>}
+                avatar={<Avatar aria-label="recipe" src="c.author_id[0].photo" />}
                 action={
                   <IconButton aria-label="settings">
                     <MoreVertIcon />
@@ -233,13 +233,17 @@ class Comment extends React.Component {
                         c.sub_comments.length > 0 &&
                         c.sub_comments.map((s) => (
                           <ListItem className="border">
-                            <ListItemAvatar>
-                              <Avatar src={s.author_id[0].photo} />
-                            </ListItemAvatar>
-                            <ListItemText
-                              primary={<Typography>{s.author_id[0].name}</Typography>}
-                              secondary={<Typography fontSize="small">{s.createdAt}</Typography>}
-                            />
+                            {s.author_id.length > 0 && (
+                              <>
+                                <ListItemAvatar>
+                                  <Avatar src={s.author_id[0].photo} />
+                                </ListItemAvatar>
+                                <ListItemText
+                                  primary={<Typography>{s.author_id[0].name}</Typography>}
+                                  secondary={<Typography fontSize="small">{s.comment}</Typography>}
+                                />
+                              </>
+                            )}
                           </ListItem>
                         ))}
                     </List>

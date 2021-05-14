@@ -7,7 +7,10 @@ const handle_request = async (req, callback) => {
     const community = await CommunityModel.find({
       _id: mongoose.Types.ObjectId(req.body.community_id),
     });
-    if (community.members > 0 && community.members.includes(req.body.userId)) {
+    if (
+      community[0].members > 0 &&
+      community[0].members.includes(req.body.userId)
+    ) {
       const data = {
         status: "active",
       };
@@ -16,9 +19,11 @@ const handle_request = async (req, callback) => {
         data: data,
         success: true,
       });
-    } else if (community.admin_id === req.body.userId) {
+    } else if (
+      JSON.parse(JSON.stringify(community[0])).admin_id === req.body.userId
+    ) {
       const data = {
-        status: "active",
+        status: "approved",
       };
       return callback(null, {
         msg: "",
@@ -30,11 +35,25 @@ const handle_request = async (req, callback) => {
         community_id: mongoose.Types.ObjectId(req.body.community_id),
         sender: req.body.userId,
       }).then((response) => {
-        return callback(null, {
-          msg: "",
-          data: response,
-          success: true,
-        });
+        if (response.length > 0) {
+          const data = {
+            status: "pending",
+          };
+          return callback(null, {
+            msg: "",
+            data,
+            success: true,
+          });
+        } else {
+          const data = {
+            status: "",
+          };
+          return callback(null, {
+            msg: "",
+            data,
+            success: true,
+          });
+        }
       });
     }
   } catch (error) {

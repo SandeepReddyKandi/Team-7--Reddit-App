@@ -272,7 +272,7 @@ exports.getcommunityinvite = async (req, res) => {
 };
 
 exports.leaveCommunity = async (req, res) => {
-  const payload = { user_id: req.body.user_id, community_id };
+  const payload = { user_id: req.body.user_id, community_id: req.body.community_id };
   kafka.make_request(LEAVE_COMMUNITY, payload, (error, results) => {
     if (!results.success) {
       res.status(400).send(results);
