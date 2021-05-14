@@ -33,7 +33,7 @@ const GET_POST_COMMUNITY = "getPostCommunity";
 const SORT_POST_BY_UPVOTE = "sortPostByUpvote";
 const SORT_POST_BY_DOWNVOTE = "sortPostByDownvote";
 const SORT_POST_BY_DATE = "sortPostByDate";
-const SEARCH_POST_BY_CRITERIA = 'searchPostByCriteria';
+const SEARCH_POST_BY_CRITERIA = "searchPostByCriteria";
 
 //Comment
 const ADD_COMMENT = "addComments";
@@ -47,6 +47,7 @@ const SEND_INVITE = "sendInvite";
 const GET_STATUS = "getStatus";
 const GET_INVITATIONS = "getInvitations";
 const GET_INVITATIONS_BY_PAGE = "getinvitationsByPage";
+const LEAVE_COMMUNITY = "leaveCommunity";
 
 module.exports = {
   GET_USERS,
@@ -91,5 +92,6 @@ module.exports = {
   UPVOTE_POST,
   ADD_SUB_COMMENT,
   GET_POST_BY_ID,
-  SEARCH_POST_BY_CRITERIA
+  SEARCH_POST_BY_CRITERIA,
+  LEAVE_COMMUNITY,
 };

@@ -3,6 +3,7 @@
 /* eslint-disable dot-notation */
 /* eslint-disable prefer-template */
 /* eslint-disable class-methods-use-this */
+/* eslint-disable arrow-body-style */
 
 import React from 'react';
 import Button from '@material-ui/core/Button';
@@ -15,10 +16,13 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import MailIcon from '@material-ui/icons/Mail';
+import { connect } from 'react-redux';
 import constants from '../../constants/constants';
 import LoginICon from '../../login.png';
 import GoogleICon from '../../google.png';
 import ApplIcon from '../../apple.png';
+import * as userAction from '../../actions/UserActions';
+
 // import login from '../../login.png';
 // import TextField from '@material-ui/core/TextField';
 // eslint-disable-next-line react/prefer-stateless-function
@@ -33,6 +37,10 @@ class Login extends React.Component {
       redirect: false,
       errormessage: '',
     };
+  }
+
+  componentWillUnmount() {
+    // this.props.getUser(localStorage.getItem('user'));
   }
 
   emailChangeHandler = (e) => {
@@ -241,6 +249,17 @@ class Login extends React.Component {
 }
 Login.propTypes = {
   showLogin: PropTypes.func.isRequired,
+  // getUser: PropTypes.func.isRequired,
 };
 
-export default Login;
+const mapStatetoProps = (state) => {
+  return {
+    user: state.user.user[0],
+  };
+};
+
+const mapDispatchToProps = {
+  getUser: userAction.getUser,
+};
+
+export default connect(mapStatetoProps, mapDispatchToProps)(Login);

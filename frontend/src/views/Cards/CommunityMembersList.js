@@ -44,9 +44,9 @@ class CommunityMembersList extends React.Component {
               community.members.map((m) => (
                 <ListItem>
                   <ListItemAvatar>
-                    <Avatar>{m.image_url}</Avatar>
+                    <Avatar>{m.photo}</Avatar>
                   </ListItemAvatar>
-                  <ListItemText secondary={m} />
+                  <ListItemText secondary={m.name} />
                 </ListItem>
               ))
             ) : (

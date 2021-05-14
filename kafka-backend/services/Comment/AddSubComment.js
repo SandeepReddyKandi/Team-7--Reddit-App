@@ -1,8 +1,11 @@
 const CommentModel = require("../../models/CommentModel");
 const SubCommentModel = require("../../models/SubCommentModel");
+const UserModel = require("../../models/UserModel");
 
 const handle_request = async (req, callback) => {
   try {
+    const user = await UserModel.find({ _id: req.body.author_id });
+    req.body.author_id = user[0];
     var subCommentModel = new SubCommentModel(req.body);
     const savedSubComment = await subCommentModel.save();
     await CommentModel.findOneAndUpdate(

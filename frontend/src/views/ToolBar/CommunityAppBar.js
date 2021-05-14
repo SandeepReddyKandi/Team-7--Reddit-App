@@ -1,3 +1,10 @@
+/* eslint-disable react/prefer-stateless-function */
+/* eslint-disable  dot-notation */
+/* eslint-disable prefer-template */
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/destructuring-assignment */
+
 import React from 'react';
 import Col from 'react-bootstrap/Col';
 import AppBar from '@material-ui/core/AppBar';

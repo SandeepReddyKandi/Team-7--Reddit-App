@@ -6,12 +6,20 @@ const handle_request = async (req, callback) => {
     let posts = await PostModel.find({
       community_id: mongoose.Types.ObjectId(req.community_id),
     })
-      .skip(parseInt(req.page))
+      .populate("comments")
+      .skip(parseInt(req.page * req.rows))
       .limit(parseInt(req.rows));
+    let totalRows = await PostModel.countDocuments({
+      community_id: mongoose.Types.ObjectId(req.community_id),
+    });
 
+    let json = {
+      totalRows,
+      data: posts,
+    };
     return callback(null, {
       msg: "",
-      data: posts,
+      data: json,
       success: true,
     });
   } catch (error) {

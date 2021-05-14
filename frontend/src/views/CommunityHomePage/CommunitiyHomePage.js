@@ -4,6 +4,7 @@
 /* eslint-disable prefer-template */
 /* eslint-disable camelcase */
 /* eslint-disable arrow-body-style */
+/* eslint-disable react/destructuring-assignment */
 
 import React from 'react';
 import Row from 'react-bootstrap/Row';
@@ -24,6 +25,7 @@ import CommunityRulesCard from '../Cards/CommunityRulesCard';
 import CommunityAppBar from '../ToolBar/CommunityAppBar';
 import ImageModal from './ImageModal';
 import constants from '../../constants/constants';
+
 import * as communityAction from '../../actions/CommunityHomePageActions';
 
 import CommunityMembersList from '../Cards/CommunityMembersList';
@@ -48,7 +50,7 @@ class CommunityHomePage extends React.Component {
 
   async componentDidMount() {
     const { location } = this.props;
-    await this.setState({ community: location.community });
+    await this.setState({ community: location.community, redirect: false });
     await this.checkStatus();
 
     await this.getCommunity();
@@ -116,8 +118,8 @@ class CommunityHomePage extends React.Component {
       .then((response, error) => {
         if (!error) {
           this.setState({
-            posts: response.data.data,
-            totalRows: response.data.data.length,
+            posts: response.data.data.data,
+            totalRows: response.data.data.totalRows,
           });
         }
       })
@@ -142,8 +144,8 @@ class CommunityHomePage extends React.Component {
       .then((response, error) => {
         if (!error) {
           this.setState({
-            posts: response.data.data,
-            totalRows: response.data.data.length,
+            posts: response.data.data.data,
+            totalRows: response.data.data.totalRows,
           });
         }
       })
@@ -168,8 +170,8 @@ class CommunityHomePage extends React.Component {
       .then((response, error) => {
         if (!error) {
           this.setState({
-            posts: response.data.data,
-            totalRows: response.data.data.length,
+            posts: response.data.data.data,
+            totalRows: response.data.data.totalRows,
           });
         }
       })
@@ -179,8 +181,30 @@ class CommunityHomePage extends React.Component {
       });
   };
 
+  handleLeave = async () => {
+    const { community } = this.props.location;
+    const data = {
+      user_id: localStorage.getItem('user'),
+      community_id: community._id,
+    };
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+    axios.defaults.withCredentials = true;
+    await axios
+      .post(`${constants.baseUrl}/community/leavecommunity/`, data)
+      .then((response, error) => {
+        if (response) {
+          this.setState({ redirect: true });
+        } else {
+          console.log(error);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   handleJoin = async () => {
-    const { community } = this.props;
+    const { community } = this.props.location;
     const data = {
       sender: localStorage.getItem('user'),
       recepient: community.admin_id,
@@ -216,9 +240,8 @@ class CommunityHomePage extends React.Component {
       .then((response, error) => {
         if (!error) {
           this.setState({
-            posts: response.data.data,
-            totalRows: response.data.data.length,
-            showPage: true,
+            posts: response.data.data.data,
+            totalRows: response.data.data.totalRows,
           });
         }
         if (response.success) {
@@ -233,17 +256,36 @@ class CommunityHomePage extends React.Component {
   getCommunity = async () => {
     const { community } = this.state;
     const community_id = community._id;
+    axios.defaults.withCredentials = true;
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
-    const { getCommunity } = this.props;
-    getCommunity(community_id);
+    await axios
+      .get(`${constants.baseUrl}/community/communities/?id=${community_id}`)
+      .then((response) => {
+        if (response.status === 200) {
+          if (response.data.data.length > 0) {
+            this.setState({
+              community: response.data.data[0],
+              showPage: true,
+            });
+            this.getPost();
+          }
+        } else {
+          console.log('something went wrong');
+        }
+      });
   };
 
   render() {
+    const { redirect } = this.state;
+    if (redirect) {
+      <Redirect to="/dashboard" />;
+    }
     const { post, posts, show, community, showPage, status, page, rows, totalRows } = this.state;
     if (post) {
       return <Redirect to="/createpost" />;
     }
+
     return (
       <>
         <Header />
@@ -259,7 +301,7 @@ class CommunityHomePage extends React.Component {
                 <Row>
                   <Col md={2}>&nbsp;</Col>
                   <Col md={1}>
-                    {community.img_url !== '' ? (
+                    {community.images.length > 0 !== '' ? (
                       <Avatar alt="Remy Sharp" src={community.images[0]} className="card-img-top" />
                     ) : (
                       <Avatar alt="Remy Sharp" src={RedditICon} className="card-img-top" />
@@ -325,6 +367,7 @@ class CommunityHomePage extends React.Component {
                           'border-radius': '9999px',
                           height: '30px',
                         }}
+                        onClick={this.handleLeave}
                         default
                       >
                         LEAVE
@@ -350,7 +393,7 @@ class CommunityHomePage extends React.Component {
                 {posts.length > 0 ? (
                   posts.map((p) => (
                     <Row>
-                      <TextDisplayCard post={p} />
+                      <TextDisplayCard community={community} post={p} />
                     </Row>
                   ))
                 ) : (
@@ -392,7 +435,7 @@ class CommunityHomePage extends React.Component {
 CommunityHomePage.propTypes = {
   community: PropTypes.objectOf.isRequired,
   location: PropTypes.objectOf.isRequired,
-  getCommunity: PropTypes.func.isRequired,
+  // getCommunity: PropTypes.func.isRequired,
 };
 
 const mapStatetoProps = (state) => {

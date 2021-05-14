@@ -2,6 +2,7 @@
 /* eslint no-underscore-dangle: 0 */
 /* eslint-disable  dot-notation */
 /* eslint-disable prefer-template */
+/* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -10,7 +11,6 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ModeCommentIcon from '@material-ui/icons/ModeComment';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import IconButton from '@material-ui/core/IconButton';
-
 import Card from '@material-ui/core/Card';
 import { Typography } from '@material-ui/core';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -24,6 +24,8 @@ import CardActions from '@material-ui/core/CardActions';
 import PropTypes from 'prop-types';
 import CardGiftcardIcon from '@material-ui/icons/CardGiftcard';
 import axios from 'axios';
+import convertDate from '../../constants/CommonService';
+
 import RedditICon from '../../community.png';
 import Comment from '../Comment/Comment';
 
@@ -37,8 +39,23 @@ class TextDisplayCard extends React.Component {
       comment: '',
       expandComment: false,
       panel: '',
-      post: this.props,
+      post: this.props.post,
+      comments: [],
     };
+    this.toggleChildMenu = this.toggleChildMenu.bind(this);
+  }
+
+  componentDidMount() {
+    const userId = localStorage.getItem('user');
+    const { community } = this.props;
+    const isMember = community.members.filter((d) => d._id === userId);
+    if (isMember === 0) {
+      document.getElementById('comment').disabled = true;
+    }
+    this.getComments();
+    this.setState({
+      // comments: this.props.post.comments,
+    });
   }
 
   handleExpandClick = (e, postId) => {
@@ -62,9 +79,10 @@ class TextDisplayCard extends React.Component {
       .then((response, error) => {
         if (!error) {
           this.setState({
-            post: response.data.data,
+            post: response.data.data[0],
           });
         }
+        this.getComments();
         if (response.success) {
           this.checkStatus();
         }
@@ -90,14 +108,14 @@ class TextDisplayCard extends React.Component {
     const userId = localStorage.getItem('user');
     axios.defaults.withCredentials = true;
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
-    const data = { postId: post._id, comment, userId };
+    const data = { post_id: post._id, comment, author_id: userId };
     axios
       .post(`${constants.baseUrl}/comment/add`, data)
       .then((response, error) => {
         if (error) {
           console.log(error.msg);
-        } else {
-          // this.setState({ updatetree: true });
+        } else if (response.data.msg === 'Comment Added successfully!') {
+          this.getPost();
         }
       })
       .catch((error) => {
@@ -120,11 +138,30 @@ class TextDisplayCard extends React.Component {
         if (error) {
           console.log(response.msg);
         } else {
-          // this.setState({ updatetree: true });
+          this.getPost();
         }
       })
       .catch((error) => {
         console.log(error);
+      });
+  };
+
+  getComments = async () => {
+    axios.defaults.withCredentials = true;
+    const { post } = this.state;
+    const postid = post._id;
+    await axios
+      .get(`${constants.baseUrl}/comment/?id=${postid}`)
+      .then((response, error) => {
+        if (!error) {
+          this.setState({
+            comments: response.data.data,
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        // this.setState({ errormessage: error.response.data.msg });
       });
   };
 
@@ -141,9 +178,9 @@ class TextDisplayCard extends React.Component {
       .post(`${constants.baseUrl}/post/downvote`, data)
       .then((response, error) => {
         if (error) {
-          console.log(response.msg);
+          console.log(response);
         } else {
-          // this.setState({ updatetree: true });
+          this.getPost();
         }
       })
       .catch((error) => {
@@ -151,9 +188,15 @@ class TextDisplayCard extends React.Component {
       });
   };
 
+  toggleChildMenu() {
+    const { open } = this.state;
+    this.setState({
+      open: !open,
+    });
+  }
+
   render() {
-    const { expandComment, panel } = this.state;
-    const { post } = this.props;
+    const { expandComment, panel, post, comments } = this.state;
     return (
       <div
         className="posts-wrapper"
@@ -193,9 +236,9 @@ class TextDisplayCard extends React.Component {
                       }
                     />
                     <div className="subreddit-name">{post.community_id}</div>
-                    <div className="post-user">Posted by</div>
-                    <span className="post-user underline">{post.author_id}</span>
-                    <span className="post-user underline">20 hours ago</span>
+                    <div className="post-user">posted by</div>
+                    <span className="post-user underline">{post.author_id[0].name}</span>
+                    <span className="post-user underline">{convertDate(post.createdAt)}</span>
                   </div>
                 </Row>
                 <Row>
@@ -216,7 +259,7 @@ class TextDisplayCard extends React.Component {
                     >
                       <ModeCommentIcon fontSize="small" />
                       <span className="header-label">
-                        <span className="card-action-label">525 Comments</span>
+                        <span className="card-action-label">{post.comments.length} Comments</span>
                       </span>
                     </IconButton>
                     <IconButton aria-label="show more">
@@ -239,49 +282,53 @@ class TextDisplayCard extends React.Component {
                 <Row>
                   <Col>
                     <Collapse timeout="auto" in={expandComment && panel === post._id}>
+                      {expandComment && panel === post._id ? (
+                        <Comment post={post} comments={comments} />
+                      ) : null}
                       <Row>
                         <CardContent style={{ 'min-width': '100%' }}>
-                          <Row>
-                            <Col>
-                              <Typography className="header-label card-action-label">
-                                Comment as {localStorage.getItem('user')}
-                              </Typography>
-                            </Col>
-                          </Row>
-                          <Row>
-                            <Col md={6}>
-                              <TextareaAutosize
-                                rowsMin={4}
-                                placeholder="Comment"
-                                size="large"
-                                defaultValue=""
-                                style={{ 'min-width': '130vh' }}
-                                onChange={this.handleCommentText}
-                              />
-                            </Col>
-                          </Row>
-                          <Row>
-                            <Col md={9} />
-                            <Col ms={3}>
-                              {' '}
-                              <Button
-                                size="medium"
-                                className="btn-primary"
-                                type="button"
-                                style={{
-                                  'background-color': '#da907e',
-                                  color: '#ffffff',
-                                  'border-radius': '9999px',
-                                  height: '30px',
-                                }}
-                                onClick={this.handleAddComment}
-                                default
-                              >
-                                Comment
-                              </Button>
-                            </Col>
-                          </Row>
-                          {expandComment && panel === post._id && <Comment postId={post} />}
+                          <form className="form-signin" onSubmit={this.handleAddComment}>
+                            <Row>
+                              <Col>
+                                <Typography className="header-label card-action-label">
+                                  Comment as {localStorage.getItem('user')}
+                                </Typography>
+                              </Col>
+                            </Row>
+                            <Row>
+                              <Col md={6}>
+                                <TextareaAutosize
+                                  rowsMin={4}
+                                  placeholder="Comment"
+                                  size="large"
+                                  defaultValue=""
+                                  style={{ 'min-width': '80vh' }}
+                                  onChange={this.handleCommentText}
+                                />
+                              </Col>
+                            </Row>
+                            <Row>
+                              <Col md={9} />
+                              <Col ms={3}>
+                                {' '}
+                                <Button
+                                  id="comment"
+                                  size="medium"
+                                  type="submit"
+                                  className="btn-primary"
+                                  style={{
+                                    'background-color': '#da907e',
+                                    color: '#ffffff',
+                                    'border-radius': '9999px',
+                                    height: '30px',
+                                  }}
+                                  default
+                                >
+                                  Comment
+                                </Button>
+                              </Col>
+                            </Row>
+                          </form>
                         </CardContent>
                       </Row>
                     </Collapse>
@@ -298,7 +345,7 @@ class TextDisplayCard extends React.Component {
 
 TextDisplayCard.propTypes = {
   post: PropTypes.objectOf.isRequired,
-  // postId: PropTypes.string.isRequired,
+  community: PropTypes.objectOf.isRequired,
 };
 
 export default TextDisplayCard;

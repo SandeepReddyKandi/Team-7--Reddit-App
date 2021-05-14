@@ -8,7 +8,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import axios from 'axios';
-import SearchBar from "material-ui-search-bar";
+import SearchBar from 'material-ui-search-bar';
 import AppBar from '@material-ui/core/AppBar';
 import Header from '../Header/Header';
 import DashboardAppBar from '../ToolBar/DashboardAppBar';
@@ -18,7 +18,6 @@ import TopBar from '../ToolBar/TopBar';
 import constants from '../../constants/constants';
 import AdvertisementCard from '../Cards/AdvertisementCard/AdvertisementCard';
 
-
 class Dashboard extends React.Component {
   constructor() {
     super();
@@ -26,7 +25,7 @@ class Dashboard extends React.Component {
       errormessage: '',
       posts: [],
       searchText: '',
-      searchResult: []
+      searchResult: [],
     };
   }
 
@@ -35,13 +34,13 @@ class Dashboard extends React.Component {
   }
 
   handleSearchChange = (e) => {
-    console.log("handleSearchChange: ", e);
+    console.log('handleSearchChange: ', e);
     this.state.searchText = e;
     // setSearchText(e);
-  }
+  };
 
   handleSearchRequest = async (e) => {
-    console.log("handleSearchRequest: ", e);
+    console.log('handleSearchRequest: ', e);
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
     setTimeout(async () => {
@@ -49,23 +48,22 @@ class Dashboard extends React.Component {
         .get(`${constants.baseUrl}/posts/searchPostsCriteria?searchText=${this.searchText}`)
         .then((response, error) => {
           if (!error) {
-            console.log("Response: ", response);
+            console.log('Response: ', response);
             this.state.searchResult = response.data.data;
             // setSearchResult(response.data.data);
+          } else {
+            console.log('Error: ', error);
           }
-          else {
-            console.log("Error: ", error);
-          }
-        })
-    }, 10)
-
-  }
+        });
+    }, 10);
+  };
 
   getPost = () => {
     const userId = localStorage.getItem('user');
-    axios.defaults.headers.common["authorization"] = 'Bearer ' + localStorage.getItem('token')
+    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
-    axios.get(`${constants.baseUrl}/post/?user=${userId}`)
+    axios
+      .get(`${constants.baseUrl}/post/?user=${userId}`)
       .then((response, error) => {
         if (error) {
           this.setState({ errormessage: error.msg });
@@ -90,15 +88,16 @@ class Dashboard extends React.Component {
             <div className="alert alert-danger" role="alert">
               {errormessage}
             </div>
-          ) : null
-          }
+          ) : null}
           <Row>
             <Col md={8}>
               <br />
               <DashboardAppBar />
               <AppBar position="static" color="white" style={{ marginBottom: '10px' }}>
-                <SearchBar style={{ width: '100%' }}
-                  value="" placeholder="Search Posts..."
+                <SearchBar
+                  style={{ width: '100%' }}
+                  value=""
+                  placeholder="Search Posts..."
                   onChange={this.handleSearchChange}
                   onRequestSearch={this.handleSearchRequest}
                 />
@@ -117,7 +116,8 @@ class Dashboard extends React.Component {
                     borderRadius: 'var(--border-radius)',
                     border: '1px solid darkgray',
                     backgroundColor: 'white',
-                  }}>
+                  }}
+                >
                   <SideBar />
                 </div>
               </Row>

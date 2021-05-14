@@ -20,6 +20,7 @@ const {
   getInvitations,
   getInvitationsByPage,
   getCommunityVoteCount,
+  leaveCommunity,
 } = require('../controllers/community');
 
 router.get('/getInvitations', checkAuth, getInvitations);
@@ -37,5 +38,6 @@ router.post('/getCommunityByPage', checkAuth, getCommunityByPage);
 router.get('/getCommunityByAdmin', checkAuth, getCommunityByAdmin);
 router.get('/getCommunityByMember', checkAuth, getCommunityByMember);
 router.get('/deletecommunitybyid', checkAuth, deleteCommunityById);
+router.get('/leavecommunity', checkAuth, leaveCommunity);
 
 module.exports = router;

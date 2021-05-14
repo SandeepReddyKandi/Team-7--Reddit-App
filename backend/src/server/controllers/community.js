@@ -18,6 +18,7 @@ const {
   GET_COMMUNITY_BY_PAGE,
   GET_INVITATIONS_BY_PAGE,
   GET_COMMUNITY_VOTE_COUNT,
+  LEAVE_COMMUNITY,
 } = require('../kafka/topics');
 
 exports.addCommunity = async (req, res) => {
@@ -235,6 +236,20 @@ exports.getInvitationsByPage = async (req, res) => {
 exports.getCommunityVoteCount = async (req, res) => {
   const payload = { id: req.query.id };
   kafka.make_request(GET_COMMUNITY_VOTE_COUNT, payload, (error, results) => {
+    if (!results.success) {
+      res.status(400).send(results);
+    } else {
+      res.status(200).json({
+        msg: results.msg,
+        data: results.data,
+      });
+    }
+  });
+};
+
+exports.leaveCommunity = async (req, res) => {
+  const payload = { user_id: req.body.user_id, community_id: req.body.community_id };
+  kafka.make_request(LEAVE_COMMUNITY, payload, (error, results) => {
     if (!results.success) {
       res.status(400).send(results);
     } else {

@@ -44,6 +44,7 @@ const {
   SORT_POST_BY_DATE,
   ADD_SUB_COMMENT,
   SEARCH_POST_BY_CRITERIA,
+  LEAVE_COMMUNITY,
 } = require("./kafka/topics");
 
 //user
@@ -65,6 +66,7 @@ const getCommunityByName = require("./services/Community/GetCommunityByName");
 const rateCommunity = require("./services/Community/RateCommunity");
 const getCommunityVoteCount = require("./services/Community/GetCommunityVoteCount");
 const getRulesTopics = require("./services/Community/GetRulesTopics");
+const leaveCommunity = require("./services/Community/LeaveCommunity");
 
 //Post
 const addPost = require("./services/Post/AddPost");
@@ -141,7 +143,7 @@ function handleTopicRequest(topic_name, fname) {
         },
       ];
       producer.send(payloads, function (err, data) {
-        console.log("Data:",data);
+        console.log("Data:", data);
       });
       return;
     });
@@ -200,3 +202,4 @@ handleTopicRequest(GET_INVITATIONS, getInvitations);
 handleTopicRequest(GET_INVITATIONS_BY_PAGE, getInvitationsByPage);
 handleTopicRequest(SEND_INVITE, sendInvite);
 handleTopicRequest(GET_STATUS, getStatus);
+handleTopicRequest(LEAVE_COMMUNITY, leaveCommunity);
