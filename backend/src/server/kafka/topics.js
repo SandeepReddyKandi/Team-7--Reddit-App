@@ -47,6 +47,7 @@ const SEND_INVITE = 'sendInvite';
 const GET_STATUS = 'getStatus';
 const GET_INVITATIONS = 'getInvitations';
 const GET_INVITATIONS_BY_PAGE = 'getinvitationsByPage';
+const GET_INVITATIONS_FOR_COMMUNITY = 'getInvitationsForCommunity';
 
 // const GET_POST_BY_ID='getPostbyID';
 
@@ -87,6 +88,7 @@ module.exports = {
   JOIN_COMMUNITY,
   GET_INVITATIONS,
   GET_INVITATIONS_BY_PAGE,
+  GET_INVITATIONS_FOR_COMMUNITY,
   GET_STATUS,
   GET_POST_BY_ID,
   GET_RULES_TOPICS,

@@ -47,6 +47,7 @@ const SEND_INVITE = "sendInvite";
 const GET_STATUS = "getStatus";
 const GET_INVITATIONS = "getInvitations";
 const GET_INVITATIONS_BY_PAGE = "getinvitationsByPage";
+const GET_INVITATIONS_FOR_COMMUNITY = "getInvitationsForCommunity";
 
 module.exports = {
   GET_USERS,
@@ -68,6 +69,7 @@ module.exports = {
   SORT_POST_BY_UPVOTE,
   SORT_POST_BY_DOWNVOTE,
   SORT_POST_BY_DATE,
+  GET_INVITATIONS_FOR_COMMUNITY,
   // GET_POST,
   // GET_POST_BY_ID
   GET_COMMUNITY_BY_NAME,
