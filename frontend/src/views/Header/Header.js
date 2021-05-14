@@ -232,7 +232,6 @@ const handleGetCommunityInvite=async(e)=>{
   const test = await axios.get(`${constants.baseUrl}/community/getcommunityinvite`,data);
   console.log("------testcheckget----", test.data.data.invitations);
   const inviteList= test.data.data.invitations;
-
   var finalArray = inviteList.map(function (obj) {
     return getcommunityname(obj.community_id);
   });
@@ -240,20 +239,20 @@ const handleGetCommunityInvite=async(e)=>{
   console.log("checking123", CommunityName);
 }
 
-  const handleGetCommunityInvite = async (e) => {
-    e.preventDefault();
-    const data = { userId: localStorage.getItem("user") }
+// const handleGetCommunityInvite = async (e) => {
+//     e.preventDefault();
+//     const data = { userId: localStorage.getItem("user") }
 
-    axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
-    axios.defaults.withCredentials = true;
-    const test = await axios.get(`${constants.baseUrl}/community/getcommunityinvite`, data);
-    const inviteList = test.data.data.invitations;
+//     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
+//     axios.defaults.withCredentials = true;
+//     const test = await axios.get(`${constants.baseUrl}/community/getcommunityinvite`, data);
+//     const inviteList = test.data.data.invitations;
 
-    var finalArray = inviteList.map(function (obj) {
-      return obj.community_id;
-    });
-    setCommunityName([...finalArray]);
-  }
+//     var finalArray = inviteList.map(function (obj) {
+//       return obj.community_id;
+//     });
+//     setCommunityName([...finalArray]);
+//   }
 
   const onAcceptInvite = (e) => {
     e.preventDefault();
