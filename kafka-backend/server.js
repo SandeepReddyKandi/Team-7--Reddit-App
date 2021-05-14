@@ -39,6 +39,7 @@ const {
   GET_POST_COMMUNITY,
   GET_USERS,
   GET_INVITATIONS,
+  GET_INVITATIONS_BY_PAGE,
   SORT_POST_BY_DATE,
   ADD_SUB_COMMENT,
 } = require("./kafka/topics");
@@ -82,6 +83,7 @@ const addSubComment = require("./services/Comment/AddSubComment");
 const sendInvite = require("./services/Invitation/SendInvite");
 const getStatus = require("./services/Invitation/GetStatus");
 const getInvitations = require("./services/Invitation/GetInvitations");
+const getInvitationsByPage = require("./services/Invitation/GetInvitationsByPage");
 
 //Post
 const addPostText = require("./services/Post/AddPostText");
@@ -188,5 +190,6 @@ handleTopicRequest(ADD_SUB_COMMENT, addSubComment);
 
 //Invitation
 handleTopicRequest(GET_INVITATIONS, getInvitations);
+handleTopicRequest(GET_INVITATIONS_BY_PAGE, getInvitationsByPage);
 handleTopicRequest(SEND_INVITE, sendInvite);
 handleTopicRequest(GET_STATUS, getStatus);

@@ -39,6 +39,7 @@ const ADD_SUB_COMMENT = 'addSubComment';
 const SEND_INVITE = 'sendInvite';
 const GET_STATUS = 'getStatus';
 const GET_INVITATIONS = 'getInvitations';
+const GET_INVITATIONS_BY_PAGE = 'getinvitationsByPage';
 
 //Post
 const ADD_POST_TEXT = 'addPostText';
@@ -85,6 +86,7 @@ module.exports = {
   SEND_INVITE,
   JOIN_COMMUNITY,
   GET_INVITATIONS,
+  GET_INVITATIONS_BY_PAGE,
   GET_STATUS,
   GET_POST_BY_ID,
   GET_RULES_TOPICS,
