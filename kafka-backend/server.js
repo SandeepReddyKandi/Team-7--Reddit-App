@@ -50,7 +50,8 @@ const {
   SORT_POST_BY_DATE,
   ADD_SUB_COMMENT,
   SEARCH_POST_BY_CRITERIA,
-  SORT_DASHPOSTS_BY_UPVOTES
+  LEAVE_COMMUNITY,
+  SORT_DASHPOSTS_BY_UPVOTES,
 } = require("./kafka/topics");
 
 //user
@@ -75,6 +76,7 @@ const getCommunityByName = require("./services/Community/GetCommunityByName");
 const rateCommunity = require("./services/Community/RateCommunity");
 const getCommunityVoteCount = require("./services/Community/GetCommunityVoteCount");
 const getRulesTopics = require("./services/Community/GetRulesTopics");
+const leaveCommunity = require("./services/Community/LeaveCommunity");
 const getCommunityNameById = require("./services/Community/GetCommunityNameById");
 
 //Post
@@ -219,5 +221,6 @@ handleTopicRequest(GET_INVITATIONS, getInvitations);
 handleTopicRequest(GET_INVITATIONS_BY_PAGE, getInvitationsByPage);
 handleTopicRequest(SEND_INVITE, sendInvite);
 handleTopicRequest(GET_STATUS, getStatus);
+handleTopicRequest(LEAVE_COMMUNITY, leaveCommunity);
 handleTopicRequest(GET_INVITATIONS_FOR_COMMUNITY, getInvitationsForCommunity);
 handleTopicRequest(APPROVE_INVITE, approveInvite);

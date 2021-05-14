@@ -4,7 +4,7 @@ import { getCommunity } from '../actions/CommunityHomePageActions';
 
 export const CommunityHomePageReducer = createSlice({
   name: 'group',
-  initialState: { community: [], posts: [], comments: [] },
+  initialState: { community: [{ post: [], members: [], images: [] }], comments: [] },
   extraReducers: {
     [getCommunity.fulfilled]: (state, action) => {
       if (action.payload.auth) {

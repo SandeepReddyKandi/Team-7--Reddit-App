@@ -4,7 +4,6 @@
 /* eslint-disable no-lonely-if */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/no-did-update-set-state */
-/* eslint-disable react/no-deprecated */
 
 import React from 'react';
 import Row from 'react-bootstrap/Row';
@@ -46,14 +45,14 @@ class Comment extends React.Component {
   }
 
   componentDidUpdate() {
-    if (JSON.stringify(this.props.comments.length) !== JSON.stringify(this.state.comments.length)) {
+    if (JSON.stringify(this.props.post.length) !== JSON.stringify(this.state.comments.length)) {
       this.getComments();
       // this.setState({ comments: this.props.comments });
     }
   }
 
   componentDidMount = async () => {
-    this.getComments();
+    // await this.getComments();
     // const { comments } = this.props;
     // this.setState({ comments });
   };
@@ -94,9 +93,9 @@ class Comment extends React.Component {
 
   handleUpVote = async (id) => {
     const userId = localStorage.getItem('user');
-    if (id.upvote.includes(userId) || id.downvote.includes(userId)) {
-      return;
-    }
+    // if (id.upvote.includes(userId) || id.downvote.includes(userId)) {
+    //  return;
+    // }
     axios.defaults.withCredentials = true;
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     const data = { id: id._id, user: userId };
@@ -115,7 +114,7 @@ class Comment extends React.Component {
   };
 
   handleDownVote = async (id) => {
-    const userId = localStorage.getItem('userId');
+    const userId = localStorage.getItem('user');
     if (id.upvote.includes(userId) || id.downvote.includes(userId)) {
       return;
     }
@@ -238,7 +237,7 @@ class Comment extends React.Component {
                             </ListItemAvatar>
                             <ListItemText
                               primary={<Typography>{s.author_id[0].name}</Typography>}
-                              secondary={<Typography fontSize="small">{s.createdAt}</Typography>}
+                              secondary={s.comment}
                             />
                           </ListItem>
                         ))}
@@ -280,8 +279,8 @@ class Comment extends React.Component {
 }
 
 Comment.propTypes = {
-  // post: PropTypes.string.isRequired,
-  comments: PropTypes.string.isRequired,
+  post: PropTypes.string.isRequired,
+  // comments: PropTypes.string.isRequired,
 };
 
 export default Comment;

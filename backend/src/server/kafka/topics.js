@@ -21,6 +21,7 @@ const RATE_COMMUNITY = 'voteCommunity';
 const GET_COMMUNITY_VOTE_COUNT = 'getCommunityVoteCount';
 const JOIN_COMMUNITY = 'joinCommunity';
 const GET_RULES_TOPICS = 'getRulesTopics';
+const LEAVE_COMMUNITY = 'leaveCommunity';
 const GET_COMMUNITY_NAME_BY_ID = 'getCommunityNameById';
 
 //Post
@@ -41,7 +42,7 @@ const SEARCH_POST_BY_CRITERIA = 'searchPostByCriteria';
 const SORT_DASHPOSTS_BY_UPVOTES = 'sortDashPostsByUpvotes';
 
 //Comment
-const ADD_COMMENT = 'addComment';
+const ADD_COMMENT = 'addComments';
 const GET_COMMENT = 'getComment';
 const UPVOTE_COMMENT = 'upvoteComment';
 const DOWNVOTE_COMMENT = 'downvoteComment';
@@ -106,5 +107,6 @@ module.exports = {
   GET_POST_COMMUNITY,
   ADD_SUB_COMMENT,
   SEARCH_POST_BY_CRITERIA,
+  LEAVE_COMMUNITY,
   SORT_DASHPOSTS_BY_UPVOTES,
 };

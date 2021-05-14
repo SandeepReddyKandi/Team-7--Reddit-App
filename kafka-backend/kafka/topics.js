@@ -41,7 +41,7 @@ const SEARCH_POST_BY_CRITERIA = "searchPostByCriteria";
 const SORT_DASHPOSTS_BY_UPVOTES = "sortDashPostsByUpvotes";
 
 //Comment
-const ADD_COMMENT = "addComment";
+const ADD_COMMENT = "addComments";
 const GET_COMMENT = "getComment";
 const UPVOTE_COMMENT = "upvoteComment";
 const DOWNVOTE_COMMENT = "downvoteComment";
@@ -52,6 +52,7 @@ const SEND_INVITE = "sendInvite";
 const GET_STATUS = "getStatus";
 const GET_INVITATIONS = "getInvitations";
 const GET_INVITATIONS_BY_PAGE = "getinvitationsByPage";
+const LEAVE_COMMUNITY = "leaveCommunity";
 const GET_INVITATIONS_FOR_COMMUNITY = "getInvitationsForCommunity";
 const APPROVE_INVITE = "approveInvite";
 
@@ -105,5 +106,6 @@ module.exports = {
   ADD_SUB_COMMENT,
   GET_POST_BY_ID,
   SEARCH_POST_BY_CRITERIA,
+  LEAVE_COMMUNITY,
   SORT_DASHPOSTS_BY_UPVOTES,
 };

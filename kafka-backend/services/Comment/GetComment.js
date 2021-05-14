@@ -7,7 +7,9 @@ const handle_request = async (req, callback) => {
     if (req.comment_id) {
       criteria.post_id = mongoose.Types.ObjectId(req.comment_id);
     }
-    let comments = await CommentModel.find(criteria).populate("sub_comments");
+    let comments = await CommentModel.find(criteria)
+      .populate("author_id")
+      .populate({ path: "sub_comments", populate: { path: "author_id" } });
     return callback(null, {
       msg: "",
       success: true,
