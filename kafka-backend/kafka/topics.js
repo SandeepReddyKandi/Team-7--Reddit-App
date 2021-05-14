@@ -52,6 +52,7 @@ const GET_STATUS = "getStatus";
 const GET_INVITATIONS = "getInvitations";
 const GET_INVITATIONS_BY_PAGE = "getinvitationsByPage";
 const GET_INVITATIONS_FOR_COMMUNITY = "getInvitationsForCommunity";
+const APPROVE_INVITE = "approveInvite";
 
 module.exports = {
   GET_USERS,
@@ -91,6 +92,7 @@ module.exports = {
   GET_POST_BY_PAGE,
   GET_COMMENT,
   SEND_INVITE,
+  APPROVE_INVITE,
   GET_INVITATIONS,
   GET_INVITATIONS_BY_PAGE,
   JOIN_COMMUNITY,

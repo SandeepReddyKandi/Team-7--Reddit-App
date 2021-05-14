@@ -22,8 +22,10 @@ const {
   getInvitations,
   getInvitationsByPage,
   getCommunityVoteCount,
+  approveInvite,
 } = require('../controllers/community');
 
+router.post('/approveInvite', checkAuth, approveInvite);
 router.get('/getInvitations', checkAuth, getInvitations);
 router.post('/getInvitationsByPage', checkAuth, getInvitationsByPage);
 router.get('/getInvitationByCommunity', checkAuth, getInvitationsForCommunity);

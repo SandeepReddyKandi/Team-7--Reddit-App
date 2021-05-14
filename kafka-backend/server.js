@@ -27,6 +27,7 @@ const {
   SORT_POST_BY_UPVOTE,
   SORT_POST_BY_DOWNVOTE,
   GET_INVITATIONS_FOR_COMMUNITY,
+  APPROVE_INVITE,
   // GET_POST,
   // GET_POST_BY_ID
   GET_COMMUNITY_BY_NAME,
@@ -96,6 +97,7 @@ const getStatus = require("./services/Invitation/GetStatus");
 const getInvitations = require("./services/Invitation/GetInvitations");
 const getInvitationsByPage = require("./services/Invitation/GetInvitationsByPage");
 const getInvitationsForCommunity = require("./services/Invitation/GetInvitationsForCommunity");
+const approveInvite = require("./services/Invitation/ApproveInvite");
 
 //Post
 const addPostText = require("./services/Post/AddPostText");
@@ -106,7 +108,6 @@ const downvotePost = require("./services/Post/DownvotePost");
 const sortPostByDATE = require("./services/Post/SortPostByDate");
 const searchPostsByCriteria = require("./services/Post/SearchPostsByCriteria");
 const sortDashPostsByUpvotes = require("./services/Post/SortDashPostsByUpvotes");
-
 // const getPost = require("./services/Post/GetPost");
 // const getPostbyID = require("./services/Post/GetPostbyID");
 
@@ -184,6 +185,7 @@ handleTopicRequest(ADD_POST_TEXT, addPostText);
 handleTopicRequest(ADD_POST_IMAGE, addPostImage);
 handleTopicRequest(ADD_POST_LINK, addPostLink);
 handleTopicRequest(GET_POST_COMMUNITY, getPostCommunity);
+// handleTopicRequest(GET_POST_BY_ID, getPostbyID);
 handleTopicRequest(GET_COMMUNITY_BY_NAME, getCommunityByName);
 handleTopicRequest(RATE_COMMUNITY, rateCommunity);
 handleTopicRequest(GET_COMMUNITY_VOTE_COUNT, getCommunityVoteCount);
@@ -215,3 +217,4 @@ handleTopicRequest(GET_INVITATIONS_BY_PAGE, getInvitationsByPage);
 handleTopicRequest(SEND_INVITE, sendInvite);
 handleTopicRequest(GET_STATUS, getStatus);
 handleTopicRequest(GET_INVITATIONS_FOR_COMMUNITY, getInvitationsForCommunity);
+handleTopicRequest(APPROVE_INVITE, approveInvite);

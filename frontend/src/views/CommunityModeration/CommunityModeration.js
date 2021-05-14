@@ -23,7 +23,7 @@ import Badge from 'react-bootstrap/Badge';
 import { useSelector, useDispatch } from 'react-redux';
 import { Hint } from 'react-autocomplete-hint';
 import { FaTimes } from 'react-icons/fa';
-import { getMyCommunity } from '../../actions/CommunityModerationAction';
+import { getMyCommunity, getMyInvitations } from '../../actions/CommunityModerationAction';
 import Header from '../Header/Header';
 import logo from '../../side_bg.jpeg';
 import CommunityModerationCard from './CommunityModerationCard';
@@ -37,19 +37,28 @@ const CommunityModeration = () => {
   const [requestCommunity, toggleRequest] = useState(reduxData.community[0]._id)
   const [page, setPage] = useState([]);
   const [userListModal, setUserListModal] = useState([])
+  const [invitationList, setInvitationList] = useState([])
   const [communityIdModal, setIdModal] = useState('')
   const [totalPage, setTotalPage] = useState(reduxData.community.length);
   const [modalToggle, setModalToggle] = useState(false);
   const [communityModal, setCommunityModal] = useState(null);
 useEffect(() => {
- dispatch(getMyCommunity(localStorage.getItem('user')))
+ dispatch(getMyCommunity(localStorage.getItem('userId')))
 }, [dispatch])
+
+useEffect(() => {
+  setInvitationList(reduxData.invitataions)
+}, [reduxData.invitataions])
+
   const input = document.querySelector('topic');
   if (input !== null) {
     input.addEventListener('keyup', (e) => {
       let event;
       if (!e) event = window.event;
     });
+  }
+  const getToggleInvitation = (communityId) => {
+    dispatch(getMyInvitations(communityId))
   }
   const showModal = (userList, communityId) => {
     setUserListModal(userList);
@@ -65,11 +74,11 @@ useEffect(() => {
     <Header />
     <Row style={{marginTop: "2%"}}>
       <Col sm={3}>
-    <RequestTab communityId={requestCommunity}/>
+    <RequestTab communityId={requestCommunity} invitataions={invitationList}/>
       </Col>
       <Col md={6}>
         {reduxData.community.length > 0 ? 
-          <div>{reduxData.community.map((community) => <CommunityModerationCard community={community} requestToggle={toggleRequest} showModal={showModal} />)}</div>
+          <div>{reduxData.community.map((community) => <CommunityModerationCard community={community} requestToggle={getToggleInvitation} showModal={showModal} />)}</div>
         : null}
         <TablePagination
                 component="div"

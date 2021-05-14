@@ -52,6 +52,7 @@ const GET_STATUS = 'getStatus';
 const GET_INVITATIONS = 'getInvitations';
 const GET_INVITATIONS_BY_PAGE = 'getinvitationsByPage';
 const GET_INVITATIONS_FOR_COMMUNITY = 'getInvitationsForCommunity';
+const APPROVE_INVITE = "approveInvite";
 
 // const GET_POST_BY_ID='getPostbyID';
 
@@ -77,6 +78,7 @@ module.exports = {
   SORT_POST_BY_UPVOTE,
   SORT_POST_BY_DOWNVOTE,
   SORT_POST_BY_DATE,
+  APPROVE_INVITE,
   // GET_POST,
   // GET_POST_BY_ID
   GET_COMMUNITY_BY_NAME,

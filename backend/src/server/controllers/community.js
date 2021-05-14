@@ -10,6 +10,7 @@ const {
   SEND_INVITE,
   GET_STATUS,
   GET_COMMUNITY_BY_NAME,
+  APPROVE_INVITE,
   GET_COMMUNITY_BY_ADMIN,
   GET_COMMUNITY_ANALYTICS,
   GET_COMMUNITY_BY_MEMBER,
@@ -46,6 +47,20 @@ exports.getRulesTopics = async (req, res) => {
       res.status(200).json({
         msg: results.data,
         //role: results.role,
+      });
+    }
+  });
+};
+
+exports.approveInvite = async (req, res) => {
+  const payload = {body: req.body};
+  kafka.make_request(APPROVE_INVITE, payload, (error, results) => {
+    if (!results.success) {
+      res.status(400).send(results);
+    } else {
+      console.log(results);
+      res.status(200).json({
+        msg: results.msg,
       });
     }
   });
@@ -145,7 +160,7 @@ exports.getCommunityByMember = async (req, res) => {
 };
 
 exports.getInvitationsForCommunity = async (req, res) => {
-  const payload = { community_id: req.query.id };
+  const payload = { communityId: req.query.id };
   kafka.make_request(GET_INVITATIONS_FOR_COMMUNITY, payload, (error, results) => {
     if (!results.success) {
       res.status(400).send(results);
