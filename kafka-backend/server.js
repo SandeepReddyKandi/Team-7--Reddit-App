@@ -28,6 +28,7 @@ const {
   SORT_POST_BY_DOWNVOTE,
   GET_INVITATIONS_FOR_COMMUNITY,
   APPROVE_INVITE,
+  GET_POST_BY_COMMUNITY,
   // GET_POST,
   // GET_POST_BY_ID
   GET_COMMUNITY_BY_NAME,
@@ -90,6 +91,7 @@ const upvotePost = require("./services/Post/UpvotePost");
 const sortPostByUpvote = require("./services/Post/SortPostWithUpvote");
 const sortPostByDownvote = require("./services/Post/SortPostWithDownvote");
 const getPostById = require("./services/Post/GetPostById");
+const getPostCommunity = require("./services/Post/GetPostByCommunity");
 
 //Comment
 const addComment = require("./services/Comment/AddComment");
@@ -103,9 +105,9 @@ const sendInvite = require("./services/Invitation/SendInvite");
 const getStatus = require("./services/Invitation/GetStatus");
 const getInvitations = require("./services/Invitation/GetInvitations");
 const getInvitationsByPage = require("./services/Invitation/GetInvitationsByPage");
-const getcommunityinvite= require('./services/Invitation/GetCommunityInvite');
-const acceptcommunityinvite = require('./services/Invitation/AcceptCommunityInvite');
-const rejectcommunityinvite = require('./services/Invitation/RejectCommunityInvite')
+const getcommunityinvite = require("./services/Invitation/GetCommunityInvite");
+const acceptcommunityinvite = require("./services/Invitation/AcceptCommunityInvite");
+const rejectcommunityinvite = require("./services/Invitation/RejectCommunityInvite");
 const getInvitationsForCommunity = require("./services/Invitation/GetInvitationsForCommunity");
 const approveInvite = require("./services/Invitation/ApproveInvite");
 
@@ -113,7 +115,6 @@ const approveInvite = require("./services/Invitation/ApproveInvite");
 const addPostText = require("./services/Post/AddPostText");
 const addPostImage = require("./services/Post/AddPostImage");
 const addPostLink = require("./services/Post/AddPostLink");
-const getPostCommunity = require("./services/Post/GetPostCommunity");
 const downvotePost = require("./services/Post/DownvotePost");
 const sortPostByDATE = require("./services/Post/SortPostByDate");
 const searchPostsByCriteria = require("./services/Post/SearchPostsByCriteria");
@@ -214,6 +215,7 @@ handleTopicRequest(SORT_POST_BY_DATE, sortPostByDATE);
 handleTopicRequest(SORT_POST_BY_DATE, sortPostByDATE);
 handleTopicRequest(SEARCH_POST_BY_CRITERIA, searchPostsByCriteria);
 handleTopicRequest(SORT_DASHPOSTS_BY_UPVOTES, sortDashPostsByUpvotes);
+handleTopicRequest(GET_POST_BY_COMMUNITY, getPostCommunity);
 
 //Comment
 handleTopicRequest(ADD_COMMENT, addComment);

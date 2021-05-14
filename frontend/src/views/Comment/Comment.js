@@ -93,7 +93,7 @@ class Comment extends React.Component {
   };
 
   handleUpVote = async (id) => {
-    const userId = localStorage.getItem('user');
+    const userId = localStorage.getItem('userId');
     if (id.upvote.includes(userId) || id.downvote.includes(userId)) {
       return;
     }
@@ -237,7 +237,7 @@ class Comment extends React.Component {
                               <Avatar src={s.author_id[0].photo} />
                             </ListItemAvatar>
                             <ListItemText
-                              primary={<Typography>{s.author_id[0].name}</Typography>}
+                              primary={<Typography>s.author_id[0].name</Typography>}
                               secondary={<Typography fontSize="small">{s.createdAt}</Typography>}
                             />
                           </ListItem>

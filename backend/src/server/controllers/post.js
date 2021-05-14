@@ -14,6 +14,7 @@ const {
   ADD_POST_LINK,
   GET_POST_COMMUNITY,
   GET_POST_BY_ID,
+  GET_POST_BY_COMMUNITY,
 } = require('../kafka/topics');
 auth();
 
@@ -279,6 +280,27 @@ exports.getPostCommunity = async (req, res) => {
 
   const payload = { body: req.body };
   kafka.make_request(GET_POST_COMMUNITY, payload, (error, results) => {
+    // console.log("******results********", results);
+
+    if (!results.success) {
+      res.status(400).send(results);
+    } else {
+      // console.log(results);
+      res.status(200).json({
+        msg: results.msg,
+        data: results.data,
+        success: results.success,
+        //role: results.role,
+      });
+    }
+  });
+};
+
+exports.getPostByCommunity = async (req, res) => {
+  // console.log("******getPosts backend controller********");
+
+  const payload = { body: req.body };
+  kafka.make_request(GET_POST_BY_COMMUNITY, payload, (error, results) => {
     // console.log("******results********", results);
 
     if (!results.success) {

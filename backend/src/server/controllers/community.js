@@ -269,7 +269,7 @@ exports.getcommunityinvite = async (req, res) => {
 };
 
 exports.leaveCommunity = async (req, res) => {
-  const payload = { user_id: req.body.user_id, community_id };
+  const payload = { user_id: req.body.user_id, community_id: req.body.community_id };
   kafka.make_request(LEAVE_COMMUNITY, payload, (error, results) => {
     if (!results.success) {
       res.status(400).send(results);
@@ -285,7 +285,7 @@ exports.leaveCommunity = async (req, res) => {
 exports.acceptcommunityinvite = async (req, res) => {
   const data = {
     userId: req.user._id,
-    community_id: req.body.community_id
+    community_id: req.body.community_id,
   };
   const payload = data;
   kafka.make_request(ACCEPT_COMMUNITY_INVITE, payload, (error, results) => {

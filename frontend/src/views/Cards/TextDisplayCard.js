@@ -102,7 +102,8 @@ class TextDisplayCard extends React.Component {
     });
   };
 
-  handleAddComment = () => {
+  handleAddComment = (e) => {
+    e.preventDefault();
     const { comment, post } = this.state;
     // const { post } = this.props;
     const userId = localStorage.getItem('userId');
@@ -287,48 +288,39 @@ class TextDisplayCard extends React.Component {
                       ) : null}
                       <Row>
                         <CardContent style={{ 'min-width': '100%' }}>
-                          <form className="form-signin" onSubmit={this.handleAddComment}>
-                            <Row>
-                              <Col>
-                                <Typography className="header-label card-action-label">
-                                  Comment as {localStorage.getItem('user')}
-                                </Typography>
-                              </Col>
-                            </Row>
-                            <Row>
-                              <Col md={6}>
-                                <TextareaAutosize
-                                  rowsMin={4}
-                                  placeholder="Comment"
-                                  size="large"
-                                  defaultValue=""
-                                  style={{ 'min-width': '80vh' }}
-                                  onChange={this.handleCommentText}
-                                />
-                              </Col>
-                            </Row>
-                            <Row>
-                              <Col md={9} />
-                              <Col ms={3}>
-                                {' '}
-                                <Button
-                                  id="comment"
-                                  size="medium"
-                                  type="submit"
-                                  className="btn-primary"
-                                  style={{
-                                    'background-color': '#da907e',
-                                    color: '#ffffff',
-                                    'border-radius': '9999px',
-                                    height: '30px',
-                                  }}
-                                  default
-                                >
-                                  Comment
-                                </Button>
-                              </Col>
-                            </Row>
-                          </form>
+                          <Row>
+                            <Col md={6}>
+                              <TextareaAutosize
+                                rowsMin={4}
+                                placeholder="Comment"
+                                size="large"
+                                defaultValue=""
+                                style={{ 'min-width': '80vh' }}
+                                onChange={this.handleCommentText}
+                              />
+                            </Col>
+                          </Row>
+                          <Row>
+                            <Col md={9} />
+                            <Col ms={3}>
+                              {' '}
+                              <Button
+                                size="medium"
+                                type="button"
+                                onClick={this.handleAddComment}
+                                className="btn-primary"
+                                style={{
+                                  'background-color': '#da907e',
+                                  color: '#ffffff',
+                                  'border-radius': '9999px',
+                                  height: '30px',
+                                }}
+                                default
+                              >
+                                Comment
+                              </Button>
+                            </Col>
+                          </Row>
                         </CardContent>
                       </Row>
                     </Collapse>

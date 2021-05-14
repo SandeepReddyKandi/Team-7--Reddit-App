@@ -4,13 +4,13 @@ const mongoose = require("mongoose");
 const handle_request = async (req, callback) => {
   try {
     let posts = await PostModel.find({
-      community_id: mongoose.Types.ObjectId(req.community_id),
+      community_id: req.community_id,
     })
       .populate("comments")
       .skip(parseInt(req.page * req.rows))
       .limit(parseInt(req.rows));
     let totalRows = await PostModel.countDocuments({
-      community_id: mongoose.Types.ObjectId(req.community_id),
+      community_id: req.community_id,
     });
 
     let json = {

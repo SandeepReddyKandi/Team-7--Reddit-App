@@ -4,15 +4,15 @@ const mongoose = require("mongoose");
 const handle_request = async (req, callback) => {
   try {
     let posts = await PostModel.find({
-      _id: mongoose.Types.ObjectId(req.post_id),
+      community_id: mongoose.Types.ObjectId(req.post_id),
     }).populate("author_id");
-    callback(null, {
+    return callback(null, {
       msg: "",
       data: posts,
       success: true,
     });
   } catch (error) {
-    callback(null, {
+    return callback(null, {
       msg: error.message,
       success: false,
     });

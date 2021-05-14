@@ -22,9 +22,9 @@ const GET_COMMUNITY_VOTE_COUNT = "getCommunityVoteCount";
 const JOIN_COMMUNITY = "joinCommunity";
 const GET_RULES_TOPICS = "getRulesTopics";
 const DOWNVOTE_POST = "downvotePost";
-const GET_COMMUNITY_INVITE= 'getcommunityinvite';
-const ACCEPT_COMMUNITY_INVITE='acceptcommunityinvite';
-const REJECT_COMMUNITY_INVITE='rejectcommunityinvite'
+const GET_COMMUNITY_INVITE = "getcommunityinvite";
+const ACCEPT_COMMUNITY_INVITE = "acceptcommunityinvite";
+const REJECT_COMMUNITY_INVITE = "rejectcommunityinvite";
 const GET_COMMUNITY_NAME_BY_ID = "getCommunityNameById";
 
 //Post
@@ -42,6 +42,7 @@ const SORT_POST_BY_DOWNVOTE = "sortPostByDownvote";
 const SORT_POST_BY_DATE = "sortPostByDate";
 const SEARCH_POST_BY_CRITERIA = "searchPostByCriteria";
 const SORT_DASHPOSTS_BY_UPVOTES = "sortDashPostsByUpvotes";
+const GET_POST_BY_COMMUNITY = "getpostbycommunity";
 
 //Comment
 const ADD_COMMENT = "addComments";
@@ -114,4 +115,5 @@ module.exports = {
   REJECT_COMMUNITY_INVITE,
   LEAVE_COMMUNITY,
   SORT_DASHPOSTS_BY_UPVOTES,
+  GET_POST_BY_COMMUNITY,
 };

@@ -19,6 +19,7 @@ const {
   addPostImage,
   addPostLink,
   getPostCommunity,
+  getPostByCommunity,
 } = require('../controllers/post');
 
 const storage = multer.memoryStorage({
@@ -33,7 +34,7 @@ const s3 = new AWS.S3({
 });
 
 router.put('/uploadfile', upload, (req, res) => {
-  console.log("check file---",req.file);
+  console.log('check file---', req.file);
   const params = {
     Bucket: 'redditapp',
     Key: `${Date.now()}${req.file.originalname}`,
@@ -63,5 +64,6 @@ router.post('/link', checkAuth, addPostLink);
 router.post('/text', checkAuth, addPostText);
 router.post('/image', checkAuth, addPostImage);
 router.get('/community', checkAuth, getPostCommunity);
+router.get('/post/community', checkAuth, getPostCommunity);
 
 module.exports = router;

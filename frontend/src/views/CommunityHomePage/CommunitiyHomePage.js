@@ -82,7 +82,7 @@ class CommunityHomePage extends React.Component {
   checkStatus = async () => {
     const { community } = this.state;
     const data = {
-      userId: localStorage.getItem('user'), // localStorage.getItem('user'),
+      userId: localStorage.getItem('userId'), // localStorage.getItem('user'),
       community_id: community._id,
     };
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
@@ -91,9 +91,9 @@ class CommunityHomePage extends React.Component {
       .post(`${constants.baseUrl}/community/status/`, data)
       .then((response, error) => {
         if (!error) {
-          if (response.data.data.length > 0) {
+          if (response.data.length > 0) {
             this.setState({
-              status: response.data.data[0],
+              status: response.data.data.status,
             });
           }
         }
@@ -337,25 +337,24 @@ class CommunityHomePage extends React.Component {
                         Join
                       </Button>
                     )}
-                    {status.status === 'pending' &&
-                      localStorage.getItem('user') !== community.admin_id && (
-                        <Button
-                          data-testid="Signup"
-                          size="small"
-                          className="btn-primary"
-                          type="button"
-                          style={{
-                            'background-color': '#da907e',
-                            color: '#ffffff',
-                            'border-radius': '9999px',
-                            height: '30px',
-                          }}
-                          disabled
-                          default
-                        >
-                          Waiting for Approval
-                        </Button>
-                      )}
+                    {status.status === 'pending' && (
+                      <Button
+                        data-testid="Signup"
+                        size="small"
+                        className="btn-primary"
+                        type="button"
+                        style={{
+                          'background-color': '#da907e',
+                          color: '#ffffff',
+                          'border-radius': '9999px',
+                          height: '30px',
+                        }}
+                        disabled
+                        default
+                      >
+                        Waiting for Approval
+                      </Button>
+                    )}
                     {status.status === 'active' && (
                       <Button
                         data-testid="Signup"

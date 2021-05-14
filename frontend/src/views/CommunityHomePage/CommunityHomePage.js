@@ -6,6 +6,7 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable no-nested-ternary */
+/* eslint-disable prefer-destructuring */
 
 import React from 'react';
 import Row from 'react-bootstrap/Row';
@@ -94,9 +95,9 @@ class CommunityHomePage extends React.Component {
       .post(`${constants.baseUrl}/community/status/`, data)
       .then((response, error) => {
         if (!error) {
-          if (response.data.data.length > 0) {
+          if (response.data) {
             this.setState({
-              status: response.data.data[0],
+              status: response.data.data.status,
             });
           }
         }
@@ -180,14 +181,13 @@ class CommunityHomePage extends React.Component {
       })
       .catch((error) => {
         console.log(error);
-        // this.setState({ errormessage: error.response.data.msg });
       });
   };
 
   handleLeave = async () => {
     const { community } = this.props.location;
     const data = {
-      user_id: localStorage.getItem('user'),
+      user_id: localStorage.getItem('userId'),
       community_id: community._id,
     };
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
@@ -196,7 +196,9 @@ class CommunityHomePage extends React.Component {
       .post(`${constants.baseUrl}/community/leavecommunity/`, data)
       .then((response, error) => {
         if (response) {
-          this.setState({ redirect: true });
+          if (response.data.msg === 'Community member removed successfully') {
+            this.setState({ redirect: true });
+          }
         } else {
           console.log(error);
         }
@@ -235,7 +237,7 @@ class CommunityHomePage extends React.Component {
   getPost = async () => {
     const { page, rows } = this.state;
     const { community } = this.state;
-    const community_id = community._id;
+    const community_id = community.community_id;
     axios.defaults.headers.common['authorization'] = 'Bearer ' + localStorage.getItem('token');
     axios.defaults.withCredentials = true;
     await axios
@@ -285,7 +287,7 @@ class CommunityHomePage extends React.Component {
       <Redirect to="/dashboard" />;
     }
     const { post, posts, show, community, showPage, status, page, rows, totalRows } = this.state;
-    if (post) {
+    if (post && status === 'approved') {
       return <Redirect to="/createpost" />;
     }
 
@@ -322,7 +324,7 @@ class CommunityHomePage extends React.Component {
                     </div>
                   </Col>
                   <Col md={3}>
-                    {status.status === '' && (
+                    {status === '' && (
                       <Button
                         data-testid="Signup"
                         size="small"
@@ -340,42 +342,46 @@ class CommunityHomePage extends React.Component {
                         Join
                       </Button>
                     )}
-                    {status.status === 'pending' && (
-                      <Button
-                        data-testid="Signup"
-                        size="small"
-                        className="btn-primary"
-                        type="button"
-                        style={{
-                          'background-color': '#da907e',
-                          color: '#ffffff',
-                          'border-radius': '9999px',
-                          height: '30px',
-                        }}
-                        disabled
-                        default
-                      >
-                        Waiting for Approval
-                      </Button>
-                    )}
-                    {status.status === 'active' && (
-                      <Button
-                        data-testid="Signup"
-                        size="small"
-                        className="btn-primary"
-                        type="button"
-                        style={{
-                          'background-color': '#da907e',
-                          color: '#ffffff',
-                          'border-radius': '9999px',
-                          height: '30px',
-                        }}
-                        onClick={this.handleLeave}
-                        default
-                      >
-                        LEAVE
-                      </Button>
-                    )}
+                    <div>
+                      {status === 'pending' && (
+                        <Button
+                          data-testid="Signup"
+                          size="small"
+                          className="btn-primary"
+                          type="button"
+                          style={{
+                            'background-color': '#da907e',
+                            color: '#ffffff',
+                            'border-radius': '9999px',
+                            height: '30px',
+                          }}
+                          disabled
+                          default
+                        >
+                          Waiting for Approval
+                        </Button>
+                      )}
+                    </div>
+                    <div>
+                      {status === 'approved' && (
+                        <Button
+                          data-testid="Signup"
+                          size="small"
+                          className="btn-primary"
+                          type="button"
+                          style={{
+                            'background-color': '#da907e',
+                            color: '#ffffff',
+                            'border-radius': '9999px',
+                            height: '30px',
+                          }}
+                          onClick={this.handleLeave}
+                          default
+                        >
+                          LEAVE
+                        </Button>
+                      )}
+                    </div>
                   </Col>
                 </Row>
                 {show && <ImageModal show={this.handleModal} images={community.images} />}
