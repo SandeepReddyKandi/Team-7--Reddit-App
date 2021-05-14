@@ -21,9 +21,11 @@ const communitySchema = new mongoose.Schema(
       type: Array,
     },
     posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "posts" }],
-    members: {
-      type: Array,
-    },
+    members: [{ 
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: "User",
+      required: true, 
+    }],
     topic: {
       type: Array,
     },
@@ -33,9 +35,10 @@ const communitySchema = new mongoose.Schema(
     downvote: {
       type: Array,
     },
-    admin_id: {
-      type: String,
-      required: true,
+    admin_id: { 
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: "User",
+      required: true, 
     },
   },
   { timestamps: true }
